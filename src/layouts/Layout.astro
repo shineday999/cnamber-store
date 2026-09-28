@@ -3,11 +3,11 @@ import { defaultLocale, locales, localeHreflang, type Locale, localizedPath } fr
 
 interface Props {
   title: string;
-  description: string;
+  description?: string;
   ogImage?: string;
 }
 
-const { title, description, ogImage = '/og-image.svg' } = Astro.props;
+const { title, description = '', ogImage = '/og-image.svg' } = Astro.props;
 const currentLocale = (Astro.locals.locale ?? defaultLocale) as Locale;
 const siteUrl = Astro.url.origin || 'https://cnamber.ccwu.cc';
 const cleanPath =

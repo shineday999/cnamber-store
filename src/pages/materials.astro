@@ -1,0 +1,56 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { createT } from '../i18n/t';
+
+const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
+const t = createT(messages);
+---
+
+<Layout title={`${t('nav.materials')} — ${t('common.site_name')}`}>
+  <article class="max-w-4xl mx-auto px-6 py-section">
+    <header class="mb-12 text-center">
+      <h1 class="text-display-sm md:text-display-md font-serif text-text-primary">
+        {t('nav.materials')}
+      </h1>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="bg-bg-card border border-text-muted/20 rounded-card p-6">
+        <h3 class="font-serif text-xl mb-3 text-primary-700">波羅的海琥珀</h3>
+        <p class="text-sm text-text-secondary leading-relaxed">
+          含琥珀酸 3-8%,色澤溫潤,常見蜜色與金珀。產地:立陶宛、拉脫維亞、波蘭、丹麥。
+        </p>
+      </div>
+      <div class="bg-bg-card border border-text-muted/20 rounded-card p-6">
+        <h3 class="font-serif text-xl mb-3 text-primary-700">緬甸胡康河谷琥珀</h3>
+        <p class="text-sm text-text-secondary leading-relaxed">
+          白堊紀中期,年代久遠。深紅、暗棕、酒紅色澤為主,內含物豐富。
+        </p>
+      </div>
+      <div class="bg-bg-card border border-text-muted/20 rounded-card p-6">
+        <h3 class="font-serif text-xl mb-3 text-primary-700">多米尼加藍珀</h3>
+        <p class="text-sm text-text-secondary leading-relaxed">
+          紫外線下透出幽藍螢光,產量稀少,價格最高。
+        </p>
+      </div>
+      <div class="bg-bg-card border border-text-muted/20 rounded-card p-6">
+        <h3 class="font-serif text-xl mb-3 text-primary-700">中國撫順琥珀</h3>
+        <p class="text-sm text-text-secondary leading-relaxed">
+          產於遼寧撫順西露天煤礦,色澤深沉,資源已近枯竭,具收藏價值。
+        </p>
+      </div>
+      <div class="bg-bg-card border border-text-muted/20 rounded-card p-6">
+        <h3 class="font-serif text-xl mb-3 text-primary-700">西西里島琥珀</h3>
+        <p class="text-sm text-text-secondary leading-relaxed">
+          含較多植物碎屑,色澤偏暗紅,義大利地中海風格。
+        </p>
+      </div>
+      <div class="bg-bg-card border border-text-muted/20 rounded-card p-6">
+        <h3 class="font-serif text-xl mb-3 text-primary-700">天然沉香</h3>
+        <p class="text-sm text-text-secondary leading-relaxed">
+          雲南、海南、越南、馬來西亞、寮國 — 各產區香氣各異,以香氣通透與層次為挑選標準。
+        </p>
+      </div>
+    </div>
+  </article>
+</Layout>

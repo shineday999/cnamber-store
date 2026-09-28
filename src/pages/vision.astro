@@ -1,0 +1,33 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { createT } from '../i18n/t';
+
+const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
+const t = createT(messages);
+---
+
+<Layout title={`Vision — ${t('common.site_name')}`}>
+  <article class="max-w-3xl mx-auto px-6 py-section">
+    <header class="mb-12 text-center">
+      <h1 class="text-display-sm md:text-display-md font-serif text-text-primary">
+        願景
+      </h1>
+    </header>
+
+    <div class="prose prose-lg max-w-none space-y-6 text-text-secondary font-sans leading-relaxed">
+      <p>
+        我們希望,在地的手作與遠方的市場能彼此看見。
+      </p>
+      <p>
+        撫順的琥珀匠人、雲南的香農、馬來西亞的藤編藝師、印度的手織工坊 — 他們的作品常因地理與資訊的限制,而未被世界認識。
+        我們做為中間的橋,讓作品抵達需要它的人,也讓需求回流向工匠。
+      </p>
+      <p>
+        我們的目標不是擴張,而是維持 — 維持一條慢的、可持續的、對自然與工匠都友善的路徑。
+      </p>
+      <p>
+        When you wear one amber, light one incense — the forest lives.
+      </p>
+    </div>
+  </article>
+</Layout>

@@ -1,0 +1,86 @@
+---
+import Layout from '@layouts/Layout.astro';
+import ProductCard from '@components/ProductCard.astro';
+import { createT } from '../../i18n/t';
+import { defaultLocale, type Locale } from '../../i18n/config';
+
+const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
+const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
+const t = createT(messages);
+
+const type = Astro.url.searchParams.get('type') ?? 'jewelry';
+const idsParam = Astro.url.searchParams.get('ids') ?? '';
+
+interface QuizResult {
+  id: string;
+  slug: string;
+  category: string;
+  name: string | null;
+  short_description: string | null;
+  min_price: number | null;
+  min_currency: string | null;
+}
+
+const env = Astro.locals.runtime?.env;
+const products = idsParam && env?.DB
+  ? await env.DB
+      .prepare(
+        `SELECT p.id, p.slug, p.category, pt.name, pt.short_description,
+                MIN(pp.amount) AS min_price, pp.currency AS min_currency
+         FROM products p
+         LEFT JOIN product_translations pt ON pt.product_id = p.id AND pt.locale = ?
+         LEFT JOIN product_variants pv ON pv.product_id = p.id
+         LEFT JOIN product_prices pp ON pp.variant_id = pv.id
+         WHERE p.id IN (${idsParam.split(',').map(() => '?').join(',')}) AND p.status = 'active'
+         GROUP BY p.id`,
+      )
+      .bind(locale, ...idsParam.split(','))
+      .all<QuizResult>()
+  : { results: [] as QuizResult[] };
+
+const pageTitle = `${t('quiz.result.title')} — ${t('common.site_name')}`;
+void locale;
+---
+
+<Layout title={pageTitle} description={t('quiz.result.intro')}>
+  <div class="max-w-5xl mx-auto px-6 py-section">
+    <header class="text-center mb-12">
+      <p class="text-sm uppercase tracking-[0.3em] text-accent-700 font-sans mb-3">
+        {type === 'jewelry' ? t('quiz.jewelry.title') : t('quiz.incense.title')}
+      </p>
+      <h1 class="text-display-sm md:text-display-md font-serif text-text-primary mb-3">
+        {t('quiz.result.title')}
+      </h1>
+      <p class="text-text-secondary max-w-2xl mx-auto">{t('quiz.result.intro')}</p>
+    </header>
+
+    {products.results.length === 0 ? (
+      <div class="text-center py-section text-text-muted">
+        <p class="text-lg mb-2">{t('quiz.result.empty')}</p>
+        <p class="text-sm">{t('quiz.result.empty_hint')}</p>
+        <a href="/products" class="text-accent-700 underline mt-4 inline-block">
+          {t('common.view_more')} →
+        </a>
+      </div>
+    ) : (
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        {products.results.map((p) => (
+          <ProductCard
+            slug={p.slug}
+            name={p.name ?? p.slug}
+            shortDescription={p.short_description ?? undefined}
+            category={p.category}
+            imageUrl={undefined}
+            priceFrom={p.min_price ? `${p.min_price / 100} ${p.min_currency}` : undefined}
+          />
+        ))}
+      </div>
+    )}
+
+    <div class="text-center">
+      <a href="/quiz" class="text-text-secondary hover:text-text-primary text-sm">
+        ← {t('quiz.retake')}
+      </a>
+    </div>
+  </div>
+</Layout>

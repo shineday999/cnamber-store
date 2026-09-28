@@ -10,13 +10,20 @@
     "back": "返回",
     "search": "搜索",
     "subscribe": "订阅",
-    "language": "语言"
+    "language": "语言",
+    "reserve": "预订",
+    "reserve_help": "预启动中。预订商品，我们将亲自联络您，提供运送与付款选项。",
+    "options": "选项",
+    "from": "起",
+    "translation_missing": "本语言翻译尚未完成，显示英文备用文案。"
   },
   "nav": {
     "home": "首页",
     "amber": "琥珀饰品",
     "incense": "东方香品",
     "story": "品牌故事",
+    "materials": "材质来源",
+    "craft": "手作工艺",
     "blog": "日志",
     "contact": "联络",
     "cart": "购物车",
@@ -36,5 +43,146 @@
     "story_note": "(品牌故事完整版将于 Phase 5 上线)",
     "footer_rights": "© 2026 cnamber-store. All rights reserved.",
     "footer_tagline": "森林系手作品牌电商 · 大东南亚 + 中东 · 四语在地化"
+  },
+  "quiz": {
+    "intro": "回答几个问题，我们帮你找到最合适的那一件。",
+    "start": "开始",
+    "recommend": "为我推荐",
+    "retake": "重新测试",
+    "jewelry": {
+      "title": "饰品推荐",
+      "desc": "脸型、肤色、个性、场合——让我们为你挑出最契合的那颗琥珀。",
+      "face_shape": "你的脸型?",
+      "skin_tone": "你的肤色色调?",
+      "personality": "你的个性偏向?",
+      "occasion": "主要场合?",
+      "material": "材质偏好?"
+    },
+    "incense": {
+      "title": "香品推荐",
+      "desc": "目前的困扰与期望——让我们为你调出适合的香。",
+      "concerns": "目前有哪些困扰?(可复选)",
+      "goals": "想达到的目的?(可复选)",
+      "format": "香品形式?",
+      "timing": "使用时段?",
+      "scent": "香味偏好?"
+    },
+    "result": {
+      "title": "为你推荐",
+      "intro": "根据你的选择,这些可能最适合你。",
+      "empty": "暂无匹配的成品。",
+      "empty_hint": "Phase 3 是产品推荐路径骨架,真实产品库将于 Phase 4 上线。"
+    },
+    "option": {
+      "face": {
+        "oval": "椭圆形",
+        "round": "圆形",
+        "square": "方形",
+        "long": "长形",
+        "heart": "心形",
+        "diamond": "钻形"
+      },
+      "skin": {
+        "cool": "冷调(蓝紫底)",
+        "warm": "暖调(黄橙底)",
+        "neutral": "中性"
+      },
+      "personality": {
+        "calm": "沉静内敛",
+        "free": "自由奔放",
+        "mysterious": "神秘深邃",
+        "fresh": "清新自然",
+        "classic": "经典优雅"
+      },
+      "occasion": {
+        "daily": "日常通勤",
+        "formal": "正式场合",
+        "outdoor": "户外自然",
+        "gift": "纪念赠礼"
+      },
+      "material": {
+        "pure_amber": "纯琥珀",
+        "amber_wood": "琥珀 + 木",
+        "amber_metal": "琥珀 + 金属",
+        "any": "不拘"
+      },
+      "concern": {
+        "anxiety": "焦虑失眠",
+        "fatigue": "工作疲惫",
+        "mood": "心情低落",
+        "stale_space": "空间沉闷",
+        "calm": "寻找平静",
+        "focus": "提振专注"
+      },
+      "goal": {
+        "relax": "放松",
+        "sleep": "入睡",
+        "meditate": "冥想",
+        "energize": "提神",
+        "purify": "净化空间",
+        "focus": "提升专注"
+      },
+      "format": {
+        "stick": "线香",
+        "balm": "香膏",
+        "oil": "精油",
+        "burner": "薰香器具"
+      },
+      "timing": {
+        "morning": "早晨",
+        "afternoon": "午后",
+        "evening": "傍晚",
+        "bedtime": "睡前",
+        "all_day": "全天"
+      },
+      "scent": {
+        "woody": "木质调",
+        "floral": "花香调",
+        "herbal": "草本调",
+        "resin": "琥珀/树脂",
+        "any": "不拘"
+      }
+    }
+  },
+  "cart": {
+    "title": "购物车",
+    "empty": "购物车是空的。",
+    "subtotal": "小计",
+    "checkout": "预订单(手动付款)",
+    "remove": "移除"
+  },
+  "checkout": {
+    "title": "预订单",
+    "name": "姓名",
+    "email": "电子邮箱",
+    "phone": "电话",
+    "country": "国家",
+    "address": "地址",
+    "city": "城市",
+    "postal": "邮编",
+    "notes": "备注",
+    "submit": "提交预订单",
+    "help": "我们会在 1-2 个工作天内回信,提供付款方式(银行转账 / 微信 / 支付宝)。",
+    "success_title": "感谢您的预订",
+    "success_intro": "我们已收到您的预订单。",
+    "success_next": "客服将在 1-2 个工作天内透过 Email 与您联系。"
+  },
+  "contact": {
+    "title": "联络我们",
+    "name": "姓名",
+    "email": "电子邮箱",
+    "phone": "电话",
+    "subject": "主旨",
+    "message": "留言",
+    "submit": "送出",
+    "success_title": "已收到",
+    "success_intro": "我们会在 2 个工作天内回复您。"
+  },
+  "story": {
+    "title": "品牌故事",
+    "subtitle": "森林,穿过指尖,到达你",
+    "p1": "牛马得饰始于一次森林里的对话。我们从波罗的海带回琥珀,从云南带回沉香,从马来半岛带回藤编与织纹,把自然的气、手的温度,缝合进每一件作品。",
+    "p2": "我们不追求奢华,而追求——通透、留白、东方的禅意。一颗琥珀的光,可以照见一片森林的呼吸;一根线香的烟,可以听见山林的静谧。",
+    "p3": "我们相信,穿戴不是装饰,而是把自然带在身上。"
   }
 }

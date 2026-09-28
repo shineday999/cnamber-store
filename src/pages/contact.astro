@@ -1,0 +1,46 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { createT } from '../i18n/t';
+
+const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
+const t = createT(messages);
+---
+
+<Layout title={`${t('contact.title')} — ${t('common.site_name')}`}>
+  <div class="max-w-2xl mx-auto px-6 py-section">
+    <header class="mb-8 text-center">
+      <h1 class="text-display-sm md:text-display-md font-serif text-text-primary mb-3">
+        {t('contact.title')}
+      </h1>
+      <p class="text-text-secondary">hello@cnamber.ccwu.cc · 通常 2 個工作天內回覆</p>
+    </header>
+
+    <form method="POST" action="/api/contact" class="bg-bg-card border border-text-muted/20 rounded-card p-6 space-y-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium mb-1" for="name">{t('contact.name')} *</label>
+          <input id="name" name="name" required class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1" for="email">{t('contact.email')} *</label>
+          <input id="email" name="email" type="email" required class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base" />
+        </div>
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-1" for="phone">{t('contact.phone')}</label>
+        <input id="phone" name="phone" class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base" />
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-1" for="subject">{t('contact.subject')}</label>
+        <input id="subject" name="subject" class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base" />
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-1" for="message">{t('contact.message')} *</label>
+        <textarea id="message" name="message" rows="6" required class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"></textarea>
+      </div>
+      <button type="submit" class="w-full px-6 py-3 bg-primary-700 text-bg-base rounded-md font-medium hover:bg-primary-900 transition-colors">
+        {t('contact.submit')}
+      </button>
+    </form>
+  </div>
+</Layout>

@@ -1,0 +1,40 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { createT } from '../i18n/t';
+
+const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
+const t = createT(messages);
+---
+
+<Layout title={`${t('nav.incense')} — ${t('common.site_name')}`} description={t('story.p1')}>
+  <article class="max-w-4xl mx-auto px-6 py-section">
+    <header class="text-center mb-12">
+      <p class="text-sm uppercase tracking-[0.3em] text-accent-700 font-sans mb-3">{t('nav.incense')}</p>
+      <h1 class="text-display-sm md:text-display-md font-serif text-text-primary mb-3">
+        東方香意
+      </h1>
+      <p class="text-lg text-text-secondary italic">
+        Smoke that remembers the mountains.
+      </p>
+    </header>
+
+    <div class="prose prose-lg max-w-none space-y-6 text-text-secondary font-sans leading-relaxed">
+      <p>
+        香,源自中國與印度的古老儀式。漢代博山爐、唐代香薰、宋人焚香讀書 — 一縷輕煙,穿越千年,仍在我們的日常裡。
+      </p>
+      <p>
+        沉香是受傷的樹木分泌樹脂,經歲月轉化而成,被譽為「植物中的鑽石」。雲南、海南、越南、馬來西亞、寮國皆有產區,各具風味:
+        有的清涼、有的醇厚、有的偏甜、有的偏苦。我們挑選時,以香氣的「通透」與「層次」為標準。
+      </p>
+      <p>
+        線香、香膏、精油、薰香器具 — 形式各有不同,但本質相同:讓空氣記得山林的靜謐。
+      </p>
+    </div>
+
+    <div class="text-center mt-12">
+      <a href="/products?cat=incense" class="text-accent-700 underline">
+        瀏覽所有香品 →
+      </a>
+    </div>
+  </article>
+</Layout>
