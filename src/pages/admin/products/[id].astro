@@ -1,77 +1,141 @@
 ---
 import AdminLayout from '../../../layouts/AdminLayout.astro';
+import Tabs from '../../../components/Tabs.astro';
 
-const env = Astro.locals.runtime?.env;
 const id = Astro.params.id;
+const env = Astro.locals.runtime?.env;
 
 const product = env?.DB
-  ? await env.DB.prepare('SELECT * FROM products WHERE id = ?').bind(id).first()
+  ? await env.DB.prepare('SELECT * FROM products WHERE id = ?').bind(id).first<{
+      id: string;
+      category: string;
+      subcategory: string | null;
+      slug: string;
+      status: string;
+      created_at: number;
+    }>()
   : null;
 
 const translations = env?.DB
-  ? await env.DB.prepare('SELECT * FROM product_translations WHERE product_id = ?').bind(id).all()
-  : { results: [] as Array<Record<string, unknown>> };
+  ? await env.DB.prepare('SELECT * FROM product_translations WHERE product_id = ?').bind(id).all<{
+      locale: string;
+      name: string;
+      description: string;
+      short_description: string | null;
+      story: string | null;
+    }>()
+  : { results: [] };
 
 const variants = env?.DB
-  ? await env.DB.prepare('SELECT * FROM product_variants WHERE product_id = ?').bind(id).all()
-  : { results: [] as Array<Record<string, unknown>> };
+  ? await env.DB.prepare('SELECT * FROM product_variants WHERE product_id = ?').bind(id).all<{
+      id: string;
+      sku: string;
+      attributes: string;
+      stock: number;
+      price_base: string;
+    }>()
+  : { results: [] };
+
+const LOCALES = ['zh-Hans', 'en', 'ms-MY', 'id-ID'] as const;
+
+if (!product) {
+  return Astro.redirect('/admin/products');
+}
+
+const trByLocale = (locale: string) =>
+  translations.results.find((t) => t.locale === locale);
 ---
 
-<AdminLayout title={`Edit · ${(product?.slug as string) ?? id}`} active="products">
-  {!product && (
-    <div class="bg-error/10 border border-error text-error rounded-card p-4 mb-6">
-      Product not found.
-    </div>
-  )}
+<AdminLayout title={`Edit · ${product.slug}`} active="products">
+  <Tabs
+    tabs={[
+      { id: 'core', label: 'Core' },
+      { id: 'translations', label: 'Translations' },
+      { id: 'variants', label: 'Variants' },
+    ]}
+    paramName="tab"
+  />
 
-  {product && (
-    <div class="space-y-6">
-      <div class="bg-bg-card border border-text-muted/20 rounded-card p-6">
-        <div class="flex items-center justify-between mb-4">
-          <h2 class="font-serif text-lg">Product core</h2>
-          <form method="POST" action={`/api/admin/products/${id}/status`}>
-            <button class="px-3 py-1.5 text-sm bg-primary-700 text-bg-base rounded-md hover:bg-primary-900">
-              Toggle Status
-            </button>
-          </form>
+  <div slot="core">
+    <form method="POST" action={`/api/admin/products/${id}`} class="bg-bg-card border border-text-muted/20 rounded-card p-6 space-y-4 max-w-2xl">
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium mb-1" for="category">Category</label>
+          <select id="category" name="category" class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base">
+            <option value="jewelry" selected={product.category === 'jewelry'}>jewelry</option>
+            <option value="incense" selected={product.category === 'incense'}>incense</option>
+          </select>
         </div>
-        <dl class="grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
-          <dt class="text-text-muted">ID</dt><dd class="font-mono">{product.id as string}</dd>
-          <dt class="text-text-muted">Slug</dt><dd>{product.slug as string}</dd>
-          <dt class="text-text-muted">Category</dt><dd>{product.category as string}</dd>
-          <dt class="text-text-muted">Subcategory</dt><dd>{(product.subcategory as string) ?? '—'}</dd>
-          <dt class="text-text-muted">Status</dt><dd>{product.status as string}</dd>
-          <dt class="text-text-muted">Created</dt><dd class="font-mono text-xs">{new Date((product.created_at as number) * 1000).toISOString()}</dd>
-        </dl>
+        <div>
+          <label class="block text-sm font-medium mb-1" for="status">Status</label>
+          <select id="status" name="status" class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base">
+            {['draft', 'active', 'archived'].map((s) => (
+              <option value={s} selected={product.status === s}>{s}</option>
+            ))}
+          </select>
+        </div>
       </div>
+      <div>
+          <label class="block text-sm font-medium mb-1" for="subcategory">Subcategory</label>
+          <input id="subcategory" name="subcategory" value={product.subcategory ?? ''} class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base" />
+        </div>
+      <div>
+        <label class="block text-sm font-medium mb-1" for="slug">Slug</label>
+        <input id="slug" name="slug" value={product.slug} required class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base font-mono" />
+      </div>
+      <div class="flex gap-2">
+        <button type="submit" class="px-4 py-2 bg-primary-700 text-bg-base rounded-md hover:bg-primary-900">Save</button>
+        <form method="POST" action={`/api/admin/products/${id}/status`} class="inline">
+          <button type="submit" class="px-4 py-2 border border-text-muted/30 rounded-md hover:bg-bg-base">Toggle status</button>
+        </form>
+      </div>
+    </form>
+  </div>
 
-      <div class="bg-bg-card border border-text-muted/20 rounded-card p-6">
-        <h2 class="font-serif text-lg mb-4">Translations ({translations.results.length})</h2>
-        {translations.results.length === 0 && <p class="text-text-muted text-sm">No translations yet.</p>}
-        <ul class="space-y-3">
-          {translations.results.map((t) => (
-            <li class="border-l-2 border-accent-500 pl-3">
-              <div class="text-xs uppercase text-text-muted">{t.locale as string}</div>
-              <div class="font-medium">{t.name as string}</div>
-            </li>
-          ))}
-        </ul>
-        <p class="text-xs text-text-muted mt-3">
-          Phase 2 sub-task P2-4 will add full translation editor with all 4 locales in tabs.
-        </p>
-      </div>
-
-      <div class="bg-bg-card border border-text-muted/20 rounded-card p-6">
-        <h2 class="font-serif text-lg mb-4">Variants ({variants.results.length})</h2>
-        {variants.results.length === 0 && <p class="text-text-muted text-sm">No variants yet.</p>}
-        <ul class="space-y-3">
-          {variants.results.map((v) => (
-            <li class="border-l-2 border-primary-500 pl-3 font-mono text-sm">
-              {v.sku as string} · stock {v.stock as number} · ${v.price_base as string}
-            </li>
-          ))}
-        </ul>
-      </div>
+  <div slot="translations">
+    <div class="space-y-6 max-w-3xl">
+      {LOCALES.map((loc) => {
+        const tr = trByLocale(loc);
+        return (
+          <form method="POST" action={`/api/admin/products/${id}/translations`} class="bg-bg-card border border-text-muted/20 rounded-card p-6 space-y-3">
+            <input type="hidden" name="locale" value={loc} />
+            <h3 class="font-serif text-lg">{loc}</h3>
+            <div>
+              <label class="block text-sm font-medium mb-1" for={`name-${loc}`}>Name</label>
+              <input id={`name-${loc}`} name="name" value={tr?.name ?? ''} required class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1" for={`short-${loc}`}>Short description</label>
+              <input id={`short-${loc}`} name="short_description" value={tr?.short_description ?? ''} class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1" for={`desc-${loc}`}>Description</label>
+              <textarea id={`desc-${loc}`} name="description" rows="4" required class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base">{tr?.description ?? ''}</textarea>
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1" for={`story-${loc}`}>Story (optional)</label>
+              <textarea id={`story-${loc}`} name="story" rows="3" class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base">{tr?.story ?? ''}</textarea>
+            </div>
+            <button type="submit" class="px-4 py-2 bg-primary-700 text-bg-base rounded-md hover:bg-primary-900 text-sm">Save {loc}</button>
+          </form>
+        );
+      })}
     </div>
-  )}
+  </div>
+
+  <div slot="variants">
+    <div class="space-y-4 max-w-3xl">
+      {variants.results.length === 0 && (
+        <p class="text-text-muted text-sm">No variants. Add via seed.sql (Phase 5+ needs a variant editor).</p>
+      )}
+      <ul class="space-y-2">
+        {variants.results.map((v) => (
+          <li class="bg-bg-card border border-text-muted/20 rounded-md px-4 py-2 font-mono text-sm flex justify-between">
+            <span>{v.sku}</span>
+            <span class="text-text-secondary">stock {v.stock} · ${v.price_base}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
 </AdminLayout>

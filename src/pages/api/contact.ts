@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
 import { getDB, genId } from '../../lib/db';
+import { sendEmail, emailEnvFromContext, contactNotificationEmail } from '../../lib/email';
 
 export const POST: APIRoute = async (ctx) => {
   const form = await ctx.request.formData();
@@ -13,7 +14,6 @@ export const POST: APIRoute = async (ctx) => {
     return new Response('Missing required fields', { status: 400 });
   }
 
-  // Honeypot / basic validation
   if (message.length > 5000) {
     return new Response('Message too long', { status: 400 });
   }
@@ -30,7 +30,15 @@ export const POST: APIRoute = async (ctx) => {
     .bind(id, name, email, phone, subject, message, ctx.locals.locale, Math.floor(Date.now() / 1000))
     .run();
 
-  // Phase 5 接 Resend 寄信到 hello@cnamber.ccwu.cc
-  // Phase 4 簡化:只存 DB,後台手動查看
+  // 寄通知給管理員(若有 RESEND_API_KEY)
+  const template = contactNotificationEmail(name, email, message);
+  void sendEmail(emailEnvFromContext(ctx), {
+    to: 'hello@cnamber.ccwu.cc',
+    subject: template.subject,
+    html: template.html,
+    text: template.text,
+    replyTo: email,
+  }).catch((e) => console.error('[contact] admin notification failed', e));
+
   return ctx.redirect('/contact?ok=1', 303);
 };

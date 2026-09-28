@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { getDB, genId } from '../../../lib/db';
 import { readCart } from '../../../lib/cart';
+import { sendEmail, emailEnvFromContext, orderConfirmationEmail } from '../../../lib/email';
 
 export const POST: APIRoute = async (ctx) => {
   const form = await ctx.request.formData();
@@ -27,9 +28,7 @@ export const POST: APIRoute = async (ctx) => {
   const now = Math.floor(Date.now() / 1000);
   const locale = ctx.locals.locale;
 
-  // 計算 subtotal 以 USD 為準(Phase 5 改用真實 currency)
-  const subtotal = 0; // Phase 5 從 cart + variants 算
-
+  const subtotal = 0; // Phase 5+ 從 cart + variants 算實際金額
   const shippingAddress = JSON.stringify({ country, city, address, postal });
   const itemsJson = JSON.stringify(items);
 
@@ -43,6 +42,24 @@ export const POST: APIRoute = async (ctx) => {
 
   // 清空 cart cookie
   ctx.cookies.set('cnamber_cart', '', { path: '/', maxAge: 0 });
+
+  // 寄確認信(非阻塞失敗)
+  const itemsSummary = items.map((i) => `${i.slug} × ${i.qty}`).join(', ');
+  const template = orderConfirmationEmail(orderId, name, itemsSummary);
+  void sendEmail(emailEnvFromContext(ctx), {
+    to: email,
+    subject: template.subject,
+    html: template.html,
+    text: template.text,
+    replyTo: 'hello@cnamber.ccwu.cc',
+  }).catch((e) => console.error('[orders/create] email failed', e));
+
+  // 同時寄通知給管理員(若有 email setting)
+  void sendEmail(emailEnvFromContext(ctx), {
+    to: 'hello@cnamber.ccwu.cc',
+    subject: `[New Order] ${orderId} from ${name}`,
+    html: `<p>${name} (${email}) placed a new order.</p><pre>${JSON.stringify(items, null, 2)}</pre><p>Notes: ${notes ?? '(none)'}</p>`,
+  }).catch(() => {});
 
   return ctx.redirect(`/checkout/success?id=${orderId}`, 303);
 };

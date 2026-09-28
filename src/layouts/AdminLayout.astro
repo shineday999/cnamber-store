@@ -5,7 +5,7 @@ import { defaultLocale, type Locale } from '../i18n/config';
 
 interface Props {
   title: string;
-  active?: 'dashboard' | 'products' | 'orders' | 'reviews';
+  active?: 'dashboard' | 'products' | 'orders' | 'reviews' | 'blog';
 }
 
 const { title, active = 'dashboard' } = Astro.props;
@@ -16,6 +16,7 @@ const navItems = [
   { key: 'dashboard', label: 'Dashboard', href: '/admin' },
   { key: 'products', label: 'Products', href: '/admin/products' },
   { key: 'orders', label: 'Orders', href: '/admin/orders' },
+  { key: 'blog', label: 'Blog', href: '/admin/posts' },
   { key: 'reviews', label: 'Reviews', href: '/admin/reviews' },
 ] as const;
 
