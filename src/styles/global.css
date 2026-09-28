@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Primary: forest green */
+  --color-primary-900: #1A2E1A;
+  --color-primary-700: #2D4A2B;
+  --color-primary-500: #4A6B47;
+  --color-primary-300: #8FA88C;
+  --color-primary-100: #DCE5DC;
+
+  /* Background: cream */
+  --color-bg-base:    #F5F1E8;
+  --color-bg-card:    #FAF8F2;
+  --color-bg-elevated:#FFFFFF;
+
+  /* Accent: amber */
+  --color-accent-700: #8C6B3E;
+  --color-accent-500: #C9925B;
+  --color-accent-300: #E0BD93;
+
+  /* Text */
+  --color-text-primary:   #1F2A1E;
+  --color-text-secondary: #4A5748;
+  --color-text-muted:     #8A938A;
+
+  /* Status */
+  --color-success: #4A7C59;
+  --color-warning: #C9925B;
+  --color-error:   #A85751;
+}
+
+html, body {
+  background-color: var(--color-bg-base);
+  color: var(--color-text-primary);
+  font-family: 'Inter', system-ui, sans-serif;
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Noto Serif SC', Georgia, serif;
+  line-height: 1.2;
+  color: var(--color-text-primary);
+}
