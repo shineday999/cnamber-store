@@ -1,0 +1,110 @@
+---
+// 商品詳情頁
+import Layout from '@layouts/Layout.astro';
+import Button from '@components/Button.astro';
+import { createT } from '../../i18n/t';
+import { defaultLocale, type Locale } from '../../i18n/config';
+
+const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
+const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
+const t = createT(messages);
+
+const env = Astro.locals.runtime?.env;
+const slug = Astro.params.slug ?? '';
+
+const product = env?.DB
+  ? await env.DB.prepare('SELECT * FROM products WHERE slug = ? AND status = ?').bind(slug, 'active').first()
+  : null;
+
+if (!product) {
+  return new Response('Product not found', { status: 404 });
+}
+
+const translation = env?.DB
+  ? await env.DB.prepare('SELECT * FROM product_translations WHERE product_id = ? AND locale = ?')
+      .bind((product as { id: string }).id, locale)
+      .first()
+  : null;
+
+const fallbackTranslation = translation ?? (env?.DB
+  ? await env.DB.prepare('SELECT * FROM product_translations WHERE product_id = ? AND locale = ?')
+      .bind((product as { id: string }).id, 'en')
+      .first()
+  : null);
+
+const variants = env?.DB
+  ? await env.DB.prepare('SELECT * FROM product_variants WHERE product_id = ?').bind((product as { id: string }).id).all()
+  : { results: [] as Array<Record<string, unknown>> };
+
+const name = ((translation as { name?: string })?.name ?? (fallbackTranslation as { name?: string })?.name ?? slug) as string;
+const description = ((translation as { description?: string })?.description ?? (fallbackTranslation as { description?: string })?.description ?? '') as string;
+const story = ((translation as { story?: string })?.story ?? (fallbackTranslation as { story?: string })?.story ?? '') as string;
+void t;
+---
+
+<Layout title={`${name} · ${t('common.site_name')}`} description={description.slice(0, 160)}>
+  <div class="max-w-6xl mx-auto px-6 py-section">
+    {translation === null && (
+      <div class="bg-warning/10 border border-warning text-warning rounded-card p-3 mb-6 text-sm">
+        Translation missing for {locale}. Showing English fallback.
+      </div>
+    )}
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+      <div class="space-y-4">
+        <div class="aspect-square bg-primary-100 rounded-card flex items-center justify-center">
+          <svg viewBox="0 0 200 200" class="w-48 h-48 text-primary-300" fill="currentColor">
+            <circle cx="100" cy="100" r="60" opacity="0.3" />
+            <circle cx="100" cy="100" r="40" opacity="0.5" />
+            <circle cx="100" cy="100" r="20" opacity="0.7" />
+          </svg>
+        </div>
+      </div>
+
+      <div>
+        <p class="text-sm uppercase tracking-[0.3em] text-accent-700 mb-2 font-sans">
+          {((product as { category: string }).category) === 'jewelry' ? t('nav.amber') : t('nav.incense')}
+        </p>
+        <h1 class="text-display-sm md:text-display-md font-serif text-text-primary mb-4">{name}</h1>
+        <p class="text-lg text-text-secondary leading-relaxed mb-6 whitespace-pre-line">{description}</p>
+
+        {variants.results.length > 0 && (
+          <div class="mb-6">
+            <h3 class="text-sm uppercase tracking-wider text-text-muted mb-2">Options</h3>
+            <ul class="space-y-2">
+              {variants.results.map((v) => (
+                <li class="border border-text-muted/20 rounded-md px-3 py-2 text-sm flex justify-between">
+                  <span class="font-mono">{v.sku as string}</span>
+                  <span class="text-text-secondary">
+                    {(v.attributes as string) ?? ''} · stock {v.stock as number}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        <form method="POST" action="/api/cart/add" class="flex gap-3 items-center">
+          <input type="hidden" name="slug" value={slug} />
+          <Button type="submit" variant="primary" size="lg">
+            Reserve (manual order)
+          </Button>
+          <a href="/products" class="text-sm text-text-secondary hover:text-text-primary">
+            ← {t('common.back')}
+          </a>
+        </form>
+
+        <p class="text-xs text-text-muted mt-4 leading-relaxed">
+          We are in pre-launch. Reserve a product to be contacted personally with shipping & payment options.
+        </p>
+      </div>
+    </div>
+
+    {story && (
+      <section class="mt-section pt-section border-t border-text-muted/20">
+        <h2 class="text-display-sm font-serif text-text-primary mb-4">Story</h2>
+        <p class="text-lg text-text-secondary leading-relaxed whitespace-pre-line max-w-3xl">{story}</p>
+      </section>
+    )}
+  </div>
+</Layout>

@@ -1,0 +1,75 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+
+const env = Astro.locals.runtime?.env;
+const orders = env?.DB
+  ? await env.DB.prepare(
+      'SELECT id, customer_email, customer_name, total, currency, status, payment_status, created_at FROM orders ORDER BY created_at DESC LIMIT 100',
+    ).all()
+  : { results: [] as Array<Record<string, unknown>> };
+
+function statusColor(s: string) {
+  return s === 'pending'
+    ? 'bg-warning/20 text-warning'
+    : s === 'confirmed' || s === 'shipped'
+    ? 'bg-primary-100 text-primary-700'
+    : s === 'delivered'
+    ? 'bg-success/20 text-success'
+    : 'bg-error/20 text-error';
+}
+---
+
+<AdminLayout title="Orders" active="orders">
+  <p class="text-text-secondary mb-6">
+    {orders.results.length} order(s). Manual-reservation model — customer pays via bank transfer after you email them.
+  </p>
+
+  <div class="bg-bg-card border border-text-muted/20 rounded-card overflow-hidden">
+    <table class="w-full text-sm">
+      <thead class="bg-primary-100 text-text-primary">
+        <tr>
+          <th class="text-left px-4 py-3 font-medium">Order ID</th>
+          <th class="text-left px-4 py-3 font-medium">Customer</th>
+          <th class="text-right px-4 py-3 font-medium">Total</th>
+          <th class="text-left px-4 py-3 font-medium">Status</th>
+          <th class="text-left px-4 py-3 font-medium">Payment</th>
+          <th class="text-left px-4 py-3 font-medium">Created</th>
+        </tr>
+      </thead>
+      <tbody>
+        {orders.results.length === 0 && (
+          <tr>
+            <td colspan="6" class="px-4 py-8 text-center text-text-muted">
+              No orders yet. Phase 4 will add the public ordering flow.
+            </td>
+          </tr>
+        )}
+        {orders.results.map((o) => (
+          <tr class="border-t border-text-muted/10 hover:bg-bg-base">
+            <td class="px-4 py-3 font-mono text-xs">{o.id as string}</td>
+            <td class="px-4 py-3">
+              <div class="font-medium">{o.customer_name as string}</div>
+              <div class="text-xs text-text-muted">{o.customer_email as string}</div>
+            </td>
+            <td class="px-4 py-3 text-right font-mono">
+              {o.total as number} {o.currency as string}
+            </td>
+            <td class="px-4 py-3">
+              <span class={`px-2 py-0.5 rounded text-xs ${statusColor(o.status as string)}`}>
+                {o.status as string}
+              </span>
+            </td>
+            <td class="px-4 py-3">
+              <span class={`px-2 py-0.5 rounded text-xs ${statusColor(o.payment_status as string)}`}>
+                {o.payment_status as string}
+              </span>
+            </td>
+            <td class="px-4 py-3 text-xs font-mono text-text-muted">
+              {new Date((o.created_at as number) * 1000).toISOString().slice(0, 16)}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</AdminLayout>

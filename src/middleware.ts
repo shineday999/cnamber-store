@@ -1,11 +1,15 @@
 import { defineMiddleware } from 'astro:middleware';
 import { defaultLocale, isLocale, locales, localeFromPath, type Locale } from './i18n/config';
 import { loadMessages } from './i18n/loader';
+import { getAdminFromContext } from './lib/auth';
 
 const LOCALE_COOKIE = 'cnamber_locale';
 
 export const onRequest = defineMiddleware(async (context, next) => {
-  let locale = localeFromPath(context.url.pathname);
+  const url = context.url;
+
+  // 1. Locale detection
+  let locale = localeFromPath(url.pathname);
 
   if (!locale) {
     const cookieLocale = context.cookies.get(LOCALE_COOKIE)?.value;
@@ -33,6 +37,20 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const messages = await loadMessages(locale);
   context.locals.locale = locale;
   context.locals.messages = messages;
+
+  // 2. Admin auth check (only for /admin/* paths)
+  if (url.pathname.startsWith('/admin') && !url.pathname.startsWith('/admin/login')) {
+    const admin = getAdminFromContext(context);
+    if (!admin) {
+      return new Response(
+        'Unauthorized — please configure Cloudflare Access (see docs/PHASE1-ACCESS-SETUP.md).\n' +
+          'For local dev, set cookie: cnamber_dev_admin=' +
+          Buffer.from('shineday999@gmail.com').toString('base64'),
+        { status: 401, headers: { 'Content-Type': 'text/plain' } },
+      );
+    }
+    context.locals.admin = admin;
+  }
 
   return next();
 });

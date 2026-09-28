@@ -1,0 +1,77 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+
+const env = Astro.locals.runtime?.env;
+const id = Astro.params.id;
+
+const product = env?.DB
+  ? await env.DB.prepare('SELECT * FROM products WHERE id = ?').bind(id).first()
+  : null;
+
+const translations = env?.DB
+  ? await env.DB.prepare('SELECT * FROM product_translations WHERE product_id = ?').bind(id).all()
+  : { results: [] as Array<Record<string, unknown>> };
+
+const variants = env?.DB
+  ? await env.DB.prepare('SELECT * FROM product_variants WHERE product_id = ?').bind(id).all()
+  : { results: [] as Array<Record<string, unknown>> };
+---
+
+<AdminLayout title={`Edit · ${(product?.slug as string) ?? id}`} active="products">
+  {!product && (
+    <div class="bg-error/10 border border-error text-error rounded-card p-4 mb-6">
+      Product not found.
+    </div>
+  )}
+
+  {product && (
+    <div class="space-y-6">
+      <div class="bg-bg-card border border-text-muted/20 rounded-card p-6">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="font-serif text-lg">Product core</h2>
+          <form method="POST" action={`/api/admin/products/${id}/status`}>
+            <button class="px-3 py-1.5 text-sm bg-primary-700 text-bg-base rounded-md hover:bg-primary-900">
+              Toggle Status
+            </button>
+          </form>
+        </div>
+        <dl class="grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
+          <dt class="text-text-muted">ID</dt><dd class="font-mono">{product.id as string}</dd>
+          <dt class="text-text-muted">Slug</dt><dd>{product.slug as string}</dd>
+          <dt class="text-text-muted">Category</dt><dd>{product.category as string}</dd>
+          <dt class="text-text-muted">Subcategory</dt><dd>{(product.subcategory as string) ?? '—'}</dd>
+          <dt class="text-text-muted">Status</dt><dd>{product.status as string}</dd>
+          <dt class="text-text-muted">Created</dt><dd class="font-mono text-xs">{new Date((product.created_at as number) * 1000).toISOString()}</dd>
+        </dl>
+      </div>
+
+      <div class="bg-bg-card border border-text-muted/20 rounded-card p-6">
+        <h2 class="font-serif text-lg mb-4">Translations ({translations.results.length})</h2>
+        {translations.results.length === 0 && <p class="text-text-muted text-sm">No translations yet.</p>}
+        <ul class="space-y-3">
+          {translations.results.map((t) => (
+            <li class="border-l-2 border-accent-500 pl-3">
+              <div class="text-xs uppercase text-text-muted">{t.locale as string}</div>
+              <div class="font-medium">{t.name as string}</div>
+            </li>
+          ))}
+        </ul>
+        <p class="text-xs text-text-muted mt-3">
+          Phase 2 sub-task P2-4 will add full translation editor with all 4 locales in tabs.
+        </p>
+      </div>
+
+      <div class="bg-bg-card border border-text-muted/20 rounded-card p-6">
+        <h2 class="font-serif text-lg mb-4">Variants ({variants.results.length})</h2>
+        {variants.results.length === 0 && <p class="text-text-muted text-sm">No variants yet.</p>}
+        <ul class="space-y-3">
+          {variants.results.map((v) => (
+            <li class="border-l-2 border-primary-500 pl-3 font-mono text-sm">
+              {v.sku as string} · stock {v.stock as number} · ${v.price_base as string}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  )}
+</AdminLayout>

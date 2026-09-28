@@ -44,4 +44,14 @@
 
 | 日期 | Task | 狀態 | 備註 |
 |---|---|---|---|
-| 2026-09-29 | T1-T10 | 檔案就位 | 等待驗證 + commit + push |
+| 2026-09-29 | T1-T10 | ✅ Commit `1cd6f05` pushed to main | astro check 0 errors / 6 tests pass / SSR build OK |
+
+## 驗收證據
+
+```
+npm run check    → 0 errors / 0 warnings / 0 hints (16 files)
+npm test         → 6/6 passed
+npm run build    → SSR build OK (LocaleSwitcher 1.65kB gzipped)
+wrangler d1      → 13 tables migrated to local DB
+git push         → 658ee40..1cd6f05 main -> main
+```

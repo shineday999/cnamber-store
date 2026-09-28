@@ -1,0 +1,77 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+
+const env = Astro.locals.runtime?.env;
+const products = env?.DB
+  ? await env.DB.prepare(
+      'SELECT id, category, subcategory, slug, status, created_at FROM products ORDER BY created_at DESC LIMIT 100',
+    ).all()
+  : { results: [] as Array<Record<string, unknown>> };
+---
+
+<AdminLayout title="Products" active="products">
+  <div class="flex items-center justify-between mb-6">
+    <p class="text-text-secondary">
+      {products.results.length} product(s) total. Phase 2 has CRUD wiring; production seed data TBD.
+    </p>
+    <a
+      href="/admin/products/new"
+      class="px-4 py-2 bg-primary-700 text-bg-base rounded-md hover:bg-primary-900 transition-colors"
+    >
+      + New Product
+    </a>
+  </div>
+
+  <div class="bg-bg-card border border-text-muted/20 rounded-card overflow-hidden">
+    <table class="w-full text-sm">
+      <thead class="bg-primary-100 text-text-primary">
+        <tr>
+          <th class="text-left px-4 py-3 font-medium">ID</th>
+          <th class="text-left px-4 py-3 font-medium">Slug</th>
+          <th class="text-left px-4 py-3 font-medium">Category</th>
+          <th class="text-left px-4 py-3 font-medium">Subcategory</th>
+          <th class="text-left px-4 py-3 font-medium">Status</th>
+          <th class="text-right px-4 py-3 font-medium">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {products.results.length === 0 && (
+          <tr>
+            <td colspan="6" class="px-4 py-8 text-center text-text-muted">
+              No products yet. <a href="/admin/products/new" class="text-accent-700 underline">Create the first one</a>.
+            </td>
+          </tr>
+        )}
+        {products.results.map((p) => (
+          <tr class="border-t border-text-muted/10 hover:bg-bg-base">
+            <td class="px-4 py-3 font-mono text-xs">{p.id as string}</td>
+            <td class="px-4 py-3">{p.slug as string}</td>
+            <td class="px-4 py-3">{p.category as string}</td>
+            <td class="px-4 py-3">{p.subcategory ?? '—'}</td>
+            <td class="px-4 py-3">
+              <span
+                class={`px-2 py-0.5 rounded text-xs ${
+                  p.status === 'active'
+                    ? 'bg-success/20 text-success'
+                    : p.status === 'archived'
+                    ? 'bg-error/20 text-error'
+                    : 'bg-warning/20 text-warning'
+                }`}
+              >
+                {p.status as string}
+              </span>
+            </td>
+            <td class="px-4 py-3 text-right">
+              <a
+                href={`/admin/products/${p.id}`}
+                class="text-accent-700 hover:underline"
+              >
+                Edit
+              </a>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</AdminLayout>

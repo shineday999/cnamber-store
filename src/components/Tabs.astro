@@ -1,0 +1,42 @@
+---
+// Tabs — 用於 4 語翻譯切換(後台商品編輯用)
+// 純 CSS + URL hash 切換,不需 JS
+interface Tab {
+  id: string;
+  label: string;
+}
+interface Props {
+  tabs: Tab[];
+  paramName?: string;
+}
+
+const { tabs, paramName = 'tab' } = Astro.props;
+const url = Astro.url;
+const activeTab = url.searchParams.get(paramName) ?? tabs[0]?.id ?? '';
+---
+
+<div class="border-b border-text-muted/20 mb-6">
+  <nav class="flex gap-1">
+    {tabs.map((tab) => {
+      const isActive = tab.id === activeTab;
+      const next = new URL(url);
+      next.searchParams.set(paramName, tab.id);
+      return (
+        <a
+          href={next.pathname + next.search}
+          class={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
+            isActive
+              ? 'border-accent-700 text-accent-700'
+              : 'border-transparent text-text-muted hover:text-text-primary'
+          }`}
+        >
+          {tab.label}
+        </a>
+      );
+    })}
+  </nav>
+</div>
+
+<div>
+  <slot name={activeTab} />
+</div>

@@ -1,0 +1,75 @@
+---
+// AdminLayout — 後台共用 layout
+// 認證已由 middleware 處理(透過 Cloudflare Access)
+import { defaultLocale, type Locale } from '../i18n/config';
+
+interface Props {
+  title: string;
+  active?: 'dashboard' | 'products' | 'orders' | 'reviews';
+}
+
+const { title, active = 'dashboard' } = Astro.props;
+const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
+const admin = Astro.locals.admin;
+
+const navItems = [
+  { key: 'dashboard', label: 'Dashboard', href: '/admin' },
+  { key: 'products', label: 'Products', href: '/admin/products' },
+  { key: 'orders', label: 'Orders', href: '/admin/orders' },
+  { key: 'reviews', label: 'Reviews', href: '/admin/reviews' },
+] as const;
+
+void locale;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} · cnamber-store admin</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body class="min-h-screen bg-bg-base font-sans text-text-primary">
+    <header class="bg-primary-900 text-bg-base shadow-md">
+      <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <span class="font-serif text-xl">cnamber-store</span>
+          <span class="text-xs uppercase tracking-wider text-accent-300">Admin</span>
+        </div>
+        <div class="flex items-center gap-4 text-sm">
+          <span class="text-bg-base/70">{admin?.email}</span>
+          <span class="px-2 py-0.5 rounded bg-accent-700 text-bg-base text-xs">{admin?.role}</span>
+          <a href="/" class="text-bg-base/70 hover:text-bg-base">View site</a>
+        </div>
+      </div>
+      <nav class="bg-primary-700">
+        <ul class="max-w-7xl mx-auto px-6 flex gap-1">
+          {navItems.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class={`block px-4 py-3 text-sm font-medium transition-colors ${
+                  active === item.key
+                    ? 'bg-bg-base text-primary-900 border-b-2 border-accent-500'
+                    : 'text-bg-base/80 hover:bg-primary-500 hover:text-bg-base'
+                }`}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 py-8">
+      <h1 class="text-display-sm font-serif mb-6">{title}</h1>
+      <slot />
+    </main>
+
+    <footer class="max-w-7xl mx-auto px-6 py-6 text-xs text-text-muted border-t border-text-muted/20">
+      cnamber-store admin · Phase 2 build
+    </footer>
+  </body>
+</html>
