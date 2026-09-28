@@ -1,0 +1,40 @@
+{
+  "common": {
+    "site_name": "OxHorseCraft",
+    "tagline": "Pakai hutan di badan anda",
+    "loading": "Sedang memuatkan...",
+    "error": "Sesuatu telah berlaku",
+    "retry": "Cuba lagi",
+    "close": "Tutup",
+    "view_more": "Lihat lebih",
+    "back": "Kembali",
+    "search": "Cari",
+    "subscribe": "Langgan",
+    "language": "Bahasa"
+  },
+  "nav": {
+    "home": "Laman",
+    "amber": "Perhiasan Ambar",
+    "incense": "Kemenyan Timur",
+    "story": "Kisah Kami",
+    "blog": "Jurnal",
+    "contact": "Hubungi",
+    "cart": "Troli",
+    "quiz": "Cari Milik Anda"
+  },
+  "home": {
+    "hero_kicker": "Coming Soon · 2026",
+    "hero_title": "OxHorseCraft",
+    "hero_subtitle": "Pakai hutan di badan anda",
+    "hero_p1": "Dalam cahaya yang terbeku di dalam ambar, lihat nafas hutan.",
+    "hero_p2": "Dalam asap kemenyan yang naik, dengar keheningan gunung.",
+    "hero_p3": "Kraftangan kami mengekalkan alam di sisi anda — lutsinar, ruang bernafas, zen Timur.",
+    "story_kicker": "Kisah Jenama",
+    "story_title": "Hutan, di tangan kami",
+    "story_p1": "Setiap cebisan bermula dengan satu perbualan di dalam hutan. Dari ambar Baltik ke gaharu Yunnan, dari rotan Malaysia ke jalan rempah Timur Tengah — kami menjelajah jauh untuk membawa nafas alam kepada anda.",
+    "story_p2": "Hutan bukan latar belakang. Ia ialah pelakon utama. Pakai sebiji ambar, nyalakan sebatang kemenyan — hutan hidup.",
+    "story_note": "(Kisah jenama penuh akan dilancarkan pada Fasa 5)",
+    "footer_rights": "© 2026 cnamber-store. Hak cipta terpelihara.",
+    "footer_tagline": "Jenama kraftangan berakar hutan · SEA Timur + Timur Tengah · empat bahasa"
+  }
+}

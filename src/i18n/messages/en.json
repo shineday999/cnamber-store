@@ -1,0 +1,40 @@
+{
+  "common": {
+    "site_name": "OxHorseCraft",
+    "tagline": "Wear the forest on you",
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "retry": "Retry",
+    "close": "Close",
+    "view_more": "View more",
+    "back": "Back",
+    "search": "Search",
+    "subscribe": "Subscribe",
+    "language": "Language"
+  },
+  "nav": {
+    "home": "Home",
+    "amber": "Amber Jewelry",
+    "incense": "Eastern Incense",
+    "story": "Our Story",
+    "blog": "Journal",
+    "contact": "Contact",
+    "cart": "Cart",
+    "quiz": "Find Yours"
+  },
+  "home": {
+    "hero_kicker": "Coming Soon · 2026",
+    "hero_title": "OxHorseCraft",
+    "hero_subtitle": "Wear the forest on you",
+    "hero_p1": "In the light frozen inside amber, see the breath of the forest.",
+    "hero_p2": "In the rising smoke of incense, hear the stillness of the mountains.",
+    "hero_p3": "Our handcraft keeps nature beside you — translucent, breathing room, Eastern zen.",
+    "story_kicker": "Brand Story",
+    "story_title": "The forest, in our hands",
+    "story_p1": "Each piece begins with a conversation in the forest. From Baltic amber to Yunnan agarwood, from Malaysian rattan to the spice routes of the Middle East — we travel far to bring nature's breath to you.",
+    "story_p2": "The forest is not the backdrop. It is the protagonist. Wear one amber, light one incense — the forest lives.",
+    "story_note": "(Full brand story launching Phase 5)",
+    "footer_rights": "© 2026 cnamber-store. All rights reserved.",
+    "footer_tagline": "Forest-rooted handcraft brand · Greater SEA + Middle East · four locales"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "common": {
+    "site_name": "OxHorseCraft",
+    "tagline": "Kenakan hutan di tubuh Anda",
+    "loading": "Memuat...",
+    "error": "Terjadi kesalahan",
+    "retry": "Coba lagi",
+    "close": "Tutup",
+    "view_more": "Lihat lebih",
+    "back": "Kembali",
+    "search": "Cari",
+    "subscribe": "Berlangganan",
+    "language": "Bahasa"
+  },
+  "nav": {
+    "home": "Beranda",
+    "amber": "Perhiasan Amber",
+    "incense": "Dupa Timur",
+    "story": "Cerita Kami",
+    "blog": "Jurnal",
+    "contact": "Kontak",
+    "cart": "Keranjang",
+    "quiz": "Temukan Milik Anda"
+  },
+  "home": {
+    "hero_kicker": "Coming Soon · 2026",
+    "hero_title": "OxHorseCraft",
+    "hero_subtitle": "Kenakan hutan di tubuh Anda",
+    "hero_p1": "Dalam cahaya yang membeku di dalam amber, lihat napas hutan.",
+    "hero_p2": "Dalam asap dupa yang naik, dengar kesunyian gunung.",
+    "hero_p3": "Kerajinan kami menjaga alam di sisi Anda — tembus, ruang bernafas, zen Timur.",
+    "story_kicker": "Cerita Merek",
+    "story_title": "Hutan, di tangan kami",
+    "story_p1": "Setiap karya bermula dari satu percakapan di hutan. Dari amber Baltik ke gaharu Yunnan, dari rotan Malaysia ke jalur rempah Timur Tengah — kami menjelajah jauh demi membawa napas alam kepada Anda.",
+    "story_p2": "Hutan bukan latar. Ia adalah tokoh utama. Kenakan sebutir amber, nyalakan sebatang dupa — hutan hidup.",
+    "story_note": "(Cerita merek lengkap akan diluncurkan pada Fase 5)",
+    "footer_rights": "© 2026 cnamber-store. Hak cipta dilindungi.",
+    "footer_tagline": "Merek kerajinan berakar hutan · Asia Tenggara + Timur Tengah · empat bahasa"
+  }
+}

@@ -1,4 +1,6 @@
 ---
+import { defaultLocale, locales, localeHreflang, type Locale, localizedPath } from '../i18n/config';
+
 interface Props {
   title: string;
   description: string;
@@ -6,30 +8,53 @@ interface Props {
 }
 
 const { title, description, ogImage = '/og-image.svg' } = Astro.props;
-const siteUrl = 'https://cnamber.ccwu.cc';
+const currentLocale = (Astro.locals.locale ?? defaultLocale) as Locale;
+const siteUrl = Astro.url.origin || 'https://cnamber.ccwu.cc';
+const cleanPath =
+  currentLocale === defaultLocale
+    ? Astro.url.pathname
+    : Astro.url.pathname.replace(new RegExp(`^/${currentLocale}`), '') || '/';
+
+const hreflangUrls = locales.map((l) => ({
+  lang: localeHreflang[l],
+  href: `${siteUrl}${localizedPath(l, cleanPath)}`,
+}));
 ---
 
 <!DOCTYPE html>
-<html lang="zh-Hans">
+<html lang={currentLocale}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
 
-    <!-- Open Graph -->
+    {hreflangUrls.map(({ lang, href }) => (
+      <link rel="alternate" hreflang={lang} href={href} />
+    ))}
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href={`${siteUrl}${localizedPath(defaultLocale, cleanPath)}`}
+    />
+
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={`${siteUrl}${ogImage}`} />
-    <meta property="og:url" content={siteUrl} />
+    <meta property="og:url" content={`${siteUrl}${Astro.url.pathname}`} />
+    <meta property="og:locale" content={localeHreflang[currentLocale].replace('-', '_')} />
+    {locales
+      .filter((l) => l !== currentLocale)
+      .map((l) => (
+        <meta property="og:locale:alternate" content={localeHreflang[l].replace('-', '_')} />
+      ))}
 
-    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={`${siteUrl}${ogImage}`} />
 
-    <!-- Fonts: Noto Serif SC + Inter via Google Fonts CDN -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -37,7 +62,6 @@ const siteUrl = 'https://cnamber.ccwu.cc';
       rel="stylesheet"
     />
 
-    <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
     <title>{title}</title>

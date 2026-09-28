@@ -1,0 +1,15 @@
+---
+import LocaleSwitcher from './LocaleSwitcher';
+import { defaultLocale, type Locale } from '../i18n/config';
+
+const currentLocale = (Astro.locals.locale ?? defaultLocale) as Locale;
+const pathname = Astro.url.pathname;
+
+let cleanPath = pathname;
+if (currentLocale !== defaultLocale) {
+  const stripped = pathname.replace(new RegExp(`^/${currentLocale}`), '');
+  cleanPath = stripped === '' ? '/' : stripped;
+}
+---
+
+<LocaleSwitcher client:load currentLocale={currentLocale} currentPath={cleanPath} />

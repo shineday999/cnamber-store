@@ -1,0 +1,29 @@
+---
+import Layout from '@layouts/Layout.astro';
+import HomeContent from '@components/HomeContent.astro';
+import LocaleSwitcher from '@components/LocaleSwitcher.astro';
+import { createT } from '../../i18n/t';
+import { defaultLocale, isLocale, type Locale } from '../../i18n/config';
+
+const lang = Astro.params.lang ?? '';
+
+if (!isLocale(lang) || lang === defaultLocale) {
+  return Astro.redirect('/');
+}
+
+const locale = lang as Locale;
+const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
+const t = createT(messages);
+
+const pageTitle = `${t('common.site_name')} — ${t('common.tagline')}`;
+const pageDescription = t('home.hero_p3') ?? '';
+void locale;
+---
+
+<Layout title={pageTitle} description={pageDescription}>
+  <div class="fixed top-6 right-6 z-50">
+    <LocaleSwitcher />
+  </div>
+
+  <HomeContent />
+</Layout>

@@ -1,0 +1,40 @@
+{
+  "common": {
+    "site_name": "牛马得饰",
+    "tagline": "把森林穿戴在身上",
+    "loading": "加载中...",
+    "error": "出错了",
+    "retry": "重试",
+    "close": "关闭",
+    "view_more": "查看更多",
+    "back": "返回",
+    "search": "搜索",
+    "subscribe": "订阅",
+    "language": "语言"
+  },
+  "nav": {
+    "home": "首页",
+    "amber": "琥珀饰品",
+    "incense": "东方香品",
+    "story": "品牌故事",
+    "blog": "日志",
+    "contact": "联络",
+    "cart": "购物车",
+    "quiz": "为我推荐"
+  },
+  "home": {
+    "hero_kicker": "Coming Soon · 2026",
+    "hero_title": "牛马得饰",
+    "hero_subtitle": "把森林穿戴在身上",
+    "hero_p1": "在琥珀凝结的光里,看见森林的呼吸。",
+    "hero_p2": "在线香缭绕的烟中,听见山林的静谧。",
+    "hero_p3": "我们的手作,把自然留在你身边——通透、留白、东方禅意。",
+    "story_kicker": "Brand Story",
+    "story_title": "森林,在我们手中",
+    "story_p1": "每一件作品,都源自一次森林的对话。从波罗的海的琥珀,到云南的沉香,从马来西亚的藤编,到中东的香料之路——我们走过千山万水,只为把自然的气息带到你身边。",
+    "story_p2": "森林不只是背景,它是主角。当你佩戴一颗琥珀,當你點燃一根香,森林就活了。",
+    "story_note": "(品牌故事完整版将于 Phase 5 上线)",
+    "footer_rights": "© 2026 cnamber-store. All rights reserved.",
+    "footer_tagline": "森林系手作品牌电商 · 大东南亚 + 中东 · 四语在地化"
+  }
+}
