@@ -2,12 +2,12 @@
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
-import node from '@astrojs/node';
 
 // https://astro.build/config
+// Phase 0: output: 'static' (Pages SSG 預設)
+// Phase 1+ 將改為 output: 'server' + @astrojs/cloudflare adapter (SSR for 會員/結帳)
 export default defineConfig({
-  output: 'server',
-  adapter: node({ mode: 'standalone' }),
+  output: 'static',
   integrations: [
     react(),
     tailwind({ applyBaseStyles: false }),
@@ -15,10 +15,5 @@ export default defineConfig({
   server: {
     port: 4321,
     host: true,
-  },
-  vite: {
-    ssr: {
-      noExternal: ['astro-i18next'],
-    },
   },
 });
