@@ -1,55 +1,94 @@
 # cnamber-store
 
-> 森林系手作品牌電商——琥珀飾品與香品,大東南亞+中東市場,六語在地化。
+> 森林系手作品牌電商——琥珀飾品與香品,大東南亞+中東市場,四語在地化。
 
-## 品牌定位(Placeholder)
+## 品牌定位
 
 - **品牌名**:「牛馬得飾」(placeholder,實作前 1 週定案)
 - **視覺關鍵詞**:森林 / 綠樹 / 清新 / 自然 / 愜意 / 手作 / 通透 / 留白 / 東方禪意 / 歐美靜物電影感
-- **目標市場**:大東南亞(馬/星/泰/印/菲)+ 中東 GCC
-- **i18n**:簡中(預設)/ 繁中 / 英文 / 馬來西亞馬來語 / 印尼馬來語 / 阿語 RTL
+- **目標市場**:大東南亞(馬/星/泰/印/菲)+ 中東 GCC(阿聯酋/沙烏地/科威特/卡達)
+- **i18n**:簡體(預設)/ 英文 / 馬來西亞馬來語 / 印尼馬來語
 
 ## 技術棧
 
-- **前台**:Astro 4.x + React 18 islands + TypeScript strict + Tailwind v3
-- **後端**:Cloudflare Workers + Hono
-- **資料庫**:Cloudflare D1(SQLite)
+- **前台**:Astro 4.x SSR + React 18 islands + TypeScript strict + Tailwind v3
+- **後端**:Cloudflare Workers + Hono(Astro API routes 形式)
+- **資料庫**:Cloudflare D1(SQLite,13 個表)
 - **儲存**:Cloudflare R2(產品圖)+ KV(i18n 快取)
-- **認證**:Clerk(Magic Link + Google / Apple / 微信)
-- **支付**:Stripe + 東南亞本地錢包(Touch'n Go / GrabPay / Boost / PromptPay / OVO / DANA)
-- **物流**:Aramex(中東)+ SF International(全球)
-- **交易信**:Resend
-- **監控**:Cloudflare Workers Analytics + Logs
+- **認證**:Cloudflare Access(JWT-based,role  whitelist)
+- **Email**:Resend(Phase 5 接入)
+- **部署**:Cloudflare Pages + GitHub App(PR preview + main deploy)
 
 ## 開發
 
 ```bash
-npm install              # 安裝依賴
-npm run dev              # 開發伺服器 (http://localhost:4321)
-npm run build            # 建構
-npm run preview          # 預覽
-npm run deploy           # 部署到 Cloudflare Pages
+npm install --ignore-scripts   # 安裝依賴
+npm run dev                    # 開發伺服器 (http://localhost:4321)
+npm run build                  # 建構 SSR
+npm run preview                # 預覽
+npm run deploy                 # 部署到 Cloudflare Pages
+npm run check                  # TypeScript / Astro check
+npm test                       # Vitest
 ```
 
-## 部署
+## 路由結構
 
-- **dev**:`dev.cnamber.ccwu.cc`
-- **staging**:`staging.cnamber.ccwu.cc`
-- **prod**:`cnamber.ccwu.cc`(從 Travel Agency CRM 接手)
+### 前台
 
-## 計劃書
+- `/` — 首頁(4 語)
+- `/[lang]/` — 4 語首頁(en, ms-MY, id-ID)
+- `/products` — 商品列表(SSR,category filter)
+- `/products/[slug]` — 商品詳情
+- `/quiz` — 推薦路徑入口
+- `/quiz/jewelry` — 飾品問答
+- `/quiz/incense` — 香品問答
+- `/quiz/result` — 推薦結果
+- `/cart` — 購物車
+- `/checkout` — 預訂制結帳
+- `/checkout/success` — 訂單確認
+- `/story` `/amber` `/incense` `/materials` `/craft` `/vision` — 品牌頁
+- `/contact` — 聯絡表單
 
-完整 PRD 見 [`docs/spec.md`](./docs/spec.md)。
+### 後台(Cloudflare Access 保護)
+
+- `/admin` — 儀表板
+- `/admin/products` — 商品管理
+- `/admin/products/new` — 新增商品
+- `/admin/products/[id]` — 編輯商品
+- `/admin/orders` — 訂單管理
+- `/admin/reviews` — 評價審核
 
 ## 開發階段
 
-- [ ] Phase 0:品牌定名 + 基礎建設
-- [ ] Phase 1:基礎建設
-- [ ] Phase 2:設計系統 + 商品資料
-- [ ] Phase 3:互動路徑 + i18n
-- [ ] Phase 4:支付 + 物流 + 訂單
-- [ ] Phase 5:內容頁 + 部落格 + 會員
-- [ ] Phase 6:QA + 上線
+- [x] Phase 0:基礎建設(已完成,commit `34086a2`+`f644cd5`+`11c84eb`+`658ee40`)
+- [x] Phase 1:SSR + 4 語 i18n + D1 + Hono + CI/CD(commit `1cd6f05`)
+- [x] Phase 2:後台骨架 + 商品 CRUD + 設計系統 + 前台商品頁(commit `c65c018`)
+- [x] Phase 3:問答路徑 + i18n(commit `c65c018` 後續)
+- [x] Phase 4:預訂制訂單 + Email + 內容頁(commit `c65c018` 後續)
+- [ ] Phase 5:QA + 上線(審計完成,等用戶 DNS + Access 設定)
+
+## 上線手動步驟
+
+詳見 [`docs/PHASE1-ACCESS-SETUP.md`](./docs/PHASE1-ACCESS-SETUP.md)
+
+### DNS CNAME
+```
+cnamber.ccwu.cc → cnamber-store.pages.dev (Proxied)
+```
+
+### Cloudflare Access Application
+```
+Application domain: cnamber.ccwu.cc
+Path: /admin*
+Policy: shineday999@gmail.com (Email OTP)
+```
+
+## 計劃書 / 文件
+
+- 完整 PRD: [`docs/spec.md`](./docs/spec.md)
+- Phase 0 任務:`docs/PHASE0-HANDOFF.md`(已收結)
+- Phase 1-5 任務:`docs/PHASE[1-5]-TASKS.md`
+- 安全審計:`docs/SECURITY.md`
 
 ## License
 
