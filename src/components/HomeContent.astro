@@ -145,17 +145,17 @@ function firstImage(json: string | null | undefined): string | undefined {
   </div>
 </section>
 
-<!-- 3. Recent highlights — 3 products (compact) -->
-<section class="py-12 md:py-14 bg-cream-100 relative">
+<!-- 3. Recent highlights — 3 small cards in single row, compact -->
+<section class="py-10 md:py-12 bg-cream-100 relative">
   <div class="bg-paper absolute inset-0 opacity-[0.4] pointer-events-none"></div>
   <div class="relative max-w-6xl mx-auto px-6">
     <RevealOnScroll>
-      <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-3">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-6 gap-3">
         <div>
           <p class="text-[10px] uppercase tracking-[0.4em] text-forest-400 font-sans mb-2">
             {t('home.featured_kicker')}
           </p>
-          <h2 class="text-2xl md:text-4xl font-serif font-light text-forest-800 leading-[1.1] tracking-tight">
+          <h2 class="text-2xl md:text-3xl font-serif font-light text-forest-800 leading-[1.1] tracking-tight">
             {t('home.featured_title')}
           </h2>
         </div>
@@ -166,11 +166,11 @@ function firstImage(json: string | null | undefined): string | undefined {
     </RevealOnScroll>
 
     {featured.results.length === 0 ? (
-      <p class="text-center text-forest-400 py-8 font-light">{t('home.featured_empty')}</p>
+      <p class="text-center text-forest-400 py-6 font-light">{t('home.featured_empty')}</p>
     ) : (
-      <div class="grid grid-cols-12 gap-4">
+      <div class="grid grid-cols-3 gap-4">
         {featured.results[0] && (
-          <RevealOnScroll class="col-span-12 md:col-span-5">
+          <RevealOnScroll class="col-span-3 sm:col-span-1">
             <ProductCard
               slug={featured.results[0].slug}
               name={featured.results[0].name ?? featured.results[0].slug}
@@ -178,12 +178,12 @@ function firstImage(json: string | null | undefined): string | undefined {
               category={featured.results[0].category}
               imageUrl={firstImage(featured.results[0].image_urls)}
               priceFrom={featured.results[0].min_price ? `${featured.results[0].min_price / 100} ${featured.results[0].min_currency}` : undefined}
-              variant="large"
+              variant="compact"
             />
           </RevealOnScroll>
         )}
         {featured.results[1] && (
-          <RevealOnScroll delay={120} class="col-span-12 md:col-span-7">
+          <RevealOnScroll delay={100} class="col-span-3 sm:col-span-1">
             <ProductCard
               slug={featured.results[1].slug}
               name={featured.results[1].name ?? featured.results[1].slug}
@@ -191,12 +191,12 @@ function firstImage(json: string | null | undefined): string | undefined {
               category={featured.results[1].category}
               imageUrl={firstImage(featured.results[1].image_urls)}
               priceFrom={featured.results[1].min_price ? `${featured.results[1].min_price / 100} ${featured.results[1].min_currency}` : undefined}
-              variant="large"
+              variant="compact"
             />
           </RevealOnScroll>
         )}
         {featured.results[2] && (
-          <RevealOnScroll delay={240} class="col-span-12 md:col-span-12">
+          <RevealOnScroll delay={200} class="col-span-3 sm:col-span-1">
             <ProductCard
               slug={featured.results[2].slug}
               name={featured.results[2].name ?? featured.results[2].slug}
@@ -204,7 +204,7 @@ function firstImage(json: string | null | undefined): string | undefined {
               category={featured.results[2].category}
               imageUrl={firstImage(featured.results[2].image_urls)}
               priceFrom={featured.results[2].min_price ? `${featured.results[2].min_price / 100} ${featured.results[2].min_currency}` : undefined}
-              variant="large"
+              variant="compact"
             />
           </RevealOnScroll>
         )}
