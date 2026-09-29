@@ -1,10 +1,12 @@
-// Email integration — Resend API
-// Phase 5+ 接入:wrangler secret put RESEND_API_KEY
-// 沒有 API key 時 graceful fallback(只 console.log,不中斷訂單流程)
+// Email integration — Cloudflare Email Service API
+// 計畫書 Phase 5+ 改用 Cloudflare Email Service(原本是 Resend,但用戶改用自己的 mail server 0061qwen.cc.cd)
+// 需要在 CF Dashboard → Email → Sending 驗證 0061qwen.cc.cd 域 + 設 DKIM
 
 interface EmailEnv {
-  RESEND_API_KEY?: string;
+  CF_API_TOKEN?: string;
+  CF_ACCOUNT_ID?: string;
   EMAIL_FROM?: string;
+  EMAIL_REPLY_TO?: string;
 }
 
 export interface EmailParams {
@@ -15,23 +17,23 @@ export interface EmailParams {
   replyTo?: string;
 }
 
-const DEFAULT_FROM = 'OxHorseCraft <hello@cnamber.ccwu.cc>';
+const DEFAULT_FROM = 'OxHorseCraft <oxsupport@0061qwen.cc.cd>';
+const DEFAULT_REPLY_TO = 'oxsupport@0061qwen.cc.cd';
 
 export async function sendEmail(env: EmailEnv, params: EmailParams): Promise<{ ok: boolean; id?: string; error?: string }> {
-  if (!env.RESEND_API_KEY) {
-    // Phase 5 簡化:沒有 API key 時只 log
-    console.warn('[email] RESEND_API_KEY not set, skipping send');
+  if (!env.CF_API_TOKEN || !env.CF_ACCOUNT_ID) {
+    console.warn('[email] CF_API_TOKEN / CF_ACCOUNT_ID not set, skipping send');
     console.log(`[email] To: ${params.to}`);
     console.log(`[email] Subject: ${params.subject}`);
-    console.log(`[email] Body: ${params.text ?? params.html.slice(0, 200)}`);
-    return { ok: false, error: 'no_api_key' };
+    return { ok: false, error: 'no_credentials' };
   }
 
-  const res = await fetch('https://api.resend.com/emails', {
+  const url = `https://api.cloudflare.com/client/v4/accounts/${env.CF_ACCOUNT_ID}/email/sending`;
+  const res = await fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${env.RESEND_API_KEY}`,
+      Authorization: `Bearer ${env.CF_API_TOKEN}`,
     },
     body: JSON.stringify({
       from: env.EMAIL_FROM ?? DEFAULT_FROM,
@@ -39,25 +41,24 @@ export async function sendEmail(env: EmailEnv, params: EmailParams): Promise<{ o
       subject: params.subject,
       html: params.html,
       text: params.text,
-      reply_to: params.replyTo,
+      reply_to: params.replyTo ?? env.EMAIL_REPLY_TO ?? DEFAULT_REPLY_TO,
     }),
   });
 
   if (!res.ok) {
     const body = await res.text().catch(() => '');
-    console.error(`[email] Resend error ${res.status}: ${body}`);
-    return { ok: false, error: `resend_${res.status}` };
-  };
-  const data = (await res.json()) as { id: string };
-  return { ok: true, id: data.id };
+    console.error(`[email] CF Email Service error ${res.status}: ${body}`);
+    return { ok: false, error: `cf_email_${res.status}` };
+  }
+  const data = (await res.json()) as { result?: { id?: string } };
+  return { ok: true, id: data.result?.id };
 }
 
 export function emailEnvFromContext(ctx: { locals: { runtime?: { env?: unknown } } }): EmailEnv {
-  const env = ctx.locals.runtime?.env;
-  return (env as EmailEnv | undefined) ?? {};
+  const env = ctx.locals.runtime?.env as EmailEnv | undefined;
+  return env ?? {};
 }
 
-// 預製 email templates
 export function orderConfirmationEmail(orderId: string, customerName: string, itemsSummary: string): { subject: string; html: string; text: string } {
   const subject = `預訂單確認 #${orderId}`;
   const html = `
@@ -69,7 +70,7 @@ export function orderConfirmationEmail(orderId: string, customerName: string, it
       <p>客服將在 1-2 個工作天內與您聯繫,確認運費與付款方式。</p>
       <hr style="border: none; border-top: 1px solid #DCE5DC; margin: 24px 0;" />
       <p style="color: #8A938A; font-size: 12px;">
-        OxHorseCraft · 森林系手作品牌 · hello@cnamber.ccwu.cc
+        OxHorseCraft · 森林系手作品牌 · oxsupport@0061qwen.cc.cd
       </p>
     </div>
   `;

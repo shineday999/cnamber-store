@@ -22,5 +22,9 @@
       "binding": "I18N",
       "id": "4c8f1d2d42c040a9958d3c133426d896"
     }
-  ]
+  ],
+  "vars": {
+    "EMAIL_FROM": "OxHorseCraft <oxsupport@0061qwen.cc.cd>",
+    "EMAIL_REPLY_TO": "oxsupport@0061qwen.cc.cd"
+  }
 }
