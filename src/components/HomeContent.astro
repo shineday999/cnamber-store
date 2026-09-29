@@ -120,14 +120,15 @@ function firstImage(json: string | null | undefined): string | undefined {
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <RevealOnScroll delay={0}>
-        <a href="/products?cat=jewelry" class="group relative block aspect-[5/4] overflow-hidden rounded-card">
+        <a href="/products?cat=jewelry" class="group relative block aspect-[5/4] overflow-hidden rounded-card bg-primary-950">
           <img
             src="https://picsum.photos/seed/cnamber-amber-still-life/1200/960"
             alt="Amber Jewelry"
-            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[1400ms] ease-out"
+            class="w-full h-full object-cover saturate-[0.85] brightness-[0.85] group-hover:scale-105 transition-transform duration-[1400ms] ease-out"
             loading="lazy"
           />
-          <div class="absolute inset-0 bg-gradient-to-t from-primary-950/85 via-primary-950/20 to-transparent"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-primary-950/95 via-primary-950/50 to-primary-950/0"></div>
+          <div class="absolute inset-0 bg-grain opacity-[0.06] mix-blend-overlay pointer-events-none"></div>
           <div class="absolute bottom-0 left-0 right-0 p-8 text-bg-base">
             <p class="text-xs uppercase tracking-[0.4em] text-accent-300 mb-2 font-sans">
               {t('nav.amber')}
@@ -135,7 +136,7 @@ function firstImage(json: string | null | undefined): string | undefined {
             <h3 class="text-3xl md:text-4xl font-serif mb-3 leading-tight">
               {t('home.cat_amber_title')}
             </h3>
-            <p class="text-bg-base/75 mb-5 max-w-md leading-relaxed text-sm md:text-base">
+            <p class="text-bg-base/80 mb-5 max-w-md leading-relaxed text-sm md:text-base">
               {t('home.cat_amber_desc')}
             </p>
             <span class="inline-block text-sm text-accent-300 border-b border-accent-300/40 pb-0.5 group-hover:border-accent-300 transition-all duration-300">
@@ -146,14 +147,15 @@ function firstImage(json: string | null | undefined): string | undefined {
       </RevealOnScroll>
 
       <RevealOnScroll delay={150}>
-        <a href="/products?cat=incense" class="group relative block aspect-[5/4] overflow-hidden rounded-card">
+        <a href="/products?cat=incense" class="group relative block aspect-[5/4] overflow-hidden rounded-card bg-primary-950">
           <img
             src="https://picsum.photos/seed/cnamber-incense-still-life/1200/960"
             alt="Eastern Incense"
-            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[1400ms] ease-out"
+            class="w-full h-full object-cover saturate-[0.85] brightness-[0.85] group-hover:scale-105 transition-transform duration-[1400ms] ease-out"
             loading="lazy"
           />
-          <div class="absolute inset-0 bg-gradient-to-t from-primary-950/85 via-primary-950/20 to-transparent"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-primary-950/95 via-primary-950/50 to-primary-950/0"></div>
+          <div class="absolute inset-0 bg-grain opacity-[0.06] mix-blend-overlay pointer-events-none"></div>
           <div class="absolute bottom-0 left-0 right-0 p-8 text-bg-base">
             <p class="text-xs uppercase tracking-[0.4em] text-accent-300 mb-2 font-sans">
               {t('nav.incense')}
@@ -161,7 +163,7 @@ function firstImage(json: string | null | undefined): string | undefined {
             <h3 class="text-3xl md:text-4xl font-serif mb-3 leading-tight">
               {t('home.cat_incense_title')}
             </h3>
-            <p class="text-bg-base/75 mb-5 max-w-md leading-relaxed text-sm md:text-base">
+            <p class="text-bg-base/80 mb-5 max-w-md leading-relaxed text-sm md:text-base">
               {t('home.cat_incense_desc')}
             </p>
             <span class="inline-block text-sm text-accent-300 border-b border-accent-300/40 pb-0.5 group-hover:border-accent-300 transition-all duration-300">
