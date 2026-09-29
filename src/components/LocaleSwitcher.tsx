@@ -31,7 +31,7 @@ export default function LocaleSwitcher({ currentLocale, currentPath }: Props) {
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-2 px-3 py-1.5 text-sm font-sans border border-text-muted/30 rounded-md hover:border-accent-500 transition-colors bg-bg-base/80 backdrop-blur"
+        className="flex items-center gap-2 px-3 py-1.5 text-sm font-sans bg-bg-base text-text-primary border border-text-primary/30 rounded-md hover:border-accent-500 hover:text-accent-700 transition-colors shadow-sm"
         aria-expanded={open}
         aria-haspopup="listbox"
       >
