@@ -1,5 +1,6 @@
 ---
 import Leaf from './Leaf.astro';
+import ProductCard from './ProductCard.astro';
 import { createT } from '../i18n/t';
 import { defaultLocale, type Locale } from '../i18n/config';
 
@@ -7,8 +8,51 @@ const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
 const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
 const t = createT(messages);
 void locale;
+
+const env = Astro.locals.runtime?.env;
+
+interface FeaturedProduct {
+  id: string;
+  slug: string;
+  category: string;
+  name: string | null;
+  short_description: string | null;
+  min_price: number | null;
+  min_currency: string | null;
+  image_urls: string | null;
+}
+
+const featured = env?.DB
+  ? await env.DB
+      .prepare(
+        `SELECT p.id, p.slug, p.category,
+                pt.name, pt.short_description,
+                MIN(pp.amount) AS min_price, pp.currency AS min_currency,
+                (SELECT pv.image_urls FROM product_variants pv WHERE pv.product_id = p.id LIMIT 1) AS image_urls
+         FROM products p
+         LEFT JOIN product_translations pt ON pt.product_id = p.id AND pt.locale = ?
+         LEFT JOIN product_variants pv ON pv.product_id = p.id
+         LEFT JOIN product_prices pp ON pp.variant_id = pv.id
+         WHERE p.status = 'active'
+         GROUP BY p.id
+         ORDER BY p.created_at DESC LIMIT 4`,
+      )
+      .bind(locale)
+      .all<FeaturedProduct>()
+  : { results: [] as FeaturedProduct[] };
+
+function firstImage(json: string | null | undefined): string | undefined {
+  if (!json) return undefined;
+  try {
+    const urls = JSON.parse(json) as string[];
+    return Array.isArray(urls) && urls.length > 0 ? urls[0] : undefined;
+  } catch {
+    return undefined;
+  }
+}
 ---
 
+<!-- 1. Hero — full-screen Leaf SVG background + brand message -->
 <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
   <div class="absolute inset-0 -z-10">
     <Leaf />
@@ -32,19 +76,138 @@ void locale;
       <p>{t('home.hero_p2')}</p>
       <p>{t('home.hero_p3')}</p>
     </div>
+
+    <div class="mt-12 flex flex-col sm:flex-row gap-3 justify-center">
+      <a href="/products" class="px-8 py-3 bg-bg-base text-primary-900 font-medium rounded-md hover:bg-accent-300 transition-colors">
+        {t('home.hero_cta_shop')}
+      </a>
+      <a href="/quiz" class="px-8 py-3 border-2 border-bg-base text-bg-base font-medium rounded-md hover:bg-bg-base hover:text-primary-900 transition-colors">
+        {t('home.hero_cta_quiz')}
+      </a>
+    </div>
   </div>
 </section>
 
+<!-- 2. Categories — 兩個大型 category cards -->
+<section class="py-section bg-bg-base">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-12">
+      <p class="text-sm uppercase tracking-[0.3em] text-accent-700 font-sans mb-3">
+        {t('home.categories_kicker')}
+      </p>
+      <h2 class="text-display-sm font-serif text-text-primary">
+        {t('home.categories_title')}
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <a href="/products?cat=jewelry" class="group relative aspect-[4/3] rounded-card overflow-hidden bg-primary-100">
+        <img
+          src="https://picsum.photos/seed/category-amber-jewelry/1200/900"
+          alt="Amber Jewelry"
+          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+          loading="lazy"
+        />
+        <div class="absolute inset-0 bg-gradient-to-t from-primary-900/80 via-primary-900/30 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-8 text-bg-base">
+          <p class="text-xs uppercase tracking-[0.3em] text-accent-300 mb-2 font-sans">
+            {t('nav.amber')}
+          </p>
+          <h3 class="text-3xl font-serif mb-3">{t('home.cat_amber_title')}</h3>
+          <p class="text-bg-base/80 mb-4">{t('home.cat_amber_desc')}</p>
+          <span class="text-sm text-accent-300 group-hover:translate-x-1 transition-transform inline-block">
+            {t('home.cat_explore')} →
+          </span>
+        </div>
+      </a>
+
+      <a href="/products?cat=incense" class="group relative aspect-[4/3] rounded-card overflow-hidden bg-primary-100">
+        <img
+          src="https://picsum.photos/seed/category-eastern-incense/1200/900"
+          alt="Eastern Incense"
+          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+          loading="lazy"
+        />
+        <div class="absolute inset-0 bg-gradient-to-t from-primary-900/80 via-primary-900/30 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-8 text-bg-base">
+          <p class="text-xs uppercase tracking-[0.3em] text-accent-300 mb-2 font-sans">
+            {t('nav.incense')}
+          </p>
+          <h3 class="text-3xl font-serif mb-3">{t('home.cat_incense_title')}</h3>
+          <p class="text-bg-base/80 mb-4">{t('home.cat_incense_desc')}</p>
+          <span class="text-sm text-accent-300 group-hover:translate-x-1 transition-transform inline-block">
+            {t('home.cat_explore')} →
+          </span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- 3. Featured Products grid — 4 個 D1 真實產品 -->
+<section class="py-section bg-primary-100/30">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="flex flex-col md:flex-row items-center md:items-end justify-between mb-12 gap-4">
+      <div>
+        <p class="text-sm uppercase tracking-[0.3em] text-accent-700 font-sans mb-3">
+          {t('home.featured_kicker')}
+        </p>
+        <h2 class="text-display-sm font-serif text-text-primary">
+          {t('home.featured_title')}
+        </h2>
+      </div>
+      <a href="/products" class="text-accent-700 hover:underline text-sm">
+        {t('home.featured_view_all')} →
+      </a>
+    </div>
+
+    {featured.results.length === 0 ? (
+      <p class="text-center text-text-muted py-12">{t('home.featured_empty')}</p>
+    ) : (
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {featured.results.map((p) => (
+          <ProductCard
+            slug={p.slug}
+            name={p.name ?? p.slug}
+            shortDescription={p.short_description ?? undefined}
+            category={p.category}
+            imageUrl={firstImage(p.image_urls)}
+            priceFrom={p.min_price ? `${p.min_price / 100} ${p.min_currency}` : undefined}
+          />
+        ))}
+      </div>
+    )}
+  </div>
+</section>
+
+<!-- 4. CTA — quiz entry -->
+<section class="py-section bg-primary-900 text-bg-base">
+  <div class="max-w-3xl mx-auto px-6 text-center">
+    <p class="text-sm uppercase tracking-[0.3em] text-accent-300 mb-3 font-sans">
+      {t('home.cta_kicker')}
+    </p>
+    <h2 class="text-display-sm font-serif mb-4">{t('home.cta_title')}</h2>
+    <p class="text-lg text-bg-base/80 mb-8">{t('home.cta_desc')}</p>
+    <div class="flex flex-col sm:flex-row gap-3 justify-center">
+      <a href="/quiz/jewelry" class="px-8 py-3 bg-bg-base text-primary-900 font-medium rounded-md hover:bg-accent-300 transition-colors">
+        {t('home.cta_quiz_jewelry')}
+      </a>
+      <a href="/quiz/incense" class="px-8 py-3 border-2 border-bg-base text-bg-base font-medium rounded-md hover:bg-bg-base hover:text-primary-900 transition-colors">
+        {t('home.cta_quiz_incense')}
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- 5. Brand story -->
 <section class="py-section bg-bg-base">
   <div class="max-w-3xl mx-auto px-6 text-center">
     <p class="text-sm uppercase tracking-[0.3em] text-accent-700 mb-4 font-sans">
       {t('home.story_kicker')}
     </p>
-
     <h2 class="text-display-sm md:text-display-md font-serif text-text-primary mb-8">
       {t('home.story_title')}
     </h2>
-
     <div class="space-y-6 text-lg text-text-secondary font-sans leading-relaxed">
       <p>{t('home.story_p1')}</p>
       <p>{t('home.story_p2')}</p>
@@ -53,6 +216,7 @@ void locale;
   </div>
 </section>
 
+<!-- 6. Footer -->
 <footer class="py-12 bg-primary-900 text-bg-base">
   <div class="max-w-6xl mx-auto px-6 text-center">
     <p class="font-serif text-xl mb-3">{t('common.site_name')}</p>
