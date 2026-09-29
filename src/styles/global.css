@@ -2,32 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
-/* === Cinematic animations === */
+/* === Cinematic + Eastern Zen motion === */
 @keyframes breathe {
   0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.04); }
+  50% { transform: scale(1.03); }
 }
 .animate-breathe {
-  animation: breathe 14s ease-in-out infinite;
-}
-
-@keyframes bounce-slow {
-  0%, 100% { transform: translate(-50%, 0); }
-  50% { transform: translate(-50%, 8px); }
-}
-.animate-bounce-slow {
-  animation: bounce-slow 3s ease-in-out infinite;
+  animation: breathe 16s ease-in-out infinite;
+  will-change: transform;
 }
 
 @keyframes fade-up {
-  from { opacity: 0; transform: translateY(24px); }
+  from { opacity: 0; transform: translateY(28px); }
   to { opacity: 1; transform: translateY(0); }
 }
 .animate-fade-up {
-  animation: fade-up 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: fade-up 1.1s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* Reveal on scroll — IntersectionObserver trigger */
 .reveal-on-scroll {
   opacity: 0;
   transform: translateY(28px);
@@ -41,56 +33,82 @@
   transform: translateY(0);
 }
 
-/* Smooth scrolling */
 html {
   scroll-behavior: smooth;
 }
 
-/* Subtle film grain overlay (data URI noise) */
+/* === Textures === */
 .bg-grain {
   background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/></svg>");
-  background-size: 200px 200px;
+  background-size: 240px 240px;
+  mix-blend-mode: overlay;
 }
 
+.bg-paper {
+  background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='5' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.31 0 0 0 0 0.28 0 0 0 0 0.21 0 0 0 0.4 0'/></filter><rect width='100%25' height='100%25' filter='url(%23p)'/></svg>");
+  background-size: 300px 300px;
+}
+
+.cinematic {
+  filter: saturate(0.85) brightness(0.92) contrast(1.05);
+}
+
+/* === Glassmorphism (Eastern Zen / 通透感) === */
+.glass {
+  background: rgba(250, 247, 238, 0.55);
+  backdrop-filter: blur(20px) saturate(115%);
+  -webkit-backdrop-filter: blur(20px) saturate(115%);
+  border: 1px solid rgba(115, 112, 77, 0.12);
+}
+.glass-dark {
+  background: rgba(31, 38, 21, 0.45);
+  backdrop-filter: blur(20px) saturate(110%);
+  -webkit-backdrop-filter: blur(20px) saturate(110%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* === Light theme CSS vars (取代舊 primary) === */
 :root {
-  /* Primary: forest green */
-  --color-primary-900: #1A2E1A;
-  --color-primary-700: #2D4A2B;
-  --color-primary-500: #4A6B47;
-  --color-primary-300: #8FA88C;
-  --color-primary-100: #DCE5DC;
+  /* Forest 主色 */
+  --color-primary-900: #161A0F;
+  --color-primary-700: #2D3520;
+  --color-primary-500: #4F5C36;
+  --color-primary-300: #9A9175;
 
-  /* Background: cream */
-  --color-bg-base:    #F5F1E8;
-  --color-bg-card:    #FAF8F2;
-  --color-bg-elevated:#FFFFFF;
+  /* Cream 背景(取代舊 bg-base) */
+  --color-bg-base: #FAF7EE;
+  --color-bg-card: #F2EDDF;
+  --color-bg-elevated: #FFFFFF;
 
-  /* Accent: amber */
-  --color-accent-700: #8C6B3E;
-  --color-accent-500: #C9925B;
-  --color-accent-300: #E0BD93;
+  /* 文字 */
+  --color-text-primary: #1F2615;
+  --color-text-secondary: #4A4538;
+  --color-text-muted: #8B8275;
 
-  /* Text */
-  --color-text-primary:   #1F2A1E;
-  --color-text-secondary: #4A5748;
-  --color-text-muted:     #8A938A;
+  /* Accent(Terra) */
+  --color-accent-700: #5F3220;
+  --color-accent-500: #A45E3D;
+  --color-accent-300: #D29E7B;
 
-  /* Status */
-  --color-success: #4A7C59;
-  --color-warning: #C9925B;
-  --color-error:   #A85751;
+  /* 狀態 */
+  --color-success: #4F7A38;
+  --color-warning: #A45E3D;
+  --color-error: #834630;
 }
 
 html, body {
   background-color: var(--color-bg-base);
   color: var(--color-text-primary);
-  font-family: 'Inter', system-ui, sans-serif;
-  line-height: 1.8;
+  font-family: Inter, 'Noto Sans SC', system-ui, sans-serif;
+  line-height: 1.85; /* 東方禪意寬鬆行高 */
   -webkit-font-smoothing: antialiased;
+  font-feature-settings: 'kern' 1, 'liga' 1;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Noto Serif SC', Georgia, serif;
+  font-family: 'Cormorant Garamond', 'Noto Serif SC', Georgia, serif;
+  font-weight: 400;
   line-height: 1.2;
   color: var(--color-text-primary);
+  letter-spacing: -0.005em;
 }

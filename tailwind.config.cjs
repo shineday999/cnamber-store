@@ -4,22 +4,42 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: {
-          900: 'var(--color-primary-900)',
-          700: 'var(--color-primary-700)',
-          500: 'var(--color-primary-500)',
-          300: 'var(--color-primary-300)',
-          100: 'var(--color-primary-100)',
+        forest: {
+          50: '#F2EFE5',
+          100: '#DDD8C7',
+          200: '#BFB89E',
+          300: '#9A9175',
+          400: '#73704D',
+          500: '#4F5C36',
+          600: '#3D4828',
+          700: '#2D3520',
+          800: '#1F2615',
+          900: '#161A0F',
         },
+        cream: {
+          50: '#FAF7EE',
+          100: '#F2EDDF',
+          200: '#E8E2D0',
+          300: '#D8D1BB',
+        },
+        terra: {
+          300: '#D29E7B',
+          500: '#A45E3D',
+          700: '#5F3220',
+        },
+        bamboo: {
+          400: '#6F9353',
+          500: '#4F7A38',
+        },
+        stone: {
+          400: '#8B8275',
+          600: '#4A4538',
+        },
+        // 別名給現有程式碼繼續運作
         bg: {
           base: 'var(--color-bg-base)',
           card: 'var(--color-bg-card)',
           elevated: 'var(--color-bg-elevated)',
-        },
-        accent: {
-          700: 'var(--color-accent-700)',
-          500: 'var(--color-accent-500)',
-          300: 'var(--color-accent-300)',
         },
         text: {
           primary: 'var(--color-text-primary)',
@@ -31,24 +51,27 @@ module.exports = {
         error: 'var(--color-error)',
       },
       fontFamily: {
-        serif: ['"Noto Serif SC"', 'Georgia', 'serif'],
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        serif: ['"Cormorant Garamond"', '"Noto Serif SC"', 'Georgia', 'serif'],
+        sans: ['Inter', '"Noto Sans SC"', 'system-ui', 'sans-serif'],
       },
       fontSize: {
-        'display': ['4.5rem', { lineHeight: '1.1', letterSpacing: '-0.02em' }],
-        'display-md': ['3.5rem', { lineHeight: '1.15', letterSpacing: '-0.01em' }],
+        display: ['5rem', { lineHeight: '1.05', letterSpacing: '-0.02em' }],
+        'display-md': ['3.75rem', { lineHeight: '1.15', letterSpacing: '-0.01em' }],
         'display-sm': ['2.5rem', { lineHeight: '1.2', letterSpacing: '-0.005em' }],
       },
       spacing: {
-        'section': '6rem',
-        'section-lg': '8rem',
+        section: '5rem',
+        'section-lg': '6rem',
       },
       borderRadius: {
-        'card': '12px',
+        card: '4px',
       },
       boxShadow: {
-        'natural': '0 4px 24px rgba(45, 74, 43, 0.08)',
-        'natural-lg': '0 8px 48px rgba(45, 74, 43, 0.12)',
+        soft: '0 2px 24px rgba(31, 38, 21, 0.06)',
+        'soft-lg': '0 8px 48px rgba(31, 38, 21, 0.1)',
+      },
+      transitionTimingFunction: {
+        organic: 'cubic-bezier(0.16, 1, 0.3, 1)',
       },
     },
   },

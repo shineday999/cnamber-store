@@ -1,5 +1,6 @@
 ---
-// ProductCard — 前台商品卡片
+// ProductCard — Editorial layout, Cormorant Garamond name, no rounded corners (sharp edges),
+// subtle hover scale, generous whitespace between elements
 interface Props {
   slug: string;
   name: string;
@@ -7,9 +8,19 @@ interface Props {
   category: string;
   imageUrl?: string | undefined;
   priceFrom?: string | undefined;
+  variant?: 'default' | 'large';
 }
 
-const { slug, name, shortDescription, category, imageUrl, priceFrom } = Astro.props;
+const {
+  slug,
+  name,
+  shortDescription,
+  category,
+  imageUrl,
+  priceFrom,
+  variant = 'default',
+} = Astro.props;
+
 const catLabel: Record<string, string> = {
   jewelry: 'Jewelry',
   incense: 'Incense',
@@ -18,38 +29,46 @@ const catLabel: Record<string, string> = {
 
 <a
   href={`/products/${slug}`}
-  class="group block bg-bg-card border border-text-muted/20 rounded-card overflow-hidden hover:border-accent-500 transition-all hover:shadow-natural-lg"
+  class:list={[
+    'group block relative overflow-hidden bg-cream-50 border border-forest-100 hover:border-forest-300 transition-colors duration-700',
+    variant === 'large' ? 'h-full' : '',
+  ]}
 >
-  <div class="aspect-square bg-primary-100 flex items-center justify-center overflow-hidden">
-    {imageUrl ? (
+  {imageUrl ? (
+    <div class:list={['relative overflow-hidden bg-forest-100', variant === 'large' ? 'aspect-[5/4]' : 'aspect-[1/1]']}>
       <img
         src={imageUrl}
         alt={name}
-        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+        class="w-full h-full object-cover cinematic group-hover:scale-[1.04] transition-transform duration-[1400ms] ease-out"
         loading="lazy"
       />
-    ) : (
-      <svg viewBox="0 0 200 200" class="w-32 h-32 text-primary-300" fill="currentColor">
-        <circle cx="100" cy="100" r="60" opacity="0.3" />
-        <circle cx="100" cy="100" r="40" opacity="0.5" />
-        <circle cx="100" cy="100" r="20" opacity="0.7" />
-      </svg>
-    )}
-  </div>
-  <div class="p-4">
-    <div class="text-xs uppercase tracking-wider text-accent-700 mb-1">
-      {catLabel[category] ?? category}
     </div>
-    <h3 class="font-serif text-lg leading-tight mb-1 text-text-primary group-hover:text-accent-700 transition-colors">
+  ) : (
+    <div class:list={['bg-forest-100 flex items-center justify-center', variant === 'large' ? 'aspect-[5/4]' : 'aspect-[1/1]']}>
+      <svg viewBox="0 0 100 100" class="w-16 h-16 text-forest-300" fill="currentColor">
+        <circle cx="50" cy="50" r="30" opacity="0.3" />
+        <circle cx="50" cy="50" r="20" opacity="0.5" />
+        <circle cx="50" cy="50" r="10" opacity="0.7" />
+      </svg>
+    </div>
+  )}
+
+  <div class:list={['p-5', variant === 'large' ? 'p-7' : '']}>
+    <p class="text-[10px] uppercase tracking-[0.4em] text-forest-400 mb-2 font-sans">
+      {catLabel[category] ?? category}
+    </p>
+    <h3 class:list={['font-serif font-light text-forest-800 leading-tight mb-2 group-hover:text-forest-600 transition-colors duration-500', variant === 'large' ? 'text-2xl md:text-3xl' : 'text-xl']}>
       {name}
     </h3>
     {shortDescription && (
-      <p class="text-sm text-text-secondary line-clamp-2 mb-3">{shortDescription}</p>
+      <p class:list={['text-forest-500 leading-relaxed font-light line-clamp-2', variant === 'large' ? 'text-sm mb-3' : 'text-xs mb-2']}>
+        {shortDescription}
+      </p>
     )}
     {priceFrom && (
-      <div class="text-sm font-mono text-text-primary">
-        from <span class="text-accent-700">{priceFrom}</span>
-      </div>
+      <p class:list={['font-sans tracking-wide text-forest-700', variant === 'large' ? 'text-sm' : 'text-xs']}>
+        <span class="text-forest-400">from </span>{priceFrom}
+      </p>
     )}
   </div>
 </a>

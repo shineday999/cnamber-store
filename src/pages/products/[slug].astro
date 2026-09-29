@@ -1,7 +1,7 @@
 ---
-// 商品詳情頁
+// /products/[slug] — 2 區塊:大圖 + info。Editorial still-life feel.
+// 不要長篇 story / reviews / related — 留白呼吸感最重要。
 import Layout from '@layouts/Layout.astro';
-import Button from '@components/Button.astro';
 import { createT } from '../../i18n/t';
 import { defaultLocale, type Locale } from '../../i18n/config';
 
@@ -9,11 +9,38 @@ const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
 const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
 const t = createT(messages);
 
-const env = Astro.locals.runtime?.env;
 const slug = Astro.params.slug ?? '';
+const env = Astro.locals.runtime?.env;
+
+interface Product {
+  id: string;
+  slug: string;
+  category: string;
+  status: string;
+}
+
+interface Translation {
+  name: string;
+  description: string;
+  short_description: string | null;
+  story: string | null;
+}
+
+interface Variant {
+  id: string;
+  sku: string;
+  attributes: string;
+  stock: number;
+  price_base: string;
+}
+
+interface Price {
+  currency: string;
+  amount: number;
+}
 
 const product = env?.DB
-  ? await env.DB.prepare('SELECT * FROM products WHERE slug = ? AND status = ?').bind(slug, 'active').first()
+  ? await env.DB.prepare('SELECT id, slug, category, status FROM products WHERE slug = ? AND status = ?').bind(slug, 'active').first<Product>()
   : null;
 
 if (!product) {
@@ -21,90 +48,179 @@ if (!product) {
 }
 
 const translation = env?.DB
-  ? await env.DB.prepare('SELECT * FROM product_translations WHERE product_id = ? AND locale = ?')
-      .bind((product as { id: string }).id, locale)
-      .first()
+  ? await env.DB.prepare(
+      'SELECT name, description, short_description, story FROM product_translations WHERE product_id = ? AND locale = ?',
+    )
+    .bind(product.id, locale)
+    .first<Translation>()
   : null;
 
-const fallbackTranslation = translation ?? (env?.DB
-  ? await env.DB.prepare('SELECT * FROM product_translations WHERE product_id = ? AND locale = ?')
-      .bind((product as { id: string }).id, 'en')
-      .first()
-  : null);
+const fallback = env?.DB
+  ? await env.DB.prepare(
+      'SELECT name, description, short_description, story FROM product_translations WHERE product_id = ? AND locale = ?',
+    )
+    .bind(product.id, 'en')
+    .first<Translation>()
+  : null;
+
+const tr = translation ?? fallback ?? { name: product.slug, description: '', short_description: null, story: null };
 
 const variants = env?.DB
-  ? await env.DB.prepare('SELECT * FROM product_variants WHERE product_id = ?').bind((product as { id: string }).id).all()
-  : { results: [] as Array<Record<string, unknown>> };
+  ? await env.DB
+      .prepare('SELECT id, sku, attributes, stock, price_base FROM product_variants WHERE product_id = ?')
+      .bind(product.id)
+      .all<Variant>()
+  : { results: [] };
 
-const name = ((translation as { name?: string })?.name ?? (fallbackTranslation as { name?: string })?.name ?? slug) as string;
-const description = ((translation as { description?: string })?.description ?? (fallbackTranslation as { description?: string })?.description ?? '') as string;
-const story = ((translation as { story?: string })?.story ?? (fallbackTranslation as { story?: string })?.story ?? '') as string;
-void t;
+const prices = env?.DB
+  ? await env.DB
+      .prepare(
+        'SELECT currency, amount FROM product_prices WHERE variant_id IN (SELECT id FROM product_variants WHERE product_id = ?) AND currency = ?',
+      )
+      .bind(product.id, 'USD')
+      .all<Price>()
+  : { results: [] };
+
+const firstImageUrl = variants.results[0]?.id
+  ? env?.DB
+    ? (await env.DB.prepare('SELECT image_urls FROM product_variants WHERE id = ?').bind(variants.results[0].id).first<{ image_urls: string }>())?.image_urls
+    : null
+  : null;
+
+let heroImage = '';
+if (firstImageUrl) {
+  try {
+    const urls = JSON.parse(firstImageUrl) as string[];
+    heroImage = urls[0] ?? '';
+  } catch {}
+}
+
+const priceMap = new Map(prices.results.map((p) => [p.currency, p.amount / 100]));
+const usdPrice = priceMap.get('USD');
+
+const pageTitle = `${tr.name} — ${t('common.site_name')}`;
+void locale;
 ---
 
-<Layout title={`${name} · ${t('common.site_name')}`} description={description.slice(0, 160)}>
-  <div class="max-w-6xl mx-auto px-6 py-section">
-    {translation === null && (
-      <div class="bg-warning/10 border border-warning text-warning rounded-card p-3 mb-6 text-sm">
-        Translation missing for {locale}. Showing English fallback.
+<Layout title={pageTitle} description={tr.short_description ?? tr.description.slice(0, 160)}>
+  <!-- 1. Hero image — full-width 80vh cinematic still-life -->
+  <section class="relative h-[80vh] min-h-[600px] overflow-hidden bg-forest-800">
+    {heroImage ? (
+      <img
+        src={heroImage}
+        alt={tr.name}
+        class="w-full h-full object-cover cinematic"
+        loading="eager"
+        fetchpriority="high"
+      />
+    ) : (
+      <div class="w-full h-full flex items-center justify-center bg-forest-100">
+        <span class="text-forest-300 font-serif text-6xl font-light">No image</span>
       </div>
     )}
+    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-forest-900/40"></div>
+    <div class="bg-grain absolute inset-0 opacity-[0.05] pointer-events-none"></div>
+    <div class="absolute bottom-8 left-0 right-0 px-6 max-w-6xl mx-auto">
+      <a href="/products" class="inline-block text-xs uppercase tracking-[0.4em] text-cream-100/80 hover:text-cream-50 transition-colors font-sans border-b border-cream-100/30 pb-0.5">
+        ← Back to all
+      </a>
+    </div>
+  </section>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-      <div class="space-y-4">
-        <div class="aspect-square bg-primary-100 rounded-card flex items-center justify-center">
-          <svg viewBox="0 0 200 200" class="w-48 h-48 text-primary-300" fill="currentColor">
-            <circle cx="100" cy="100" r="60" opacity="0.3" />
-            <circle cx="100" cy="100" r="40" opacity="0.5" />
-            <circle cx="100" cy="100" r="20" opacity="0.7" />
-          </svg>
+  <!-- 2. Asymmetric 8/4 split: large image left + compact info right -->
+  <section class="py-20 bg-cream-50 relative">
+    <div class="bg-paper absolute inset-0 opacity-[0.4] pointer-events-none"></div>
+
+    <div class="relative max-w-6xl mx-auto px-6">
+      <div class="grid grid-cols-12 gap-8 md:gap-12">
+        <!-- 8 cols: secondary image (still-life detail) -->
+        <div class="col-span-12 md:col-span-8">
+          {heroImage && (
+            <div class="aspect-[4/3] overflow-hidden bg-forest-100">
+              <img
+                src={heroImage.replace('800/800', '1200/900')}
+                alt={`${tr.name} detail`}
+                class="w-full h-full object-cover cinematic"
+                loading="lazy"
+              />
+            </div>
+          )}
+          <div class="mt-6 grid grid-cols-3 gap-3">
+            {[0, 1, 2].map((i) => (
+              <div key={i} class="aspect-square bg-forest-100 overflow-hidden">
+                {heroImage && (
+                  <img
+                    src={heroImage.replace('800/800', '400/400')}
+                    alt=""
+                    class="w-full h-full object-cover cinematic opacity-80 hover:opacity-100 transition-opacity"
+                    loading="lazy"
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- 4 cols: info column -->
+        <div class="col-span-12 md:col-span-4 md:sticky md:top-12 md:self-start">
+          <p class="text-[10px] uppercase tracking-[0.4em] text-forest-400 mb-3 font-sans">
+            {product.category === 'jewelry' ? t('nav.amber') : t('nav.incense')}
+          </p>
+          <h1 class="text-3xl md:text-4xl font-serif font-light text-forest-800 mb-4 leading-tight">
+            {tr.name}
+          </h1>
+
+          {tr.short_description && (
+            <p class="text-forest-600 leading-relaxed mb-6 text-sm font-light">
+              {tr.short_description}
+            </p>
+          )}
+
+          {usdPrice !== undefined && (
+            <p class="font-serif text-2xl text-forest-800 mb-8">
+              <span class="text-forest-400 text-sm font-sans mr-2">from</span>${usdPrice.toFixed(0)} USD
+            </p>
+          )}
+
+          {variants.results.length > 0 && (
+            <div class="mb-8">
+              <p class="text-xs uppercase tracking-[0.4em] text-forest-400 mb-3 font-sans">
+                {t('common.options')}
+              </p>
+              <ul class="space-y-1.5">
+                {variants.results.slice(0, 3).map((v) => (
+                  <li class="text-sm font-sans text-forest-700 flex justify-between border-b border-forest-100 pb-1">
+                    <span class="font-mono text-xs">{v.sku}</span>
+                    <span class="text-forest-400 text-xs">stock {v.stock}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          <form method="POST" action="/api/cart/add" class="space-y-3">
+            <input type="hidden" name="slug" value={product.slug} />
+            <button
+              type="submit"
+              class="w-full px-7 py-3.5 bg-forest-700 text-cream-50 text-sm tracking-wide rounded-sm hover:bg-forest-800 transition-all duration-500"
+            >
+              {t('common.reserve')} →
+            </button>
+            <a
+              href="/contact"
+              class="block text-center text-xs text-forest-500 hover:text-forest-700 transition-colors tracking-wide font-sans border-b border-forest-200 pb-0.5"
+            >
+              {t('nav.contact')} →
+            </a>
+          </form>
+
+          {tr.story && (
+            <p class="mt-10 text-sm text-forest-500 italic leading-relaxed font-light border-l-2 border-terra-300 pl-4">
+              {tr.story}
+            </p>
+          )}
         </div>
       </div>
-
-      <div>
-        <p class="text-sm uppercase tracking-[0.3em] text-accent-700 mb-2 font-sans">
-          {((product as { category: string }).category) === 'jewelry' ? t('nav.amber') : t('nav.incense')}
-        </p>
-        <h1 class="text-display-sm md:text-display-md font-serif text-text-primary mb-4">{name}</h1>
-        <p class="text-lg text-text-secondary leading-relaxed mb-6 whitespace-pre-line">{description}</p>
-
-        {variants.results.length > 0 && (
-          <div class="mb-6">
-            <h3 class="text-sm uppercase tracking-wider text-text-muted mb-2">Options</h3>
-            <ul class="space-y-2">
-              {variants.results.map((v) => (
-                <li class="border border-text-muted/20 rounded-md px-3 py-2 text-sm flex justify-between">
-                  <span class="font-mono">{v.sku as string}</span>
-                  <span class="text-text-secondary">
-                    {(v.attributes as string) ?? ''} · stock {v.stock as number}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        <form method="POST" action="/api/cart/add" class="flex gap-3 items-center">
-          <input type="hidden" name="slug" value={slug} />
-          <Button type="submit" variant="primary" size="lg">
-            Reserve (manual order)
-          </Button>
-          <a href="/products" class="text-sm text-text-secondary hover:text-text-primary">
-            ← {t('common.back')}
-          </a>
-        </form>
-
-        <p class="text-xs text-text-muted mt-4 leading-relaxed">
-          We are in pre-launch. Reserve a product to be contacted personally with shipping & payment options.
-        </p>
-      </div>
     </div>
-
-    {story && (
-      <section class="mt-section pt-section border-t border-text-muted/20">
-        <h2 class="text-display-sm font-serif text-text-primary mb-4">Story</h2>
-        <p class="text-lg text-text-secondary leading-relaxed whitespace-pre-line max-w-3xl">{story}</p>
-      </section>
-    )}
-  </div>
+  </section>
 </Layout>
