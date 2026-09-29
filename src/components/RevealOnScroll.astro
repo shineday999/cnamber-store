@@ -1,0 +1,40 @@
+---
+// RevealOnScroll — IntersectionObserver fade-in with stagger
+// 用法:<RevealOnScroll delay={100}><div>內容</div></RevealOnScroll>
+interface Props {
+  delay?: number;
+  class?: string;
+  as?: string;
+}
+
+const { delay = 0, class: className = '' } = Astro.props;
+---
+
+<div class:list={['reveal-on-scroll', className]} data-reveal-delay={delay}>
+  <slot />
+</div>
+
+<script>
+  // IntersectionObserver fade-in
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const delay = parseInt(
+            (entry.target as HTMLElement).dataset.revealDelay || '0',
+            10,
+          );
+          window.setTimeout(() => {
+            entry.target.classList.add('revealed');
+          }, delay);
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.12, rootMargin: '0px 0px -60px 0px' },
+  );
+
+  document.querySelectorAll('.reveal-on-scroll').forEach((el) => {
+    observer.observe(el);
+  });
+</script>

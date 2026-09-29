@@ -1,6 +1,8 @@
 ---
-import Leaf from './Leaf.astro';
-import ProductCard from './ProductCard.astro';
+// HomeContent — cinematic homepage with real photography + scroll animations
+import Layout from '@layouts/Layout.astro';
+import ProductCard from '@components/ProductCard.astro';
+import RevealOnScroll from './RevealOnScroll.astro';
 import { createT } from '../i18n/t';
 import { defaultLocale, type Locale } from '../i18n/config';
 
@@ -52,182 +54,234 @@ function firstImage(json: string | null | undefined): string | undefined {
 }
 ---
 
-<!-- 1. Hero — dark forest background + decorative Leaf + brand message -->
-<section class="relative min-h-[75vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-primary-900 via-primary-700 to-primary-900 text-bg-base">
-  <!-- Decorative Leaf (small, top-right corner, low opacity) -->
-  <div class="absolute -top-10 -right-20 w-[500px] h-[500px] opacity-15 pointer-events-none">
-    <Leaf />
+<!-- 1. Hero — full-bleed forest photo with Ken Burns animation + film grain -->
+<section class="relative h-[88vh] min-h-[640px] overflow-hidden bg-primary-950 text-bg-base">
+  <!-- Forest photo with subtle slow zoom -->
+  <div class="absolute inset-0 animate-breathe will-change-transform">
+    <img
+      src="https://picsum.photos/seed/cnamber-forest-amber-light/1920/1080"
+      alt=""
+      class="w-full h-full object-cover opacity-60 scale-110"
+      loading="eager"
+      fetchpriority="high"
+    />
   </div>
-  <div class="absolute -bottom-20 -left-20 w-[400px] h-[400px] opacity-10 pointer-events-none rotate-180">
-    <Leaf />
-  </div>
 
-  <div class="relative z-10 max-w-4xl mx-auto px-6 text-center">
-    <p class="text-xs uppercase tracking-[0.3em] text-accent-300 mb-4 font-sans">
-      {t('home.hero_kicker')}
-    </p>
+  <!-- Gradient overlay for text legibility + natural vignette -->
+  <div class="absolute inset-0 bg-gradient-to-b from-primary-950/60 via-primary-950/30 to-primary-950/80"></div>
+  <div class="absolute inset-0 bg-grain opacity-[0.07] mix-blend-overlay pointer-events-none"></div>
 
-    <h1 class="text-3xl md:text-5xl lg:text-6xl text-white drop-shadow-lg font-serif mb-4 leading-tight">
-      {t('home.hero_title')}
-    </h1>
-
-    <p class="text-lg md:text-xl text-accent-300 font-serif italic mb-8">
-      {t('home.hero_subtitle')}
-    </p>
-
-    <div class="max-w-2xl mx-auto text-bg-base/80 text-base leading-relaxed font-sans space-y-2 mb-8">
-      <p>{t('home.hero_p1')}</p>
-      <p>{t('home.hero_p2')}</p>
-      <p>{t('home.hero_p3')}</p>
-    </div>
-
-    <div class="flex flex-col sm:flex-row gap-3 justify-center">
-      <a href="/products" class="px-7 py-2.5 bg-accent-500 text-primary-900 font-medium rounded-md hover:bg-accent-300 transition-colors">
-        {t('home.hero_cta_shop')}
-      </a>
-      <a href="/quiz" class="px-7 py-2.5 border border-bg-base/40 text-bg-base font-medium rounded-md hover:bg-bg-base hover:text-primary-900 transition-colors">
-        {t('home.hero_cta_quiz')}
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- 2. Categories — 兩個大型 category cards -->
-<section class="py-10 bg-bg-base">
-  <div class="max-w-6xl mx-auto px-6">
-    <div class="text-center mb-6">
-      <p class="text-xs uppercase tracking-[0.3em] text-accent-700 font-sans mb-2">
-        {t('home.categories_kicker')}
+  <!-- Content -->
+  <div class="relative z-10 h-full flex flex-col items-center justify-center px-6 text-center">
+    <div class="animate-fade-up">
+      <p class="text-xs uppercase tracking-[0.4em] text-accent-300 mb-5 font-sans">
+        {t('home.hero_kicker')}
       </p>
-      <h2 class="text-2xl md:text-3xl font-serif text-text-primary">
-        {t('home.categories_title')}
-      </h2>
+      <h1 class="text-5xl md:text-7xl lg:text-8xl text-white font-serif mb-5 leading-[0.95] tracking-tight">
+        {t('home.hero_title')}
+      </h1>
+      <p class="text-xl md:text-2xl text-accent-200/90 font-serif italic mb-10">
+        {t('home.hero_subtitle')}
+      </p>
+      <div class="max-w-xl mx-auto text-bg-base/75 text-base leading-relaxed font-sans space-y-1.5 mb-10">
+        <p>{t('home.hero_p1')}</p>
+        <p>{t('home.hero_p2')}</p>
+      </div>
+      <div class="flex flex-col sm:flex-row gap-3 justify-center">
+        <a href="/products" class="px-8 py-3 bg-accent-500/95 backdrop-blur-sm text-primary-900 font-medium rounded-md hover:bg-accent-300 hover:shadow-lg hover:shadow-accent-500/20 transition-all duration-500">
+          {t('home.hero_cta_shop')}
+        </a>
+        <a href="/quiz" class="px-8 py-3 border border-bg-base/30 text-bg-base font-medium rounded-md hover:bg-bg-base/10 hover:border-bg-base/60 transition-all duration-500 backdrop-blur-sm">
+          {t('home.hero_cta_quiz')}
+        </a>
+      </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <a href="/products?cat=jewelry" class="group relative aspect-[4/3] rounded-card overflow-hidden bg-primary-100">
-        <img
-          src="https://picsum.photos/seed/category-amber-jewelry/1200/900"
-          alt="Amber Jewelry"
-          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-          loading="lazy"
-        />
-        <div class="absolute inset-0 bg-gradient-to-t from-primary-900/80 via-primary-900/30 to-transparent"></div>
-        <div class="absolute bottom-0 left-0 right-0 p-6 text-bg-base">
-          <p class="text-xs uppercase tracking-[0.3em] text-accent-300 mb-1 font-sans">
-            {t('nav.amber')}
-          </p>
-          <h3 class="text-2xl font-serif mb-2">{t('home.cat_amber_title')}</h3>
-          <p class="text-sm text-bg-base/80 mb-3">{t('home.cat_amber_desc')}</p>
-          <span class="text-sm text-accent-300 group-hover:translate-x-1 transition-transform inline-block">
-            {t('home.cat_explore')} →
-          </span>
-        </div>
-      </a>
-
-      <a href="/products?cat=incense" class="group relative aspect-[4/3] rounded-card overflow-hidden bg-primary-100">
-        <img
-          src="https://picsum.photos/seed/category-eastern-incense/1200/900"
-          alt="Eastern Incense"
-          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-          loading="lazy"
-        />
-        <div class="absolute inset-0 bg-gradient-to-t from-primary-900/80 via-primary-900/30 to-transparent"></div>
-        <div class="absolute bottom-0 left-0 right-0 p-6 text-bg-base">
-          <p class="text-xs uppercase tracking-[0.3em] text-accent-300 mb-1 font-sans">
-            {t('nav.incense')}
-          </p>
-          <h3 class="text-2xl font-serif mb-2">{t('home.cat_incense_title')}</h3>
-          <p class="text-sm text-bg-base/80 mb-3">{t('home.cat_incense_desc')}</p>
-          <span class="text-sm text-accent-300 group-hover:translate-x-1 transition-transform inline-block">
-            {t('home.cat_explore')} →
-          </span>
-        </div>
-      </a>
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce-slow text-bg-base/50 text-[10px] uppercase tracking-[0.4em]">
+      Scroll
     </div>
   </div>
 </section>
 
-<!-- 3. Featured Products grid — 4 個 D1 真實產品 -->
-<section class="py-10 bg-primary-100/30">
+<!-- 2. Categories — Editorial side-by-side cards with real photos -->
+<section class="py-24 bg-bg-base">
   <div class="max-w-6xl mx-auto px-6">
-    <div class="flex flex-col md:flex-row items-center md:items-end justify-between mb-6 gap-4">
-      <div>
-        <p class="text-xs uppercase tracking-[0.3em] text-accent-700 font-sans mb-2">
-          {t('home.featured_kicker')}
+    <RevealOnScroll>
+      <div class="text-center mb-12">
+        <p class="text-xs uppercase tracking-[0.4em] text-accent-700 font-sans mb-3">
+          {t('home.categories_kicker')}
         </p>
-        <h2 class="text-2xl md:text-3xl font-serif text-text-primary">
-          {t('home.featured_title')}
+        <h2 class="text-3xl md:text-5xl font-serif text-text-primary leading-tight">
+          {t('home.categories_title')}
         </h2>
       </div>
-      <a href="/products" class="text-accent-700 hover:underline text-sm">
-        {t('home.featured_view_all')} →
-      </a>
+    </RevealOnScroll>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <RevealOnScroll delay={0}>
+        <a href="/products?cat=jewelry" class="group relative block aspect-[5/4] overflow-hidden rounded-card">
+          <img
+            src="https://picsum.photos/seed/cnamber-amber-still-life/1200/960"
+            alt="Amber Jewelry"
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[1400ms] ease-out"
+            loading="lazy"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-primary-950/85 via-primary-950/20 to-transparent"></div>
+          <div class="absolute bottom-0 left-0 right-0 p-8 text-bg-base">
+            <p class="text-xs uppercase tracking-[0.4em] text-accent-300 mb-2 font-sans">
+              {t('nav.amber')}
+            </p>
+            <h3 class="text-3xl md:text-4xl font-serif mb-3 leading-tight">
+              {t('home.cat_amber_title')}
+            </h3>
+            <p class="text-bg-base/75 mb-5 max-w-md leading-relaxed text-sm md:text-base">
+              {t('home.cat_amber_desc')}
+            </p>
+            <span class="inline-block text-sm text-accent-300 border-b border-accent-300/40 pb-0.5 group-hover:border-accent-300 transition-all duration-300">
+              {t('home.cat_explore')} →
+            </span>
+          </div>
+        </a>
+      </RevealOnScroll>
+
+      <RevealOnScroll delay={150}>
+        <a href="/products?cat=incense" class="group relative block aspect-[5/4] overflow-hidden rounded-card">
+          <img
+            src="https://picsum.photos/seed/cnamber-incense-still-life/1200/960"
+            alt="Eastern Incense"
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[1400ms] ease-out"
+            loading="lazy"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-primary-950/85 via-primary-950/20 to-transparent"></div>
+          <div class="absolute bottom-0 left-0 right-0 p-8 text-bg-base">
+            <p class="text-xs uppercase tracking-[0.4em] text-accent-300 mb-2 font-sans">
+              {t('nav.incense')}
+            </p>
+            <h3 class="text-3xl md:text-4xl font-serif mb-3 leading-tight">
+              {t('home.cat_incense_title')}
+            </h3>
+            <p class="text-bg-base/75 mb-5 max-w-md leading-relaxed text-sm md:text-base">
+              {t('home.cat_incense_desc')}
+            </p>
+            <span class="inline-block text-sm text-accent-300 border-b border-accent-300/40 pb-0.5 group-hover:border-accent-300 transition-all duration-300">
+              {t('home.cat_explore')} →
+            </span>
+          </div>
+        </a>
+      </RevealOnScroll>
     </div>
+  </div>
+</section>
+
+<!-- 3. Featured Products — Real photo grid with staggered reveal -->
+<section class="py-24 bg-primary-100/30 relative">
+  <div class="bg-grain absolute inset-0 opacity-[0.03] pointer-events-none"></div>
+
+  <div class="relative max-w-6xl mx-auto px-6">
+    <RevealOnScroll>
+      <div class="flex flex-col md:flex-row items-end justify-between mb-12 gap-4">
+        <div>
+          <p class="text-xs uppercase tracking-[0.4em] text-accent-700 font-sans mb-3">
+            {t('home.featured_kicker')}
+          </p>
+          <h2 class="text-3xl md:text-5xl font-serif text-text-primary leading-tight">
+            {t('home.featured_title')}
+          </h2>
+        </div>
+        <a
+          href="/products"
+          class="text-sm text-accent-700 hover:text-accent-500 transition-colors border-b border-accent-700/30 pb-0.5 self-start md:self-auto"
+        >
+          {t('home.featured_view_all')} →
+        </a>
+      </div>
+    </RevealOnScroll>
 
     {featured.results.length === 0 ? (
-      <p class="text-center text-text-muted py-8">{t('home.featured_empty')}</p>
+      <p class="text-center text-text-muted py-12">{t('home.featured_empty')}</p>
     ) : (
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {featured.results.map((p) => (
-          <ProductCard
-            slug={p.slug}
-            name={p.name ?? p.slug}
-            shortDescription={p.short_description ?? undefined}
-            category={p.category}
-            imageUrl={firstImage(p.image_urls)}
-            priceFrom={p.min_price ? `${p.min_price / 100} ${p.min_currency}` : undefined}
-          />
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {featured.results.map((p, i) => (
+          <RevealOnScroll delay={i * 120}>
+            <ProductCard
+              slug={p.slug}
+              name={p.name ?? p.slug}
+              shortDescription={p.short_description ?? undefined}
+              category={p.category}
+              imageUrl={firstImage(p.image_urls)}
+              priceFrom={p.min_price ? `${p.min_price / 100} ${p.min_currency}` : undefined}
+            />
+          </RevealOnScroll>
         ))}
       </div>
     )}
   </div>
 </section>
 
-<!-- 4. CTA — quiz entry -->
-<section class="py-10 bg-primary-900 text-bg-base">
-  <div class="max-w-3xl mx-auto px-6 text-center">
-    <p class="text-xs uppercase tracking-[0.3em] text-accent-300 mb-2 font-sans">
-      {t('home.cta_kicker')}
-    </p>
-    <h2 class="text-2xl md:text-3xl font-serif mb-3">{t('home.cta_title')}</h2>
-    <p class="text-base text-bg-base/80 mb-6">{t('home.cta_desc')}</p>
-    <div class="flex flex-col sm:flex-row gap-3 justify-center">
-      <a href="/quiz/jewelry" class="px-7 py-2.5 bg-bg-base text-primary-900 font-medium rounded-md hover:bg-accent-300 transition-colors">
-        {t('home.cta_quiz_jewelry')}
-      </a>
-      <a href="/quiz/incense" class="px-7 py-2.5 border border-bg-base/40 text-bg-base font-medium rounded-md hover:bg-bg-base hover:text-primary-900 transition-colors">
-        {t('home.cta_quiz_incense')}
-      </a>
-    </div>
+<!-- 4. CTA — dark forest quiz entry with subtle dot texture -->
+<section class="py-24 bg-primary-950 text-bg-base relative overflow-hidden">
+  <div
+    class="absolute inset-0 opacity-[0.04]"
+    style="background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.4) 1px, transparent 0); background-size: 24px 24px;"
+  ></div>
+
+  <div class="relative max-w-3xl mx-auto px-6 text-center">
+    <RevealOnScroll>
+      <p class="text-xs uppercase tracking-[0.4em] text-accent-300 mb-3 font-sans">
+        {t('home.cta_kicker')}
+      </p>
+      <h2 class="text-3xl md:text-5xl font-serif mb-4 leading-tight">
+        {t('home.cta_title')}
+      </h2>
+      <p class="text-base md:text-lg text-bg-base/65 mb-10 max-w-xl mx-auto leading-relaxed">
+        {t('home.cta_desc')}
+      </p>
+      <div class="flex flex-col sm:flex-row gap-3 justify-center">
+        <a
+          href="/quiz/jewelry"
+          class="px-8 py-3 bg-bg-base text-primary-900 font-medium rounded-md hover:bg-accent-300 transition-colors"
+        >
+          {t('home.cta_quiz_jewelry')}
+        </a>
+        <a
+          href="/quiz/incense"
+          class="px-8 py-3 border border-bg-base/30 text-bg-base font-medium rounded-md hover:bg-bg-base/10 hover:border-bg-base/60 transition-all backdrop-blur-sm"
+        >
+          {t('home.cta_quiz_incense')}
+        </a>
+      </div>
+    </RevealOnScroll>
   </div>
 </section>
 
-<!-- 5. Brand story -->
-<section class="py-10 bg-bg-base">
-  <div class="max-w-3xl mx-auto px-6 text-center">
-    <p class="text-xs uppercase tracking-[0.3em] text-accent-700 mb-2 font-sans">
-      {t('home.story_kicker')}
-    </p>
-    <h2 class="text-2xl md:text-3xl font-serif text-text-primary mb-4">
-      {t('home.story_title')}
-    </h2>
-    <div class="space-y-3 text-base text-text-secondary font-sans leading-relaxed">
-      <p>{t('home.story_p1')}</p>
-      <p>{t('home.story_p2')}</p>
-      <p class="text-text-muted italic text-sm">{t('home.story_note')}</p>
-    </div>
+<!-- 5. Brand story — generous whitespace, large serif -->
+<section class="py-28 bg-bg-base">
+  <div class="max-w-2xl mx-auto px-6 text-center">
+    <RevealOnScroll>
+      <p class="text-xs uppercase tracking-[0.4em] text-accent-700 mb-4 font-sans">
+        {t('home.story_kicker')}
+      </p>
+      <h2 class="text-3xl md:text-5xl font-serif text-text-primary mb-10 leading-tight">
+        {t('home.story_title')}
+      </h2>
+      <div class="space-y-5 text-lg text-text-secondary font-sans leading-[1.8]">
+        <p>{t('home.story_p1')}</p>
+        <p>{t('home.story_p2')}</p>
+      </div>
+      <p class="text-sm text-text-muted italic mt-8">{t('home.story_note')}</p>
+    </RevealOnScroll>
   </div>
 </section>
 
-<!-- 6. Footer -->
-<footer class="py-8 bg-primary-900 text-bg-base">
+<!-- 6. Footer — minimal -->
+<footer class="py-10 bg-primary-950 text-bg-base border-t border-bg-base/5">
   <div class="max-w-6xl mx-auto px-6 text-center">
     <p class="font-serif text-base mb-2">{t('common.site_name')}</p>
-    <p class="text-xs text-bg-base/70 font-sans">
+    <p class="text-xs text-bg-base/60 font-sans">
       {t('home.footer_rights')}
     </p>
-    <p class="text-[10px] text-bg-base/50 mt-1 font-sans">
+    <p class="text-[10px] text-bg-base/40 mt-1 font-sans">
       {t('home.footer_tagline')}
     </p>
   </div>
