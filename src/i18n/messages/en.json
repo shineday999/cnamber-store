@@ -35,6 +35,24 @@
     "story_p2": "The forest is not the backdrop. It is the protagonist. Wear one amber, light one incense — the forest lives.",
     "story_note": "(Full brand story launching Phase 5)",
     "footer_rights": "© 2026 cnamber-store. All rights reserved.",
-    "footer_tagline": "Forest-rooted handcraft brand · Greater SEA + Middle East · four locales"
+    "footer_tagline": "Forest-rooted handcraft brand · Greater SEA + Middle East · four locales",
+    "hero_cta_shop": "Browse all pieces",
+    "hero_cta_quiz": "Find yours",
+    "categories_kicker": "Categories",
+    "categories_title": "Two craft paths",
+    "cat_amber_title": "Amber Jewelry",
+    "cat_amber_desc": "From the Baltic to Yunnan's highlands, every amber holds a memory of the earth.",
+    "cat_incense_title": "Eastern Incense",
+    "cat_incense_desc": "Sticks, balms, essential oils — let the air remember the stillness of the forest.",
+    "cat_explore": "Explore",
+    "featured_kicker": "Featured",
+    "featured_title": "Recent highlights",
+    "featured_view_all": "View all pieces",
+    "featured_empty": "No new pieces yet.",
+    "cta_kicker": "Find Yours",
+    "cta_title": "Not sure where to start?",
+    "cta_desc": "Answer 5 questions and we'll match you with the piece that fits.",
+    "cta_quiz_jewelry": "Jewelry match",
+    "cta_quiz_incense": "Incense match"
   }
 }

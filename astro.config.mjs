@@ -13,7 +13,7 @@ export default defineConfig({
   }),
   integrations: [
     react(),
-    tailwind({ applyBaseStyles: false }),
+    tailwind({ applyBaseStyles: true }),
   ],
   server: {
     port: 4321,
