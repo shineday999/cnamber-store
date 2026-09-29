@@ -86,6 +86,7 @@ Policy: shineday999@gmail.com (Email OTP)
 ## 計劃書 / 文件
 
 - 完整 PRD: [`docs/spec.md`](./docs/spec.md)
+- **設計系統**: [`docs/DESIGN-SYSTEM.md`](./docs/DESIGN-SYSTEM.md) — 配色 / 字體 / 排版 / 動效完整規範
 - Phase 0 任務:`docs/PHASE0-HANDOFF.md`(已收結)
 - Phase 1-5 任務:`docs/PHASE[1-5]-TASKS.md`
 - 安全審計:`docs/SECURITY.md`
