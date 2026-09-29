@@ -52,9 +52,13 @@ function firstImage(json: string | null | undefined): string | undefined {
 }
 ---
 
-<!-- 1. Hero — full-screen Leaf SVG background + brand message -->
-<section class="relative min-h-screen flex items-center justify-center overflow-hidden">
-  <div class="absolute inset-0 -z-10">
+<!-- 1. Hero — dark forest background + decorative Leaf + brand message -->
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-primary-900 via-primary-700 to-primary-900 text-bg-base">
+  <!-- Decorative Leaf (small, top-right corner, low opacity) -->
+  <div class="absolute -top-10 -right-20 w-[500px] h-[500px] opacity-15 pointer-events-none">
+    <Leaf />
+  </div>
+  <div class="absolute -bottom-20 -left-20 w-[400px] h-[400px] opacity-10 pointer-events-none rotate-180">
     <Leaf />
   </div>
 
@@ -67,21 +71,21 @@ function firstImage(json: string | null | undefined): string | undefined {
       {t('home.hero_title')}
     </h1>
 
-    <p class="text-2xl md:text-3xl text-white/90 font-serif italic mb-12">
+    <p class="text-2xl md:text-3xl text-accent-300 font-serif italic mb-12">
       {t('home.hero_subtitle')}
     </p>
 
-    <div class="max-w-2xl mx-auto text-white/80 text-lg leading-relaxed font-sans space-y-4">
+    <div class="max-w-2xl mx-auto text-bg-base/80 text-lg leading-relaxed font-sans space-y-4 mb-12">
       <p>{t('home.hero_p1')}</p>
       <p>{t('home.hero_p2')}</p>
       <p>{t('home.hero_p3')}</p>
     </div>
 
-    <div class="mt-12 flex flex-col sm:flex-row gap-3 justify-center">
-      <a href="/products" class="px-8 py-3 bg-bg-base text-primary-900 font-medium rounded-md hover:bg-accent-300 transition-colors">
+    <div class="flex flex-col sm:flex-row gap-3 justify-center">
+      <a href="/products" class="px-8 py-3 bg-accent-500 text-primary-900 font-medium rounded-md hover:bg-accent-300 transition-colors">
         {t('home.hero_cta_shop')}
       </a>
-      <a href="/quiz" class="px-8 py-3 border-2 border-bg-base text-bg-base font-medium rounded-md hover:bg-bg-base hover:text-primary-900 transition-colors">
+      <a href="/quiz" class="px-8 py-3 border-2 border-bg-base/40 text-bg-base font-medium rounded-md hover:bg-bg-base hover:text-primary-900 transition-colors">
         {t('home.hero_cta_quiz')}
       </a>
     </div>
