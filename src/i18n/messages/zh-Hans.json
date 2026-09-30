@@ -56,11 +56,15 @@
     "featured_title": "近期精选",
     "featured_view_all": "查看所有作品",
     "featured_empty": "近期尚无新作品。",
-    "cta_kicker": "Find Yours",
+    "cta_kicker": "为你推荐",
     "cta_title": "不知道从何选起?",
     "cta_desc": "用 5 个问题,让我们帮你找到最契合的那一件。",
     "cta_quiz_jewelry": "饰品推荐",
-    "cta_quiz_incense": "香品推荐"
+    "cta_quiz_incense": "香品推荐",
+    "cta_jewelry_desc": "五题肤色、脸型与风格,推荐最契合你的琥珀。",
+    "cta_incense_desc": "依心境与空间选香,放松、聚焦或沉静。",
+    "cta_jewelry_btn": "开始琥珀测验",
+    "cta_incense_btn": "开始香品测验"
   },
   "quiz": {
     "intro": "回答几个问题，我们帮你找到最合适的那一件。",
