@@ -53,6 +53,11 @@
     "cta_title": "Tidak tahu di mana untuk bermula?",
     "cta_desc": "Jawab 5 soalan dan kami akan padankan anda dengan karya yang sesuai.",
     "cta_quiz_jewelry": "Padanan perhiasan",
-    "cta_quiz_incense": "Padanan kemenyan"
+    "cta_quiz_incense": "Padanan kemenyan",
+    "cta_jewelry_desc": "Lima soalan tentang warna kulit, bentuk muka dan gaya — cari amber yang sesuai dengan anda.",
+    "cta_incense_desc": "Pilih mengikut mood dan ruang — relaks, fokus, atau ketenangan.",
+    "cta_jewelry_btn": "Mula kuiz ambar",
+    "cta_incense_btn": "Mula kuiz kemenyan",
+    "cta_meta": "5 soalan · ~1 minit"
   }
 }

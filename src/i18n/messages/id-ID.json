@@ -53,6 +53,11 @@
     "cta_title": "Tidak tahu harus mulai dari mana?",
     "cta_desc": "Jawab 5 pertanyaan dan kami akan mencocokkan Anda dengan karya yang sesuai.",
     "cta_quiz_jewelry": "Cocokkan perhiasan",
-    "cta_quiz_incense": "Cocokkan dupa"
+    "cta_quiz_incense": "Cocokkan dupa",
+    "cta_jewelry_desc": "Lima pertanyaan tentang warna kulit, bentuk wajah, dan gaya — temukan amber yang cocok untuk Anda.",
+    "cta_incense_desc": "Pilih sesuai mood dan ruang — rileks, fokus, atau ketenangan.",
+    "cta_jewelry_btn": "Mulai kuiz amber",
+    "cta_incense_btn": "Mulai kuiz dupa",
+    "cta_meta": "5 pertanyaan · ~1 menit"
   }
 }

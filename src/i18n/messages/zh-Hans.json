@@ -64,7 +64,8 @@
     "cta_jewelry_desc": "五题肤色、脸型与风格,推荐最契合你的琥珀。",
     "cta_incense_desc": "依心境与空间选香,放松、聚焦或沉静。",
     "cta_jewelry_btn": "开始琥珀测验",
-    "cta_incense_btn": "开始香品测验"
+    "cta_incense_btn": "开始香品测验",
+    "cta_meta": "5 题 · 约 1 分钟"
   },
   "quiz": {
     "intro": "回答几个问题，我们帮你找到最合适的那一件。",
