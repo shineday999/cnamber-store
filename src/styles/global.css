@@ -38,16 +38,7 @@ html {
 }
 
 /* === Textures === */
-.bg-grain {
-  background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/></svg>");
-  background-size: 240px 240px;
-  mix-blend-mode: overlay;
-}
 
-.bg-paper {
-  background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='5' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.31 0 0 0 0 0.28 0 0 0 0 0.21 0 0 0 0.4 0'/></filter><rect width='100%25' height='100%25' filter='url(%23p)'/></svg>");
-  background-size: 300px 300px;
-}
 
 .cinematic {
   filter: saturate(0.85) brightness(0.92) contrast(1.05);
@@ -55,7 +46,7 @@ html {
 
 /* === Glassmorphism (Eastern Zen / 通透感) === */
 .glass {
-  background: rgba(250, 247, 238, 0.55);
+  background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(20px) saturate(115%);
   -webkit-backdrop-filter: blur(20px) saturate(115%);
   border: 1px solid rgba(115, 112, 77, 0.12);
@@ -76,8 +67,8 @@ html {
   --color-primary-300: #9A9175;
 
   /* Cream 背景(取代舊 bg-base) */
-  --color-bg-base: #FAF7EE;
-  --color-bg-card: #F2EDDF;
+  --color-bg-base: #FFFFFF;
+  --color-bg-card: #FFFFFF;
   --color-bg-elevated: #FFFFFF;
 
   /* 文字 */

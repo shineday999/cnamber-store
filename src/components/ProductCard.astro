@@ -8,7 +8,7 @@ interface Props {
   category: string;
   imageUrl?: string | undefined;
   priceFrom?: string | undefined;
-  variant?: 'default' | 'large' | 'compact';
+  variant?: "default" | "large" | "compact";
 }
 
 const {
@@ -18,69 +18,126 @@ const {
   category,
   imageUrl,
   priceFrom,
-  variant = 'default',
+  variant = "default",
 } = Astro.props;
 
 const catLabel: Record<string, string> = {
-  jewelry: 'Jewelry',
-  incense: 'Incense',
+  jewelry: "Jewelry",
+  incense: "Incense",
 };
 ---
 
 <a
   href={`/products/${slug}`}
   class:list={[
-    'group block relative overflow-hidden bg-cream-50 border border-forest-100 hover:border-forest-300 transition-colors duration-700',
-    variant === 'large' ? 'h-full' : '',
+    "group block relative overflow-hidden border border-forest-100 hover:border-forest-300 transition-colors duration-700",
+    variant === "large" ? "h-full" : "",
   ]}
 >
-  {imageUrl ? (
-    <div class:list={[
-      'relative overflow-hidden bg-forest-100',
-      variant === 'compact' ? 'aspect-[3/4]' : variant === 'large' ? 'aspect-[5/4]' : 'aspect-[1/1]',
-    ]}>
-      <img
-        src={imageUrl}
-        alt={name}
-        class="w-full h-full object-cover cinematic group-hover:scale-[1.04] transition-transform duration-[1400ms] ease-out"
-        loading="lazy"
-      />
-    </div>
-  ) : (
-    <div class:list={['bg-forest-100 flex items-center justify-center', variant === 'compact' ? 'aspect-[3/4]' : variant === 'large' ? 'aspect-[5/4]' : 'aspect-[1/1]']}>
-      <svg viewBox="0 0 100 100" class:list={[variant === 'compact' ? 'w-10 h-10' : 'w-16 h-16', 'text-forest-300']} fill="currentColor">
-        <circle cx="50" cy="50" r="30" opacity="0.3" />
-        <circle cx="50" cy="50" r="20" opacity="0.5" />
-        <circle cx="50" cy="50" r="10" opacity="0.7" />
-      </svg>
-    </div>
-  )}
+  {
+    imageUrl ? (
+      <div
+        class:list={[
+          "relative overflow-hidden bg-forest-100",
+          variant === "compact"
+            ? "aspect-[3/4]"
+            : variant === "large"
+              ? "aspect-[5/4]"
+              : "aspect-[1/1]",
+        ]}
+      >
+        <img
+          src={imageUrl}
+          alt={name}
+          class="w-full h-full object-cover cinematic group-hover:scale-[1.04] transition-transform duration-[1400ms] ease-out"
+          loading="lazy"
+        />
+      </div>
+    ) : (
+      <div
+        class:list={[
+          "bg-forest-100 flex items-center justify-center",
+          variant === "compact"
+            ? "aspect-[3/4]"
+            : variant === "large"
+              ? "aspect-[5/4]"
+              : "aspect-[1/1]",
+        ]}
+      >
+        <svg
+          viewBox="0 0 100 100"
+          class:list={[
+            variant === "compact" ? "w-10 h-10" : "w-16 h-16",
+            "text-forest-300",
+          ]}
+          fill="currentColor"
+        >
+          <circle cx="50" cy="50" r="30" opacity="0.3" />
+          <circle cx="50" cy="50" r="20" opacity="0.5" />
+          <circle cx="50" cy="50" r="10" opacity="0.7" />
+        </svg>
+      </div>
+    )
+  }
 
-  <div class:list={[
-    variant === 'compact' ? 'p-4' : 'p-5',
-    variant === 'large' ? 'p-7' : '',
-  ]}>
-    <p class:list={['uppercase tracking-[0.4em] text-forest-400 font-sans', variant === 'compact' ? 'text-[9px] mb-1.5' : 'text-[10px] mb-2']}>
+  <div
+    class:list={[
+      variant === "compact" ? "p-4" : "p-5",
+      variant === "large" ? "p-7" : "",
+    ]}
+  >
+    <p
+      class:list={[
+        "uppercase tracking-[0.4em] text-forest-400 font-sans",
+        variant === "compact" ? "text-[9px] mb-1.5" : "text-[10px] mb-2",
+      ]}
+    >
       {catLabel[category] ?? category}
     </p>
-    <h3 class:list={[
-      'font-serif font-light text-forest-800 leading-tight group-hover:text-forest-600 transition-colors duration-500',
-      variant === 'compact' ? 'text-base mb-1.5' : variant === 'large' ? 'text-2xl md:text-3xl mb-2' : 'text-xl mb-2',
-    ]}>
+    <h3
+      class:list={[
+        "font-serif font-light text-forest-800 leading-tight group-hover:text-forest-600 transition-colors duration-500",
+        variant === "compact"
+          ? "text-base mb-1.5"
+          : variant === "large"
+            ? "text-2xl md:text-3xl mb-2"
+            : "text-xl mb-2",
+      ]}
+    >
       {name}
     </h3>
-    {shortDescription && (
-      <p class:list={[
-        'text-forest-500 leading-relaxed font-light line-clamp-2',
-        variant === 'compact' ? 'text-[11px] mb-1.5' : variant === 'large' ? 'text-sm mb-3' : 'text-xs mb-2',
-      ]}>
-        {shortDescription}
-      </p>
-    )}
-    {priceFrom && (
-      <p class:list={['font-sans tracking-wide text-forest-700', variant === 'compact' ? 'text-[11px]' : variant === 'large' ? 'text-sm' : 'text-xs']}>
-        <span class="text-forest-400">from </span>{priceFrom}
-      </p>
-    )}
+    {
+      shortDescription && (
+        <p
+          class:list={[
+            "text-forest-500 leading-relaxed font-light line-clamp-2",
+            variant === "compact"
+              ? "text-[11px] mb-1.5"
+              : variant === "large"
+                ? "text-sm mb-3"
+                : "text-xs mb-2",
+          ]}
+        >
+          {shortDescription}
+        </p>
+      )
+    }
+    {
+      priceFrom && (
+        <p
+          class:list={[
+            "font-sans tracking-wide text-forest-700",
+            variant === "compact"
+              ? "text-[11px]"
+              : variant === "large"
+                ? "text-sm"
+                : "text-xs",
+          ]}
+        >
+          <span class="text-forest-400">from </span>
+          {priceFrom}
+        </p>
+      )
+    }
   </div>
 </a>
