@@ -1,12 +1,16 @@
-import { useState, useRef, useEffect } from 'react';
-import { locales, localeNames, type Locale, localizedPath } from '../i18n/config';
+import { useState, useRef, useEffect } from "react";
+import {
+  locales,
+  localeNames,
+  type Locale,
+  localizedPath,
+} from "../i18n/config";
 
 interface Props {
   currentLocale: Locale;
-  currentPath: string;
 }
 
-export default function LocaleSwitcher({ currentLocale, currentPath }: Props) {
+export default function LocaleSwitcher({ currentLocale }: Props) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -16,13 +20,24 @@ export default function LocaleSwitcher({ currentLocale, currentPath }: Props) {
         setOpen(false);
       }
     }
-    document.addEventListener('mousedown', handleClick);
-    return () => document.removeEventListener('mousedown', handleClick);
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
   function switchTo(locale: Locale) {
     document.cookie = `cnamber_locale=${locale}; path=/; max-age=${60 * 60 * 24 * 365}; samesite=lax`;
-    const target = localizedPath(locale, currentPath);
+    // Use live pathname (not .astro wrapper's stripped currentPath) so en URL
+    // → zh-Hans correctly drops the /en prefix. Locale detection on the
+    // destination side is driven by the cookie via middleware.
+    const pathname = window.location.pathname;
+    let stripped = pathname;
+    for (const l of locales) {
+      if (stripped === `/${l}` || stripped.startsWith(`/${l}/`)) {
+        stripped = stripped === `/${l}` ? "/" : stripped.slice(l.length + 1);
+        break;
+      }
+    }
+    const target = localizedPath(locale, stripped);
     window.location.href = target;
   }
 
@@ -35,7 +50,12 @@ export default function LocaleSwitcher({ currentLocale, currentPath }: Props) {
         aria-expanded={open}
         aria-haspopup="listbox"
       >
-        <svg className="w-4 h-4 text-text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg
+          className="w-4 h-4 text-text-secondary"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -45,12 +65,17 @@ export default function LocaleSwitcher({ currentLocale, currentPath }: Props) {
         </svg>
         <span className="text-text-primary">{localeNames[currentLocale]}</span>
         <svg
-          className={`w-3 h-3 text-text-muted transition-transform ${open ? 'rotate-180' : ''}`}
+          className={`w-3 h-3 text-text-muted transition-transform ${open ? "rotate-180" : ""}`}
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
         >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M19 9l-7 7-7-7"
+          />
         </svg>
       </button>
 
@@ -67,11 +92,15 @@ export default function LocaleSwitcher({ currentLocale, currentPath }: Props) {
                 aria-selected={l === currentLocale}
                 onClick={() => switchTo(l)}
                 className={`w-full text-left px-4 py-2.5 text-sm font-sans hover:bg-bg-base transition-colors ${
-                  l === currentLocale ? 'bg-bg-base text-accent-700 font-medium' : 'text-text-primary'
+                  l === currentLocale
+                    ? "bg-bg-base text-accent-700 font-medium"
+                    : "text-text-primary"
                 }`}
               >
                 <span className="block">{localeNames[l]}</span>
-                <span className="block text-xs text-text-muted mt-0.5">{l}</span>
+                <span className="block text-xs text-text-muted mt-0.5">
+                  {l}
+                </span>
               </button>
             </li>
           ))}

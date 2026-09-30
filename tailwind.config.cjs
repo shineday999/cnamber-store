@@ -27,6 +27,11 @@ module.exports = {
           500: '#A45E3D',
           700: '#5F3220',
         },
+        accent: {
+          300: 'var(--color-accent-300)',
+          500: 'var(--color-accent-500)',
+          700: 'var(--color-accent-700)',
+        },
         bamboo: {
           400: '#6F9353',
           500: '#4F7A38',
@@ -69,6 +74,15 @@ module.exports = {
       boxShadow: {
         soft: '0 2px 24px rgba(31, 38, 21, 0.06)',
         'soft-lg': '0 8px 48px rgba(31, 38, 21, 0.1)',
+      },
+      borderColor: {
+        DEFAULT: 'var(--color-text-primary)',
+        'text-primary': 'var(--color-text-primary)',
+        'text-secondary': 'var(--color-text-secondary)',
+        'text-muted': 'var(--color-text-muted)',
+        'accent-300': 'var(--color-accent-300)',
+        'accent-500': 'var(--color-accent-500)',
+        'accent-700': 'var(--color-accent-700)',
       },
       transitionTimingFunction: {
         organic: 'cubic-bezier(0.16, 1, 0.3, 1)',

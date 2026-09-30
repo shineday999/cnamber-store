@@ -1,0 +1,19 @@
+---
+import { defaultLocale, isLocale } from "../../i18n/config";
+
+// Astro.params.path 是 string | string[] | undefined — 我們要 join
+const lang = Astro.params.lang ?? "";
+const pathParts = Astro.params.path ?? [];
+const subPath =
+  "/" + (Array.isArray(pathParts) ? pathParts.join("/") : pathParts);
+
+// /zh-Hans/* 不該走這條路(default locale 不加 prefix)
+if (!isLocale(lang) || lang === defaultLocale) {
+  return Astro.redirect("/");
+}
+
+// 內部 rewrite 到根路徑,保留 URL 但 render 對應 page。
+// Astro.locals.locale 由 middleware 從 URL path 設成正確值,rewrite 後
+// render 的 page 透過 context.locals.messages 拿到對應 locale 的 i18n。
+return Astro.rewrite(subPath);
+---
