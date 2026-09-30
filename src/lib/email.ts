@@ -1,6 +1,7 @@
 // Email integration — Cloudflare Email Service API
 // 計畫書 Phase 5+ 改用 Cloudflare Email Service(原本是 Resend,但用戶改用自己的 mail server 0061qwen.cc.cd)
 // 需要在 CF Dashboard → Email → Sending 驗證 0061qwen.cc.cd 域 + 設 DKIM
+// F-05: universal safe() HTML escape for email templates
 
 interface EmailEnv {
   CF_API_TOKEN?: string;
@@ -17,22 +18,38 @@ export interface EmailParams {
   replyTo?: string;
 }
 
-const DEFAULT_FROM = 'OxHorseCraft <oxsupport@0061qwen.cc.cd>';
-const DEFAULT_REPLY_TO = 'oxsupport@0061qwen.cc.cd';
+const DEFAULT_FROM = "OxHorseCraft <oxsupport@0061qwen.cc.cd>";
+const DEFAULT_REPLY_TO = "oxsupport@0061qwen.cc.cd";
 
-export async function sendEmail(env: EmailEnv, params: EmailParams): Promise<{ ok: boolean; id?: string; error?: string }> {
+// F-05: universal HTML escape — 所有 email template 插值都過 safe()
+const HTML_ESCAPE_MAP: Record<string, string> = {
+  "&": "&amp;",
+  "<": "&lt;",
+  ">": "&gt;",
+  '"': "&quot;",
+  "'": "&#39;",
+};
+export function safe(value: unknown): string {
+  if (value === null || value === undefined) return "";
+  return String(value).replace(/[&<>"']/g, (ch) => HTML_ESCAPE_MAP[ch] ?? ch);
+}
+
+export async function sendEmail(
+  env: EmailEnv,
+  params: EmailParams,
+): Promise<{ ok: boolean; id?: string; error?: string }> {
   if (!env.CF_API_TOKEN || !env.CF_ACCOUNT_ID) {
-    console.warn('[email] CF_API_TOKEN / CF_ACCOUNT_ID not set, skipping send');
+    console.warn("[email] CF_API_TOKEN / CF_ACCOUNT_ID not set, skipping send");
     console.log(`[email] To: ${params.to}`);
     console.log(`[email] Subject: ${params.subject}`);
-    return { ok: false, error: 'no_credentials' };
+    return { ok: false, error: "no_credentials" };
   }
 
   const url = `https://api.cloudflare.com/client/v4/accounts/${env.CF_ACCOUNT_ID}/email/sending`;
   const res = await fetch(url, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       Authorization: `Bearer ${env.CF_API_TOKEN}`,
     },
     body: JSON.stringify({
@@ -46,7 +63,7 @@ export async function sendEmail(env: EmailEnv, params: EmailParams): Promise<{ o
   });
 
   if (!res.ok) {
-    const body = await res.text().catch(() => '');
+    const body = await res.text().catch(() => "");
     console.error(`[email] CF Email Service error ${res.status}: ${body}`);
     return { ok: false, error: `cf_email_${res.status}` };
   }
@@ -54,19 +71,25 @@ export async function sendEmail(env: EmailEnv, params: EmailParams): Promise<{ o
   return { ok: true, id: data.result?.id };
 }
 
-export function emailEnvFromContext(ctx: { locals: { runtime?: { env?: unknown } } }): EmailEnv {
+export function emailEnvFromContext(ctx: {
+  locals: { runtime?: { env?: unknown } };
+}): EmailEnv {
   const env = ctx.locals.runtime?.env as EmailEnv | undefined;
   return env ?? {};
 }
 
-export function orderConfirmationEmail(orderId: string, customerName: string, itemsSummary: string): { subject: string; html: string; text: string } {
-  const subject = `預訂單確認 #${orderId}`;
+export function orderConfirmationEmail(
+  orderId: string,
+  customerName: string,
+  itemsSummary: string,
+): { subject: string; html: string; text: string } {
+  const subject = `預訂單確認 #${safe(orderId)}`;
   const html = `
     <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
       <h2 style="color: #1A2E1A; font-family: Georgia, serif;">感謝您的預訂</h2>
-      <p>${customerName} 您好,</p>
-      <p>我們已收到您的預訂單 <strong>${orderId}</strong>。</p>
-      <p>${itemsSummary}</p>
+      <p>${safe(customerName)} 您好,</p>
+      <p>我們已收到您的預訂單 <strong>${safe(orderId)}</strong>。</p>
+      <p>${safe(itemsSummary)}</p>
       <p>客服將在 1-2 個工作天內與您聯繫,確認運費與付款方式。</p>
       <hr style="border: none; border-top: 1px solid #DCE5DC; margin: 24px 0;" />
       <p style="color: #8A938A; font-size: 12px;">
@@ -78,14 +101,20 @@ export function orderConfirmationEmail(orderId: string, customerName: string, it
   return { subject, html, text };
 }
 
-export function contactNotificationEmail(name: string, email: string, message: string): { subject: string; html: string; text: string } {
-  const subject = `新聯絡表單:${name}`;
+export function contactNotificationEmail(
+  name: string,
+  email: string,
+  message: string,
+): { subject: string; html: string; text: string } {
+  const subject = `新聯絡表單:${safe(name)}`;
+  // F-05: 先 safe() 再 replace \n → <br>,避免 \n 注入 HTML
+  const safeMessage = safe(message).replace(/\n/g, "<br>");
   const html = `
     <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
       <h2 style="color: #1A2E1A;">新訊息</h2>
-      <p><strong>${name}</strong> (${email}) 留言:</p>
+      <p><strong>${safe(name)}</strong> (${safe(email)}) 留言:</p>
       <blockquote style="border-left: 3px solid #C9925B; padding-left: 12px; color: #4A5748;">
-        ${message.replace(/\n/g, '<br>')}
+        ${safeMessage}
       </blockquote>
       <p style="color: #8A938A; font-size: 12px;">Reply directly to this email to respond.</p>
     </div>

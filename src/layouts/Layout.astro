@@ -22,8 +22,6 @@ const cleanPath =
     ? Astro.url.pathname
     : Astro.url.pathname.replace(new RegExp(`^/${currentLocale}`), "") || "/";
 
-const hreflangUrls;
-
 // Hero style overrides from site_settings (admin-editable via /admin/settings → Hero Style).
 // F-04: regex allowlist 拒絕任何含 } { ; /* @ 等 CSS 注入 meta chars 的值
 // F-17: try/catch 包 D1 query,缺表 fallback 不 crash render
