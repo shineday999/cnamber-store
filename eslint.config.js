@@ -27,6 +27,14 @@ export default [
     },
   },
 
+  // TypeScript declaration files (.d.ts) — triple-slash references are normal in .d.ts
+  {
+    files: ['**/*.d.ts'],
+    rules: {
+      '@typescript-eslint/triple-slash-reference': 'off',
+    },
+  },
+
   // Global ignores — build artifacts, public assets, node_modules
   {
     ignores: ['dist/**', '.astro/**', 'node_modules/**', 'public/**', 'worker-configuration.d.ts'],

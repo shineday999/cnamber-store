@@ -1,6 +1,12 @@
 ---
-import '../styles/global.css';
-import { defaultLocale, locales, localeHreflang, type Locale, localizedPath } from '../i18n/config';
+import "../styles/global.css";
+import {
+  defaultLocale,
+  locales,
+  localeHreflang,
+  type Locale,
+  localizedPath,
+} from "../i18n/config";
 
 interface Props {
   title: string;
@@ -8,65 +14,91 @@ interface Props {
   ogImage?: string;
 }
 
-const { title, description = '', ogImage = '/og-image.svg' } = Astro.props;
+const { title, description = "", ogImage = "/og-image.svg" } = Astro.props;
 const currentLocale = (Astro.locals.locale ?? defaultLocale) as Locale;
-const siteUrl = Astro.url.origin || 'https://cnamber.ccwu.cc';
+const siteUrl = Astro.url.origin || "https://cnamber.ccwu.cc";
 const cleanPath =
   currentLocale === defaultLocale
     ? Astro.url.pathname
-    : Astro.url.pathname.replace(new RegExp(`^/${currentLocale}`), '') || '/';
+    : Astro.url.pathname.replace(new RegExp(`^/${currentLocale}`), "") || "/";
 
-const hreflangUrls
+const hreflangUrls;
 
 // Hero style overrides from site_settings (admin-editable via /admin/settings → Hero Style).
 // F-04: regex allowlist 拒絕任何含 } { ; /* @ 等 CSS 注入 meta chars 的值
 // F-17: try/catch 包 D1 query,缺表 fallback 不 crash render
-const SAFE_COLOR = /^(#[0-9a-fA-F]{3,8}|rgba?\(\s*[\d\s,.]+\s*\)|[a-zA-Z]{3,30})$/;
+const SAFE_COLOR =
+  /^(#[0-9a-fA-F]{3,8}|rgba?\(\s*[\d\s,.]+\s*\)|[a-zA-Z]{3,30})$/;
 const SAFE_LENGTH = /^\d+(\.\d+)?(px|rem|em|%|vh|vw)$/;
 function sanitizeStyle(key: string, raw: string, fallback: string): string {
   if (!raw) return fallback;
-  if (key.endsWith('_color')) return SAFE_COLOR.test(raw) ? raw : fallback;
-  if (key.endsWith('_size')) return SAFE_LENGTH.test(raw) ? raw : fallback;
+  if (key.endsWith("_color")) return SAFE_COLOR.test(raw) ? raw : fallback;
+  if (key.endsWith("_size")) return SAFE_LENGTH.test(raw) ? raw : fallback;
   return fallback;
 }
 const env = Astro.locals.runtime?.env;
 async function getStyleVal(key: string, fallback: string): Promise<string> {
   if (!env?.DB) return fallback;
   try {
-    const row = await env.DB
-      .prepare("SELECT value FROM site_settings WHERE key = ? AND locale = 'all' LIMIT 1")
+    const row = await env.DB.prepare(
+      "SELECT value FROM site_settings WHERE key = ? AND locale = 'all' LIMIT 1",
+    )
       .bind(key)
       .first<{ value: string }>();
     return row?.value?.trim() || fallback;
   } catch (e) {
     // F-17: site_settings table may not exist if D1 migrations haven't run.
     // Fallback to default so <html style=...> renders and body is not truncated.
-    console.warn(`[Layout] getStyleVal(${key}) failed, using fallback:`, e instanceof Error ? e.message : e);
+    console.warn(
+      `[Layout] getStyleVal(${key}) failed, using fallback:`,
+      e instanceof Error ? e.message : e,
+    );
     return fallback;
   }
 }
-const heroTitleSize     = sanitizeStyle('hero_title_size',     await getStyleVal('hero_title_size',     '72px'),                      '72px');
-const heroSubtitleSize  = sanitizeStyle('hero_subtitle_size',  await getStyleVal('hero_subtitle_size',  '24px'),                      '24px');
-const heroTitleColor    = sanitizeStyle('hero_title_color',    await getStyleVal('hero_title_color',    '#FAF7EE'),                   '#FAF7EE');
-const heroSubtitleColor = sanitizeStyle('hero_subtitle_color', await getStyleVal('hero_subtitle_color', 'rgba(250, 247, 238, 0.8)'), 'rgba(250, 247, 238, 0.8)');
+const heroTitleSize = sanitizeStyle(
+  "hero_title_size",
+  await getStyleVal("hero_title_size", "72px"),
+  "72px",
+);
+const heroSubtitleSize = sanitizeStyle(
+  "hero_subtitle_size",
+  await getStyleVal("hero_subtitle_size", "24px"),
+  "24px",
+);
+const heroTitleColor = sanitizeStyle(
+  "hero_title_color",
+  await getStyleVal("hero_title_color", "#FAF7EE"),
+  "#FAF7EE",
+);
+const heroSubtitleColor = sanitizeStyle(
+  "hero_subtitle_color",
+  await getStyleVal("hero_subtitle_color", "rgba(250, 247, 238, 0.8)"),
+  "rgba(250, 247, 238, 0.8)",
+);
 
- = locales.map((l) => ({
+const hreflangUrls = locales.map((l) => ({
   lang: localeHreflang[l],
   href: `${siteUrl}${localizedPath(l, cleanPath)}`,
 }));
 ---
 
-<!DOCTYPE html>
-<html lang={currentLocale} style={`--hero-title-size:${heroTitleSize};--hero-subtitle-size:${heroSubtitleSize};--hero-title-color:${heroTitleColor};--hero-subtitle-color:${heroSubtitleColor};`}>
+<!doctype html>
+<html
+  lang={currentLocale}
+  style={`--hero-title-size:${heroTitleSize};--hero-subtitle-size:${heroSubtitleSize};--hero-title-color:${heroTitleColor};--hero-subtitle-color:${heroSubtitleColor};`}
+>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
 
-    {hreflangUrls.map(({ lang, href }) => (
-      <link rel="alternate" hreflang={lang} href={href} />
-    ))}
+    {
+      hreflangUrls.map(({ lang, href }) => (
+        <link rel="alternate" hreflang={lang} href={href} />
+      ))
+    }
     <link
       rel="alternate"
       hreflang="x-default"
@@ -78,12 +110,20 @@ const heroSubtitleColor = sanitizeStyle('hero_subtitle_color', await getStyleVal
     <meta property="og:description" content={description} />
     <meta property="og:image" content={`${siteUrl}${ogImage}`} />
     <meta property="og:url" content={`${siteUrl}${Astro.url.pathname}`} />
-    <meta property="og:locale" content={localeHreflang[currentLocale].replace('-', '_')} />
-    {locales
-      .filter((l) => l !== currentLocale)
-      .map((l) => (
-        <meta property="og:locale:alternate" content={localeHreflang[l].replace('-', '_')} />
-      ))}
+    <meta
+      property="og:locale"
+      content={localeHreflang[currentLocale].replace("-", "_")}
+    />
+    {
+      locales
+        .filter((l) => l !== currentLocale)
+        .map((l) => (
+          <meta
+            property="og:locale:alternate"
+            content={localeHreflang[l].replace("-", "_")}
+          />
+        ))
+    }
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
