@@ -10,7 +10,9 @@
     "back": "Back",
     "search": "Search",
     "subscribe": "Subscribe",
-    "language": "Language"
+    "language": "Language",
+    "options": "Options",
+    "reserve": "Reserve"
   },
   "nav": {
     "home": "Home",
