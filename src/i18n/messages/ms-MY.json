@@ -61,5 +61,105 @@
     "cta_jewelry_btn": "Mula kuiz ambar",
     "cta_incense_btn": "Mula kuiz kemenyan",
     "cta_meta": "5 soalan · ~1 minit"
+  },
+  "quiz": {
+    "intro": "Jawab beberapa soalan — kami akan cari yang paling sesuai untuk anda.",
+    "start": "Mula",
+    "recommend": "Dapatkan cadangan",
+    "retake": "Uji semula",
+    "jewelry": {
+      "title": "Padanan Perhiasan",
+      "desc": "Bentuk muka, ton kulit, personaliti, majlis — biar kami pilih amber yang paling sesuai untuk anda.",
+      "face_shape": "Bentuk muka anda?",
+      "skin_tone": "Ton kulit anda?",
+      "personality": "Personaliti anda?",
+      "occasion": "Majlis utama?",
+      "material": "Pilihan bahan?"
+    },
+    "incense": {
+      "title": "Padanan Kemenyan",
+      "desc": "Kebimbangan dan niat anda sekarang — biar kami campur kemenyan yang sesuai.",
+      "concerns": "Apa yang mengganggu sekarang? (pilihan banyak)",
+      "goals": "Apa yang anda ingin rasa? (pilihan banyak)",
+      "format": "Format kemenyan?",
+      "timing": "Bila anda menggunakannya?",
+      "scent": "Pilihan bau?"
+    },
+    "result": {
+      "title": "Cadanan anda",
+      "intro": "Berdasarkan pilihan anda, ini mungkin paling sesuai.",
+      "empty": "Tiada produk yang sepadan buat masa ini.",
+      "empty_hint": "Fasa 3 ialah rangka cadangan — katalog sebenar tiba pada Fasa 4."
+    },
+    "option": {
+      "face": {
+        "oval": "Bujur",
+        "round": "Bulat",
+        "square": "Segi empat",
+        "long": "Panjang",
+        "heart": "Hati",
+        "diamond": "Berlian"
+      },
+      "skin": {
+        "cool": "Sejuk (biru-ungu)",
+        "warm": "Hangat (kuning-jingga)",
+        "neutral": "Neutral"
+      },
+      "personality": {
+        "calm": "Tenang dan pendiam",
+        "free": "Bebas",
+        "mysterious": "Misteri dan dalam",
+        "fresh": "Segar dan semula jadi",
+        "classic": "Keanggunan klasik"
+      },
+      "occasion": {
+        "daily": "Harian",
+        "formal": "Majlis rasmi",
+        "outdoor": "Alam semula jadi",
+        "gift": "Hadiah peringatan"
+      },
+      "material": {
+        "pure_amber": "Amber tulen",
+        "amber_wood": "Amber + kayu",
+        "amber_metal": "Amber + logam",
+        "any": "Tiada keutamaan"
+      },
+      "concern": {
+        "anxiety": "Susah tidur",
+        "calm": "Mencari ketenangan",
+        "fatigue": "Keletihan kerja",
+        "focus": "Tumpuan lebih tajam",
+        "mood": "Mood rendah",
+        "stale_space": "Ruang pengap"
+      },
+      "goal": {
+        "relax": "Bersantai",
+        "sleep": "Tidur",
+        "meditate": "Meditasi",
+        "energize": "Menyegarkan",
+        "purify": "Membersihkan ruang",
+        "focus": "Tumpuan lebih tajam"
+      },
+      "format": {
+        "stick": "Batang kemenyan",
+        "balm": "Balm",
+        "oil": "Minyak pati",
+        "burner": "Pembakar"
+      },
+      "timing": {
+        "morning": "Pagi",
+        "afternoon": "Petang",
+        "evening": "Senja",
+        "bedtime": "Sebelum tidur",
+        "all_day": "Sepanjang hari"
+      },
+      "scent": {
+        "woody": "Kayu",
+        "floral": "Bunga",
+        "herbal": "Herba",
+        "resin": "Amber / resin",
+        "any": "Tiada keutamaan"
+      }
+    }
   }
 }

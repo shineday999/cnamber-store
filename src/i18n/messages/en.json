@@ -61,5 +61,105 @@
     "cta_jewelry_btn": "Start amber quiz",
     "cta_incense_btn": "Start incense quiz",
     "cta_meta": "5 questions · ~1 minute"
+  },
+  "quiz": {
+    "intro": "Answer a few questions — we'll find the piece that fits you best.",
+    "start": "Start",
+    "recommend": "Get recommendation",
+    "retake": "Retake quiz",
+    "jewelry": {
+      "title": "Jewelry Match",
+      "desc": "Face shape, skin tone, personality, occasion — let us pick the amber that fits you best.",
+      "face_shape": "Your face shape?",
+      "skin_tone": "Your skin tone?",
+      "personality": "Your personality?",
+      "occasion": "Main occasion?",
+      "material": "Material preference?"
+    },
+    "incense": {
+      "title": "Incense Match",
+      "desc": "Your current concerns and intentions — let us blend the right incense for you.",
+      "concerns": "What concerns you right now? (multi)",
+      "goals": "What do you wish to feel? (multi)",
+      "format": "Incense format?",
+      "timing": "When do you use it?",
+      "scent": "Scent preference?"
+    },
+    "result": {
+      "title": "Your recommendations",
+      "intro": "Based on your answers, these may suit you best.",
+      "empty": "No matching products yet.",
+      "empty_hint": "Phase 3 is the recommendation skeleton — real catalog lands in Phase 4."
+    },
+    "option": {
+      "face": {
+        "oval": "Oval",
+        "round": "Round",
+        "square": "Square",
+        "long": "Long",
+        "heart": "Heart",
+        "diamond": "Diamond"
+      },
+      "skin": {
+        "cool": "Cool (blue-violet)",
+        "warm": "Warm (yellow-orange)",
+        "neutral": "Neutral"
+      },
+      "personality": {
+        "calm": "Calm and reserved",
+        "free": "Free-spirited",
+        "mysterious": "Mysterious and deep",
+        "fresh": "Fresh and natural",
+        "classic": "Classic elegance"
+      },
+      "occasion": {
+        "daily": "Daily commute",
+        "formal": "Formal occasion",
+        "outdoor": "Outdoor nature",
+        "gift": "Commemorative gift"
+      },
+      "material": {
+        "pure_amber": "Pure amber",
+        "amber_wood": "Amber + wood",
+        "amber_metal": "Amber + metal",
+        "any": "No preference"
+      },
+      "concern": {
+        "anxiety": "Anxious sleep",
+        "calm": "Seeking calm",
+        "fatigue": "Work fatigue",
+        "focus": "Sharper focus",
+        "mood": "Low mood",
+        "stale_space": "Stale space"
+      },
+      "goal": {
+        "relax": "Relax",
+        "sleep": "Fall asleep",
+        "meditate": "Meditate",
+        "energize": "Energize",
+        "purify": "Purify space",
+        "focus": "Sharper focus"
+      },
+      "format": {
+        "stick": "Incense stick",
+        "balm": "Balm",
+        "oil": "Essential oil",
+        "burner": "Burner"
+      },
+      "timing": {
+        "morning": "Morning",
+        "afternoon": "Afternoon",
+        "evening": "Evening",
+        "bedtime": "Bedtime",
+        "all_day": "All day"
+      },
+      "scent": {
+        "woody": "Woody",
+        "floral": "Floral",
+        "herbal": "Herbal",
+        "resin": "Amber / resin",
+        "any": "No preference"
+      }
+    }
   }
 }

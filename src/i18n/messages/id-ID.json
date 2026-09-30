@@ -61,5 +61,105 @@
     "cta_jewelry_btn": "Mulai kuiz amber",
     "cta_incense_btn": "Mulai kuiz dupa",
     "cta_meta": "5 pertanyaan · ~1 menit"
+  },
+  "quiz": {
+    "intro": "Jawab beberapa pertanyaan — kami akan carikan yang paling cocok untuk Anda.",
+    "start": "Mulai",
+    "recommend": "Dapatkan rekomendasi",
+    "retake": "Ulangi kuis",
+    "jewelry": {
+      "title": "Padanan Perhiasan",
+      "desc": "Bentuk wajah, warna kulit, kepribadian, acara — biar kami pilih amber yang paling cocok untuk Anda.",
+      "face_shape": "Bentuk wajah Anda?",
+      "skin_tone": "Warna kulit Anda?",
+      "personality": "Kepribadian Anda?",
+      "occasion": "Acara utama?",
+      "material": "Pilihan bahan?"
+    },
+    "incense": {
+      "title": "Padanan Dupa",
+      "desc": "Kekhawatiran dan tujuan Anda sekarang — biar kami racik dupa yang cocok.",
+      "concerns": "Apa yang mengganggu sekarang? (pilih banyak)",
+      "goals": "Apa yang ingin Anda rasakan? (pilih banyak)",
+      "format": "Format dupa?",
+      "timing": "Kapan Anda menggunakannya?",
+      "scent": "Pilihan aroma?"
+    },
+    "result": {
+      "title": "Rekomendasi Anda",
+      "intro": "Berdasarkan pilihan Anda, ini mungkin paling cocok.",
+      "empty": "Belum ada produk yang cocok.",
+      "empty_hint": "Fase 3 adalah rangka rekomendasi — katalog asli hadir di Fase 4."
+    },
+    "option": {
+      "face": {
+        "oval": "Oval",
+        "round": "Bulat",
+        "square": "Persegi",
+        "long": "Panjang",
+        "heart": "Hati",
+        "diamond": "Berlian"
+      },
+      "skin": {
+        "cool": "Dingin (biru-ungu)",
+        "warm": "Hangat (kuning-oranye)",
+        "neutral": "Netral"
+      },
+      "personality": {
+        "calm": "Tenang dan tertutup",
+        "free": "Bebas",
+        "mysterious": "Misterius dan dalam",
+        "fresh": "Segar dan alami",
+        "classic": "Keanggunan klasik"
+      },
+      "occasion": {
+        "daily": "Harian",
+        "formal": "Acara resmi",
+        "outdoor": "Alam terbuka",
+        "gift": "Hadiah peringatan"
+      },
+      "material": {
+        "pure_amber": "Amber murni",
+        "amber_wood": "Amber + kayu",
+        "amber_metal": "Amber + logam",
+        "any": "Tiada pilihan"
+      },
+      "concern": {
+        "anxiety": "Sulit tidur",
+        "calm": "Mencari ketenangan",
+        "fatigue": "Kelelahan kerja",
+        "focus": "Fokus lebih tajam",
+        "mood": "Mood rendah",
+        "stale_space": "Ruang pengap"
+      },
+      "goal": {
+        "relax": "Rileks",
+        "sleep": "Tidur",
+        "meditate": "Meditasi",
+        "energize": "Menyegarkan",
+        "purify": "Membersihkan ruang",
+        "focus": "Fokus lebih tajam"
+      },
+      "format": {
+        "stick": "Batang dupa",
+        "balm": "Balm",
+        "oil": "Minyak esensial",
+        "burner": "Pembakar"
+      },
+      "timing": {
+        "morning": "Pagi",
+        "afternoon": "Siang",
+        "evening": "Sore",
+        "bedtime": "Sebelum tidur",
+        "all_day": "Sepanjang hari"
+      },
+      "scent": {
+        "woody": "Kayu",
+        "floral": "Bunga",
+        "herbal": "Herbal",
+        "resin": "Amber / resin",
+        "any": "Tiada pilihan"
+      }
+    }
   }
 }
