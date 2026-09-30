@@ -1,22 +1,15 @@
 ---
-import Layout from '@layouts/Layout.astro';
-import HomeContent from '@components/HomeContent.astro';
-import LocaleSwitcher from '@components/LocaleSwitcher.astro';
-import { createT } from '../i18n/t';
+import Layout from "@layouts/Layout.astro";
+import HomeContent from "@components/HomeContent.astro";
+import { createT } from "../i18n/t";
 
 const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
 const t = createT(messages);
 
-const pageTitle = `${t('common.site_name')} — ${t('common.tagline')}`;
-const pageDescription = t('home.hero_p3') ?? '';
+const pageTitle = `${t("common.site_name")} — ${t("common.tagline")}`;
+const pageDescription = t("home.hero_p3") ?? "";
 ---
 
 <Layout title={pageTitle} description={pageDescription}>
-  <div class="w-full bg-bg-base/0">
-    <div class="max-w-6xl mx-auto flex justify-end px-6 py-4">
-      <LocaleSwitcher />
-    </div>
-  </div>
-
   <HomeContent />
 </Layout>

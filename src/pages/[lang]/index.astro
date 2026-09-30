@@ -1,31 +1,24 @@
 ---
-import Layout from '@layouts/Layout.astro';
-import HomeContent from '@components/HomeContent.astro';
-import LocaleSwitcher from '@components/LocaleSwitcher.astro';
-import { createT } from '../../i18n/t';
-import { defaultLocale, isLocale, type Locale } from '../../i18n/config';
+import Layout from "@layouts/Layout.astro";
+import HomeContent from "@components/HomeContent.astro";
+import { createT } from "../../i18n/t";
+import { defaultLocale, isLocale, type Locale } from "../../i18n/config";
 
-const lang = Astro.params.lang ?? '';
+const lang = Astro.params.lang ?? "";
 
 if (!isLocale(lang) || lang === defaultLocale) {
-  return Astro.redirect('/');
+  return Astro.redirect("/");
 }
 
 const locale = lang as Locale;
 const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
 const t = createT(messages);
 
-const pageTitle = `${t('common.site_name')} — ${t('common.tagline')}`;
-const pageDescription = t('home.hero_p3') ?? '';
+const pageTitle = `${t("common.site_name")} — ${t("common.tagline")}`;
+const pageDescription = t("home.hero_p3") ?? "";
 void locale;
 ---
 
 <Layout title={pageTitle} description={pageDescription}>
-  <div class="w-full bg-bg-base/0">
-    <div class="max-w-6xl mx-auto flex justify-end px-6 py-4">
-      <LocaleSwitcher />
-    </div>
-  </div>
-
   <HomeContent />
 </Layout>
