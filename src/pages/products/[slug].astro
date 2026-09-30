@@ -139,7 +139,7 @@ void locale;
         />
       ) : (
         <div class="w-full h-full flex items-center justify-center bg-forest-100">
-          <span class="text-forest-300 font-serif text-6xl font-light">
+          <span class="text-forest-700 font-serif text-6xl font-light">
             No image
           </span>
         </div>
@@ -204,7 +204,7 @@ void locale;
           class="col-span-12 md:col-span-4 md:sticky md:top-12 md:self-start"
         >
           <p
-            class="text-[10px] uppercase tracking-[0.4em] text-forest-400 mb-3 font-sans"
+            class="text-[10px] uppercase tracking-[0.4em] text-forest-600 mb-3 font-sans"
           >
             {product.category === "jewelry" ? t("nav.amber") : t("nav.incense")}
           </p>
@@ -225,7 +225,7 @@ void locale;
           {
             usdPrice !== undefined && (
               <p class="font-serif text-2xl text-forest-800 mb-8">
-                <span class="text-forest-400 text-sm font-sans mr-2">from</span>
+                <span class="text-forest-600 text-sm font-sans mr-2">from</span>
                 ${usdPrice.toFixed(0)} USD
               </p>
             )
@@ -234,14 +234,14 @@ void locale;
           {
             variants.results.length > 0 && (
               <div class="mb-8">
-                <p class="text-xs uppercase tracking-[0.4em] text-forest-400 mb-3 font-sans">
+                <p class="text-xs uppercase tracking-[0.4em] text-forest-600 mb-3 font-sans">
                   {t("common.options")}
                 </p>
                 <ul class="space-y-1.5">
                   {variants.results.slice(0, 3).map((v) => (
                     <li class="text-sm font-sans text-forest-700 flex justify-between border-b border-forest-100 pb-1">
                       <span class="font-mono text-xs">{v.sku}</span>
-                      <span class="text-forest-400 text-xs">
+                      <span class="text-forest-600 text-xs">
                         stock {v.stock}
                       </span>
                     </li>
@@ -261,7 +261,7 @@ void locale;
             </button>
             <a
               href="/contact"
-              class="block text-center text-xs text-forest-500 hover:text-forest-700 transition-colors tracking-wide font-sans border-b border-forest-200 pb-0.5"
+              class="block text-center text-xs text-forest-700 hover:text-forest-700 transition-colors tracking-wide font-sans border-b border-forest-200 pb-0.5"
             >
               {t("nav.contact")} →
             </a>
@@ -269,7 +269,7 @@ void locale;
 
           {
             tr.story && (
-              <p class="mt-10 text-sm text-forest-500 italic leading-relaxed font-light border-l-2 border-terra-300 pl-4">
+              <p class="mt-10 text-sm text-forest-700 italic leading-relaxed font-light border-l-2 border-terra-300 pl-4">
                 {tr.story}
               </p>
             )

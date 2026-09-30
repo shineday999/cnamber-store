@@ -68,7 +68,7 @@ const catLabel: Record<string, string> = {
           viewBox="0 0 100 100"
           class:list={[
             variant === "compact" ? "w-10 h-10" : "w-16 h-16",
-            "text-forest-300",
+            "text-forest-700",
           ]}
           fill="currentColor"
         >
@@ -88,7 +88,7 @@ const catLabel: Record<string, string> = {
   >
     <p
       class:list={[
-        "uppercase tracking-[0.4em] text-forest-400 font-sans",
+        "uppercase tracking-[0.4em] text-forest-600 font-sans",
         variant === "compact" ? "text-[9px] mb-1.5" : "text-[10px] mb-2",
       ]}
     >
@@ -110,7 +110,7 @@ const catLabel: Record<string, string> = {
       shortDescription && (
         <p
           class:list={[
-            "text-forest-500 leading-relaxed font-light line-clamp-2",
+            "text-forest-700 leading-relaxed font-light line-clamp-2",
             variant === "compact"
               ? "text-[11px] mb-1.5"
               : variant === "large"
@@ -134,7 +134,7 @@ const catLabel: Record<string, string> = {
                 : "text-xs",
           ]}
         >
-          <span class="text-forest-400">from </span>
+          <span class="text-forest-600">from </span>
           {priceFrom}
         </p>
       )
