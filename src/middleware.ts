@@ -4,6 +4,24 @@ import { loadMessages } from './i18n/loader';
 import { getAdminFromContext } from './lib/auth';
 
 const LOCALE_COOKIE = 'cnamber_locale';
+// F-13: Security headers — Cloudflare Pages _headers 只套 static assets,
+// SSR worker responses 必須由 middleware 注入。
+function setSecurityHeaders(response: Response): void {
+  response.headers.set('X-Frame-Options', 'DENY');
+  response.headers.set('X-Content-Type-Options', 'nosniff');
+  response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+  response.headers.set('Strict-Transport-Security', 'max-age=63072000; includeSubDomains');
+  response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+  const ct = response.headers.get('content-type') ?? '';
+  if (ct.includes('text/html')) {
+    response.headers.set('Content-Security-Policy', "default-src 'self'; img-src 'self' https: data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'");
+  }
+}
+function withSecurityHeaders(response: Response): Response {
+  setSecurityHeaders(response);
+  return response;
+}
+
 
 export const onRequest = defineMiddleware(async (context, next) => {
   const url = context.url;
@@ -52,7 +70,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
     context.locals.admin = admin;
   }
 
-  return next();
+  return withSecurityHeaders(await next());
 });
 
 function detectLocaleFromHeader(header: string): Locale | null {
