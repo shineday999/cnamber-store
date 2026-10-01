@@ -56,15 +56,46 @@ function firstImage(json: string | null | undefined): string | undefined {
 <section
   class="relative h-[65vh] min-h-[480px] overflow-hidden bg-forest-800 text-cream-50"
 >
-  <div class="absolute inset-0 animate-breathe">
+  <div class="absolute inset-0">
     <img
+      data-hero-slide
+      data-active="true"
       src="https://picsum.photos/seed/cnamber-forest-canopy/1920/1080"
       alt=""
-      class="w-full h-full object-cover opacity-60 cinematic scale-110"
+      class="hero-slide absolute inset-0 w-full h-full object-cover opacity-60 cinematic scale-110 transition-opacity duration-[1600ms] ease-out"
       loading="eager"
       fetchpriority="high"
     />
+    <img
+      data-hero-slide
+      src="/images/hero/bamboo.jpg"
+      alt=""
+      class="hero-slide absolute inset-0 w-full h-full object-cover opacity-0 cinematic scale-110 transition-opacity duration-[1600ms] ease-out"
+      loading="lazy"
+    />
+    <img
+      data-hero-slide
+      src="https://picsum.photos/seed/cnamber-amber-mist/1920/1080"
+      alt=""
+      class="hero-slide absolute inset-0 w-full h-full object-cover opacity-0 cinematic scale-110 transition-opacity duration-[1600ms] ease-out"
+      loading="lazy"
+    />
   </div>
+
+  <script is:inline>
+    (function () {
+      var slides = document.querySelectorAll("[data-hero-slide]");
+      if (slides.length <= 1) return;
+      var i = 0;
+      setInterval(function () {
+        slides[i].dataset.active = "false";
+        slides[i].style.opacity = "0";
+        i = (i + 1) % slides.length;
+        slides[i].dataset.active = "true";
+        slides[i].style.opacity = "0.6";
+      }, 10000);
+    })();
+  </script>
   <div
     class="absolute inset-0 bg-gradient-to-br from-forest-900/70 via-forest-800/30 to-forest-900/80"
   >
