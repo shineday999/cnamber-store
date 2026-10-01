@@ -132,6 +132,32 @@ const nav = [
         update();
       })();
     </script>
+    <script is:inline>
+      // Wave 13: hero parallax — rAF-thrustly translate3d(0, scrollY*0.35, 0)
+      // on [data-hero-slide]. Skip when no slides (non-home pages) or
+      // when prefers-reduced-motion is set (Wave 11 a11y contract).
+      (function () {
+        var slides = document.querySelectorAll("[data-hero-slide]");
+        if (slides.length === 0) return;
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+          return;
+
+        var rafId = null;
+        function update() {
+          if (rafId) return;
+          rafId = window.requestAnimationFrame(function () {
+            rafId = null;
+            var y = window.scrollY * 0.35;
+            for (var i = 0; i < slides.length; i++) {
+              slides[i].style.transform = "translate3d(0," + y + "px,0)";
+            }
+          });
+        }
+        window.addEventListener("scroll", update, { passive: true });
+        window.addEventListener("resize", update, { passive: true });
+        update();
+      })();
+    </script>
     <header class="sticky top-0 z-40 w-full glass border-b border-forest-900/5">
       <div
         class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between gap-4"

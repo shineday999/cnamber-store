@@ -398,6 +398,12 @@ h6 {
   transform: scaleX(0);
   will-change: transform;
 }
+
+/* Wave 13: hint to compositor that hero parallax transforms frequently.
+   Safe because [data-hero-slide] only exists on home page; no global cost. */
+.hero-slide {
+  will-change: transform;
+}
 @media (prefers-reduced-motion: reduce) {
   .scroll-progress {
     display: none;
