@@ -104,10 +104,19 @@ const yearStr = new Date().getFullYear();
           d.classList.toggle("hero-dot-active", idx === n);
         });
       }
-      setInterval(() => {
-        i = (i + 1) % slides.length;
-        show(i);
-      }, 9000);
+      // Respect prefers-reduced-motion: skip auto-rotation entirely.
+      // CSS already kills the crossfade (transition-duration 0.01ms), but
+      // we also stop the JS interval so the user doesn't see the slide
+      // content swap underneath their reading. Dot click still works.
+      const prefersReduced = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+      if (!prefersReduced) {
+        setInterval(() => {
+          i = (i + 1) % slides.length;
+          show(i);
+        }, 9000);
+      }
       dots.forEach((dot, idx) => {
         dot.addEventListener("click", () => {
           i = idx;

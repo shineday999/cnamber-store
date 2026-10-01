@@ -298,12 +298,29 @@ h6 {
 
 /* Reduced motion respect — disable everything for users who prefer it */
 @media (prefers-reduced-motion: reduce) {
+  /* WCAG 2.3.3 + Awwwards-tier a11y: kill all motion for users who request it.
+     Tailwind inline duration-[1400ms] utilities + custom @keyframes both caught here. */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
   .hero-text > *,
   .hero-slide-active,
   .scroll-indicator,
   .reveal-on-scroll,
   .animate-breathe,
-  .animate-fade-up {
+  .animate-fade-up,
+  .hero-slide,
+  .hero-dot,
+  .magnetic,
+  .hover-lift,
+  .form-input,
+  .form-label,
+  .link-underline {
     animation: none !important;
     transition: none !important;
   }
@@ -315,6 +332,16 @@ h6 {
   .reveal-on-scroll {
     opacity: 1 !important;
     transform: none !important;
+  }
+  /* Hero auto-rotation JS only swaps .hero-slide-active; without transition,
+     user still sees the change but no crossfade. Show only the first slide
+     (stable final state, no flicker). */
+  .hero-slide {
+    opacity: 0;
+  }
+  .hero-slide.hero-slide-active,
+  .hero-slide-active {
+    opacity: 0.6 !important;
   }
 }
 
