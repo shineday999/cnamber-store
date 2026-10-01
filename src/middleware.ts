@@ -103,14 +103,30 @@ export const onRequest = defineMiddleware(async (context, next) => {
     }
   }
 
-  // 3. Admin auth check (only for /admin/* paths; /admin/login exempt)
-  // F-08: 沒過 session 認證 → 302 redirect 到 /admin/login(舊版是 401 plain text)
-  if (
+  // 3. Admin auth check (covers /admin/* pages + /api/admin/* endpoints)
+  // F-08: 沒過 session 認證 →
+  //   /admin/*         → 302 redirect 到 /admin/login
+  //   /api/admin/*     → 401 plain text(API 不該瀏覽器跳轉)
+  // Exempt:/admin/login(登入頁)、/api/admin/login(登入 API)、/api/admin/logout(永遠允許)
+  const isAdminPage =
     url.pathname.startsWith("/admin") &&
-    !url.pathname.startsWith("/admin/login")
-  ) {
+    !url.pathname.startsWith("/admin/login");
+  const isAdminApi =
+    url.pathname.startsWith("/api/admin") &&
+    !url.pathname.startsWith("/api/admin/login") &&
+    !url.pathname.startsWith("/api/admin/logout");
+
+  if (isAdminPage || isAdminApi) {
     const admin = await getAdminFromContext(context);
     if (!admin) {
+      if (isAdminApi) {
+        return withSecurityHeaders(
+          new Response("Unauthorized", {
+            status: 401,
+            headers: { "Content-Type": "text/plain" },
+          }),
+        );
+      }
       const redirectUrl = `/admin/login?redirect=${encodeURIComponent(url.pathname)}`;
       return withSecurityHeaders(
         new Response(null, {
