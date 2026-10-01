@@ -494,6 +494,45 @@
       "title": "评论",
       "subtitle": "{n} 条评论。第二阶段子任务 P2-6 将加入审核/拒绝动作。",
       "empty": "暂无评论。"
+    },
+    "value": {
+      "category": {
+        "jewelry": "首饰",
+        "incense": "香品"
+      },
+      "subcategory": {
+        "necklace": "项链",
+        "bracelet": "手链",
+        "earring": "耳环",
+        "ring": "戒指",
+        "stick": "线香",
+        "balm": "香膏",
+        "oil": "精油"
+      },
+      "status": {
+        "draft": "草稿",
+        "active": "上架",
+        "archived": "归档",
+        "pending": "待确认",
+        "confirmed": "已确认",
+        "shipped": "已发货",
+        "delivered": "已送达",
+        "cancelled": "已取消",
+        "published": "已发布",
+        "approved": "已通过",
+        "rejected": "已拒绝"
+      },
+      "payment": {
+        "unpaid": "未付款",
+        "paid": "已付款",
+        "refunded": "已退款"
+      },
+      "post_category": {
+        "material": "材料",
+        "craft": "工艺",
+        "style": "风格",
+        "culture": "文化"
+      }
     }
   }
 }

@@ -1,6 +1,6 @@
 ---
 import AdminLayout from "../../../layouts/AdminLayout.astro";
-import { createT } from "../../../i18n/t";
+import { createT, tEnum } from "../../../i18n/t";
 import { defaultLocale, type Locale } from "../../../i18n/config";
 import zhHansMessages from "../../../i18n/messages/zh-Hans.json";
 
@@ -63,7 +63,7 @@ if (!post) {
             {
               ["material", "craft", "style", "culture"].map((c) => (
                 <option value={c} selected={post.category === c}>
-                  {c}
+                  {tEnum(t, "post_category", c)}
                 </option>
               ))
             }
@@ -81,7 +81,7 @@ if (!post) {
             {
               ["draft", "published", "archived"].map((s) => (
                 <option value={s} selected={post.status === s}>
-                  {s}
+                  {tEnum(t, "status", s)}
                 </option>
               ))
             }

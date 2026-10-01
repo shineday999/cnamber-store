@@ -1,7 +1,7 @@
 ---
 import AdminLayout from "../../../layouts/AdminLayout.astro";
 import Tabs from "../../../components/Tabs.astro";
-import { createT } from "../../../i18n/t";
+import { createT, tEnum } from "../../../i18n/t";
 import { defaultLocale, type Locale } from "../../../i18n/config";
 import zhHansMessages from "../../../i18n/messages/zh-Hans.json";
 
@@ -111,7 +111,7 @@ const trByLocale = (locale: string) =>
             {
               ["draft", "active", "archived"].map((s) => (
                 <option value={s} selected={product.status === s}>
-                  {s}
+                  {tEnum(t, "status", s)}
                 </option>
               ))
             }

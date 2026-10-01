@@ -1,6 +1,6 @@
 ---
 import AdminLayout from "../../../layouts/AdminLayout.astro";
-import { createT } from "../../../i18n/t";
+import { createT, tEnum } from "../../../i18n/t";
 import { defaultLocale, type Locale } from "../../../i18n/config";
 import zhHansMessages from "../../../i18n/messages/zh-Hans.json";
 
@@ -75,8 +75,14 @@ const products = env?.DB
             <tr class="border-t border-text-muted/10 hover:bg-bg-base">
               <td class="px-4 py-3 font-mono text-xs">{p.id as string}</td>
               <td class="px-4 py-3">{p.slug as string}</td>
-              <td class="px-4 py-3">{p.category as string}</td>
-              <td class="px-4 py-3">{p.subcategory ?? "—"}</td>
+              <td class="px-4 py-3">
+                {tEnum(t, "category", p.category as string)}
+              </td>
+              <td class="px-4 py-3">
+                {(p.subcategory as string)
+                  ? tEnum(t, "subcategory", p.subcategory as string)
+                  : "—"}
+              </td>
               <td class="px-4 py-3">
                 <span
                   class={`px-2 py-0.5 rounded text-xs ${
@@ -87,7 +93,7 @@ const products = env?.DB
                         : "bg-warning/20 text-warning"
                   }`}
                 >
-                  {p.status as string}
+                  {tEnum(t, "status", p.status as string)}
                 </span>
               </td>
               <td class="px-4 py-3 text-right whitespace-nowrap">

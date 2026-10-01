@@ -1,6 +1,6 @@
 ---
 import AdminLayout from "../../../layouts/AdminLayout.astro";
-import { createT } from "../../../i18n/t";
+import { createT, tEnum } from "../../../i18n/t";
 import { defaultLocale, type Locale } from "../../../i18n/config";
 import zhHansMessages from "../../../i18n/messages/zh-Hans.json";
 
@@ -95,12 +95,14 @@ function statusColor(s: string) {
                 {p.title ?? t("admin.posts_list.untitled")}
               </td>
               <td class="px-4 py-3 font-mono text-xs">{p.slug}</td>
-              <td class="px-4 py-3 text-text-secondary">{p.category ?? "—"}</td>
+              <td class="px-4 py-3 text-text-secondary">
+                {p.category ? tEnum(t, "post_category", p.category) : "—"}
+              </td>
               <td class="px-4 py-3">
                 <span
                   class={`px-2 py-0.5 rounded text-xs ${statusColor(p.status)}`}
                 >
-                  {p.status}
+                  {tEnum(t, "status", p.status)}
                 </span>
               </td>
               <td class="px-4 py-3 text-xs text-text-muted">

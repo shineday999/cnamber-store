@@ -1,6 +1,6 @@
 ---
 import AdminLayout from "../../../layouts/AdminLayout.astro";
-import { createT } from "../../../i18n/t";
+import { createT, tEnum } from "../../../i18n/t";
 import { defaultLocale, type Locale } from "../../../i18n/config";
 import zhHansMessages from "../../../i18n/messages/zh-Hans.json";
 
@@ -85,14 +85,14 @@ function statusColor(s: string) {
                 <span
                   class={`px-2 py-0.5 rounded text-xs ${statusColor(o.status as string)}`}
                 >
-                  {o.status as string}
+                  {tEnum(t, "status", o.status as string)}
                 </span>
               </td>
               <td class="px-4 py-3">
                 <span
                   class={`px-2 py-0.5 rounded text-xs ${statusColor(o.payment_status as string)}`}
                 >
-                  {o.payment_status as string}
+                  {tEnum(t, "payment", o.payment_status as string)}
                 </span>
               </td>
               <td class="px-4 py-3 text-xs font-mono text-text-muted">

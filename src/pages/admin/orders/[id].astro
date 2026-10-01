@@ -1,6 +1,6 @@
 ---
 import AdminLayout from "../../../layouts/AdminLayout.astro";
-import { createT } from "../../../i18n/t";
+import { createT, tEnum } from "../../../i18n/t";
 import { defaultLocale, type Locale } from "../../../i18n/config";
 import zhHansMessages from "../../../i18n/messages/zh-Hans.json";
 
@@ -177,7 +177,7 @@ const items = order
                     "cancelled",
                   ].map((s) => (
                     <option value={s} selected={order.status === s}>
-                      {s}
+                      {tEnum(t, "status", s)}
                     </option>
                   ))}
                 </select>
@@ -196,7 +196,7 @@ const items = order
                 >
                   {["unpaid", "paid", "refunded"].map((s) => (
                     <option value={s} selected={order.payment_status === s}>
-                      {s}
+                      {tEnum(t, "payment", s)}
                     </option>
                   ))}
                 </select>
