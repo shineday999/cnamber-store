@@ -74,264 +74,264 @@ const trByLocale = (locale: string) =>
       { id: "variants", label: t("admin.products_detail.tab_variants") },
     ]}
     paramName="tab"
-  />
-
-  <div slot="core">
-    <div
-      class="bg-bg-card border border-text-muted/20 rounded-card p-6 mb-4 max-w-2xl"
-    >
-      <h3 class="text-sm font-medium mb-3">
-        {t("admin.products_detail.current_image")}
-      </h3>
-      {
-        product.image_url ? (
-          <img
-            src={product.image_url}
-            alt={product.slug}
-            class="w-48 h-48 object-cover rounded border border-text-muted/20"
-          />
-        ) : (
-          <p class="text-sm text-text-muted">
-            {t("admin.products_detail.no_image")}
-          </p>
-        )
-      }
-      <form
-        method="POST"
-        action={`/api/admin/products/${id}/image`}
-        enctype="multipart/form-data"
-        class="mt-4 space-y-2"
+  >
+    <div slot="core">
+      <div
+        class="bg-bg-card border border-text-muted/20 rounded-card p-6 mb-4 max-w-2xl"
       >
-        <label class="block text-sm font-medium" for="image-upl"
-          >{t("admin.products_detail.label_image")}</label
-        >
-        <input
-          id="image-upl"
-          name="image"
-          type="file"
-          accept="image/jpeg,image/png,image/webp,image/gif"
-          class="w-full text-sm file:mr-2 file:py-1 file:px-3 file:border-0 file:bg-forest-700 file:text-bg-base file:rounded file:cursor-pointer"
-        />
-        <p class="text-xs text-text-muted">
-          {t("admin.products_detail.hint_image")}
-        </p>
-        <button
-          type="submit"
-          class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900 text-sm"
-        >
-          {t("admin.products_detail.upload_image")}
-        </button>
-      </form>
-    </div>
-    <form
-      method="POST"
-      action={`/api/admin/products/${id}`}
-      class="bg-bg-card border border-text-muted/20 rounded-card p-6 space-y-4 max-w-2xl"
-    >
-      <div class="grid grid-cols-2 gap-4">
-        <div>
-          <label class="block text-sm font-medium mb-1" for="category"
-            >{t("admin.products_detail.label_category")}</label
-          >
-          <select
-            id="category"
-            name="category"
-            class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
-          >
-            <option value="jewelry" selected={product.category === "jewelry"}
-              >{t("admin.products_detail.option_jewelry")}</option
-            >
-            <option value="incense" selected={product.category === "incense"}
-              >{t("admin.products_detail.option_incense")}</option
-            >
-          </select>
-        </div>
-        <div>
-          <label class="block text-sm font-medium mb-1" for="status"
-            >{t("admin.products_detail.label_status")}</label
-          >
-          <select
-            id="status"
-            name="status"
-            class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
-          >
-            {
-              ["draft", "active", "archived"].map((s) => (
-                <option value={s} selected={product.status === s}>
-                  {tEnum(t, "status", s)}
-                </option>
-              ))
-            }
-          </select>
-        </div>
-      </div>
-      <div>
-        <label class="block text-sm font-medium mb-1" for="subcategory"
-          >{t("admin.products_detail.label_subcategory")}</label
-        >
-        <input
-          id="subcategory"
-          name="subcategory"
-          value={product.subcategory ?? ""}
-          class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
-        />
-      </div>
-      <div>
-        <label class="block text-sm font-medium mb-1" for="slug"
-          >{t("admin.products_detail.label_slug")}</label
-        >
-        <input
-          id="slug"
-          name="slug"
-          value={product.slug}
-          required
-          class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base font-mono"
-        />
-      </div>
-      <div class="flex gap-2">
-        <button
-          type="submit"
-          class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900"
-          >{t("admin.products_detail.save")}</button
-        >
+        <h3 class="text-sm font-medium mb-3">
+          {t("admin.products_detail.current_image")}
+        </h3>
+        {
+          product.image_url ? (
+            <img
+              src={product.image_url}
+              alt={product.slug}
+              class="w-48 h-48 object-cover rounded border border-text-muted/20"
+            />
+          ) : (
+            <p class="text-sm text-text-muted">
+              {t("admin.products_detail.no_image")}
+            </p>
+          )
+        }
         <form
           method="POST"
-          action={`/api/admin/products/${id}/status`}
-          class="inline"
+          action={`/api/admin/products/${id}/image`}
+          enctype="multipart/form-data"
+          class="mt-4 space-y-2"
         >
+          <label class="block text-sm font-medium" for="image-upl"
+            >{t("admin.products_detail.label_image")}</label
+          >
+          <input
+            id="image-upl"
+            name="image"
+            type="file"
+            accept="image/jpeg,image/png,image/webp,image/gif"
+            class="w-full text-sm file:mr-2 file:py-1 file:px-3 file:border-0 file:bg-forest-700 file:text-bg-base file:rounded file:cursor-pointer"
+          />
+          <p class="text-xs text-text-muted">
+            {t("admin.products_detail.hint_image")}
+          </p>
           <button
             type="submit"
-            class="px-4 py-2 border border-text-muted/30 rounded-md hover:bg-bg-base"
-            >{t("admin.products_detail.toggle_status")}</button
+            class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900 text-sm"
           >
-        </form>
-        <form
-          method="POST"
-          action={`/api/admin/products/${id}`}
-          class="inline ml-auto"
-          onsubmit="return confirm('确定删除该产品？所有变体、翻译、评论都会一并删除。')"
-        >
-          <input type="hidden" name="_action" value="delete" />
-          <button
-            type="submit"
-            class="px-4 py-2 border border-error/40 text-error rounded-md hover:bg-error/10"
-          >
-            {t("admin.products_detail.delete")}
+            {t("admin.products_detail.upload_image")}
           </button>
         </form>
       </div>
-    </form>
-  </div>
-
-  <div slot="translations">
-    <div class="space-y-6 max-w-3xl">
-      {
-        LOCALES.map((loc) => {
-          const tr = trByLocale(loc);
-          return (
-            <form
-              method="POST"
-              action={`/api/admin/products/${id}/translations`}
-              class="bg-bg-card border border-text-muted/20 rounded-card p-6 space-y-3"
+      <form
+        method="POST"
+        action={`/api/admin/products/${id}`}
+        class="bg-bg-card border border-text-muted/20 rounded-card p-6 space-y-4 max-w-2xl"
+      >
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium mb-1" for="category"
+              >{t("admin.products_detail.label_category")}</label
             >
-              <input type="hidden" name="locale" value={loc} />
-              <h3 class="font-serif text-lg">{loc}</h3>
-              <div>
-                <label
-                  class="block text-sm font-medium mb-1"
-                  for={`name-${loc}`}
-                >
-                  {t("admin.products_detail.label_name")}
-                </label>
-                <input
-                  id={`name-${loc}`}
-                  name="name"
-                  value={tr?.name ?? ""}
-                  required
-                  class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
-                />
-              </div>
-              <div>
-                <label
-                  class="block text-sm font-medium mb-1"
-                  for={`short-${loc}`}
-                >
-                  {t("admin.products_detail.label_short_desc")}
-                </label>
-                <input
-                  id={`short-${loc}`}
-                  name="short_description"
-                  value={tr?.short_description ?? ""}
-                  class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
-                />
-              </div>
-              <div>
-                <label
-                  class="block text-sm font-medium mb-1"
-                  for={`desc-${loc}`}
-                >
-                  {t("admin.products_detail.label_description")}
-                </label>
-                <textarea
-                  id={`desc-${loc}`}
-                  name="description"
-                  rows="4"
-                  required
-                  class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
-                >
-                  {tr?.description ?? ""}
-                </textarea>
-              </div>
-              <div>
-                <label
-                  class="block text-sm font-medium mb-1"
-                  for={`story-${loc}`}
-                >
-                  {t("admin.products_detail.label_story")}
-                </label>
-                <textarea
-                  id={`story-${loc}`}
-                  name="story"
-                  rows="3"
-                  class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
-                >
-                  {tr?.story ?? ""}
-                </textarea>
-              </div>
-              <button
-                type="submit"
-                class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900 text-sm"
+            <select
+              id="category"
+              name="category"
+              class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
+            >
+              <option value="jewelry" selected={product.category === "jewelry"}
+                >{t("admin.products_detail.option_jewelry")}</option
               >
-                {t("admin.products_detail.save_translation", { loc })}
-              </button>
-            </form>
-          );
-        })
-      }
+              <option value="incense" selected={product.category === "incense"}
+                >{t("admin.products_detail.option_incense")}</option
+              >
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1" for="status"
+              >{t("admin.products_detail.label_status")}</label
+            >
+            <select
+              id="status"
+              name="status"
+              class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
+            >
+              {
+                ["draft", "active", "archived"].map((s) => (
+                  <option value={s} selected={product.status === s}>
+                    {tEnum(t, "status", s)}
+                  </option>
+                ))
+              }
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1" for="subcategory"
+            >{t("admin.products_detail.label_subcategory")}</label
+          >
+          <input
+            id="subcategory"
+            name="subcategory"
+            value={product.subcategory ?? ""}
+            class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
+          />
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1" for="slug"
+            >{t("admin.products_detail.label_slug")}</label
+          >
+          <input
+            id="slug"
+            name="slug"
+            value={product.slug}
+            required
+            class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base font-mono"
+          />
+        </div>
+        <div class="flex gap-2">
+          <button
+            type="submit"
+            class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900"
+            >{t("admin.products_detail.save")}</button
+          >
+          <form
+            method="POST"
+            action={`/api/admin/products/${id}/status`}
+            class="inline"
+          >
+            <button
+              type="submit"
+              class="px-4 py-2 border border-text-muted/30 rounded-md hover:bg-bg-base"
+              >{t("admin.products_detail.toggle_status")}</button
+            >
+          </form>
+          <form
+            method="POST"
+            action={`/api/admin/products/${id}`}
+            class="inline ml-auto"
+            onsubmit="return confirm('确定删除该产品？所有变体、翻译、评论都会一并删除。')"
+          >
+            <input type="hidden" name="_action" value="delete" />
+            <button
+              type="submit"
+              class="px-4 py-2 border border-error/40 text-error rounded-md hover:bg-error/10"
+            >
+              {t("admin.products_detail.delete")}
+            </button>
+          </form>
+        </div>
+      </form>
     </div>
-  </div>
 
-  <div slot="variants">
-    <div class="space-y-4 max-w-3xl">
-      {
-        variants.results.length === 0 && (
-          <p class="text-text-muted text-sm">
-            {t("admin.products_detail.no_variants")}
-          </p>
-        )
-      }
-      <ul class="space-y-2">
+    <div slot="translations">
+      <div class="space-y-6 max-w-3xl">
         {
-          variants.results.map((v) => (
-            <li class="bg-bg-card border border-text-muted/20 rounded-md px-4 py-2 font-mono text-sm flex justify-between">
-              <span>{v.sku}</span>
-              <span class="text-text-secondary">
-                stock {v.stock} · ${v.price_base}
-              </span>
-            </li>
-          ))
+          LOCALES.map((loc) => {
+            const tr = trByLocale(loc);
+            return (
+              <form
+                method="POST"
+                action={`/api/admin/products/${id}/translations`}
+                class="bg-bg-card border border-text-muted/20 rounded-card p-6 space-y-3"
+              >
+                <input type="hidden" name="locale" value={loc} />
+                <h3 class="font-serif text-lg">{loc}</h3>
+                <div>
+                  <label
+                    class="block text-sm font-medium mb-1"
+                    for={`name-${loc}`}
+                  >
+                    {t("admin.products_detail.label_name")}
+                  </label>
+                  <input
+                    id={`name-${loc}`}
+                    name="name"
+                    value={tr?.name ?? ""}
+                    required
+                    class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
+                  />
+                </div>
+                <div>
+                  <label
+                    class="block text-sm font-medium mb-1"
+                    for={`short-${loc}`}
+                  >
+                    {t("admin.products_detail.label_short_desc")}
+                  </label>
+                  <input
+                    id={`short-${loc}`}
+                    name="short_description"
+                    value={tr?.short_description ?? ""}
+                    class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
+                  />
+                </div>
+                <div>
+                  <label
+                    class="block text-sm font-medium mb-1"
+                    for={`desc-${loc}`}
+                  >
+                    {t("admin.products_detail.label_description")}
+                  </label>
+                  <textarea
+                    id={`desc-${loc}`}
+                    name="description"
+                    rows="4"
+                    required
+                    class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
+                  >
+                    {tr?.description ?? ""}
+                  </textarea>
+                </div>
+                <div>
+                  <label
+                    class="block text-sm font-medium mb-1"
+                    for={`story-${loc}`}
+                  >
+                    {t("admin.products_detail.label_story")}
+                  </label>
+                  <textarea
+                    id={`story-${loc}`}
+                    name="story"
+                    rows="3"
+                    class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
+                  >
+                    {tr?.story ?? ""}
+                  </textarea>
+                </div>
+                <button
+                  type="submit"
+                  class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900 text-sm"
+                >
+                  {t("admin.products_detail.save_translation", { loc })}
+                </button>
+              </form>
+            );
+          })
         }
-      </ul>
+      </div>
     </div>
-  </div>
+
+    <div slot="variants">
+      <div class="space-y-4 max-w-3xl">
+        {
+          variants.results.length === 0 && (
+            <p class="text-text-muted text-sm">
+              {t("admin.products_detail.no_variants")}
+            </p>
+          )
+        }
+        <ul class="space-y-2">
+          {
+            variants.results.map((v) => (
+              <li class="bg-bg-card border border-text-muted/20 rounded-md px-4 py-2 font-mono text-sm flex justify-between">
+                <span>{v.sku}</span>
+                <span class="text-text-secondary">
+                  stock {v.stock} · ${v.price_base}
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </Tabs>
 </AdminLayout>
