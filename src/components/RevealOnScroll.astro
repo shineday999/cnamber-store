@@ -69,4 +69,7 @@ const { delay = 0, class: className = "" } = Astro.props;
   } else {
     initReveals();
   }
+  // Astro view transitions: re-init reveals after every page navigation
+  // (DOMContentLoaded only fires once; astro:page-load fires on initial + each swap).
+  document.addEventListener("astro:page-load", initReveals);
 </script>
