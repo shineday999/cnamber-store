@@ -317,3 +317,28 @@ h6 {
     transform: none !important;
   }
 }
+
+
+/* === Wave 8 polish: hero text-shadow + focus-visible global === */
+
+/* Hero h1/p legibility over mid-tone forest photography:
+   subtle dark glow separates cream text from busy backgrounds. */
+.hero-text h1,
+.hero-text p {
+  text-shadow: 0 2px 24px rgba(22, 26, 15, 0.45);
+}
+
+/* Focus-visible global: WCAG 2.4.7 baseline for ALL interactive
+   elements. Override `focus:outline-none` (used in many CTAs to keep
+   the design clean) with a forest-700/50 ring at 2px + 2px offset. */
+@layer base {
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    outline: 2px solid rgba(34, 60, 35, 0.55);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+}

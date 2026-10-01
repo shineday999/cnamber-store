@@ -68,6 +68,7 @@ const yearStr = new Date().getFullYear();
     {
       slides.map((slide, i) => (
         <img
+          decoding="async"
           data-hero-slide
           data-slide-index={i}
           src={slide.src}
@@ -83,7 +84,7 @@ const yearStr = new Date().getFullYear();
     >
     </div>
     <div
-      class="absolute inset-0 bg-gradient-to-t from-forest-900/40 to-transparent"
+      class="absolute inset-0 bg-gradient-to-t from-forest-900/80 via-forest-900/30 to-transparent"
     >
     </div>
   </div>
@@ -243,6 +244,7 @@ const yearStr = new Date().getFullYear();
           class="group relative block aspect-[4/5] overflow-hidden bg-forest-100 rounded-sm hover-lift"
         >
           <img
+            decoding="async"
             src="/images/banners/cat-jewelry.jpg"
             alt="Amber jewelry"
             class="w-full h-full object-cover cinematic group-hover:scale-[1.06] transition-transform duration-[1400ms] ease-out"
@@ -283,6 +285,7 @@ const yearStr = new Date().getFullYear();
           class="group relative block aspect-[4/5] overflow-hidden bg-forest-100 rounded-sm hover-lift"
         >
           <img
+            decoding="async"
             src="/images/banners/cat-incense.jpg"
             alt="Eastern incense"
             class="w-full h-full object-cover cinematic group-hover:scale-[1.06] transition-transform duration-[1400ms] ease-out"

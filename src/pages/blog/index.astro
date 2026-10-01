@@ -62,6 +62,7 @@ const posts = env?.DB
               <div class="aspect-video bg-forest-100 flex items-center justify-center">
                 {p.cover_image_url ? (
                   <img
+                    decoding="async"
                     src={p.cover_image_url}
                     alt={p.title ?? ""}
                     class="w-full h-full object-cover"
