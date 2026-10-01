@@ -1,93 +1,173 @@
 ---
 import Layout from "@layouts/Layout.astro";
+import RevealOnScroll from "@components/RevealOnScroll.astro";
 import { createT } from "../i18n/t";
+import { defaultLocale, type Locale } from "../i18n/config";
 
+const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
 const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
 const t = createT(messages);
+void locale;
 ---
 
-<Layout title={`${t("contact.title")} — ${t("common.site_name")}`}>
-  <div class="max-w-2xl mx-auto px-6 py-section">
-    <header class="mb-8 text-center">
-      <h1
-        class="text-display-sm md:text-display-md font-serif text-text-primary mb-3"
-      >
-        {t("contact.title")}
-      </h1>
-      <p class="text-text-secondary">
-        hello@cnamber.ccwu.cc · 通常 2 個工作天內回覆
-      </p>
-    </header>
+<Layout
+  title={`${t("contact.title")} — ${t("common.site_name")}`}
+  description={t("contact.reply_promise")}
+>
+  <div class="max-w-3xl mx-auto px-6 py-section">
+    <RevealOnScroll>
+      <header class="mb-12 text-center">
+        <p
+          class="text-[10px] uppercase tracking-[0.4em] text-forest-600 font-sans mb-4"
+        >
+          {t("contact.kicker")}
+        </p>
+        <h1
+          class="text-display-sm md:text-display-md font-serif text-text-primary mb-3 leading-[1.08]"
+        >
+          {t("contact.title")}
+        </h1>
+        <p class="text-text-secondary italic max-w-xl mx-auto">
+          {t("contact.subtitle")}
+        </p>
+      </header>
+    </RevealOnScroll>
 
-    <form
-      method="POST"
-      action="/api/contact"
-      class="bg-bg-card border border-text-muted/20 rounded-card p-6 space-y-4"
-    >
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div>
-          <label class="block text-sm font-medium mb-1" for="name"
-            >{t("contact.name")} *</label
-          >
-          <input
-            id="name"
-            name="name"
-            required
-            maxlength="100"
-            class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
-          />
-        </div>
-        <div>
-          <label class="block text-sm font-medium mb-1" for="email"
-            >{t("contact.email")} *</label
-          >
-          <input
-            id="email"
-            name="email"
-            type="email"
-            required
-            class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
-          />
-        </div>
-      </div>
-      <div>
-        <label class="block text-sm font-medium mb-1" for="phone"
-          >{t("contact.phone")}</label
-        >
-        <input
-          id="phone"
-          name="phone"
-          class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
-        />
-      </div>
-      <div>
-        <label class="block text-sm font-medium mb-1" for="subject"
-          >{t("contact.subject")}</label
-        >
-        <input
-          id="subject"
-          name="subject"
-          class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
-        />
-      </div>
-      <div>
-        <label class="block text-sm font-medium mb-1" for="message"
-          >{t("contact.message")} *</label
-        >
-        <textarea
-          id="message"
-          name="message"
-          rows="6"
-          required
-          class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
-        ></textarea>
-      </div>
-      <button
-        type="submit"
-        class="w-full px-6 py-3 bg-forest-700 text-bg-base rounded-md font-medium hover:bg-forest-900 transition-colors"
+    <RevealOnScroll>
+      <form
+        method="POST"
+        action="/api/contact"
+        class="space-y-5 bg-bg-card border border-forest-100 rounded-card p-6 md:p-8 shadow-soft"
       >
-        {t("contact.submit")}
-      </button>
-    </form>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="form-field">
+            <input
+              id="contact-name"
+              type="text"
+              required
+              maxlength="100"
+              name="name"
+              placeholder=" "
+              class="form-input"
+              autocomplete="name"
+            />
+            <label for="contact-name" class="form-label"
+              >{t("contact.name")}</label
+            >
+          </div>
+          <div class="form-field">
+            <input
+              id="contact-email"
+              type="email"
+              required
+              name="email"
+              placeholder=" "
+              class="form-input"
+              autocomplete="email"
+            />
+            <label for="contact-email" class="form-label"
+              >{t("contact.email")}</label
+            >
+          </div>
+        </div>
+        <div class="form-field">
+          <input
+            id="contact-phone"
+            type="tel"
+            name="phone"
+            placeholder=" "
+            class="form-input"
+            autocomplete="tel"
+          />
+          <label for="contact-phone" class="form-label"
+            >{t("contact.phone")}</label
+          >
+        </div>
+        <div class="form-field">
+          <input
+            id="contact-subject"
+            type="text"
+            name="subject"
+            placeholder=" "
+            class="form-input"
+          />
+          <label for="contact-subject" class="form-label"
+            >{t("contact.subject")}</label
+          >
+        </div>
+        <div class="form-field">
+          <textarea
+            id="contact-message"
+            required
+            name="message"
+            rows="6"
+            placeholder=" "
+            class="form-input form-textarea"></textarea>
+          <label for="contact-message" class="form-label"
+            >{t("contact.message")}</label
+          >
+        </div>
+        <button
+          type="submit"
+          class="w-full px-6 py-3 bg-forest-700 text-bg-base rounded-md font-medium hover:bg-forest-900 hover:shadow-soft-lg transition-all duration-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-500/40"
+        >
+          {t("contact.submit")}
+        </button>
+      </form>
+    </RevealOnScroll>
+
+    <RevealOnScroll>
+      <section class="mt-16 pt-10 border-t border-forest-100">
+        <p
+          class="text-[10px] uppercase tracking-[0.4em] text-forest-600 font-sans mb-6 text-center"
+        >
+          {t("contact.channels_kicker")}
+        </p>
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-1 text-sm font-sans"
+        >
+          <div
+            class="flex items-baseline gap-3 py-3 border-b border-forest-100/60"
+          >
+            <span
+              class="text-[10px] uppercase tracking-[0.3em] text-terra-500 font-sans w-20 shrink-0"
+              >{t("contact.channel_email")}</span
+            >
+            <a
+              href="mailto:hello@cnamber.ccwu.cc"
+              class="text-forest-700 hover:text-forest-800 underline-offset-2 hover:underline"
+              >hello@cnamber.ccwu.cc</a
+            >
+          </div>
+          <div
+            class="flex items-baseline gap-3 py-3 border-b border-forest-100/60"
+          >
+            <span
+              class="text-[10px] uppercase tracking-[0.3em] text-terra-500 font-sans w-20 shrink-0"
+              >{t("contact.channel_whatsapp")}</span
+            >
+            <span class="text-forest-700">By appointment</span>
+          </div>
+          <div
+            class="flex items-baseline gap-3 py-3 border-b border-forest-100/60"
+          >
+            <span
+              class="text-[10px] uppercase tracking-[0.3em] text-terra-500 font-sans w-20 shrink-0"
+              >{t("contact.channel_wechat")}</span
+            >
+            <span class="text-forest-700">cnamber_studio</span>
+          </div>
+          <div
+            class="flex items-baseline gap-3 py-3 border-b border-forest-100/60"
+          >
+            <span
+              class="text-[10px] uppercase tracking-[0.3em] text-terra-500 font-sans w-20 shrink-0"
+              >{t("contact.channel_studio")}</span
+            >
+            <span class="text-forest-700">Greater Southeast Asia</span>
+          </div>
+        </div>
+      </section>
+    </RevealOnScroll>
   </div>
 </Layout>

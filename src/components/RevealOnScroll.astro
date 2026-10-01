@@ -43,10 +43,23 @@ const { delay = 0, class: className = "" } = Astro.props;
           observer.unobserve(target);
         });
       },
-      { threshold: 0.12, rootMargin: "0px 0px -60px 0px" },
+      { threshold: 0.08, rootMargin: "0px 0px -40px 0px" },
     );
 
     elements.forEach((el) => observer.observe(el));
+
+    // Awwwards-grade safety net: after 2s, force-reveal any still-pending.
+    // Covers cases where JS fires but IntersectionObserver never triggers
+    // (headless render, prefers-reduced-motion, slow scroll, blocked scripts).
+    // Reveal is additive — never gating.
+    window.setTimeout(() => {
+      document
+        .querySelectorAll(".reveal-on-scroll.reveal-pending")
+        .forEach((el) => {
+          el.classList.remove("reveal-pending");
+          el.classList.add("revealed");
+        });
+    }, 2000);
   }
 
   // 等 DOMContentLoaded 後再 querySelectorAll,確保拿到的是 SSR 完整 HTML 中的全部 elements

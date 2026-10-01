@@ -1,33 +1,65 @@
 ---
-import Layout from '@layouts/Layout.astro';
-import { createT } from '../i18n/t';
+import Layout from "@layouts/Layout.astro";
+import RevealOnScroll from "@components/RevealOnScroll.astro";
+import { createT } from "../i18n/t";
+import { defaultLocale, type Locale } from "../i18n/config";
 
+const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
 const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
 const t = createT(messages);
+void locale;
 ---
 
-<Layout title={`Vision — ${t('common.site_name')}`}>
+<Layout
+  title={`${t("vision.title")} — ${t("common.site_name")}`}
+  description={t("vision.p1")}
+>
   <article class="max-w-3xl mx-auto px-6 py-section">
-    <header class="mb-12 text-center">
-      <h1 class="text-display-sm md:text-display-md font-serif text-text-primary">
-        願景
-      </h1>
-    </header>
+    <RevealOnScroll>
+      <header class="mb-16 text-center">
+        <p
+          class="text-[10px] uppercase tracking-[0.4em] text-forest-600 font-sans mb-4"
+        >
+          {t("vision.kicker")}
+        </p>
+        <h1
+          class="text-display-sm md:text-display-md font-serif text-text-primary mb-4 leading-[1.08]"
+        >
+          {t("vision.title")}
+        </h1>
+        <p class="text-lg text-text-secondary italic max-w-xl mx-auto">
+          {t("vision.subtitle")}
+        </p>
+      </header>
+    </RevealOnScroll>
 
-    <div class="prose prose-lg max-w-none space-y-6 text-text-secondary font-sans leading-relaxed">
-      <p>
-        我們希望,在地的手作與遠方的市場能彼此看見。
-      </p>
-      <p>
-        撫順的琥珀匠人、雲南的香農、馬來西亞的藤編藝師、印度的手織工坊 — 他們的作品常因地理與資訊的限制,而未被世界認識。
-        我們做為中間的橋,讓作品抵達需要它的人,也讓需求回流向工匠。
-      </p>
-      <p>
-        我們的目標不是擴張,而是維持 — 維持一條慢的、可持續的、對自然與工匠都友善的路徑。
-      </p>
-      <p>
-        When you wear one amber, light one incense — the forest lives.
-      </p>
-    </div>
+    <RevealOnScroll>
+      <div
+        class="space-y-6 text-text-secondary font-sans leading-relaxed text-base"
+      >
+        <p>{t("vision.p1")}</p>
+        <p>{t("vision.p2")}</p>
+        <p>{t("vision.p3")}</p>
+        <blockquote class="my-12 py-6 border-y border-forest-100 text-center">
+          <p
+            class="text-xl md:text-2xl font-serif italic text-forest-700 leading-snug"
+          >
+            “{t("vision.p4")}”
+          </p>
+        </blockquote>
+      </div>
+    </RevealOnScroll>
+
+    <RevealOnScroll>
+      <div class="mt-16 text-center">
+        <a
+          href="/story"
+          class="inline-flex items-center gap-2 text-forest-700 hover:text-forest-800 border-b border-forest-300 pb-1 font-sans tracking-wide transition-colors link-underline"
+        >
+          {t("vision.cta")}
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </RevealOnScroll>
   </article>
 </Layout>

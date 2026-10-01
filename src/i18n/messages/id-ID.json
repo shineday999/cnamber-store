@@ -22,7 +22,8 @@
     "blog": "Jurnal",
     "contact": "Kontak",
     "cart": "Keranjang",
-    "quiz": "Temukan Milik Anda"
+    "quiz": "Temukan Milik Anda",
+    "products": "Semua karya"
   },
   "home": {
     "hero_kicker": "Coming Soon · 2026",
@@ -161,5 +162,124 @@
         "any": "Tiada pilihan"
       }
     }
+  },
+  "story": {
+    "kicker": "Tentang",
+    "title": "Hutan, di tangan kami",
+    "subtitle": "Di mana amber, dupa, dan ketenangan bertemu.",
+    "p1": "Setiap karya bermula dari satu percakapan di hutan. Dari amber Baltik ke gaharu Yunnan, dari rotan Malaysia ke jalur rempah Timur Tengah — kami menjelajah jauh demi membawa napas alam kepada Anda.",
+    "p2": "Hutan bukan latar. Ia adalah tokoh utama. Kenakan sebutir amber, nyalakan sebatang dupa — hutan hidup.",
+    "p3": "Kami tidak mengejar kemewahan. Kami mengejar kejernihan, napas, dan kesunyian Timur. Kerajinan, kelambatan, dan rasa hormat kepada alam — itulah kemewahan yang paling benar.",
+    "p4": "Mengenakan salah satu karya kami adalah mengingatkan: hutan itu sabar. Kita juga seharusnya begitu.",
+    "pull_quote": "Kenakan sebutir amber, nyalakan sebatang dupa — hutan hidup."
+  },
+  "vision": {
+    "kicker": "Visi",
+    "title": "Hutan yang ikut bersama Anda",
+    "subtitle": "Apa yang kami senyapkan ke arah.",
+    "p1": "Kami membayangkan sebuah dunia di mana setiap perhiasan begitu unik — Anda tidak akan menemukan dua yang serupa. Masing-masing membawa kenangan dari tempat asalnya — resin pohon yang hidup sejuta tahun lalu, asap hutan yang masih berdiri.",
+    "p2": "Kami bukan membangun merek fesyen. Kami memupuk hubungan antara Timur dan alam liar — antara kesabaran pohon dan kesabaran pemakai.",
+    "p3": "Lima tahun dari sekarang, kami berharap seratus ribu orang mengenakan karya kami. Mereka akan melambat saat mengaitkan gesper amber. Mereka akan berhenti saat menyalakan sebatang dupa.",
+    "p4": "Ketika Anda mengenakan sebutir amber, menyalakan sebatang dupa — hutan hidup.",
+    "cta": "Baca cerita kami"
+  },
+  "contact": {
+    "kicker": "Hubungi kami",
+    "title": "Mari mulai percakapan",
+    "subtitle": "Kami membalas dalam dua hari kerja — biasanya lebih cepat.",
+    "name": "Nama Anda",
+    "email": "Email Anda",
+    "phone": "Telepon (opsional)",
+    "subject": "Subjek",
+    "message": "Pesan Anda",
+    "submit": "Kirim pesan",
+    "submitting": "Mengirim…",
+    "success_title": "Pesan diterima",
+    "success_intro": "Terima kasih — kami akan membalas dalam dua hari kerja.",
+    "reply_promise": "Biasanya dua hari kerja, kadang-kadang lebih cepat.",
+    "channels_kicker": "Cara lain menghubungi kami",
+    "channel_email": "Email",
+    "channel_whatsapp": "WhatsApp",
+    "channel_wechat": "WeChat",
+    "channel_studio": "Kunjungan studio dengan janji temu"
+  },
+  "footer": {
+    "tagline": "Kerajinan berakar hutan · Asia Tenggara + Timur Tengah · empat bahasa",
+    "section_shop": "Beli",
+    "section_brand": "Merek",
+    "section_follow": "Ikuti",
+    "link_all": "Semua karya",
+    "link_amber": "Perhiasan amber",
+    "link_incense": "Dupa Timur",
+    "link_quiz": "Temukan milik Anda",
+    "link_story": "Cerita kami",
+    "link_vision": "Visi",
+    "link_craft": "Kerajinan",
+    "link_materials": "Bahan",
+    "link_blog": "Jurnal",
+    "link_contact": "Kontak",
+    "link_admin": "Login admin",
+    "newsletter_kicker": "Tetap dekat",
+    "newsletter_title": "Surat tenang dari studio",
+    "newsletter_desc": "Satu catatan setiap musim — karya baru, entri jurnal, percobaan aroma sesekali.",
+    "newsletter_placeholder": "email@Anda",
+    "newsletter_submit": "Berlangganan",
+    "social_instagram": "Instagram",
+    "social_pinterest": "Pinterest",
+    "social_xiaohongshu": "Xiaohongshu",
+    "year": "© 2026 cnamber-store. Hak cipta dilindungi.",
+    "studio": "Studio · Asia Tenggara",
+    "tag_brand": "Kerajinan berakar hutan",
+    "made_with": "Dibuat dengan sabar"
+  },
+  "blog": {
+    "title": "Jurnal",
+    "intro": "Catatan lapangan, studi bahan, dan surat tenang dari studio.",
+    "empty": "Belum ada entri jurnal — yang pertama sedang disiapkan.",
+    "read_more": "Baca lagi"
+  },
+  "amber": {
+    "kicker": "Amber",
+    "title": "Amber — napas hutan yang membeku",
+    "subtitle": "Napas hutan purba yang dipakai di kulit Anda.",
+    "p1": "Amber adalah wadah waktu. Ia menyimpan resin, gelembung, sayap serangga, dan cahaya hutan dari empat puluh juta tahun lalu. Amber pantai Baltik mengandung 3–8% asam suksinat, yang oleh orang Eropa abad pertengahan disebut 'perisai menentang penyakit' — 'emas Utara'.",
+    "p2": "Amber Lembah Hukawng Burma berasal dari pertengahan Kapur — bahkan lebih tua. Amber biru Dominika bercahaya biru tenang di bawah cahaya UV, langka dan berharga. Amber Fushun China dan amber Sisilia masing-masing membawa temperamen tanah mereka.",
+    "p3": "Kami memilih milik kami berdasarkan satu standar: bagaimana cahaya menembus. Setiap作品 masuk diperoleh dengan asal dan usia — jadi pemakai bukan sekadar memakai perhiasan, tetapi sepotong kenangan alam.",
+    "cta": "Jelajahi semua perhiasan amber"
+  },
+  "incense": {
+    "kicker": "Dupa",
+    "title": "Dupa Timur — asap yang mengingat gunung",
+    "subtitle": "Asap yang mengingat gunung.",
+    "p1": "Dupa berasal dari ritual kuno di China dan India. Penyanian boshan dinasti Han, upacara dupa dinasti Tang, sarjana Song membakar dupa saat membaca — sehelai asap telah menjelajah seribu tahun dan masih bagian dari kehidupan harian kita.",
+    "p2": "Gaharu adalah resin yang dirembeskan oleh pohon yang terluka, ditransformasikan oleh waktu. Ia disebut 'berlian tumbuh-tumbuhan.' Yunnan, Hainan, Vietnam, Malaysia, Laos — setiap kawasan menghasilkan aroma yang berbeda: sejuk, lembut, manis, atau pahit. Kami memilih dengan dua standar: kejernihan, dan kedalaman.",
+    "p3": "Batang, balsem, minyak esensial, pembakar — bentuknya berbeda; intinya sama: biar udara mengingat kesunyian hutan.",
+    "cta": "Jelajahi semua dupa"
+  },
+  "craft": {
+    "kicker": "Kerajinan",
+    "title": "Kesabaran tangan",
+    "p1": "Kerajinan kami dimulai dengan pemilihan batu. Setiap keping amber dan setiap keping kayu diperiksa di bawah cahaya langsung untuk mengecualikan retakan, kotoran, dan tanda-tanda peningkatan buatan.",
+    "p2": "Pemotongan mengutamakan pemeliharaan kejernihan maksimum. Kami tidak mengejar paling banyak potongan dari satu batu — setiap potongan harus menghormati berat waktu. Penggerindaan melalui tahap kasar, halus, dan pemolesan, berulang kali memeriksa butiran di bawah lensa untuk menghindari menghilangkan apa yang seharusnya tersisa.",
+    "p3": "Lubang dibor pada kecepatan manual untuk menghindari retakan termal. Simpul antara manik menggunakan ikatan simpul Cina tradisional — tegangan merata, jarang longgar.",
+    "p4": "Pencampuran dupa mengikuti resep klasik: kenai dan cendana sebagai dasar, dengan cengkeh, borneol, dan licorice sebagai pengubah. Rasio salah, dan aroma kehilangan kedalamannya.",
+    "p5": "Kami percaya: kelambatan adalah rasa hormat kepada alam."
+  },
+  "materials": {
+    "kicker": "Bahan",
+    "title": "Dari mana asalnya bahan",
+    "intro": "Enam asal, masing-masing dengan temperamen sendiri.",
+    "amber_baltic_title": "Amber Baltik",
+    "amber_baltic_desc": "3–8% asam suksinat, warna hangat, madu umum dan amber pucat. Sumber: Lithuania, Latvia, Polandia, Denmark.",
+    "amber_burma_title": "Amber Lembah Hukawng Burma",
+    "amber_burma_desc": "Pertengahan Kapur, sangat tua. Merah tua, coklat gelap, nuansa anggur.",
+    "amber_dominican_title": "Amber biru Dominika",
+    "amber_dominican_desc": "Pendafluor biru tenang di bawah UV. Langka; yang paling berharga.",
+    "amber_fushun_title": "Amber Fushun China",
+    "amber_fushun_desc": "Dari tambang batu bara terbuka Liaoning Fushun, warna gelap, hampir habis, nilai koleksi.",
+    "amber_sicily_title": "Amber Sisilia",
+    "amber_sicily_desc": "Kaya akan serpihan tumbuhan, warna merah gelap, karakter Italia Mediterania.",
+    "agarwood_title": "Gaharu alami",
+    "agarwood_desc": "Yunnan, Hainan, Vietnam, Malaysia, Laos — aroma setiap kawasan berbeda. Dipilih berdasarkan kejernihan dan kedalaman."
   }
 }

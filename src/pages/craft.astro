@@ -1,36 +1,49 @@
 ---
-import Layout from '@layouts/Layout.astro';
-import { createT } from '../i18n/t';
+import Layout from "@layouts/Layout.astro";
+import RevealOnScroll from "@components/RevealOnScroll.astro";
+import { createT } from "../i18n/t";
+import { defaultLocale, type Locale } from "../i18n/config";
 
+const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
 const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
 const t = createT(messages);
+void locale;
 ---
 
-<Layout title={`${t('nav.craft')} — ${t('common.site_name')}`}>
+<Layout
+  title={`${t("craft.title")} — ${t("common.site_name")}`}
+  description={t("craft.p1")}
+>
   <article class="max-w-3xl mx-auto px-6 py-section">
-    <header class="mb-12 text-center">
-      <h1 class="text-display-sm md:text-display-md font-serif text-text-primary">
-        {t('nav.craft')}
-      </h1>
-    </header>
+    <RevealOnScroll>
+      <header class="mb-16 text-center">
+        <p
+          class="text-[10px] uppercase tracking-[0.4em] text-forest-600 font-sans mb-4"
+        >
+          {t("craft.kicker")}
+        </p>
+        <h1
+          class="text-display-sm md:text-display-md font-serif text-text-primary mb-4 leading-[1.08]"
+        >
+          {t("craft.title")}
+        </h1>
+      </header>
+    </RevealOnScroll>
 
-    <div class="prose prose-lg max-w-none space-y-6 text-text-secondary font-sans leading-relaxed">
-      <p>
-        我們的手作工序從原石挑選開始。每一塊琥珀、每一根都需經過肉眼 + 強光透視,排除裂紋、雜質與人工優化痕跡。
-      </p>
-      <p>
-        切割以保留最大透光性為原則 — 不追求切出最多的成品,而是讓每一刀都對得起時間的重量。
-        研磨分粗磨、細磨、拋光三階段,中間需反覆以放大鏡觀察紋理走向,避免磨掉應保留的細節。
-      </p>
-      <p>
-        鑽孔採手動轉速控制,避免高速產生熱裂紋。串珠之間的打結採中國結古法,受力均勻且不易鬆脫。
-      </p>
-      <p>
-        香品的調配遵循傳統香方,以沉香、檀香為主調,佐以丁香、龍腦、甘草等輔料。配比不對,香氣便失去層次。
-      </p>
-      <p>
-        我們相信:慢,是對自然的尊重。
-      </p>
-    </div>
+    <RevealOnScroll>
+      <div
+        class="prose prose-lg max-w-none space-y-6 text-text-secondary font-sans leading-relaxed text-base"
+      >
+        <p>{t("craft.p1")}</p>
+        <p>{t("craft.p2")}</p>
+        <p>{t("craft.p3")}</p>
+        <p>{t("craft.p4")}</p>
+        <blockquote class="my-10 py-5 border-y border-forest-100 text-center">
+          <p class="text-xl font-serif italic text-forest-700 leading-snug">
+            “{t("craft.p5")}”
+          </p>
+        </blockquote>
+      </div>
+    </RevealOnScroll>
   </article>
 </Layout>

@@ -22,7 +22,8 @@
     "blog": "Jurnal",
     "contact": "Hubungi",
     "cart": "Troli",
-    "quiz": "Cari Milik Anda"
+    "quiz": "Cari Milik Anda",
+    "products": "Semua karya"
   },
   "home": {
     "hero_kicker": "Coming Soon · 2026",
@@ -161,5 +162,124 @@
         "any": "Tiada keutamaan"
       }
     }
+  },
+  "story": {
+    "kicker": "Tentang",
+    "title": "Hutan, di tangan kami",
+    "subtitle": "Di mana ambar, kemenyan, dan ketenangan bertemu.",
+    "p1": "Setiap cebisan bermula dengan satu perbualan di dalam hutan. Dari ambar Baltik ke gaharu Yunnan, dari rotan Malaysia ke jalan rempah Timur Tengah — kami menjelajah jauh untuk membawa nafas alam kepada anda.",
+    "p2": "Hutan bukan latar belakang. Ia ialah pelakon utama. Pakai sebiji ambar, nyalakan sebatang kemenyan — hutan hidup.",
+    "p3": "Kami tidak mengejar kemewahan. Kami mengejar kejernihan, nafas, dan keheningan Timur. Kraftangan, kelambatan, dan rasa hormat kepada alam — itulah kemewahan yang paling benar.",
+    "p4": "Memakai salah satu karya kami ialah mengingati: hutan itu sabar. Kita juga patut begitu.",
+    "pull_quote": "Pakai sebiji ambar, nyalakan sebatang kemenyan — hutan hidup."
+  },
+  "vision": {
+    "kicker": "Visi",
+    "title": "Hutan yang ikut bersama anda",
+    "subtitle": "Apa yang kami senyapkan ke arah.",
+    "p1": "Kami membayangkan sebuah dunia di mana setiap perhiasan begitu unik — anda tidak akan jumpa dua yang serupa. Setiap satunya membawa ingatan dari tempat asalnya — resin pokok yang hidup sejuta tahun dahulu, asap hutan yang masih berdiri.",
+    "p2": "Kami bukan membina jenama fesyen. Kami memupuk hubungan antara Timur dan liar — antara kesabaran pokok dan kesabaran pemakai.",
+    "p3": "Lima tahun dari sekarang, kami希望 seratus ribu orang akan memakai hasil kami. Mereka akan perlahan apabila memasang gesper ambar. Mereka akan berhenti apabila menyalakan sebatang kemenyan.",
+    "p4": "Apabila anda memakai sebiji ambar, menyalakan sebatang kemenyan — hutan hidup.",
+    "cta": "Baca kisah kami"
+  },
+  "contact": {
+    "kicker": "Hubungi kami",
+    "title": "Mari mulakan perbualan",
+    "subtitle": "Kami membalas dalam dua hari bekerja — biasanya lebih cepat.",
+    "name": "Nama anda",
+    "email": "E-mel anda",
+    "phone": "Telefon (pilihan)",
+    "subject": "Subjek",
+    "message": "Mesej anda",
+    "submit": "Hantar mesej",
+    "submitting": "Menghantar…",
+    "success_title": "Mesej diterima",
+    "success_intro": "Terima kasih — kami akan membalas dalam dua hari bekerja.",
+    "reply_promise": "Biasanya dua hari bekerja, kadang-kadang lebih cepat.",
+    "channels_kicker": "Cara lain menghubungi kami",
+    "channel_email": "E-mel",
+    "channel_whatsapp": "WhatsApp",
+    "channel_wechat": "WeChat",
+    "channel_studio": "Lawatan studio dengan janji temu"
+  },
+  "footer": {
+    "tagline": "Kraftangan berakar hutan · Asia Tenggara + Timur Tengah · empat bahasa",
+    "section_shop": "Beli",
+    "section_brand": "Jenama",
+    "section_follow": "Ikuti",
+    "link_all": "Semua karya",
+    "link_amber": "Perhiasan ambar",
+    "link_incense": "Kemenyan Timur",
+    "link_quiz": "Cari milik anda",
+    "link_story": "Kisah kami",
+    "link_vision": "Visi",
+    "link_craft": "Kraftangan",
+    "link_materials": "Bahan",
+    "link_blog": "Jurnal",
+    "link_contact": "Hubungi",
+    "link_admin": "Log masuk admin",
+    "newsletter_kicker": "Kekal dekat",
+    "newsletter_title": "Surat tenang dari studio",
+    "newsletter_desc": "Satu nota setiap musim — karya baharu, entri jurnal, percubaan wangian sekali-sekala.",
+    "newsletter_placeholder": "emel@anda",
+    "newsletter_submit": "Langgan",
+    "social_instagram": "Instagram",
+    "social_pinterest": "Pinterest",
+    "social_xiaohongshu": "Xiaohongshu",
+    "year": "© 2026 cnamber-store. Hak cipta terpelihara.",
+    "studio": "Studio · Asia Tenggara",
+    "tag_brand": "Kraftangan berakar hutan",
+    "made_with": "Diperbuat dengan sabar"
+  },
+  "blog": {
+    "title": "Jurnal",
+    "intro": "Nota lapangan, kajian bahan, dan surat tenang dari studio.",
+    "empty": "Tiada entri jurnal lagi — yang pertama sedang dibancuh.",
+    "read_more": "Baca lagi"
+  },
+  "amber": {
+    "kicker": "Ambar",
+    "title": "Ambar — nafas hutan yang terbeku",
+    "subtitle": "Nafas hutan purba yang dipakai di kulit anda.",
+    "p1": "Ambar ialah pembawa masa. Ia menyimpan resin, buih, sayap serangga, dan cahaya hutan dari empat puluh juta tahun dahulu. Ambar pantai Baltik mengandungi 3–8% asid suksinik, yang digelar 'perisai menentang penyakit' oleh orang Eropah Zaman Pertengahan — 'emas Utara'.",
+    "p2": "Ambar Lembah Hukawng Burma berasal dari pertengahan Cretaceous — lebih tua lagi. Ambar biru Dominican bercahaya biru tenang di bawah cahaya UV, jarang dan dihargai. Ambar Fushun China dan ambar Sicily masing-masing membawa temperamen tanah mereka.",
+    "p3": "Kami memilih ours mengikut satu piawaian: bagaimana cahaya menembus. Setiap karya datang dengan asal usul dan usia — jadi pemakai bukan sekadar memakai perhiasan, tetapi sekeping ingatan alam semula jadi.",
+    "cta": "Layari semua perhiasan ambar"
+  },
+  "incense": {
+    "kicker": "Kemenyan",
+    "title": "Kemenyan Timur — asap yang mengingati gunung",
+    "subtitle": "Asap yang mengingati gunung.",
+    "p1": "Kemenyan berasal dari ritual purba di China dan India. Penyanian boshan dinasti Han, upacara kemenyan dinasti Tang, sarjana Song membakar kemenyan semasa membaca — satu helai asap telah menjelajah seribu tahun dan masih sebahagian daripada kehidupan harian kita.",
+    "p2": "Gaharu ialah resin yang dirembeskan oleh pokok yang luka, ditransformasikan oleh masa. Ia digelar 'berlian tumbuh-tumbuhan.' Yunnan, Hainan, Vietnam, Malaysia, Laos — setiap kawasan menghasilkan wangian yang berbeza: sejuk, lembut, manis, atau pahit. Kami memilih mengikut dua piawaian: kejernihan, dan kedalaman.",
+    "p3": "Batang, balsem, minyak pati, pembakar — bentuknya berbeza; intinya sama: biar udara mengingati keheningan hutan.",
+    "cta": "Layari semua kemenyan"
+  },
+  "craft": {
+    "kicker": "Kraftangan",
+    "title": "Kesabatan tangan",
+    "p1": "Kraftangan kami bermula dengan pemilihan batu. Setiap cebisan ambar dan setiap cebisan kayu diperiksa di bawah cahaya langsung untuk mengecualikan retakan, bendasing, dan tanda-tanda peningkatan buatan.",
+    "p2": "Pemotongan mengutamakan pemeliharaan kejernihan maksimum. Kami tidak mengejar paling banyak potongan dari satu batu — setiap potongan mesti menghormati berat masa. Pengisaran melalui peringkat kasar, halus, dan penggilap, sentiasa memeriksa butiran di bawah kanta untuk mengelakkan membuang apa yang sepatutnya kekal.",
+    "p3": "Lubang digerudi pada kelajuan manual untuk mengelakkan keretakan terma. Simpul antara manik menggunakan ikatan simpulan Cina tradisional — tegangan sekata, jarang longgar.",
+    "p4": "Pengadunan kemenyan mengikut resipi klasik: gaharu dan cendana sebagai asas, dengan cengkih, borneol, dan likuoris sebagai pengubah. Nisbah salah, dan wangian kehilangan dalamnya.",
+    "p5": "Kami percaya: kelambatan ialah rasa hormat kepada alam."
+  },
+  "materials": {
+    "kicker": "Bahan",
+    "title": "Dari mana asalnya bahan",
+    "intro": "Enam asal, setiap satunya dengan temperamen sendiri.",
+    "amber_baltic_title": "Ambar Baltik",
+    "amber_baltic_desc": "3–8% asid suksinik, warna hangat, madu biasa dan ambar pucat. Sumber: Lithuania, Latvia, Poland, Denmark.",
+    "amber_burma_title": "Ambar Lembah Hukawng Burma",
+    "amber_burma_desc": "Pertengahan Cretaceous, sangat tua. Merah tua, coklat gelap, ton wain; kaya dengan bendasing.",
+    "amber_dominican_title": "Ambar biru Dominican",
+    "amber_dominican_desc": "Pendarfluor biru tenang di bawah UV. Makah untuk dipandang.",
+    "amber_fushun_title": "Ambar Fushun China",
+    "amber_fushun_desc": "Dari lombong arang batu terbuka Liaoning Fushun, warna gelap, hampir habis, nilai koleksi.",
+    "amber_sicily_title": "Ambar Sicily",
+    "amber_sicily_desc": "Kaya dengan serpihan tumbuh-tumbuhan, warna merah gelap, watak Itali Mediterranean.",
+    "agarwood_title": "Gaharu asli",
+    "agarwood_desc": "Yunnan, Hainan, Vietnam, Malaysia, Laos — wangian setiap kawasan berbeza. Dipilih mengikut kejernihan dan kedalaman."
   }
 }

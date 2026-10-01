@@ -1,42 +1,58 @@
 ---
-import Layout from '@layouts/Layout.astro';
-import { createT } from '../i18n/t';
+import Layout from "@layouts/Layout.astro";
+import RevealOnScroll from "@components/RevealOnScroll.astro";
+import { createT } from "../i18n/t";
+import { defaultLocale, type Locale } from "../i18n/config";
 
+const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
 const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
 const t = createT(messages);
+void locale;
 ---
 
-<Layout title={`${t('nav.amber')} — ${t('common.site_name')}`} description={t('story.p1')}>
+<Layout
+  title={`${t("amber.title")} — ${t("common.site_name")}`}
+  description={t("amber.p1")}
+>
   <article class="max-w-4xl mx-auto px-6 py-section">
-    <header class="mb-12 text-center">
-      <p class="text-sm uppercase tracking-[0.3em] text-accent-700 font-sans mb-3">{t('nav.amber')}</p>
-      <h1 class="text-display-sm md:text-display-md font-serif text-text-primary mb-3">
-        琥珀物語
-      </h1>
-      <p class="text-lg text-text-secondary italic">
-        A frozen breath of ancient forests, worn on your skin.
-      </p>
-    </header>
+    <RevealOnScroll>
+      <header class="mb-16 text-center">
+        <p
+          class="text-[10px] uppercase tracking-[0.4em] text-forest-600 font-sans mb-4"
+        >
+          {t("amber.kicker")}
+        </p>
+        <h1
+          class="text-display-sm md:text-display-md font-serif text-text-primary mb-4 leading-[1.08]"
+        >
+          {t("amber.title")}
+        </h1>
+        <p class="text-lg text-text-secondary italic max-w-xl mx-auto">
+          {t("amber.subtitle")}
+        </p>
+      </header>
+    </RevealOnScroll>
 
-    <div class="prose prose-lg max-w-none space-y-6 text-text-secondary font-sans leading-relaxed">
-      <p>
-        琥珀是時間的容器。它封存了四千萬年前的樹脂、氣泡、蟲翼與森林的光。波羅的海沿岸的琥珀含琥珀酸 3-8%,
-        被中世紀歐洲人視為「抵禦疾病的護身符」,稱之為「北方之金」。
-      </p>
-      <p>
-        緬甸胡康河谷的琥珀,年代更為古老,可追溯至白堊紀中期。多米尼加藍珀在紫外線下透出幽藍螢光,因產量稀少而珍貴。
-        中國撫順琥珀與西西里島琥珀各有其風土特質,每一顆都是一個不可重來的地質切片。
-      </p>
-      <p>
-        我們挑選琥珀,以色澤通透、紋理清晰為基準。每一件作品都會附上產地與年代資訊,讓穿戴者不只是擁有一件飾品,而是擁有
-        一段跨越時空的自然記憶。
-      </p>
-    </div>
+    <RevealOnScroll>
+      <div
+        class="space-y-6 text-text-secondary font-sans leading-relaxed text-base max-w-3xl mx-auto"
+      >
+        <p>{t("amber.p1")}</p>
+        <p>{t("amber.p2")}</p>
+        <p>{t("amber.p3")}</p>
+      </div>
+    </RevealOnScroll>
 
-    <div class="text-center mt-12">
-      <a href="/products?cat=jewelry" class="text-accent-700 underline">
-        瀏覽所有琥珀飾品 →
-      </a>
-    </div>
+    <RevealOnScroll>
+      <div class="text-center mt-12">
+        <a
+          href="/products?cat=jewelry"
+          class="inline-flex items-center gap-2 text-forest-700 hover:text-forest-800 border-b border-forest-300 pb-1 font-sans tracking-wide link-underline"
+        >
+          {t("amber.cta")}
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </RevealOnScroll>
   </article>
 </Layout>

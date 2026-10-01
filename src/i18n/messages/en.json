@@ -22,7 +22,8 @@
     "blog": "Journal",
     "contact": "Contact",
     "cart": "Cart",
-    "quiz": "Find Yours"
+    "quiz": "Find Yours",
+    "products": "All pieces"
   },
   "home": {
     "hero_kicker": "Coming Soon · 2026",
@@ -161,5 +162,124 @@
         "any": "No preference"
       }
     }
+  },
+  "story": {
+    "kicker": "About",
+    "title": "The forest, in our hands",
+    "subtitle": "Where amber, incense, and quiet attention meet.",
+    "p1": "Each piece begins with a conversation in the forest. From Baltic amber to Yunnan agarwood, from Malaysian rattan to the spice routes of the Middle East — we travel far to bring nature's breath to you.",
+    "p2": "The forest is not the backdrop. It is the protagonist. Wear one amber, light one incense — the forest lives.",
+    "p3": "We do not chase luxury. We chase translucence, breath, and the stillness of the East. Handcraft, slowness, and respect for nature are the truest form of luxury.",
+    "p4": "To wear one of our pieces is to remember: the forest is patient. We should be too.",
+    "pull_quote": "Wear one amber, light one incense — the forest lives."
+  },
+  "vision": {
+    "kicker": "Vision",
+    "title": "A forest that travels with you",
+    "subtitle": "What we are quietly working toward.",
+    "p1": "We imagine a world where every piece of adornment is so different, you cannot find two alike. Each one carries a memory of the place it came from — the resin of a tree that lived a million years ago, the smoke of a forest that still stands.",
+    "p2": "We are not building a fashion brand. We are cultivating a relationship between the East and the wild — between the patience of a tree and the patience of a wearer.",
+    "p3": "Five years from now, we hope a hundred thousand people will wear our work. That they will slow down when they fasten an amber clasp. That they will pause when they light an incense stick.",
+    "p4": "When you wear one amber, light one incense — the forest lives.",
+    "cta": "Read the story"
+  },
+  "contact": {
+    "kicker": "Reach us",
+    "title": "Let's start a conversation",
+    "subtitle": "We reply within two working days — usually sooner.",
+    "name": "Your name",
+    "email": "Your email",
+    "phone": "Phone (optional)",
+    "subject": "Subject",
+    "message": "Your message",
+    "submit": "Send message",
+    "submitting": "Sending…",
+    "success_title": "Message received",
+    "success_intro": "Thank you — we will reply within two working days.",
+    "reply_promise": "Usually two working days, occasionally sooner.",
+    "channels_kicker": "Other ways to reach us",
+    "channel_email": "Email",
+    "channel_whatsapp": "WhatsApp",
+    "channel_wechat": "WeChat",
+    "channel_studio": "Studio visits by appointment"
+  },
+  "footer": {
+    "tagline": "Forest-rooted handcraft · Greater SEA + Middle East · four locales",
+    "section_shop": "Shop",
+    "section_brand": "Brand",
+    "section_follow": "Follow",
+    "link_all": "All pieces",
+    "link_amber": "Amber jewelry",
+    "link_incense": "Eastern incense",
+    "link_quiz": "Find yours",
+    "link_story": "Our story",
+    "link_vision": "Vision",
+    "link_craft": "Craft",
+    "link_materials": "Materials",
+    "link_blog": "Journal",
+    "link_contact": "Contact",
+    "link_admin": "Admin sign-in",
+    "newsletter_kicker": "Stay close",
+    "newsletter_title": "Quiet letters from the studio",
+    "newsletter_desc": "One note per season — new pieces, journal entries, occasional fragrance trials.",
+    "newsletter_placeholder": "your@email",
+    "newsletter_submit": "Subscribe",
+    "social_instagram": "Instagram",
+    "social_pinterest": "Pinterest",
+    "social_xiaohongshu": "Xiaohongshu",
+    "year": "© 2026 cnamber-store. All rights reserved.",
+    "studio": "Studio · Greater Southeast Asia",
+    "tag_brand": "Forest-rooted handcraft",
+    "made_with": "Handcrafted with patience"
+  },
+  "blog": {
+    "title": "Journal",
+    "intro": "Field notes, material studies, and slow letters from the studio.",
+    "empty": "No journal entries yet — the first one is brewing.",
+    "read_more": "Read on"
+  },
+  "amber": {
+    "kicker": "Amber",
+    "title": "Amber — a frozen breath of forests",
+    "subtitle": "A frozen breath of ancient forests, worn on your skin.",
+    "p1": "Amber is a vessel of time. It preserves resin, bubbles, insect wings, and forest light from forty million years ago. Baltic coast amber contains 3–8% succinic acid, which medieval Europeans called the 'shield against illness' — 'gold of the North'.",
+    "p2": "Burmese Hukawng Valley amber dates from the mid-Cretaceous — even older. Dominican blue amber glows with a quiet fluorescence under UV light, rare and prized. Chinese Fushun amber and Sicilian amber each carry the temperament of their soil.",
+    "p3": "We choose ours by one standard: how translucent the light passes through. Every piece comes with its origin and age — so the wearer is not just wearing jewelry, but a piece of nature's memory.",
+    "cta": "Browse all amber jewelry"
+  },
+  "incense": {
+    "kicker": "Incense",
+    "title": "Eastern incense — smoke that remembers the mountains",
+    "subtitle": "Smoke that remembers the mountains.",
+    "p1": "Incense traces back to ancient ritual in China and India. Han dynasty boshan censers, Tang dynasty incense ceremonies, Song scholars burning incense while reading — a thread of smoke has traveled through a thousand years and is still part of our daily life.",
+    "p2": "Agarwood is the resin secreted by wounded trees, transformed by time. It is called 'the diamond of plants.' Yunnan, Hainan, Vietnam, Malaysia, Laos — each region produces a different fragrance: cool, mellow, sweet, or bitter. We select by two standards: translucence, and depth of layer.",
+    "p3": "Sticks, balms, essential oils, burners — the forms differ; the essence is the same: let the air remember the stillness of the forest.",
+    "cta": "Browse all incense"
+  },
+  "craft": {
+    "kicker": "Craft",
+    "title": "The patience of the hand",
+    "p1": "Our craft begins with stone selection. Each piece of amber and each piece of wood is examined under direct light to exclude cracks, impurities, and signs of artificial enhancement.",
+    "p2": "Cutting prioritizes preserving maximum translucence. We do not chase the most cuts from one stone — every cut must respect the weight of time. Grinding proceeds through coarse, fine, and polishing stages, repeatedly checking grain under a loupe to avoid removing what should remain.",
+    "p3": "Holes are drilled at manual speeds to avoid thermal fracturing. Knots between beads use traditional Chinese knotting — even tension, rarely loose.",
+    "p4": "Incense blending follows classical recipes: agarwood and sandalwood as base, with clove, borneol, and licorice as modifiers. The wrong ratio, and the fragrance loses its depth.",
+    "p5": "We believe: slowness is respect for nature."
+  },
+  "materials": {
+    "kicker": "Materials",
+    "title": "Where the materials come from",
+    "intro": "Six origins, each with its own temperament.",
+    "amber_baltic_title": "Baltic amber",
+    "amber_baltic_desc": "3–8% succinic acid, warm tones, common honey and pale amber. Sources: Lithuania, Latvia, Poland, Denmark.",
+    "amber_burma_title": "Burmese Hukawng Valley amber",
+    "amber_burma_desc": "Mid-Cretaceous, very old. Deep red, dark brown, wine tones; rich in inclusions.",
+    "amber_dominican_title": "Dominican blue amber",
+    "amber_dominican_desc": "Quiet blue fluorescence under UV. Rare; the most valuable.",
+    "amber_fushun_title": "Chinese Fushun amber",
+    "amber_fushun_desc": "From Liaoning Fushun's open-pit coal mine, deep tones, near-depleted, collected value.",
+    "amber_sicily_title": "Sicilian amber",
+    "amber_sicily_desc": "Rich in plant debris, dark red tones, Mediterranean Italian character.",
+    "agarwood_title": "Natural agarwood",
+    "agarwood_desc": "Yunnan, Hainan, Vietnam, Malaysia, Laos — each region's fragrance differs. Selected by translucence and depth."
   }
 }

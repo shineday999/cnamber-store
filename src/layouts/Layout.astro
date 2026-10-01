@@ -1,6 +1,8 @@
 ---
+// Layout — 全站共用 layout (2026-10-01: Awwwards-tier header with main nav)
 import "../styles/global.css";
 import LocaleSwitcher from "@components/LocaleSwitcher.astro";
+import Footer from "@components/Footer.astro";
 import { createT } from "../i18n/t";
 import {
   defaultLocale,
@@ -47,8 +49,6 @@ async function getStyleVal(key: string, fallback: string): Promise<string> {
       .first<{ value: string }>();
     return row?.value?.trim() || fallback;
   } catch (e) {
-    // F-17: site_settings table may not exist if D1 migrations haven't run.
-    // Fallback to default so <html style=...> renders and body is not truncated.
     console.warn(
       `[Layout] getStyleVal(${key}) failed, using fallback:`,
       e instanceof Error ? e.message : e,
@@ -82,11 +82,18 @@ const hreflangUrls = locales.map((l) => ({
   href: `${siteUrl}${localizedPath(l, cleanPath)}`,
 }));
 
-// Sticky header: LOGO links to current-locale home; LocaleSwitcher wired via shared component.
 const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
 const t = createT(messages);
 const homePath = localizedPath(currentLocale, "/");
 const siteName = t("common.site_name");
+
+// Main nav (locale-aware)
+const nav = [
+  { label: t("nav.products"), href: localizedPath(currentLocale, "/products") },
+  { label: t("nav.story"), href: localizedPath(currentLocale, "/story") },
+  { label: t("nav.quiz"), href: localizedPath(currentLocale, "/quiz") },
+  { label: t("nav.contact"), href: localizedPath(currentLocale, "/contact") },
+];
 ---
 
 <!doctype html>
@@ -150,12 +157,12 @@ const siteName = t("common.site_name");
   <body class="bg-white text-text-primary">
     <header class="sticky top-0 z-40 w-full glass border-b border-forest-900/5">
       <div
-        class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between"
+        class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between gap-4"
       >
         <a
           href={homePath}
           aria-label={`${siteName} — home`}
-          class="flex items-center gap-2.5 group focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-500/40 rounded-md"
+          class="flex items-center gap-2.5 group focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-500/40 rounded-md shrink-0"
         >
           <svg
             viewBox="0 0 32 32"
@@ -178,9 +185,29 @@ const siteName = t("common.site_name");
             {siteName}
           </span>
         </a>
-        <LocaleSwitcher />
+
+        <nav
+          class="hidden md:flex items-center gap-7 text-sm font-sans"
+          aria-label="Main"
+        >
+          {
+            nav.map((item) => (
+              <a
+                href={item.href}
+                class="text-text-secondary hover:text-forest-700 transition-colors duration-300 link-underline"
+              >
+                {item.label}
+              </a>
+            ))
+          }
+        </nav>
+
+        <div class="flex items-center gap-3 shrink-0">
+          <LocaleSwitcher />
+        </div>
       </div>
     </header>
     <slot />
+    <Footer />
   </body>
 </html>

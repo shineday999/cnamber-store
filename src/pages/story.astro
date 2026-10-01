@@ -1,7 +1,8 @@
 ---
-import Layout from '@layouts/Layout.astro';
-import { createT } from '../i18n/t';
-import { defaultLocale, type Locale } from '../i18n/config';
+import Layout from "@layouts/Layout.astro";
+import RevealOnScroll from "@components/RevealOnScroll.astro";
+import { createT } from "../i18n/t";
+import { defaultLocale, type Locale } from "../i18n/config";
 
 const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
 const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
@@ -9,20 +10,45 @@ const t = createT(messages);
 void locale;
 ---
 
-<Layout title={`${t('story.title')} — ${t('common.site_name')}`} description={t('story.p1')}>
+<Layout
+  title={`${t("story.title")} — ${t("common.site_name")}`}
+  description={t("story.p1")}
+>
   <article class="max-w-3xl mx-auto px-6 py-section">
-    <header class="mb-12 text-center">
-      <p class="text-sm uppercase tracking-[0.3em] text-accent-700 font-sans mb-3">About</p>
-      <h1 class="text-display-sm md:text-display-md font-serif text-text-primary mb-3">
-        {t('story.title')}
-      </h1>
-      <p class="text-lg text-text-secondary italic">{t('story.subtitle')}</p>
-    </header>
+    <RevealOnScroll>
+      <header class="mb-16 text-center">
+        <p
+          class="text-[10px] uppercase tracking-[0.4em] text-forest-600 font-sans mb-4"
+        >
+          {t("story.kicker")}
+        </p>
+        <h1
+          class="text-display-sm md:text-display-md font-serif text-text-primary mb-4 leading-[1.08]"
+        >
+          {t("story.title")}
+        </h1>
+        <p class="text-lg text-text-secondary italic max-w-xl mx-auto">
+          {t("story.subtitle")}
+        </p>
+      </header>
+    </RevealOnScroll>
 
-    <div class="prose prose-lg max-w-none space-y-6 text-text-secondary font-sans leading-relaxed">
-      <p>{t('story.p1')}</p>
-      <p>{t('story.p2')}</p>
-      <p>{t('story.p3')}</p>
-    </div>
+    <RevealOnScroll>
+      <div
+        class="prose prose-lg max-w-none space-y-6 text-text-secondary font-sans leading-relaxed text-base"
+      >
+        <p>{t("story.p1")}</p>
+        <p>{t("story.p2")}</p>
+        <blockquote class="my-10 pl-6 border-l-2 border-terra-500">
+          <p
+            class="text-xl md:text-2xl font-serif italic text-forest-700 leading-snug"
+          >
+            {t("story.pull_quote")}
+          </p>
+        </blockquote>
+        <p>{t("story.p3")}</p>
+        <p>{t("story.p4")}</p>
+      </div>
+    </RevealOnScroll>
   </article>
 </Layout>
