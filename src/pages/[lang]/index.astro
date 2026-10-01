@@ -7,7 +7,7 @@ import { defaultLocale, isLocale, type Locale } from "../../i18n/config";
 const lang = Astro.params.lang ?? "";
 
 if (!isLocale(lang) || lang === defaultLocale) {
-  return Astro.redirect("/");
+  return Astro.rewrite("/404");
 }
 
 const locale = lang as Locale;

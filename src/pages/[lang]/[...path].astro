@@ -9,7 +9,7 @@ const subPath =
 
 // /zh-Hans/* 不該走這條路(default locale 不加 prefix)
 if (!isLocale(lang) || lang === defaultLocale) {
-  return Astro.redirect("/");
+  return Astro.rewrite("/404");
 }
 
 // 內部 rewrite 到根路徑,保留 URL 但 render 對應 page。
