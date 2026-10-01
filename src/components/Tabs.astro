@@ -1,46 +1,83 @@
 ---
-// Tabs — 用於後台切換(core / translations / variants / meta)
-// Astro 不支援動態 slot 名稱 <slot name={dynamic} />,改用 hardcoded 4 slots
-// 新增 tab 類型時,需在此擴充
+// Tabs — client-side toggle (no SSR round-trip per click).
+// Wave 20: rewrite to <button> + JS so it works without ClientRouter /
+// without URL param round-trip. Each panel uses data-tab-panel matching
+// the corresponding data-tab-trigger id. `defaultTab` decides initial.
 interface Tab {
-  id: 'core' | 'translations' | 'variants' | 'meta' | string;
+  id: string;
   label: string;
 }
 interface Props {
   tabs: Tab[];
-  paramName?: string;
+  defaultTab?: string;
 }
 
-const { tabs, paramName = 'tab' } = Astro.props;
-const url = Astro.url;
-const activeTab = url.searchParams.get(paramName) ?? tabs[0]?.id ?? '';
+const { tabs, defaultTab } = Astro.props;
+const active = defaultTab ?? tabs[0]?.id ?? "";
 ---
 
-<div class="border-b border-text-muted/20 mb-6">
-  <nav class="flex gap-1">
-    {tabs.map((tab) => {
-      const isActive = tab.id === activeTab;
-      const next = new URL(url);
-      next.searchParams.set(paramName, tab.id);
-      return (
-        <a
-          href={next.pathname + next.search}
-          class={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
-            isActive
-              ? 'border-accent-700 text-accent-700'
-              : 'border-transparent text-text-muted hover:text-text-primary'
-          }`}
+<div data-tabs>
+  <nav class="flex gap-1 border-b border-text-muted/20 mb-6">
+    {
+      tabs.map((tab) => (
+        <button
+          type="button"
+          data-tab-trigger={tab.id}
+          class:list={[
+            "px-4 py-2 text-sm font-medium border-b-2 transition-colors",
+            tab.id === active
+              ? "border-accent-700 text-accent-700"
+              : "border-transparent text-text-muted hover:text-text-primary",
+          ]}
         >
           {tab.label}
-        </a>
-      );
-    })}
+        </button>
+      ))
+    }
   </nav>
+
+  <div data-tab-panels>
+    <div data-tab-panel={tabs[0]?.id} hidden={tabs[0]?.id !== active}>
+      <slot name="core" />
+    </div>
+    <div data-tab-panel={tabs[1]?.id} hidden={tabs[1]?.id !== active}>
+      <slot name="translations" />
+    </div>
+    <div data-tab-panel={tabs[2]?.id} hidden={tabs[2]?.id !== active}>
+      <slot name="variants" />
+    </div>
+    <div data-tab-panel="meta" hidden={true}><slot name="meta" /></div>
+  </div>
 </div>
 
-<div data-active-tab={activeTab}>
-  <div hidden={activeTab !== 'core'}><slot name="core" /></div>
-  <div hidden={activeTab !== 'translations'}><slot name="translations" /></div>
-  <div hidden={activeTab !== 'variants'}><slot name="variants" /></div>
-  <div hidden={activeTab !== 'meta'}><slot name="meta" /></div>
-</div>
+<script is:inline>
+  (function () {
+    document.querySelectorAll("[data-tabs]").forEach(function (container) {
+      var triggers = container.querySelectorAll("[data-tab-trigger]");
+      var panels = container.querySelectorAll("[data-tab-panel]");
+      triggers.forEach(function (trigger) {
+        trigger.addEventListener("click", function () {
+          var target = trigger.getAttribute("data-tab-trigger");
+          if (!target) return;
+          triggers.forEach(function (t) {
+            var isActive = t.getAttribute("data-tab-trigger") === target;
+            t.classList.remove("border-accent-700", "text-accent-700");
+            t.classList.add("border-transparent", "text-text-muted");
+            if (isActive) {
+              t.classList.add("border-accent-700", "text-accent-700");
+              t.classList.remove("border-transparent", "text-text-muted");
+            }
+          });
+          panels.forEach(function (panel) {
+            var isActive = panel.getAttribute("data-tab-panel") === target;
+            if (isActive) {
+              panel.removeAttribute("hidden");
+            } else {
+              panel.setAttribute("hidden", "");
+            }
+          });
+        });
+      });
+    });
+  })();
+</script>
