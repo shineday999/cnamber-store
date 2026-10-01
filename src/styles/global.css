@@ -369,3 +369,37 @@ h6 {
     border-radius: 2px;
   }
 }
+
+
+/* === Wave 12: scroll progress indicator (Awwwards-tier) === */
+
+/* Thin gradient bar pinned at top of viewport; fills as user scrolls.
+   JS sets transform: scaleX(t) via rAF; CSS only handles visuals.
+   z-60 sits above mobile menu (z-50) so always visible. */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 60;
+  pointer-events: none;
+  background: transparent;
+}
+.scroll-progress-bar {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(95, 50, 32, 0.9),
+    rgba(154, 119, 90, 0.95)
+  );
+  transform-origin: left center;
+  transform: scaleX(0);
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-progress {
+    display: none;
+  }
+}

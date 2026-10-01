@@ -103,6 +103,35 @@ const nav = [
     <title>{title}</title>
   </head>
   <body class="bg-white text-text-primary">
+    <!-- Wave 12: Awwwards-tier scroll progress indicator (z-60 above mobile menu z-50; aria-hidden; JS-only state) -->
+    <div class="scroll-progress" aria-hidden="true">
+      <div class="scroll-progress-bar"></div>
+    </div>
+    <script is:inline>
+      // Scroll progress: rAF-throttled scroll/resize handler updates
+      // transform: scaleX(t) on the inner bar. CSS handles visuals only;
+      // prefers-reduced-motion hides the whole element (CSS rule).
+      (function () {
+        let rafId = null;
+        function update() {
+          if (rafId) return;
+          rafId = window.requestAnimationFrame(function () {
+            rafId = null;
+            var bar = document.querySelector(".scroll-progress-bar");
+            if (!bar) return;
+            var doc =
+              document.documentElement.scrollHeight - window.innerHeight;
+            var p = doc > 0 ? window.scrollY / doc : 0;
+            if (p < 0) p = 0;
+            if (p > 1) p = 1;
+            bar.style.transform = "scaleX(" + p + ")";
+          });
+        }
+        window.addEventListener("scroll", update, { passive: true });
+        window.addEventListener("resize", update, { passive: true });
+        update();
+      })();
+    </script>
     <header class="sticky top-0 z-40 w-full glass border-b border-forest-900/5">
       <div
         class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between gap-4"
