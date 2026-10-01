@@ -1,9 +1,9 @@
 ---
 // 前台商品列表頁(SSR)
-import Layout from '@layouts/Layout.astro';
-import ProductCard from '@components/ProductCard.astro';
-import { createT } from '../../i18n/t';
-import { defaultLocale, type Locale } from '../../i18n/config';
+import Layout from "@layouts/Layout.astro";
+import ProductCard from "@components/ProductCard.astro";
+import { createT } from "../../i18n/t";
+import { defaultLocale, type Locale } from "../../i18n/config";
 
 const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
 const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
@@ -11,8 +11,8 @@ const t = createT(messages);
 void locale;
 
 const url = Astro.url;
-const filter = url.searchParams.get('cat') ?? 'all';
-const pageTitle = `${t('nav.amber')} · ${t('nav.incense')} — ${t('common.site_name')}`;
+const filter = url.searchParams.get("cat") ?? "all";
+const pageTitle = `${t("nav.amber")} · ${t("nav.incense")} — ${t("common.site_name")}`;
 
 const env = Astro.locals.runtime?.env;
 const products = env?.DB
@@ -25,12 +25,15 @@ const products = env?.DB
        LEFT JOIN product_translations pt ON pt.product_id = p.id AND pt.locale = ?
        LEFT JOIN product_variants pv ON pv.product_id = p.id
        LEFT JOIN product_prices pp ON pp.variant_id = pv.id
-       WHERE p.status = 'active' ${filter !== 'all' ? 'AND p.category = ?' : ''}
+       WHERE p.status = 'active' ${filter !== "all" ? "AND p.category = ?" : ""}
        GROUP BY p.id
        ORDER BY p.created_at DESC LIMIT 60`,
     )
-    .bind(filter !== 'all' ? locale : locale, ...(filter !== 'all' ? [filter] : []))
-    .all()
+      .bind(
+        filter !== "all" ? locale : locale,
+        ...(filter !== "all" ? [filter] : []),
+      )
+      .all()
   : { results: [] as Array<Record<string, unknown>> };
 
 function firstImage(json: string | null | undefined): string | undefined {
@@ -44,57 +47,76 @@ function firstImage(json: string | null | undefined): string | undefined {
 }
 ---
 
-<Layout title={pageTitle} description={t('home.story_p1') ?? ''}>
+<Layout title={pageTitle} description={t("home.story_p1") ?? ""}>
   <div class="max-w-6xl mx-auto px-6 py-section">
     <header class="mb-12 text-center">
-      <p class="text-sm uppercase tracking-[0.3em] text-accent-700 font-sans mb-3">Shop</p>
-      <h1 class="text-display-sm md:text-display-md font-serif text-text-primary mb-3">
-        {t('nav.amber')} · {t('nav.incense')}
+      <p
+        class="text-sm uppercase tracking-[0.3em] text-accent-700 font-sans mb-3"
+      >
+        Shop
+      </p>
+      <h1
+        class="text-display-sm md:text-display-md font-serif text-text-primary mb-3"
+      >
+        {t("nav.amber")} · {t("nav.incense")}
       </h1>
-      <p class="text-text-secondary max-w-2xl mx-auto">{t('home.story_p1')}</p>
+      <p class="text-text-secondary max-w-2xl mx-auto">{t("home.story_p1")}</p>
     </header>
 
     <nav class="flex justify-center gap-2 mb-10">
-      {(['all', 'jewelry', 'incense'] as const).map((cat) => {
-        const isActive = filter === cat;
-        const next = new URL(Astro.url);
-        if (cat === 'all') next.searchParams.delete('cat');
-        else next.searchParams.set('cat', cat);
-        return (
-          <a
-            href={next.pathname + next.search}
-            class={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-              isActive
-                ? 'bg-primary-700 text-bg-base'
-                : 'bg-bg-card border border-text-muted/20 text-text-primary hover:border-accent-500'
-            }`}
-          >
-            {cat === 'all' ? 'All' : cat === 'jewelry' ? t('nav.amber') : t('nav.incense')}
-          </a>
-        );
-      })}
+      {
+        (["all", "jewelry", "incense"] as const).map((cat) => {
+          const isActive = filter === cat;
+          const next = new URL(Astro.url);
+          if (cat === "all") next.searchParams.delete("cat");
+          else next.searchParams.set("cat", cat);
+          return (
+            <a
+              href={next.pathname + next.search}
+              class={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                isActive
+                  ? "bg-forest-700 text-bg-base"
+                  : "bg-bg-card border border-text-muted/20 text-text-primary hover:border-accent-500"
+              }`}
+            >
+              {cat === "all"
+                ? "All"
+                : cat === "jewelry"
+                  ? t("nav.amber")
+                  : t("nav.incense")}
+            </a>
+          );
+        })
+      }
     </nav>
 
-    {products.results.length === 0 ? (
-      <div class="text-center py-section text-text-muted">
-        <p class="text-lg mb-2">No products yet.</p>
-        <p class="text-sm">
-          Please check back soon — Phase 2 is the admin skeleton; product seeding is planned for Phase 3.
-        </p>
-      </div>
-    ) : (
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {products.results.map((p) => (
-          <ProductCard
-            slug={p.slug as string}
-            name={(p.name as string) ?? (p.slug as string)}
-            shortDescription={(p.short_description as string) ?? undefined}
-            category={p.category as string}
-            imageUrl={firstImage(p.image_urls as string)}
-            priceFrom={(p.min_price as number) ? `${(p.min_price as number) / 100} ${p.min_currency as string}` : undefined}
-          />
-        ))}
-      </div>
-    )}
+    {
+      products.results.length === 0 ? (
+        <div class="text-center py-section text-text-muted">
+          <p class="text-lg mb-2">No products yet.</p>
+          <p class="text-sm">
+            Please check back soon — Phase 2 is the admin skeleton; product
+            seeding is planned for Phase 3.
+          </p>
+        </div>
+      ) : (
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {products.results.map((p) => (
+            <ProductCard
+              slug={p.slug as string}
+              name={(p.name as string) ?? (p.slug as string)}
+              shortDescription={(p.short_description as string) ?? undefined}
+              category={p.category as string}
+              imageUrl={firstImage(p.image_urls as string)}
+              priceFrom={
+                (p.min_price as number)
+                  ? `${(p.min_price as number) / 100} ${p.min_currency as string}`
+                  : undefined
+              }
+            />
+          ))}
+        </div>
+      )
+    }
   </div>
 </Layout>

@@ -1,13 +1,17 @@
 ---
-import AdminLayout from '../../layouts/AdminLayout.astro';
+import AdminLayout from "../../layouts/AdminLayout.astro";
 
 const env = Astro.locals.runtime?.env;
 let stats = { products: 0, orders: 0, pendingReviews: 0, totalRevenue: 0 };
 
 if (env?.DB) {
   try {
-    const products = await env.DB.prepare('SELECT COUNT(*) AS c FROM products').first<{ c: number }>();
-    const orders = await env.DB.prepare('SELECT COUNT(*) AS c FROM orders').first<{ c: number }>();
+    const products = await env.DB.prepare(
+      "SELECT COUNT(*) AS c FROM products",
+    ).first<{ c: number }>();
+    const orders = await env.DB.prepare(
+      "SELECT COUNT(*) AS c FROM orders",
+    ).first<{ c: number }>();
     const reviews = await env.DB.prepare(
       "SELECT COUNT(*) AS c FROM reviews WHERE status = 'pending'",
     ).first<{ c: number }>();
@@ -21,7 +25,7 @@ if (env?.DB) {
       totalRevenue: revenue?.s ?? 0,
     };
   } catch (e) {
-    console.error('[admin dashboard] DB query failed', e);
+    console.error("[admin dashboard] DB query failed", e);
   }
 }
 ---
@@ -29,20 +33,32 @@ if (env?.DB) {
 <AdminLayout title="Dashboard" active="dashboard">
   <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
     <div class="bg-bg-card border border-text-muted/20 rounded-card p-5">
-      <div class="text-sm uppercase tracking-wider text-text-muted">Products</div>
-      <div class="text-3xl font-serif mt-2 text-primary-700">{stats.products}</div>
+      <div class="text-sm uppercase tracking-wider text-text-muted">
+        Products
+      </div>
+      <div class="text-3xl font-serif mt-2 text-forest-700">
+        {stats.products}
+      </div>
     </div>
     <div class="bg-bg-card border border-text-muted/20 rounded-card p-5">
       <div class="text-sm uppercase tracking-wider text-text-muted">Orders</div>
-      <div class="text-3xl font-serif mt-2 text-primary-700">{stats.orders}</div>
+      <div class="text-3xl font-serif mt-2 text-forest-700">{stats.orders}</div>
     </div>
     <div class="bg-bg-card border border-text-muted/20 rounded-card p-5">
-      <div class="text-sm uppercase tracking-wider text-text-muted">Pending Reviews</div>
-      <div class="text-3xl font-serif mt-2 text-accent-700">{stats.pendingReviews}</div>
+      <div class="text-sm uppercase tracking-wider text-text-muted">
+        Pending Reviews
+      </div>
+      <div class="text-3xl font-serif mt-2 text-accent-700">
+        {stats.pendingReviews}
+      </div>
     </div>
     <div class="bg-bg-card border border-text-muted/20 rounded-card p-5">
-      <div class="text-sm uppercase tracking-wider text-text-muted">Revenue (paid)</div>
-      <div class="text-3xl font-serif mt-2 text-success">{stats.totalRevenue}</div>
+      <div class="text-sm uppercase tracking-wider text-text-muted">
+        Revenue (paid)
+      </div>
+      <div class="text-3xl font-serif mt-2 text-success">
+        {stats.totalRevenue}
+      </div>
     </div>
   </div>
 
@@ -52,25 +68,35 @@ if (env?.DB) {
       class="block bg-bg-card border border-text-muted/20 rounded-card p-6 hover:border-accent-500 transition-colors"
     >
       <h2 class="font-serif text-xl mb-2">Manage Products</h2>
-      <p class="text-sm text-text-secondary">Add, edit, archive inventory. Edit 4-language translations.</p>
+      <p class="text-sm text-text-secondary">
+        Add, edit, archive inventory. Edit 4-language translations.
+      </p>
     </a>
     <a
       href="/admin/orders"
       class="block bg-bg-card border border-text-muted/20 rounded-card p-6 hover:border-accent-500 transition-colors"
     >
       <h2 class="font-serif text-xl mb-2">Manage Orders</h2>
-      <p class="text-sm text-text-secondary">View reservation orders, mark paid, update shipping status.</p>
+      <p class="text-sm text-text-secondary">
+        View reservation orders, mark paid, update shipping status.
+      </p>
     </a>
     <a
       href="/admin/reviews"
       class="block bg-bg-card border border-text-muted/20 rounded-card p-6 hover:border-accent-500 transition-colors"
     >
       <h2 class="font-serif text-xl mb-2">Review Moderation</h2>
-      <p class="text-sm text-text-secondary">Approve or reject pending customer reviews.</p>
+      <p class="text-sm text-text-secondary">
+        Approve or reject pending customer reviews.
+      </p>
     </a>
-    <div class="block bg-bg-card border border-text-muted/20 rounded-card p-6 opacity-60 cursor-not-allowed">
+    <div
+      class="block bg-bg-card border border-text-muted/20 rounded-card p-6 opacity-60 cursor-not-allowed"
+    >
       <h2 class="font-serif text-xl mb-2">Content & Blog (Phase 4)</h2>
-      <p class="text-sm text-text-secondary">Blog CMS and brand pages coming in Phase 4.</p>
+      <p class="text-sm text-text-secondary">
+        Blog CMS and brand pages coming in Phase 4.
+      </p>
     </div>
   </div>
 </AdminLayout>

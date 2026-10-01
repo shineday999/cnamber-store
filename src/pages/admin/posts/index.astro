@@ -1,16 +1,15 @@
 ---
-import AdminLayout from '../../../layouts/AdminLayout.astro';
+import AdminLayout from "../../../layouts/AdminLayout.astro";
 
 const env = Astro.locals.runtime?.env;
 const posts = env?.DB
-  ? await env.DB
-      .prepare(
-        `SELECT p.id, p.slug, p.status, p.category, p.published_at, p.updated_at,
+  ? await env.DB.prepare(
+      `SELECT p.id, p.slug, p.status, p.category, p.published_at, p.updated_at,
                 pt.locale, pt.title
          FROM posts p
          LEFT JOIN post_translations pt ON pt.post_id = p.id AND pt.locale = ?
          ORDER BY p.updated_at DESC LIMIT 100`,
-      )
+    )
       .bind(Astro.locals.locale)
       .all<{
         id: string;
@@ -25,23 +24,29 @@ const posts = env?.DB
   : { results: [] };
 
 function statusColor(s: string) {
-  return s === 'published'
-    ? 'bg-success/20 text-success'
-    : s === 'archived'
-    ? 'bg-error/20 text-error'
-    : 'bg-warning/20 text-warning';
+  return s === "published"
+    ? "bg-success/20 text-success"
+    : s === "archived"
+      ? "bg-error/20 text-error"
+      : "bg-warning/20 text-warning";
 }
 ---
 
 <AdminLayout title="Blog Posts" active="blog">
   <div class="flex justify-between items-center mb-6">
     <p class="text-text-secondary">{posts.results.length} post(s).</p>
-    <a href="/admin/posts/new" class="px-4 py-2 bg-primary-700 text-bg-base rounded-md hover:bg-primary-900">+ New Post</a>
+    <a
+      href="/admin/posts/new"
+      class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900"
+      >+ New Post</a
+    >
   </div>
 
-  <div class="bg-bg-card border border-text-muted/20 rounded-card overflow-hidden">
+  <div
+    class="bg-bg-card border border-text-muted/20 rounded-card overflow-hidden"
+  >
     <table class="w-full text-sm">
-      <thead class="bg-primary-100 text-text-primary">
+      <thead class="bg-forest-100 text-text-primary">
         <tr>
           <th class="text-left px-4 py-3 font-medium">Title</th>
           <th class="text-left px-4 py-3 font-medium">Slug</th>
@@ -52,24 +57,48 @@ function statusColor(s: string) {
         </tr>
       </thead>
       <tbody>
-        {posts.results.length === 0 && (
-          <tr><td colspan="6" class="px-4 py-8 text-center text-text-muted">No posts yet.</td></tr>
-        )}
-        {posts.results.map((p) => (
-          <tr class="border-t border-text-muted/10 hover:bg-bg-base">
-            <td class="px-4 py-3 font-medium">{p.title ?? '(untitled)'}</td>
-            <td class="px-4 py-3 font-mono text-xs">{p.slug}</td>
-            <td class="px-4 py-3 text-text-secondary">{p.category ?? '—'}</td>
-            <td class="px-4 py-3">
-              <span class={`px-2 py-0.5 rounded text-xs ${statusColor(p.status)}`}>{p.status}</span>
-            </td>
-            <td class="px-4 py-3 text-xs text-text-muted">{new Date(p.updated_at * 1000).toISOString().slice(0, 10)}</td>
-            <td class="px-4 py-3 text-right">
-              <a href={`/admin/posts/${p.id}`} class="text-accent-700 hover:underline">Edit</a>
-              <a href={`/blog/${p.slug}`} class="text-text-secondary hover:underline ml-3">View</a>
-            </td>
-          </tr>
-        ))}
+        {
+          posts.results.length === 0 && (
+            <tr>
+              <td colspan="6" class="px-4 py-8 text-center text-text-muted">
+                No posts yet.
+              </td>
+            </tr>
+          )
+        }
+        {
+          posts.results.map((p) => (
+            <tr class="border-t border-text-muted/10 hover:bg-bg-base">
+              <td class="px-4 py-3 font-medium">{p.title ?? "(untitled)"}</td>
+              <td class="px-4 py-3 font-mono text-xs">{p.slug}</td>
+              <td class="px-4 py-3 text-text-secondary">{p.category ?? "—"}</td>
+              <td class="px-4 py-3">
+                <span
+                  class={`px-2 py-0.5 rounded text-xs ${statusColor(p.status)}`}
+                >
+                  {p.status}
+                </span>
+              </td>
+              <td class="px-4 py-3 text-xs text-text-muted">
+                {new Date(p.updated_at * 1000).toISOString().slice(0, 10)}
+              </td>
+              <td class="px-4 py-3 text-right">
+                <a
+                  href={`/admin/posts/${p.id}`}
+                  class="text-accent-700 hover:underline"
+                >
+                  Edit
+                </a>
+                <a
+                  href={`/blog/${p.slug}`}
+                  class="text-text-secondary hover:underline ml-3"
+                >
+                  View
+                </a>
+              </td>
+            </tr>
+          ))
+        }
       </tbody>
     </table>
   </div>

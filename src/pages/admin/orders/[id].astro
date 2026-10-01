@@ -1,11 +1,11 @@
 ---
-import AdminLayout from '../../../layouts/AdminLayout.astro';
+import AdminLayout from "../../../layouts/AdminLayout.astro";
 
 const id = Astro.params.id;
 const env = Astro.locals.runtime?.env;
 
 const order = env?.DB
-  ? await env.DB.prepare('SELECT * FROM orders WHERE id = ?').bind(id).first<{
+  ? await env.DB.prepare("SELECT * FROM orders WHERE id = ?").bind(id).first<{
       id: string;
       customer_email: string;
       customer_name: string;
@@ -26,100 +26,192 @@ const order = env?.DB
     }>()
   : null;
 
-const shippingAddress = order ? JSON.parse(order.shipping_address) as Record<string, string> : {};
-const items = order ? JSON.parse(order.items) as Array<{ slug: string; qty: number; sku?: string }> : [];
+const shippingAddress = order
+  ? (JSON.parse(order.shipping_address) as Record<string, string>)
+  : {};
+const items = order
+  ? (JSON.parse(order.items) as Array<{
+      slug: string;
+      qty: number;
+      sku?: string;
+    }>)
+  : [];
 ---
 
 <AdminLayout title={`Order ${id}`} active="orders">
-  {!order ? (
-    <div class="bg-error/10 border border-error text-error rounded-card p-4">
-      Order not found.
-    </div>
-  ) : (
-    <div class="space-y-6">
-      <div class="bg-bg-card border border-text-muted/20 rounded-card p-6">
-        <h2 class="font-serif text-lg mb-3">Customer</h2>
-        <dl class="grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
-          <dt class="text-text-muted">Name</dt><dd>{order.customer_name}</dd>
-          <dt class="text-text-muted">Email</dt><dd><a href={`mailto:${order.customer_email}`} class="text-accent-700 underline">{order.customer_email}</a></dd>
-          <dt class="text-text-muted">Phone</dt><dd>{order.customer_phone ?? '—'}</dd>
-          <dt class="text-text-muted">Locale</dt><dd>{order.locale}</dd>
-        </dl>
+  {
+    !order ? (
+      <div class="bg-error/10 border border-error text-error rounded-card p-4">
+        Order not found.
       </div>
+    ) : (
+      <div class="space-y-6">
+        <div class="bg-bg-card border border-text-muted/20 rounded-card p-6">
+          <h2 class="font-serif text-lg mb-3">Customer</h2>
+          <dl class="grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
+            <>
+              <dt class="text-text-muted">Name</dt>
+              <dd>{order.customer_name}</dd>
+            </>
+            <>
+              <dt class="text-text-muted">Email</dt>
+              <dd>
+                <a
+                  href={`mailto:${order.customer_email}`}
+                  class="text-accent-700 underline"
+                >
+                  {order.customer_email}
+                </a>
+              </dd>
+            </>
+            <>
+              <dt class="text-text-muted">Phone</dt>
+              <dd>{order.customer_phone ?? "—"}</dd>
+            </>
+            <>
+              <dt class="text-text-muted">Locale</dt>
+              <dd>{order.locale}</dd>
+            </>
+          </dl>
+        </div>
 
-      <div class="bg-bg-card border border-text-muted/20 rounded-card p-6">
-        <h2 class="font-serif text-lg mb-3">Shipping address</h2>
-        <div class="text-sm space-y-1">
-          <div>{shippingAddress.address}</div>
-          <div>{shippingAddress.city}, {shippingAddress.postal}</div>
-          <div>{shippingAddress.country}</div>
+        <div class="bg-bg-card border border-text-muted/20 rounded-card p-6">
+          <h2 class="font-serif text-lg mb-3">Shipping address</h2>
+          <div class="text-sm space-y-1">
+            <div>{shippingAddress.address}</div>
+            <div>
+              {shippingAddress.city}, {shippingAddress.postal}
+            </div>
+            <div>{shippingAddress.country}</div>
+          </div>
+        </div>
+
+        <div class="bg-bg-card border border-text-muted/20 rounded-card p-6">
+          <h2 class="font-serif text-lg mb-3">Items ({items.length})</h2>
+          <table class="w-full text-sm">
+            <thead class="text-text-muted">
+              <tr>
+                <>
+                  <th class="text-left py-1">Slug</th>
+                  <th class="text-left py-1">SKU</th>
+                  <th class="text-right py-1">Qty</th>
+                </>
+              </tr>
+            </thead>
+            <tbody>
+              {items.map((i) => (
+                <tr class="border-t border-text-muted/10">
+                  <td class="py-1.5 font-mono">{i.slug}</td>
+                  <td class="py-1.5 font-mono">{i.sku ?? "—"}</td>
+                  <td class="py-1.5 text-right">{i.qty}</td>
+                </tr>
+              ))}
+            </tbody>
+            <tfoot>
+              <tr class="border-t-2 border-text-muted/30 font-medium">
+                <td colspan="2" class="py-2 text-right">
+                  Subtotal:
+                </td>
+                <td class="py-2 text-right font-mono">
+                  {order.subtotal} {order.currency}
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <div class="bg-bg-card border border-text-muted/20 rounded-card p-6">
+          <h2 class="font-serif text-lg mb-3">Status update</h2>
+          <form
+            method="POST"
+            action={`/api/admin/orders/${id}/status`}
+            class="space-y-4"
+          >
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div>
+                <label class="block text-sm font-medium mb-1" for="status">
+                  Order status
+                </label>
+                <select
+                  id="status"
+                  name="status"
+                  class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
+                >
+                  {[
+                    "pending",
+                    "confirmed",
+                    "shipped",
+                    "delivered",
+                    "cancelled",
+                  ].map((s) => (
+                    <option value={s} selected={order.status === s}>
+                      {s}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label
+                  class="block text-sm font-medium mb-1"
+                  for="payment_status"
+                >
+                  Payment
+                </label>
+                <select
+                  id="payment_status"
+                  name="payment_status"
+                  class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
+                >
+                  {["unpaid", "paid", "refunded"].map((s) => (
+                    <option value={s} selected={order.payment_status === s}>
+                      {s}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label
+                  class="block text-sm font-medium mb-1"
+                  for="tracking_number"
+                >
+                  Tracking #
+                </label>
+                <input
+                  id="tracking_number"
+                  name="tracking_number"
+                  value={order.tracking_number ?? ""}
+                  class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base font-mono"
+                />
+              </div>
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1" for="notes">
+                Notes
+              </label>
+              <textarea
+                id="notes"
+                name="notes"
+                rows="3"
+                class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
+              >
+                {order.notes ?? ""}
+              </textarea>
+            </div>
+            <button
+              type="submit"
+              class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900"
+            >
+              Update
+            </button>
+          </form>
+        </div>
+
+        <div class="bg-bg-card border border-text-muted/20 rounded-card p-6 text-xs text-text-muted space-y-1">
+          <div>Created: {new Date(order.created_at * 1000).toISOString()}</div>
+          <div>Updated: {new Date(order.updated_at * 1000).toISOString()}</div>
+          <div class="font-mono">ID: {order.id}</div>
         </div>
       </div>
-
-      <div class="bg-bg-card border border-text-muted/20 rounded-card p-6">
-        <h2 class="font-serif text-lg mb-3">Items ({items.length})</h2>
-        <table class="w-full text-sm">
-          <thead class="text-text-muted">
-            <tr><th class="text-left py-1">Slug</th><th class="text-left py-1">SKU</th><th class="text-right py-1">Qty</th></tr>
-          </thead>
-          <tbody>
-            {items.map((i) => (
-              <tr class="border-t border-text-muted/10">
-                <td class="py-1.5 font-mono">{i.slug}</td>
-                <td class="py-1.5 font-mono">{i.sku ?? '—'}</td>
-                <td class="py-1.5 text-right">{i.qty}</td>
-              </tr>
-            ))}
-          </tbody>
-          <tfoot>
-            <tr class="border-t-2 border-text-muted/30 font-medium">
-              <td colspan="2" class="py-2 text-right">Subtotal:</td>
-              <td class="py-2 text-right font-mono">{order.subtotal} {order.currency}</td>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
-
-      <div class="bg-bg-card border border-text-muted/20 rounded-card p-6">
-        <h2 class="font-serif text-lg mb-3">Status update</h2>
-        <form method="POST" action={`/api/admin/orders/${id}/status`} class="space-y-4">
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div>
-              <label class="block text-sm font-medium mb-1" for="status">Order status</label>
-              <select id="status" name="status" class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base">
-                {['pending', 'confirmed', 'shipped', 'delivered', 'cancelled'].map((s) => (
-                  <option value={s} selected={order.status === s}>{s}</option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label class="block text-sm font-medium mb-1" for="payment_status">Payment</label>
-              <select id="payment_status" name="payment_status" class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base">
-                {['unpaid', 'paid', 'refunded'].map((s) => (
-                  <option value={s} selected={order.payment_status === s}>{s}</option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label class="block text-sm font-medium mb-1" for="tracking_number">Tracking #</label>
-              <input id="tracking_number" name="tracking_number" value={order.tracking_number ?? ''} class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base font-mono" />
-            </div>
-          </div>
-          <div>
-            <label class="block text-sm font-medium mb-1" for="notes">Notes</label>
-            <textarea id="notes" name="notes" rows="3" class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base">{order.notes ?? ''}</textarea>
-          </div>
-          <button type="submit" class="px-4 py-2 bg-primary-700 text-bg-base rounded-md hover:bg-primary-900">
-            Update
-          </button>
-        </form>
-      </div>
-
-      <div class="bg-bg-card border border-text-muted/20 rounded-card p-6 text-xs text-text-muted space-y-1">
-        <div>Created: {new Date(order.created_at * 1000).toISOString()}</div>
-        <div>Updated: {new Date(order.updated_at * 1000).toISOString()}</div>
-        <div class="font-mono">ID: {order.id}</div>
-      </div>
-    </div>
-  )}
+    )
+  }
 </AdminLayout>

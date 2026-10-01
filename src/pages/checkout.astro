@@ -1,71 +1,151 @@
 ---
-import Layout from '@layouts/Layout.astro';
-import { createT } from '../i18n/t';
-import { defaultLocale, type Locale } from '../i18n/config';
-import { readCart } from '../lib/cart';
+import Layout from "@layouts/Layout.astro";
+import { createT } from "../i18n/t";
+import { defaultLocale, type Locale } from "../i18n/config";
+import { readCart } from "../lib/cart";
 
 const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
 const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
 const t = createT(messages);
 
-const items = readCart(Astro.request.headers.get('cookie'));
+const items = readCart(Astro.request.headers.get("cookie"));
 void locale;
 ---
 
-<Layout title={`${t('checkout.title') ?? 'Checkout'} — ${t('common.site_name')}`}>
+<Layout
+  title={`${t("checkout.title") ?? "Checkout"} — ${t("common.site_name")}`}
+>
   <div class="max-w-2xl mx-auto px-6 py-section">
-    <h1 class="text-display-sm font-serif text-text-primary mb-4">{t('checkout.title') ?? 'Checkout'}</h1>
-    <p class="text-text-secondary mb-8">{t('checkout.help') ?? 'Reservation — we will contact you to confirm payment.'}</p>
+    <h1 class="text-display-sm font-serif text-text-primary mb-4">
+      {t("checkout.title") ?? "Checkout"}
+    </h1>
+    <p class="text-text-secondary mb-8">
+      {
+        t("checkout.help") ??
+          "Reservation — we will contact you to confirm payment."
+      }
+    </p>
 
-    {items.length === 0 ? (
-      <p class="text-text-muted">Cart is empty. <a href="/products" class="text-accent-700 underline">Browse products</a>.</p>
-    ) : (
-      <form method="POST" action="/api/orders/create" class="bg-bg-card border border-text-muted/20 rounded-card p-6 space-y-4">
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label class="block text-sm font-medium mb-1" for="name">{t('checkout.name') ?? 'Name'} *</label>
-            <input id="name" name="customer_name" required class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base" />
+    {
+      items.length === 0 ? (
+        <p class="text-text-muted">
+          Cart is empty.{" "}
+          <a href="/products" class="text-accent-700 underline">
+            Browse products
+          </a>
+          .
+        </p>
+      ) : (
+        <form
+          method="POST"
+          action="/api/orders/create"
+          class="bg-bg-card border border-text-muted/20 rounded-card p-6 space-y-4"
+        >
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium mb-1" for="name">
+                {t("checkout.name") ?? "Name"} *
+              </label>
+              <input
+                id="name"
+                name="customer_name"
+                required
+                class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1" for="email">
+                {t("checkout.email") ?? "Email"} *
+              </label>
+              <input
+                id="email"
+                name="customer_email"
+                type="email"
+                required
+                class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
+              />
+            </div>
           </div>
           <div>
-            <label class="block text-sm font-medium mb-1" for="email">{t('checkout.email') ?? 'Email'} *</label>
-            <input id="email" name="customer_email" type="email" required class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base" />
+            <label class="block text-sm font-medium mb-1" for="phone">
+              {t("checkout.phone") ?? "Phone"}
+            </label>
+            <input
+              id="phone"
+              name="customer_phone"
+              class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
+            />
           </div>
-        </div>
-        <div>
-            <label class="block text-sm font-medium mb-1" for="phone">{t('checkout.phone') ?? 'Phone'}</label>
-            <input id="phone" name="customer_phone" class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base" />
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium mb-1" for="country">
+                {t("checkout.country") ?? "Country"} *
+              </label>
+              <input
+                id="country"
+                name="country"
+                required
+                class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1" for="city">
+                {t("checkout.city") ?? "City"} *
+              </label>
+              <input
+                id="city"
+                name="city"
+                required
+                class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
+              />
+            </div>
+          </div>
           <div>
-            <label class="block text-sm font-medium mb-1" for="country">{t('checkout.country') ?? 'Country'} *</label>
-            <input id="country" name="country" required class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base" />
+            <label class="block text-sm font-medium mb-1" for="address">
+              {t("checkout.address") ?? "Address"} *
+            </label>
+            <input
+              id="address"
+              name="address"
+              required
+              class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
+            />
           </div>
           <div>
-            <label class="block text-sm font-medium mb-1" for="city">{t('checkout.city') ?? 'City'} *</label>
-            <input id="city" name="city" required class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base" />
+            <label class="block text-sm font-medium mb-1" for="postal">
+              {t("checkout.postal") ?? "Postal code"}
+            </label>
+            <input
+              id="postal"
+              name="postal"
+              class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
+            />
           </div>
-        </div>
-        <div>
-          <label class="block text-sm font-medium mb-1" for="address">{t('checkout.address') ?? 'Address'} *</label>
-          <input id="address" name="address" required class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base" />
-        </div>
-        <div>
-          <label class="block text-sm font-medium mb-1" for="postal">{t('checkout.postal') ?? 'Postal code'}</label>
-          <input id="postal" name="postal" class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base" />
-        </div>
-        <div>
-          <label class="block text-sm font-medium mb-1" for="notes">{t('checkout.notes') ?? 'Notes'}</label>
-          <textarea id="notes" name="notes" rows="3" class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"></textarea>
-        </div>
+          <div>
+            <label class="block text-sm font-medium mb-1" for="notes">
+              {t("checkout.notes") ?? "Notes"}
+            </label>
+            <textarea
+              id="notes"
+              name="notes"
+              rows="3"
+              class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
+            />
+          </div>
 
-        <div class="text-sm text-text-muted pt-2">
-          {items.length} item(s) reserved. Order total + shipping will be confirmed via email.
-        </div>
+          <div class="text-sm text-text-muted pt-2">
+            {items.length} item(s) reserved. Order total + shipping will be
+            confirmed via email.
+          </div>
 
-        <button type="submit" class="w-full px-6 py-3 bg-primary-700 text-bg-base rounded-md font-medium hover:bg-primary-900 transition-colors">
-          {t('checkout.submit') ?? 'Submit reservation'}
-        </button>
-      </form>
-    )}
+          <button
+            type="submit"
+            class="w-full px-6 py-3 bg-forest-700 text-bg-base rounded-md font-medium hover:bg-forest-900 transition-colors"
+          >
+            {t("checkout.submit") ?? "Submit reservation"}
+          </button>
+        </form>
+      )
+    }
   </div>
 </Layout>
