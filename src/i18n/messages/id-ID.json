@@ -281,5 +281,12 @@
     "amber_sicily_desc": "Kaya akan serpihan tumbuhan, warna merah gelap, karakter Italia Mediterania.",
     "agarwood_title": "Gaharu alami",
     "agarwood_desc": "Yunnan, Hainan, Vietnam, Malaysia, Laos — aroma setiap kawasan berbeda. Dipilih berdasarkan kejernihan dan kedalaman."
+  },
+  "404": {
+    "kicker": "tanpa jalan",
+    "title": "Hilang di dalam hutan",
+    "subtitle": "Jalur yang Anda ikuti hilang ke dalam kabut pagi.",
+    "cta_primary": "Kembali ke awal",
+    "cta_secondary": "Jelajahi koleksi"
   }
 }

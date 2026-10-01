@@ -281,5 +281,12 @@
     "amber_sicily_desc": "Rich in plant debris, dark red tones, Mediterranean Italian character.",
     "agarwood_title": "Natural agarwood",
     "agarwood_desc": "Yunnan, Hainan, Vietnam, Malaysia, Laos — each region's fragrance differs. Selected by translucence and depth."
+  },
+  "404": {
+    "kicker": "no path",
+    "title": "Lost in the wood",
+    "subtitle": "The path you followed fades into the morning mist.",
+    "cta_primary": "Return to the trailhead",
+    "cta_secondary": "Browse the collection"
   }
 }
