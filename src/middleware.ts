@@ -103,18 +103,20 @@ export const onRequest = defineMiddleware(async (context, next) => {
     }
   }
 
-  // 3. Admin auth check (only for /admin/* paths)
+  // 3. Admin auth check (only for /admin/* paths; /admin/login exempt)
+  // F-08: 沒過 session 認證 → 302 redirect 到 /admin/login(舊版是 401 plain text)
   if (
     url.pathname.startsWith("/admin") &&
     !url.pathname.startsWith("/admin/login")
   ) {
     const admin = await getAdminFromContext(context);
     if (!admin) {
+      const redirectUrl = `/admin/login?redirect=${encodeURIComponent(url.pathname)}`;
       return withSecurityHeaders(
-        new Response(
-          "Unauthorized — admin access requires Cloudflare Access authentication.",
-          { status: 401, headers: { "Content-Type": "text/plain" } },
-        ),
+        new Response(null, {
+          status: 302,
+          headers: { Location: redirectUrl },
+        }),
       );
     }
     context.locals.admin = admin;
