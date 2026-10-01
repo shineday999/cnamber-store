@@ -209,7 +209,7 @@ void locale;
             usdPrice !== undefined && (
               <p class="font-serif text-2xl text-forest-800 mb-8">
                 <span class="text-forest-600 text-sm font-sans mr-2">from</span>
-                ${usdPrice.toFixed(0)} USD
+                {formatPrice(Math.round(usdPrice * 100), "USD", locale)}
               </p>
             )
           }

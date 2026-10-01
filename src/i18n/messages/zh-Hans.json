@@ -336,7 +336,7 @@
       "back": "返回"
     },
     "footer": {
-      "tagline": "cnamber-store 后台 · 第二阶段构建"
+      "tagline": "© 2026 cnamber-store 后台 · 全部版权保留"
     },
     "login": {
       "title": "管理员登录",
@@ -442,7 +442,7 @@
     },
     "products_list": {
       "title": "产品",
-      "subtitle": "共 {n} 个产品。第二阶段已接通 CRUD；生产种子数据待定。",
+      "subtitle": "目前共 {n} 个产品。",
       "empty": "暂无产品。",
       "empty_link": "创建第一个",
       "new_product": "+ 新建产品",
@@ -479,8 +479,8 @@
       "delete_confirm": "确定删除该产品？所有变体、翻译、评论都会一并删除。"
     },
     "products_new": {
-      "title": "新建产品",
-      "subtitle": "产品创建表单。第二阶段子任务 P2-4 将接通完整表单（4 语言标签页、变体、多币种定价）。",
+      "title": "新增產品",
+      "subtitle": "建立产品基础信息，可在编辑页补充翻译、变体与多币种定价。",
       "label_category": "分类",
       "option_jewelry": "首饰",
       "option_incense": "香品",
@@ -488,7 +488,10 @@
       "label_slug": "Slug",
       "initial_name": "初始名称（zh-Hans 默认）",
       "create_draft": "创建草稿",
-      "cancel": "取消"
+      "cancel": "取消",
+      "placeholder_slug": "如：baltic-amber-pendant",
+      "placeholder_description": "简体中文描述",
+      "placeholder_name": "如：波罗的海琥珀吊坠"
     },
     "reviews_list": {
       "title": "评论",

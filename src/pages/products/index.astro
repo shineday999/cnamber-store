@@ -109,7 +109,11 @@ function firstImage(json: string | null | undefined): string | undefined {
               imageUrl={firstImage(p.image_urls as string)}
               priceFrom={
                 (p.min_price as number)
-                  ? `${(p.min_price as number) / 100} ${p.min_currency as string}`
+                  ? formatPrice(
+                      p.min_price as number,
+                      p.min_currency as string,
+                      locale,
+                    )
                   : undefined
               }
             />

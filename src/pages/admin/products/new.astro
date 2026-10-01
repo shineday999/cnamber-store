@@ -1,6 +1,6 @@
 ---
 import AdminLayout from "../../../layouts/AdminLayout.astro";
-import { createT } from "../../../i18n/t";
+import { createT, tEnum } from "../../../i18n/t";
 import { defaultLocale, type Locale } from "../../../i18n/config";
 import zhHansMessages from "../../../i18n/messages/zh-Hans.json";
 
@@ -8,6 +8,10 @@ const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
 const messages = zhHansMessages as Record<string, unknown>;
 const t = createT(messages);
 void locale;
+
+// All subcategories grouped by parent category for the dropdown.
+const JEWELRY_SUBS = ["necklace", "bracelet", "earring", "ring"] as const;
+const INCENSE_SUBS = ["stick", "balm", "oil"] as const;
 ---
 
 <AdminLayout title={t("admin.products_new.title")} active="products">
@@ -38,13 +42,27 @@ void locale;
       <label class="block text-sm font-medium mb-1" for="subcategory"
         >{t("admin.products_new.label_subcategory")}</label
       >
-      <input
+      <select
         id="subcategory"
         name="subcategory"
-        type="text"
-        placeholder="necklace / bracelet / stick / balm"
         class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
-      />
+      >
+        <option value="">—</option>
+        <optgroup label={t("admin.products_new.option_jewelry")}>
+          {
+            JEWELRY_SUBS.map((s) => (
+              <option value={s}>{tEnum(t, "subcategory", s)}</option>
+            ))
+          }
+        </optgroup>
+        <optgroup label={t("admin.products_new.option_incense")}>
+          {
+            INCENSE_SUBS.map((s) => (
+              <option value={s}>{tEnum(t, "subcategory", s)}</option>
+            ))
+          }
+        </optgroup>
+      </select>
     </div>
     <div>
       <label class="block text-sm font-medium mb-1" for="slug"
@@ -55,7 +73,7 @@ void locale;
         name="slug"
         type="text"
         required
-        placeholder="baltic-amber-pendant"
+        placeholder={t("admin.products_new.placeholder_slug")}
         class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base font-mono"
       />
     </div>
@@ -65,13 +83,13 @@ void locale;
       <input
         name="translations[zh-Hans][name]"
         type="text"
-        placeholder="波罗的海琥珀吊坠"
+        placeholder={t("admin.products_new.placeholder_name")}
         class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base mb-2"
       />
       <textarea
         name="translations[zh-Hans][description]"
         rows="3"
-        placeholder="Description in 简体中文"
+        placeholder={t("admin.products_new.placeholder_description")}
         class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
       ></textarea>
     </div>
