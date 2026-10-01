@@ -193,31 +193,26 @@ const trByLocale = (locale: string) =>
             class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900"
             >{t("admin.products_detail.save")}</button
           >
-          <form
-            method="POST"
-            action={`/api/admin/products/${id}/status`}
-            class="inline"
+          <button
+            type="submit"
+            formaction={`/api/admin/products/${id}/status`}
+            formmethod="POST"
+            class="px-4 py-2 border border-text-muted/30 rounded-md hover:bg-bg-base"
+            >{
+              product.status === "draft"
+                ? t("admin.products_detail.toggle_to_active")
+                : product.status === "active"
+                  ? t("admin.products_detail.toggle_to_archived")
+                  : t("admin.products_detail.toggle_to_draft")
+            }</button
           >
-            <button
-              type="submit"
-              class="px-4 py-2 border border-text-muted/30 rounded-md hover:bg-bg-base"
-              >{t("admin.products_detail.toggle_status")}</button
-            >
-          </form>
-          <form
-            method="POST"
-            action={`/api/admin/products/${id}`}
-            class="inline ml-auto"
-            onsubmit="return confirm('确定删除该产品？所有变体、翻译、评论都会一并删除。')"
+          <button
+            type="button"
+            class="px-4 py-2 ml-auto border border-error/40 text-error rounded-md hover:bg-error/10"
+            onclick={`if (!confirm('确定删除该产品？所有变体、翻译、评论都会一并删除。')) return false; const f = document.createElement('form'); f.method='POST'; f.action='/api/admin/products/${id}'; const i=document.createElement('input'); i.type='hidden'; i.name='_action'; i.value='delete'; f.appendChild(i); document.body.appendChild(f); f.submit();`}
           >
-            <input type="hidden" name="_action" value="delete" />
-            <button
-              type="submit"
-              class="px-4 py-2 border border-error/40 text-error rounded-md hover:bg-error/10"
-            >
-              {t("admin.products_detail.delete")}
-            </button>
-          </form>
+            {t("admin.products_detail.delete")}
+          </button>
         </div>
       </form>
     </div>
