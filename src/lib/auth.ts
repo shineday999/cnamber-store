@@ -15,6 +15,7 @@ export interface AdminSession {
 const ADMIN_EMAILS = new Set<string>([
   "shineday999@gmail.com",
   "18940333444@qq.com",
+  "latte.xiaxia@gmail.com",
 ]);
 
 interface CfRuntimeEnv {
