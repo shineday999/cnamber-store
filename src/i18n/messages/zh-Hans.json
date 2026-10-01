@@ -27,7 +27,8 @@
     "blog": "日志",
     "contact": "联络",
     "cart": "购物车",
-    "quiz": "为我推荐"
+    "quiz": "为我推荐",
+    "products": "产品"
   },
   "home": {
     "hero_kicker": "Coming Soon · 2026",
@@ -231,7 +232,7 @@
     "cta": "阅读品牌故事"
   },
   "footer": {
-    "tagline": "森林系手作 · 大东南亚 + 中东 · 四语在地化",
+    "tagline": "森林系手作 · 四语在地化",
     "section_shop": "选购",
     "section_brand": "品牌",
     "section_follow": "关注",
@@ -357,11 +358,12 @@
       "manage_products": "管理产品",
       "manage_products_desc": "新增、编辑、归档库存。编辑 4 种语言翻译。",
       "manage_orders": "管理订单",
-      "manage_orders_desc": "查看和处理订单。",
+      "manage_orders_desc": "查看预订订单、标记已付款、更新运送状态。",
       "review_moderation": "评论审核",
       "review_moderation_desc": "审核或拒绝待审的客户评论。",
       "blog_phase": "内容与博客 (第四阶段)",
-      "blog_phase_desc": "博客与品牌页将在第四阶段推出。"
+      "blog_phase_desc": "博客与品牌页将在第四阶段推出。",
+      "title": "仪表板"
     },
     "orders_list": {
       "title": "订单",
@@ -450,7 +452,9 @@
       "col_subcategory": "子分类",
       "col_status": "状态",
       "col_actions": "操作",
-      "link_edit": "编辑"
+      "link_edit": "编辑",
+      "delete": "删除",
+      "delete_confirm": "确定删除该产品？此操作无法撤销。"
     },
     "products_detail": {
       "title_prefix": "编辑 · ",
@@ -470,7 +474,9 @@
       "label_description": "描述",
       "label_story": "故事（选填）",
       "save_translation": "保存 {loc}",
-      "no_variants": "暂无变体。请通过 seed.sql 添加（第五阶段需变体编辑器）。"
+      "no_variants": "暂无变体。请通过 seed.sql 添加（第五阶段需变体编辑器）。",
+      "delete": "删除产品",
+      "delete_confirm": "确定删除该产品？所有变体、翻译、评论都会一并删除。"
     },
     "products_new": {
       "title": "新建产品",

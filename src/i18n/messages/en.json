@@ -23,7 +23,7 @@
     "contact": "Contact",
     "cart": "Cart",
     "quiz": "Find Yours",
-    "products": "All pieces"
+    "products": "Products"
   },
   "home": {
     "hero_kicker": "Coming Soon · 2026",
@@ -204,7 +204,7 @@
     "channel_studio": "Studio visits by appointment"
   },
   "footer": {
-    "tagline": "Forest-rooted handcraft · Greater SEA + Middle East · four locales",
+    "tagline": "Forest handcraft · 4-locale localized",
     "section_shop": "Shop",
     "section_brand": "Brand",
     "section_follow": "Follow",
@@ -330,11 +330,12 @@
       "manage_products": "Manage Products",
       "manage_products_desc": "Add, edit, archive inventory. Edit 4-language translations.",
       "manage_orders": "Manage Orders",
-      "manage_orders_desc": "View and process orders.",
+      "manage_orders_desc": "View reservation orders, mark paid, update shipping status.",
       "review_moderation": "Review Moderation",
       "review_moderation_desc": "Approve or reject pending customer reviews.",
       "blog_phase": "Content & Blog (Phase 4)",
-      "blog_phase_desc": "Blog CMS and brand pages coming in Phase 4."
+      "blog_phase_desc": "Blog CMS and brand pages coming in Phase 4.",
+      "title": "Dashboard"
     },
     "orders_list": {
       "title": "Orders",
@@ -423,7 +424,9 @@
       "col_subcategory": "Subcategory",
       "col_status": "Status",
       "col_actions": "Actions",
-      "link_edit": "Edit"
+      "link_edit": "Edit",
+      "delete": "Delete",
+      "delete_confirm": "Delete this product? This cannot be undone."
     },
     "products_detail": {
       "title_prefix": "Edit · ",
@@ -443,7 +446,9 @@
       "label_description": "Description",
       "label_story": "Story (optional)",
       "save_translation": "Save {loc}",
-      "no_variants": "No variants. Add via seed.sql (Phase 5+ needs a variant editor)."
+      "no_variants": "No variants. Add via seed.sql (Phase 5+ needs a variant editor).",
+      "delete": "Delete product",
+      "delete_confirm": "Delete this product? All variants, translations, and reviews will be removed."
     },
     "products_new": {
       "title": "New Product",

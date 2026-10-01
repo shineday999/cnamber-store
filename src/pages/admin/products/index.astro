@@ -2,10 +2,11 @@
 import AdminLayout from "../../../layouts/AdminLayout.astro";
 import { createT } from "../../../i18n/t";
 import { defaultLocale, type Locale } from "../../../i18n/config";
+import zhHansMessages from "../../../i18n/messages/zh-Hans.json";
 
 const env = Astro.locals.runtime?.env;
 const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
-const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
+const messages = zhHansMessages as Record<string, unknown>;
 const t = createT(messages);
 void locale;
 
@@ -89,13 +90,27 @@ const products = env?.DB
                   {p.status as string}
                 </span>
               </td>
-              <td class="px-4 py-3 text-right">
+              <td class="px-4 py-3 text-right whitespace-nowrap">
                 <a
                   href={`/admin/products/${p.id}`}
                   class="text-accent-700 hover:underline"
                 >
                   {t("admin.products_list.link_edit")}
                 </a>
+                <form
+                  method="POST"
+                  action={`/api/admin/products/${p.id}`}
+                  class="inline ml-3"
+                  onsubmit="return confirm('确定删除该产品？此操作无法撤销。')"
+                >
+                  <input type="hidden" name="_action" value="delete" />
+                  <button
+                    type="submit"
+                    class="text-error hover:underline text-sm"
+                  >
+                    {t("admin.products_list.delete")}
+                  </button>
+                </form>
               </td>
             </tr>
           ))

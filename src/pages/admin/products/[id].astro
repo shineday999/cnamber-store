@@ -3,11 +3,12 @@ import AdminLayout from "../../../layouts/AdminLayout.astro";
 import Tabs from "../../../components/Tabs.astro";
 import { createT } from "../../../i18n/t";
 import { defaultLocale, type Locale } from "../../../i18n/config";
+import zhHansMessages from "../../../i18n/messages/zh-Hans.json";
 
 const id = Astro.params.id;
 const env = Astro.locals.runtime?.env;
 const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
-const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
+const messages = zhHansMessages as Record<string, unknown>;
 const t = createT(messages);
 void locale;
 
@@ -156,6 +157,20 @@ const trByLocale = (locale: string) =>
             class="px-4 py-2 border border-text-muted/30 rounded-md hover:bg-bg-base"
             >{t("admin.products_detail.toggle_status")}</button
           >
+        </form>
+        <form
+          method="POST"
+          action={`/api/admin/products/${id}`}
+          class="inline ml-auto"
+          onsubmit="return confirm('确定删除该产品？所有变体、翻译、评论都会一并删除。')"
+        >
+          <input type="hidden" name="_action" value="delete" />
+          <button
+            type="submit"
+            class="px-4 py-2 border border-error/40 text-error rounded-md hover:bg-error/10"
+          >
+            {t("admin.products_detail.delete")}
+          </button>
         </form>
       </div>
     </form>

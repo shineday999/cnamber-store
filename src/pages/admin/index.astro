@@ -2,10 +2,11 @@
 import AdminLayout from "../../layouts/AdminLayout.astro";
 import { createT } from "../../i18n/t";
 import { defaultLocale, type Locale } from "../../i18n/config";
+import zhHansMessages from "../../i18n/messages/zh-Hans.json";
 
 const env = Astro.locals.runtime?.env;
 const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
-const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
+const messages = zhHansMessages as Record<string, unknown>;
 const t = createT(messages);
 void locale;
 
@@ -37,7 +38,7 @@ if (env?.DB) {
 }
 ---
 
-<AdminLayout title="Dashboard" active="dashboard">
+<AdminLayout title={t("admin.dashboard.title")} active="dashboard">
   <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
     <div class="bg-bg-card border border-text-muted/20 rounded-card p-5">
       <div class="text-sm uppercase tracking-wider text-text-muted">
@@ -80,7 +81,7 @@ if (env?.DB) {
         {t("admin.dashboard.manage_products")}
       </h2>
       <p class="text-sm text-text-secondary">
-        Add, edit, archive inventory. Edit 4-language translations.
+        {t("admin.dashboard.manage_products_desc")}
       </p>
     </a>
     <a
@@ -91,7 +92,7 @@ if (env?.DB) {
         {t("admin.dashboard.manage_orders")}
       </h2>
       <p class="text-sm text-text-secondary">
-        View reservation orders, mark paid, update shipping status.
+        {t("admin.dashboard.manage_orders_desc")}
       </p>
     </a>
     <a

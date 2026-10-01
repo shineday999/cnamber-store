@@ -23,7 +23,7 @@
     "contact": "Hubungi",
     "cart": "Troli",
     "quiz": "Cari Milik Anda",
-    "products": "Semua karya"
+    "products": "Produk"
   },
   "home": {
     "hero_kicker": "Coming Soon · 2026",
@@ -204,7 +204,7 @@
     "channel_studio": "Lawatan studio dengan janji temu"
   },
   "footer": {
-    "tagline": "Kraftangan berakar hutan · Asia Tenggara + Timur Tengah · empat bahasa",
+    "tagline": "Forest handcraft · 4-locale localized",
     "section_shop": "Beli",
     "section_brand": "Jenama",
     "section_follow": "Ikuti",
@@ -330,11 +330,12 @@
       "manage_products": "Manage Products",
       "manage_products_desc": "Add, edit, archive inventory. Edit 4-language translations.",
       "manage_orders": "Manage Orders",
-      "manage_orders_desc": "View and process orders.",
+      "manage_orders_desc": "View reservation orders, mark paid, update shipping status.",
       "review_moderation": "Review Moderation",
       "review_moderation_desc": "Approve or reject pending customer reviews.",
       "blog_phase": "Content & Blog (Phase 4)",
-      "blog_phase_desc": "Blog CMS and brand pages coming in Phase 4."
+      "blog_phase_desc": "Blog CMS and brand pages coming in Phase 4.",
+      "title": "Papan pemuka"
     },
     "orders_list": {
       "title": "Orders",
@@ -423,7 +424,9 @@
       "col_subcategory": "Subcategory",
       "col_status": "Status",
       "col_actions": "Actions",
-      "link_edit": "Edit"
+      "link_edit": "Edit",
+      "delete": "Padam",
+      "delete_confirm": "Padam produk ini? Tindakan ini tidak boleh dibatalkan."
     },
     "products_detail": {
       "title_prefix": "Edit · ",
@@ -443,7 +446,9 @@
       "label_description": "Description",
       "label_story": "Story (optional)",
       "save_translation": "Save {loc}",
-      "no_variants": "No variants. Add via seed.sql (Phase 5+ needs a variant editor)."
+      "no_variants": "No variants. Add via seed.sql (Phase 5+ needs a variant editor).",
+      "delete": "Padam produk",
+      "delete_confirm": "Padam produk ini? Semua varian, terjemahan dan ulasan akan dipadam."
     },
     "products_new": {
       "title": "New Product",
