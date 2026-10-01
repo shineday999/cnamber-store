@@ -334,6 +334,14 @@ const nav = [
           transition: none;
         }
       }
+      /* Mobile hero title: scale 72px (default) down to 48px below 768px.
+         !important beats the inline style on <html> that admin can tune
+         via /admin/settings -> Hero Style. Desktop unchanged. */
+      @media (max-width: 767px) {
+        html {
+          --hero-title-size: 48px !important;
+        }
+      }
     </style>
   </body>
 </html>
