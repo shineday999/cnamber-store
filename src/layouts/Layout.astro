@@ -158,7 +158,35 @@ const nav = [
         update();
       })();
     </script>
-    <header class="sticky top-0 z-40 w-full glass border-b border-forest-900/5">
+    <!-- Wave 15: 1px sentinel above header for sticky elevation observer -->
+    <div class="header-sentinel" aria-hidden="true"></div>
+    <script is:inline>
+      // Sticky header elevation: IntersectionObserver on the sentinel
+      // flips [data-scrolled] when the sentinel leaves the viewport.
+      // CSS handles the visual change. Reduced-motion safe (pure boolean toggle).
+      (function () {
+        var header = document.querySelector("[data-header]");
+        var sentinel = document.querySelector(".header-sentinel");
+        if (!header || !sentinel) return;
+        if (typeof IntersectionObserver === "undefined") return;
+        var obs = new IntersectionObserver(
+          function (entries) {
+            var e = entries[0];
+            if (e.isIntersecting) {
+              header.removeAttribute("data-scrolled");
+            } else {
+              header.setAttribute("data-scrolled", "true");
+            }
+          },
+          { rootMargin: "0px" },
+        );
+        obs.observe(sentinel);
+      })();
+    </script>
+    <header
+      data-header
+      class="sticky top-0 z-40 w-full glass border-b border-forest-900/5 transition-header"
+    >
       <div
         class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between gap-4"
       >

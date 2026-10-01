@@ -429,3 +429,28 @@ body {
     transform: translateY(0);
   }
 }
+
+
+/* === Wave 15: sticky header elevation on scroll === */
+
+/* 1px sentinel above the header. When it leaves view, IntersectionObserver
+   sets header[data-scrolled="true"]; CSS below intensifies the bar. */
+.header-sentinel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 1px;
+  width: 1px;
+  pointer-events: none;
+}
+.transition-header {
+  transition:
+    background 280ms ease-out,
+    border-bottom-color 280ms ease-out,
+    box-shadow 280ms ease-out;
+}
+header[data-scrolled="true"].glass {
+  background: rgba(255, 255, 255, 0.96);
+  border-bottom-color: rgba(34, 60, 35, 0.08);
+  box-shadow: 0 2px 16px rgba(22, 26, 15, 0.06);
+}

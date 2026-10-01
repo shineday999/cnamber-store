@@ -1,6 +1,9 @@
 ---
 // ProductCard — Editorial layout, Cormorant Garamond name, no rounded corners (sharp edges),
 // subtle hover scale, generous whitespace between elements
+import { createT } from "../i18n/t";
+import { defaultLocale, type Locale } from "../i18n/config";
+
 interface Props {
   slug: string;
   name: string;
@@ -21,9 +24,17 @@ const {
   variant = "default",
 } = Astro.props;
 
+// Wave 15: catLabel now uses t() instead of hardcoded English.
+// Falls back to capitalized category if a locale is missing the key.
+const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
+const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
+const t = createT(messages);
+void locale;
+
+const fallback = category.charAt(0).toUpperCase() + category.slice(1);
 const catLabel: Record<string, string> = {
-  jewelry: "Jewelry",
-  incense: "Incense",
+  jewelry: t("nav.amber") || fallback,
+  incense: t("nav.incense") || fallback,
 };
 ---
 
