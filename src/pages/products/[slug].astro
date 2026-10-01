@@ -174,32 +174,12 @@ void locale;
                   decoding="async"
                   src={heroImage.replace("800/800", "1200/900")}
                   alt={`${tr.name} detail`}
-                  class="w-full h-full object-cover cinematic"
+                  class="w-full h-full object-cover cinematic transition-transform duration-[1400ms] ease-out hover:scale-[1.04]"
                   loading="lazy"
                 />
               </div>
             )
           }
-          <div class="mt-6 grid grid-cols-3 gap-3">
-            {
-              [0, 1, 2].map((i) => (
-                <div
-                  key={i}
-                  class="aspect-square bg-forest-100 overflow-hidden"
-                >
-                  {heroImage && (
-                    <img
-                      decoding="async"
-                      src={heroImage.replace("800/800", "400/400")}
-                      alt=""
-                      class="w-full h-full object-cover cinematic opacity-80 hover:opacity-100 transition-opacity"
-                      loading="lazy"
-                    />
-                  )}
-                </div>
-              ))
-            }
-          </div>
         </div>
 
         <!-- 4 cols: info column -->
