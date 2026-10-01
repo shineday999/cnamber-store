@@ -455,7 +455,8 @@
       "link_edit": "编辑",
       "delete": "删除",
       "delete_confirm": "确定删除该产品？此操作无法撤销。",
-      "col_name": "名称"
+      "col_name": "名称",
+      "col_image": "封面"
     },
     "products_detail": {
       "title_prefix": "编辑 · ",
@@ -477,7 +478,12 @@
       "save_translation": "保存 {loc}",
       "no_variants": "暂无变体。请通过 seed.sql 添加（第五阶段需变体编辑器）。",
       "delete": "删除产品",
-      "delete_confirm": "确定删除该产品？所有变体、翻译、评论都会一并删除。"
+      "delete_confirm": "确定删除该产品？所有变体、翻译、评论都会一并删除。",
+      "current_image": "当前封面",
+      "no_image": "暂无封面图",
+      "label_image": "更换封面图",
+      "hint_image": "上传新图会替换当前封面",
+      "upload_image": "上传新图"
     },
     "products_new": {
       "title": "新增產品",
@@ -492,7 +498,9 @@
       "cancel": "取消",
       "placeholder_slug": "如：baltic-amber-pendant",
       "placeholder_description": "简体中文描述",
-      "placeholder_name": "如：波罗的海琥珀吊坠"
+      "placeholder_name": "如：波罗的海琥珀吊坠",
+      "label_image": "封面图",
+      "hint_image": "支持 JPG/PNG/WebP/GIF,5MB 以内,可不上传"
     },
     "reviews_list": {
       "title": "评论",

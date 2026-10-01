@@ -12,7 +12,7 @@ void locale;
 
 const products = env?.DB
   ? await env.DB.prepare(
-      `SELECT p.id, p.slug, p.category, p.subcategory, p.status, p.created_at,
+      `SELECT p.id, p.slug, p.category, p.subcategory, p.status, p.image_url, p.created_at,
               pt.name AS name_zh
        FROM products p
        LEFT JOIN product_translations pt
@@ -63,6 +63,9 @@ const products = env?.DB
             >{t("admin.products_list.col_id")}</th
           >
           <th class="text-left px-4 py-3 font-medium"
+            >{t("admin.products_list.col_image")}</th
+          >
+          <th class="text-left px-4 py-3 font-medium"
             >{t("admin.products_list.col_name")}</th
           >
           <th class="text-left px-4 py-3 font-medium"
@@ -86,7 +89,7 @@ const products = env?.DB
         {
           products.results.length === 0 && (
             <tr>
-              <td colspan="7" class="px-4 py-8 text-center text-text-muted">
+              <td colspan="8" class="px-4 py-8 text-center text-text-muted">
                 {t("admin.products_list.empty")}{" "}
                 <a href="/admin/products/new" class="text-accent-700 underline">
                   {t("admin.products_list.empty_link")}

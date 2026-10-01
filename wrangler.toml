@@ -13,10 +13,10 @@ pages_build_output_dir = "./dist"
 # database_name = "cnamber-store-prod"
 # database_id = "TBD"
 
-# R2 binding (Phase 2+)
-# [[r2_buckets]]
-# binding = "PRODUCT_IMAGES"
-# bucket_name = "cnamber-store-images"
+# R2 binding (Wave 21: product cover images)
+[[r2_buckets]]
+binding = "PRODUCT_IMAGES"
+bucket_name = "cnamber-store-images"
 
 # KV binding (Phase 3+ i18n)
 # [[kv_namespaces]]

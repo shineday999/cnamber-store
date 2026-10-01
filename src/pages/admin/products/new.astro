@@ -78,6 +78,22 @@ const INCENSE_SUBS = ["stick", "balm", "oil"] as const;
       />
     </div>
 
+    <div>
+      <label class="block text-sm font-medium mb-1" for="image"
+        >{t("admin.products_new.label_image")}</label
+      >
+      <input
+        id="image"
+        name="image"
+        type="file"
+        accept="image/jpeg,image/png,image/webp,image/gif"
+        class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base file:mr-4 file:py-1 file:px-3 file:border-0 file:bg-forest-700 file:text-bg-base file:rounded file:cursor-pointer text-sm"
+      />
+      <p class="text-xs text-text-muted mt-1">
+        {t("admin.products_new.hint_image")}
+      </p>
+    </div>
+
     <div class="border-t border-text-muted/20 pt-4">
       <h3 class="font-medium mb-3">{t("admin.products_new.initial_name")}</h3>
       <input
