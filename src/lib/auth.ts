@@ -12,7 +12,10 @@ export interface AdminSession {
   displayName?: string;
 }
 
-const ADMIN_EMAILS = new Set<string>(["shineday999@gmail.com"]);
+const ADMIN_EMAILS = new Set<string>([
+  "shineday999@gmail.com",
+  "18940333444@qq.com",
+]);
 
 interface CfRuntimeEnv {
   CF_ACCESS_TEAM?: string;
