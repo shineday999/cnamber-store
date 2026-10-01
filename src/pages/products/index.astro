@@ -4,6 +4,7 @@ import Layout from "@layouts/Layout.astro";
 import ProductCard from "@components/ProductCard.astro";
 import { createT } from "../../i18n/t";
 import { defaultLocale, type Locale } from "../../i18n/config";
+import { formatPrice } from "@lib/format";
 
 const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
 const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
