@@ -1,12 +1,16 @@
 ---
 import AdminLayout from "../../../layouts/AdminLayout.astro";
+import { createT } from "../../../i18n/t";
+import { defaultLocale, type Locale } from "../../../i18n/config";
+
+const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
+const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
+const t = createT(messages);
+void locale;
 ---
 
-<AdminLayout title="New Product" active="products">
-  <p class="text-text-secondary mb-6">
-    Product creation form. Phase 2 sub-task P2-4 will wire the full form
-    (4-language tabs, variants, multi-currency pricing).
-  </p>
+<AdminLayout title={t("admin.products_new.title")} active="products">
+  <p class="text-text-secondary mb-6">{t("admin.products_new.subtitle")}</p>
 
   <form
     method="POST"
@@ -15,7 +19,7 @@ import AdminLayout from "../../../layouts/AdminLayout.astro";
   >
     <div>
       <label class="block text-sm font-medium mb-1" for="category"
-        >Category</label
+        >{t("admin.products_new.label_category")}</label
       >
       <select
         id="category"
@@ -23,13 +27,15 @@ import AdminLayout from "../../../layouts/AdminLayout.astro";
         required
         class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
       >
-        <option value="jewelry">Jewelry</option>
-        <option value="incense">Incense</option>
+        <option value="jewelry">{t("admin.products_new.option_jewelry")}</option
+        >
+        <option value="incense">{t("admin.products_new.option_incense")}</option
+        >
       </select>
     </div>
     <div>
       <label class="block text-sm font-medium mb-1" for="subcategory"
-        >Subcategory</label
+        >{t("admin.products_new.label_subcategory")}</label
       >
       <input
         id="subcategory"
@@ -40,7 +46,9 @@ import AdminLayout from "../../../layouts/AdminLayout.astro";
       />
     </div>
     <div>
-      <label class="block text-sm font-medium mb-1" for="slug">Slug</label>
+      <label class="block text-sm font-medium mb-1" for="slug"
+        >{t("admin.products_new.label_slug")}</label
+      >
       <input
         id="slug"
         name="slug"
@@ -52,7 +60,7 @@ import AdminLayout from "../../../layouts/AdminLayout.astro";
     </div>
 
     <div class="border-t border-text-muted/20 pt-4">
-      <h3 class="font-medium mb-3">Initial name (zh-Hans default)</h3>
+      <h3 class="font-medium mb-3">{t("admin.products_new.initial_name")}</h3>
       <input
         name="translations[zh-Hans][name]"
         type="text"
@@ -72,13 +80,13 @@ import AdminLayout from "../../../layouts/AdminLayout.astro";
         type="submit"
         class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900"
       >
-        Create Draft
+        {t("admin.products_new.create_draft")}
       </button>
       <a
         href="/admin/products"
         class="px-4 py-2 border border-text-muted/30 rounded-md hover:bg-bg-base"
       >
-        Cancel
+        {t("admin.products_new.cancel")}
       </a>
     </div>
   </form>

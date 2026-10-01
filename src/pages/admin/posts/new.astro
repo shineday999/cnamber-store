@@ -1,12 +1,18 @@
 ---
 import AdminLayout from "../../../layouts/AdminLayout.astro";
+import { createT } from "../../../i18n/t";
+import { defaultLocale, type Locale } from "../../../i18n/config";
 
 const LOCALES = ["zh-Hans", "en", "ms-MY", "id-ID"] as const;
+const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
+const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
+const t = createT(messages);
+void locale;
 ---
 
-<AdminLayout title="New Post" active="blog">
+<AdminLayout title={t("admin.posts_new.title")} active="blog">
   <p class="text-text-secondary mb-6">
-    Create a new blog post. Title and body required for zh-Hans (default).
+    {t("admin.posts_new.subtitle")}
   </p>
 
   <form method="POST" action="/api/admin/posts" class="space-y-6">
@@ -14,7 +20,9 @@ const LOCALES = ["zh-Hans", "en", "ms-MY", "id-ID"] as const;
       class="bg-bg-card border border-text-muted/20 rounded-card p-6 space-y-4 max-w-2xl"
     >
       <div>
-        <label class="block text-sm font-medium mb-1" for="slug">Slug</label>
+        <label class="block text-sm font-medium mb-1" for="slug"
+          >{t("admin.posts_new.label_slug")}</label
+        >
         <input
           id="slug"
           name="slug"
@@ -26,7 +34,7 @@ const LOCALES = ["zh-Hans", "en", "ms-MY", "id-ID"] as const;
       <div class="grid grid-cols-2 gap-4">
         <div>
           <label class="block text-sm font-medium mb-1" for="category"
-            >Category</label
+            >{t("admin.posts_new.label_category")}</label
           >
           <select
             id="category"
@@ -42,7 +50,7 @@ const LOCALES = ["zh-Hans", "en", "ms-MY", "id-ID"] as const;
         </div>
         <div>
           <label class="block text-sm font-medium mb-1" for="status"
-            >Status</label
+            >{t("admin.posts_new.label_status")}</label
           >
           <select
             id="status"
@@ -62,7 +70,7 @@ const LOCALES = ["zh-Hans", "en", "ms-MY", "id-ID"] as const;
           <fieldset class="bg-bg-card border border-text-muted/20 rounded-card p-5 space-y-3">
             <legend class="font-serif text-lg px-2">
               {loc}
-              {loc === "zh-Hans" ? " (required)" : ""}
+              {loc === "zh-Hans" ? t("admin.posts_new.locale_required") : ""}
             </legend>
             <input
               type="hidden"
@@ -74,7 +82,7 @@ const LOCALES = ["zh-Hans", "en", "ms-MY", "id-ID"] as const;
                 class="block text-sm font-medium mb-1"
                 for={`title-${loc}`}
               >
-                Title
+                {t("admin.posts_new.label_title")}
               </label>
               <input
                 id={`title-${loc}`}
@@ -88,7 +96,7 @@ const LOCALES = ["zh-Hans", "en", "ms-MY", "id-ID"] as const;
                 class="block text-sm font-medium mb-1"
                 for={`excerpt-${loc}`}
               >
-                Excerpt
+                {t("admin.posts_new.label_excerpt")}
               </label>
               <textarea
                 id={`excerpt-${loc}`}
@@ -99,7 +107,8 @@ const LOCALES = ["zh-Hans", "en", "ms-MY", "id-ID"] as const;
             </div>
             <div>
               <label class="block text-sm font-medium mb-1" for={`body-${loc}`}>
-                Body (Markdown){loc === "zh-Hans" ? " *" : ""}
+                {t("admin.posts_new.label_body")}
+                {loc === "zh-Hans" ? t("admin.posts_new.body_required") : ""}
               </label>
               <textarea
                 id={`body-${loc}`}
@@ -118,12 +127,12 @@ const LOCALES = ["zh-Hans", "en", "ms-MY", "id-ID"] as const;
       <button
         type="submit"
         class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900"
-        >Create Draft</button
+        >{t("admin.posts_new.create_draft")}</button
       >
       <a
         href="/admin/posts"
         class="px-4 py-2 border border-text-muted/30 rounded-md hover:bg-bg-base"
-        >Cancel</a
+        >{t("admin.posts_new.cancel")}</a
       >
     </div>
   </form>

@@ -1,7 +1,14 @@
 ---
 import AdminLayout from "../../../layouts/AdminLayout.astro";
+import { createT } from "../../../i18n/t";
+import { defaultLocale, type Locale } from "../../../i18n/config";
 
 const env = Astro.locals.runtime?.env;
+const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
+const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
+const t = createT(messages);
+void locale;
+
 const orders = env?.DB
   ? await env.DB.prepare(
       "SELECT id, customer_email, customer_name, total, currency, status, payment_status, created_at FROM orders ORDER BY created_at DESC LIMIT 100",
@@ -19,10 +26,9 @@ function statusColor(s: string) {
 }
 ---
 
-<AdminLayout title="Orders" active="orders">
+<AdminLayout title={t("admin.orders_list.title")} active="orders">
   <p class="text-text-secondary mb-6">
-    {orders.results.length} order(s). Manual-reservation model — customer pays via
-    bank transfer after you email them.
+    {t("admin.orders_list.subtitle", { n: orders.results.length })}
   </p>
 
   <div
@@ -31,12 +37,24 @@ function statusColor(s: string) {
     <table class="w-full text-sm">
       <thead class="bg-forest-100 text-text-primary">
         <tr>
-          <th class="text-left px-4 py-3 font-medium">Order ID</th>
-          <th class="text-left px-4 py-3 font-medium">Customer</th>
-          <th class="text-right px-4 py-3 font-medium">Total</th>
-          <th class="text-left px-4 py-3 font-medium">Status</th>
-          <th class="text-left px-4 py-3 font-medium">Payment</th>
-          <th class="text-left px-4 py-3 font-medium">Created</th>
+          <th class="text-left px-4 py-3 font-medium"
+            >{t("admin.orders_list.col_order_id")}</th
+          >
+          <th class="text-left px-4 py-3 font-medium"
+            >{t("admin.orders_list.col_customer")}</th
+          >
+          <th class="text-right px-4 py-3 font-medium"
+            >{t("admin.orders_list.col_total")}</th
+          >
+          <th class="text-left px-4 py-3 font-medium"
+            >{t("admin.orders_list.col_status")}</th
+          >
+          <th class="text-left px-4 py-3 font-medium"
+            >{t("admin.orders_list.col_payment")}</th
+          >
+          <th class="text-left px-4 py-3 font-medium"
+            >{t("admin.orders_list.col_created")}</th
+          >
         </tr>
       </thead>
       <tbody>
@@ -44,7 +62,7 @@ function statusColor(s: string) {
           orders.results.length === 0 && (
             <tr>
               <td colspan="6" class="px-4 py-8 text-center text-text-muted">
-                No orders yet. Phase 4 will add the public ordering flow.
+                {t("admin.orders_list.empty")}
               </td>
             </tr>
           )

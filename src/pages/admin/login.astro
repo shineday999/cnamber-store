@@ -1,6 +1,10 @@
 ---
 // /admin/login — local email + password login form
 // 2026-10-01: replaces Cloudflare Access flow
+// Wave 16: 加 global.css import(補 :root vars)+ t() i18n 整合
+import "../../styles/global.css";
+import { createT } from "../../i18n/t";
+import { defaultLocale, type Locale } from "../../i18n/config";
 import { getAdminFromContext } from "../../lib/auth";
 
 const admin = await getAdminFromContext(Astro);
@@ -8,17 +12,20 @@ if (admin) {
   return Astro.redirect("/admin", 303);
 }
 
+const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
+const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
+const t = createT(messages);
 const url = Astro.url;
 const redirectTo = url.searchParams.get("redirect") ?? "/admin";
 const error = url.searchParams.get("error");
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={locale}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Login · cnamber-store</title>
+    <title>{t("admin.login.title")} · cnamber-store</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   </head>
   <body
@@ -29,20 +36,19 @@ const error = url.searchParams.get("error");
     >
       <div class="text-center mb-6">
         <h1 class="font-serif text-2xl text-forest-800 mb-1">
-          cnamber-store Admin
+          {t("admin.login.brand")}
         </h1>
         <p class="text-xs uppercase tracking-wider text-text-muted">
-          Local sign-in
+          {t("admin.login.local_signin")}
         </p>
       </div>
 
       {
         error && (
           <div class="mb-4 p-3 border border-red-500/30 bg-red-50 text-red-700 text-sm rounded">
-            {error === "invalid" && "Email or password incorrect."}
-            {error === "empty" && "Email and password are required."}
-            {error === "server" &&
-              "Server misconfiguration. Contact site owner."}
+            {error === "invalid" && t("admin.login.error_invalid")}
+            {error === "empty" && t("admin.login.error_empty")}
+            {error === "server" && t("admin.login.error_server")}
           </div>
         )
       }
@@ -50,7 +56,8 @@ const error = url.searchParams.get("error");
       <form method="POST" action="/api/admin/login" class="space-y-4">
         <input type="hidden" name="redirect" value={redirectTo} />
         <div>
-          <label class="block text-sm font-medium mb-1" for="email">Email</label
+          <label class="block text-sm font-medium mb-1" for="email"
+            >{t("admin.login.email_label")}</label
           >
           <input
             id="email"
@@ -63,7 +70,7 @@ const error = url.searchParams.get("error");
         </div>
         <div>
           <label class="block text-sm font-medium mb-1" for="password"
-            >Password</label
+            >{t("admin.login.password_label")}</label
           >
           <input
             id="password"
@@ -78,12 +85,12 @@ const error = url.searchParams.get("error");
           type="submit"
           class="w-full px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900"
         >
-          Sign in
+          {t("admin.login.signin")}
         </button>
       </form>
 
       <p class="text-xs text-text-muted text-center mt-6">
-        Authorized personnel only. All access is logged.
+        {t("admin.login.authorized_notice")}
       </p>
     </div>
   </body>

@@ -1,7 +1,14 @@
 ---
 import AdminLayout from "../../../layouts/AdminLayout.astro";
+import { createT } from "../../../i18n/t";
+import { defaultLocale, type Locale } from "../../../i18n/config";
 
 const env = Astro.locals.runtime?.env;
+const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
+const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
+const t = createT(messages);
+void locale;
+
 const posts = env?.DB
   ? await env.DB.prepare(
       `SELECT p.id, p.slug, p.status, p.category, p.published_at, p.updated_at,
@@ -32,13 +39,15 @@ function statusColor(s: string) {
 }
 ---
 
-<AdminLayout title="Blog Posts" active="blog">
+<AdminLayout title={t("admin.posts_list.title")} active="blog">
   <div class="flex justify-between items-center mb-6">
-    <p class="text-text-secondary">{posts.results.length} post(s).</p>
+    <p class="text-text-secondary">
+      {t("admin.posts_list.subtitle", { n: posts.results.length })}
+    </p>
     <a
       href="/admin/posts/new"
       class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900"
-      >+ New Post</a
+      >{t("admin.posts_list.new_post")}</a
     >
   </div>
 
@@ -48,12 +57,24 @@ function statusColor(s: string) {
     <table class="w-full text-sm">
       <thead class="bg-forest-100 text-text-primary">
         <tr>
-          <th class="text-left px-4 py-3 font-medium">Title</th>
-          <th class="text-left px-4 py-3 font-medium">Slug</th>
-          <th class="text-left px-4 py-3 font-medium">Category</th>
-          <th class="text-left px-4 py-3 font-medium">Status</th>
-          <th class="text-left px-4 py-3 font-medium">Updated</th>
-          <th class="text-right px-4 py-3 font-medium">Actions</th>
+          <th class="text-left px-4 py-3 font-medium"
+            >{t("admin.posts_list.col_title")}</th
+          >
+          <th class="text-left px-4 py-3 font-medium"
+            >{t("admin.posts_list.col_slug")}</th
+          >
+          <th class="text-left px-4 py-3 font-medium"
+            >{t("admin.posts_list.col_category")}</th
+          >
+          <th class="text-left px-4 py-3 font-medium"
+            >{t("admin.posts_list.col_status")}</th
+          >
+          <th class="text-left px-4 py-3 font-medium"
+            >{t("admin.posts_list.col_updated")}</th
+          >
+          <th class="text-right px-4 py-3 font-medium"
+            >{t("admin.posts_list.col_actions")}</th
+          >
         </tr>
       </thead>
       <tbody>
@@ -61,7 +82,7 @@ function statusColor(s: string) {
           posts.results.length === 0 && (
             <tr>
               <td colspan="6" class="px-4 py-8 text-center text-text-muted">
-                No posts yet.
+                {t("admin.posts_list.empty")}
               </td>
             </tr>
           )
@@ -69,7 +90,9 @@ function statusColor(s: string) {
         {
           posts.results.map((p) => (
             <tr class="border-t border-text-muted/10 hover:bg-bg-base">
-              <td class="px-4 py-3 font-medium">{p.title ?? "(untitled)"}</td>
+              <td class="px-4 py-3 font-medium">
+                {p.title ?? t("admin.posts_list.untitled")}
+              </td>
               <td class="px-4 py-3 font-mono text-xs">{p.slug}</td>
               <td class="px-4 py-3 text-text-secondary">{p.category ?? "—"}</td>
               <td class="px-4 py-3">
@@ -87,13 +110,13 @@ function statusColor(s: string) {
                   href={`/admin/posts/${p.id}`}
                   class="text-accent-700 hover:underline"
                 >
-                  Edit
+                  {t("admin.posts_list.link_edit")}
                 </a>
                 <a
                   href={`/blog/${p.slug}`}
                   class="text-text-secondary hover:underline ml-3"
                 >
-                  View
+                  {t("admin.posts_list.link_view")}
                 </a>
               </td>
             </tr>

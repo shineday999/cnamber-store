@@ -1,8 +1,14 @@
 ---
 import AdminLayout from "../../../layouts/AdminLayout.astro";
+import { createT } from "../../../i18n/t";
+import { defaultLocale, type Locale } from "../../../i18n/config";
 
 const id = Astro.params.id;
 const env = Astro.locals.runtime?.env;
+const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
+const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
+const t = createT(messages);
+void locale;
 
 const post = env?.DB
   ? await env.DB.prepare("SELECT * FROM posts WHERE id = ?").bind(id).first<{
@@ -35,7 +41,10 @@ if (!post) {
 }
 ---
 
-<AdminLayout title={`Edit · ${post.slug}`} active="blog">
+<AdminLayout
+  title={`${t("admin.posts_detail.title_prefix")}${post.slug}`}
+  active="blog"
+>
   <div
     class="bg-bg-card border border-text-muted/20 rounded-card p-6 mb-6 max-w-2xl"
   >
@@ -43,7 +52,7 @@ if (!post) {
       <div class="grid grid-cols-3 gap-4">
         <div>
           <label class="block text-sm font-medium mb-1" for="category"
-            >Category</label
+            >{t("admin.posts_detail.label_category")}</label
           >
           <select
             id="category"
@@ -61,7 +70,7 @@ if (!post) {
         </div>
         <div>
           <label class="block text-sm font-medium mb-1" for="status"
-            >Status</label
+            >{t("admin.posts_detail.label_status")}</label
           >
           <select
             id="status"
@@ -79,7 +88,7 @@ if (!post) {
         </div>
         <div>
           <label class="block text-sm font-medium mb-1" for="cover"
-            >Cover URL</label
+            >{t("admin.posts_detail.label_cover_url")}</label
           >
           <input
             id="cover"
@@ -92,7 +101,7 @@ if (!post) {
       <button
         type="submit"
         class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900"
-        >Save meta</button
+        >{t("admin.posts_detail.save_meta")}</button
       >
     </form>
   </div>
@@ -114,7 +123,7 @@ if (!post) {
                 class="block text-sm font-medium mb-1"
                 for={`title-${loc}`}
               >
-                Title
+                {t("admin.posts_detail.label_title")}
               </label>
               <input
                 id={`title-${loc}`}
@@ -128,7 +137,7 @@ if (!post) {
                 class="block text-sm font-medium mb-1"
                 for={`excerpt-${loc}`}
               >
-                Excerpt
+                {t("admin.posts_detail.label_excerpt")}
               </label>
               <textarea
                 id={`excerpt-${loc}`}
@@ -141,7 +150,7 @@ if (!post) {
             </div>
             <div>
               <label class="block text-sm font-medium mb-1" for={`body-${loc}`}>
-                Body (Markdown)
+                {t("admin.posts_detail.label_body")}
               </label>
               <textarea
                 id={`body-${loc}`}
@@ -156,7 +165,7 @@ if (!post) {
               type="submit"
               class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900 text-sm"
             >
-              Save {loc}
+              {t("admin.posts_detail.save_translation", { loc })}
             </button>
           </form>
         );

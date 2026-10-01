@@ -1,7 +1,14 @@
 ---
 import AdminLayout from "../../../layouts/AdminLayout.astro";
+import { createT } from "../../../i18n/t";
+import { defaultLocale, type Locale } from "../../../i18n/config";
 
 const env = Astro.locals.runtime?.env;
+const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
+const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
+const t = createT(messages);
+void locale;
+
 const products = env?.DB
   ? await env.DB.prepare(
       "SELECT id, category, subcategory, slug, status, created_at FROM products ORDER BY created_at DESC LIMIT 100",
@@ -9,17 +16,16 @@ const products = env?.DB
   : { results: [] as Array<Record<string, unknown>> };
 ---
 
-<AdminLayout title="Products" active="products">
+<AdminLayout title={t("admin.products_list.title")} active="products">
   <div class="flex items-center justify-between mb-6">
     <p class="text-text-secondary">
-      {products.results.length} product(s) total. Phase 2 has CRUD wiring; production
-      seed data TBD.
+      {t("admin.products_list.subtitle", { n: products.results.length })}
     </p>
     <a
       href="/admin/products/new"
       class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900 transition-colors"
     >
-      + New Product
+      {t("admin.products_list.new_product")}
     </a>
   </div>
 
@@ -29,12 +35,24 @@ const products = env?.DB
     <table class="w-full text-sm">
       <thead class="bg-forest-100 text-text-primary">
         <tr>
-          <th class="text-left px-4 py-3 font-medium">ID</th>
-          <th class="text-left px-4 py-3 font-medium">Slug</th>
-          <th class="text-left px-4 py-3 font-medium">Category</th>
-          <th class="text-left px-4 py-3 font-medium">Subcategory</th>
-          <th class="text-left px-4 py-3 font-medium">Status</th>
-          <th class="text-right px-4 py-3 font-medium">Actions</th>
+          <th class="text-left px-4 py-3 font-medium"
+            >{t("admin.products_list.col_id")}</th
+          >
+          <th class="text-left px-4 py-3 font-medium"
+            >{t("admin.products_list.col_slug")}</th
+          >
+          <th class="text-left px-4 py-3 font-medium"
+            >{t("admin.products_list.col_category")}</th
+          >
+          <th class="text-left px-4 py-3 font-medium"
+            >{t("admin.products_list.col_subcategory")}</th
+          >
+          <th class="text-left px-4 py-3 font-medium"
+            >{t("admin.products_list.col_status")}</th
+          >
+          <th class="text-right px-4 py-3 font-medium"
+            >{t("admin.products_list.col_actions")}</th
+          >
         </tr>
       </thead>
       <tbody>
@@ -42,9 +60,9 @@ const products = env?.DB
           products.results.length === 0 && (
             <tr>
               <td colspan="6" class="px-4 py-8 text-center text-text-muted">
-                No products yet.{" "}
+                {t("admin.products_list.empty")}{" "}
                 <a href="/admin/products/new" class="text-accent-700 underline">
-                  Create the first one
+                  {t("admin.products_list.empty_link")}
                 </a>
                 .
               </td>
@@ -76,7 +94,7 @@ const products = env?.DB
                   href={`/admin/products/${p.id}`}
                   class="text-accent-700 hover:underline"
                 >
-                  Edit
+                  {t("admin.products_list.link_edit")}
                 </a>
               </td>
             </tr>

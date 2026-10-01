@@ -1,50 +1,70 @@
 ---
-import AdminLayout from '../../../layouts/AdminLayout.astro';
+import AdminLayout from "../../../layouts/AdminLayout.astro";
+import { createT } from "../../../i18n/t";
+import { defaultLocale, type Locale } from "../../../i18n/config";
 
 const env = Astro.locals.runtime?.env;
+const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
+const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
+const t = createT(messages);
+void locale;
+
 const reviews = env?.DB
   ? await env.DB.prepare(
-      'SELECT id, product_id, customer_name, rating, content, status, created_at FROM reviews ORDER BY created_at DESC LIMIT 100',
+      "SELECT id, product_id, customer_name, rating, content, status, created_at FROM reviews ORDER BY created_at DESC LIMIT 100",
     ).all()
   : { results: [] as Array<Record<string, unknown>> };
 ---
 
-<AdminLayout title="Reviews" active="reviews">
+<AdminLayout title={t("admin.reviews_list.title")} active="reviews">
   <p class="text-text-secondary mb-6">
-    {reviews.results.length} review(s). Phase 2 sub-task P2-6 will add approve/reject actions.
+    {t("admin.reviews_list.subtitle", { n: reviews.results.length })}
   </p>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-    {reviews.results.length === 0 && (
-      <div class="col-span-2 bg-bg-card border border-text-muted/20 rounded-card p-8 text-center text-text-muted">
-        No reviews yet.
-      </div>
-    )}
-    {reviews.results.map((r) => (
-      <article class="bg-bg-card border border-text-muted/20 rounded-card p-5">
-        <div class="flex items-center justify-between mb-2">
-          <div class="flex items-center gap-2">
-            <span class="text-accent-700">{'★'.repeat(r.rating as number)}</span>
-            <span class="text-xs text-text-muted">{r.rating as number}/5</span>
+    {
+      reviews.results.length === 0 && (
+        <div class="col-span-2 bg-bg-card border border-text-muted/20 rounded-card p-8 text-center text-text-muted">
+          {t("admin.reviews_list.empty")}
+        </div>
+      )
+    }
+    {
+      reviews.results.map((r) => (
+        <article class="bg-bg-card border border-text-muted/20 rounded-card p-5">
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-2">
+              <span class="text-accent-700">
+                {"★".repeat(r.rating as number)}
+              </span>
+              <span class="text-xs text-text-muted">
+                {r.rating as number}/5
+              </span>
+            </div>
+            <span
+              class={`px-2 py-0.5 rounded text-xs ${
+                r.status === "approved"
+                  ? "bg-success/20 text-success"
+                  : r.status === "rejected"
+                    ? "bg-error/20 text-error"
+                    : "bg-warning/20 text-warning"
+              }`}
+            >
+              {r.status as string}
+            </span>
           </div>
-          <span
-            class={`px-2 py-0.5 rounded text-xs ${
-              r.status === 'approved'
-                ? 'bg-success/20 text-success'
-                : r.status === 'rejected'
-                ? 'bg-error/20 text-error'
-                : 'bg-warning/20 text-warning'
-            }`}
-          >
-            {r.status as string}
-          </span>
-        </div>
-        <h3 class="font-medium mb-2">{r.customer_name as string}</h3>
-        <p class="text-sm text-text-secondary leading-relaxed">{r.content as string}</p>
-        <div class="text-xs text-text-muted mt-3 font-mono">
-          {r.id as string} · {new Date((r.created_at as number) * 1000).toISOString().slice(0, 10)}
-        </div>
-      </article>
-    ))}
+          <h3 class="font-medium mb-2">{r.customer_name as string}</h3>
+          <p class="text-sm text-text-secondary leading-relaxed">
+            {r.content as string}
+          </p>
+          <div class="text-xs text-text-muted mt-3 font-mono">
+            {r.id as string} ·{" "}
+            {new Date((r.created_at as number) * 1000)
+              .toISOString()
+              .slice(0, 10)}
+          </div>
+        </article>
+      ))
+    }
   </div>
 </AdminLayout>

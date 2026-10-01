@@ -1,9 +1,15 @@
 ---
 import AdminLayout from "../../../layouts/AdminLayout.astro";
 import Tabs from "../../../components/Tabs.astro";
+import { createT } from "../../../i18n/t";
+import { defaultLocale, type Locale } from "../../../i18n/config";
 
 const id = Astro.params.id;
 const env = Astro.locals.runtime?.env;
+const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
+const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
+const t = createT(messages);
+void locale;
 
 const product = env?.DB
   ? await env.DB.prepare("SELECT * FROM products WHERE id = ?").bind(id).first<{
@@ -52,12 +58,18 @@ const trByLocale = (locale: string) =>
   translations.results.find((t) => t.locale === locale);
 ---
 
-<AdminLayout title={`Edit · ${product.slug}`} active="products">
+<AdminLayout
+  title={`${t("admin.products_detail.title_prefix")}${product.slug}`}
+  active="products"
+>
   <Tabs
     tabs={[
-      { id: "core", label: "Core" },
-      { id: "translations", label: "Translations" },
-      { id: "variants", label: "Variants" },
+      { id: "core", label: t("admin.products_detail.tab_core") },
+      {
+        id: "translations",
+        label: t("admin.products_detail.tab_translations"),
+      },
+      { id: "variants", label: t("admin.products_detail.tab_variants") },
     ]}
     paramName="tab"
   />
@@ -71,7 +83,7 @@ const trByLocale = (locale: string) =>
       <div class="grid grid-cols-2 gap-4">
         <div>
           <label class="block text-sm font-medium mb-1" for="category"
-            >Category</label
+            >{t("admin.products_detail.label_category")}</label
           >
           <select
             id="category"
@@ -79,16 +91,16 @@ const trByLocale = (locale: string) =>
             class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
           >
             <option value="jewelry" selected={product.category === "jewelry"}
-              >jewelry</option
+              >{t("admin.products_detail.option_jewelry")}</option
             >
             <option value="incense" selected={product.category === "incense"}
-              >incense</option
+              >{t("admin.products_detail.option_incense")}</option
             >
           </select>
         </div>
         <div>
           <label class="block text-sm font-medium mb-1" for="status"
-            >Status</label
+            >{t("admin.products_detail.label_status")}</label
           >
           <select
             id="status"
@@ -107,7 +119,7 @@ const trByLocale = (locale: string) =>
       </div>
       <div>
         <label class="block text-sm font-medium mb-1" for="subcategory"
-          >Subcategory</label
+          >{t("admin.products_detail.label_subcategory")}</label
         >
         <input
           id="subcategory"
@@ -117,7 +129,9 @@ const trByLocale = (locale: string) =>
         />
       </div>
       <div>
-        <label class="block text-sm font-medium mb-1" for="slug">Slug</label>
+        <label class="block text-sm font-medium mb-1" for="slug"
+          >{t("admin.products_detail.label_slug")}</label
+        >
         <input
           id="slug"
           name="slug"
@@ -130,7 +144,7 @@ const trByLocale = (locale: string) =>
         <button
           type="submit"
           class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900"
-          >Save</button
+          >{t("admin.products_detail.save")}</button
         >
         <form
           method="POST"
@@ -140,7 +154,7 @@ const trByLocale = (locale: string) =>
           <button
             type="submit"
             class="px-4 py-2 border border-text-muted/30 rounded-md hover:bg-bg-base"
-            >Toggle status</button
+            >{t("admin.products_detail.toggle_status")}</button
           >
         </form>
       </div>
@@ -165,7 +179,7 @@ const trByLocale = (locale: string) =>
                   class="block text-sm font-medium mb-1"
                   for={`name-${loc}`}
                 >
-                  Name
+                  {t("admin.products_detail.label_name")}
                 </label>
                 <input
                   id={`name-${loc}`}
@@ -180,7 +194,7 @@ const trByLocale = (locale: string) =>
                   class="block text-sm font-medium mb-1"
                   for={`short-${loc}`}
                 >
-                  Short description
+                  {t("admin.products_detail.label_short_desc")}
                 </label>
                 <input
                   id={`short-${loc}`}
@@ -194,7 +208,7 @@ const trByLocale = (locale: string) =>
                   class="block text-sm font-medium mb-1"
                   for={`desc-${loc}`}
                 >
-                  Description
+                  {t("admin.products_detail.label_description")}
                 </label>
                 <textarea
                   id={`desc-${loc}`}
@@ -211,7 +225,7 @@ const trByLocale = (locale: string) =>
                   class="block text-sm font-medium mb-1"
                   for={`story-${loc}`}
                 >
-                  Story (optional)
+                  {t("admin.products_detail.label_story")}
                 </label>
                 <textarea
                   id={`story-${loc}`}
@@ -226,7 +240,7 @@ const trByLocale = (locale: string) =>
                 type="submit"
                 class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900 text-sm"
               >
-                Save {loc}
+                {t("admin.products_detail.save_translation", { loc })}
               </button>
             </form>
           );
@@ -240,7 +254,7 @@ const trByLocale = (locale: string) =>
       {
         variants.results.length === 0 && (
           <p class="text-text-muted text-sm">
-            No variants. Add via seed.sql (Phase 5+ needs a variant editor).
+            {t("admin.products_detail.no_variants")}
           </p>
         )
       }

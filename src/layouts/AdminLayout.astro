@@ -1,6 +1,9 @@
 ---
 // AdminLayout — 後台共用 layout
 // 認證已由 middleware 處理(session JWT cookie,2026-10-01 取代 Cloudflare Access)
+// Wave 16: 加入 global.css import(補 :root CSS vars)+ t() i18n 整合
+import "../styles/global.css";
+import { createT } from "../i18n/t";
 import { defaultLocale, type Locale } from "../i18n/config";
 
 interface Props {
@@ -10,21 +13,21 @@ interface Props {
 
 const { title, active = "dashboard" } = Astro.props;
 const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
+const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
+const t = createT(messages);
 const admin = Astro.locals.admin;
 
 const navItems = [
-  { key: "dashboard", label: "Dashboard", href: "/admin" },
-  { key: "products", label: "Products", href: "/admin/products" },
-  { key: "orders", label: "Orders", href: "/admin/orders" },
-  { key: "blog", label: "Blog", href: "/admin/posts" },
-  { key: "reviews", label: "Reviews", href: "/admin/reviews" },
+  { key: "dashboard", label: t("admin.nav.dashboard"), href: "/admin" },
+  { key: "products", label: t("admin.nav.products"), href: "/admin/products" },
+  { key: "orders", label: t("admin.nav.orders"), href: "/admin/orders" },
+  { key: "blog", label: t("admin.nav.blog"), href: "/admin/posts" },
+  { key: "reviews", label: t("admin.nav.reviews"), href: "/admin/reviews" },
 ] as const;
-
-void locale;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={locale}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -39,7 +42,7 @@ void locale;
         <div class="flex items-center gap-3">
           <span class="font-serif text-xl">cnamber-store</span>
           <span class="text-xs uppercase tracking-wider text-accent-300"
-            >Admin</span
+            >{t("admin.common.admin_badge")}</span
           >
         </div>
         <div class="flex items-center gap-4 text-sm">
@@ -47,13 +50,15 @@ void locale;
           <span class="px-2 py-0.5 rounded bg-accent-700 text-bg-base text-xs"
             >{admin?.role}</span
           >
-          <a href="/" class="text-bg-base/70 hover:text-bg-base">View site</a>
+          <a href="/" class="text-bg-base/70 hover:text-bg-base"
+            >{t("admin.common.view_site")}</a
+          >
           <form method="POST" action="/api/admin/logout" class="inline">
             <button
               type="submit"
               class="text-bg-base/70 hover:text-bg-base text-sm hover:underline underline-offset-2"
             >
-              Logout
+              {t("admin.common.signout")}
             </button>
           </form>
         </div>
@@ -88,7 +93,7 @@ void locale;
     <footer
       class="max-w-7xl mx-auto px-6 py-6 text-xs text-text-muted border-t border-text-muted/20"
     >
-      cnamber-store admin · Phase 2 build
+      {t("admin.footer.tagline")}
     </footer>
   </body>
 </html>
