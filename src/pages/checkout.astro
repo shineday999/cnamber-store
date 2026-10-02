@@ -36,9 +36,15 @@ for (const it of items) {
   else keyMap.set(k, { qty: it.qty, slug: it.slug, sku: it.sku ?? "" });
 }
 
-const subtotalCents = enriched.results.reduce((sum, row) => {
+// SQL GROUP BY (slug, sku) 展開 product 全部 variant,只顯示 cart 內實際 add 過的 (slug, sku)
+const visible = enriched.results.filter((row) => {
   const k = `${row.slug}::${row.sku ?? ""}`;
-  const qty = keyMap.get(k)?.qty ?? 1;
+  return keyMap.has(k);
+});
+
+const subtotalCents = visible.reduce((sum, row) => {
+  const k = `${row.slug}::${row.sku ?? ""}`;
+  const qty = keyMap.get(k)!.qty;
   return sum + ((row.amount as number) ?? 0) * qty;
 }, 0);
 
@@ -170,9 +176,9 @@ const totalDisplay = formatPrice(subtotalCents, "USD", locale);
             <p class="text-xs uppercase tracking-[0.3em] text-text-muted mb-2">
               {t("cart.title")}
             </p>
-            {enriched.results.map((row) => {
+            {visible.map((row) => {
               const k = `${row.slug}::${row.sku ?? ""}`;
-              const qty = keyMap.get(k)?.qty ?? 1;
+              const qty = keyMap.get(k)!.qty;
               return (
                 <div class="flex justify-between py-1">
                   <span>

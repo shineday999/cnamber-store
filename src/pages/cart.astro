@@ -44,9 +44,16 @@ for (const it of items) {
   else keyMap.set(k, { qty: it.qty, slug: it.slug, sku: it.sku ?? "" });
 }
 
-const subtotalCents = enriched.results.reduce((sum, row) => {
+// SQL GROUP BY (slug, sku) 會把 product 全部 variant 展開,但 cart 只 add 過其中一兩個,
+// 沒在 cart 內的 variant 不該出現在 cart 頁。filter 出真正在 keyMap 內的 row。
+const visible = enriched.results.filter((row) => {
   const k = `${row.slug}::${row.sku ?? ""}`;
-  const qty = keyMap.get(k)?.qty ?? 1;
+  return keyMap.has(k);
+});
+
+const subtotalCents = visible.reduce((sum, row) => {
+  const k = `${row.slug}::${row.sku ?? ""}`;
+  const qty = keyMap.get(k)!.qty;
   return sum + ((row.amount as number) ?? 0) * qty;
 }, 0);
 
@@ -68,9 +75,9 @@ void t;
         </div>
       ) : (
         <div class="space-y-4">
-          {enriched.results.map((row) => {
+          {visible.map((row) => {
             const k = `${row.slug}::${row.sku ?? ""}`;
-            const qty = keyMap.get(k)?.qty ?? 1;
+            const qty = keyMap.get(k)!.qty;
             const lineCents = (row.amount as number) ?? 0;
             return (
               <div class="bg-bg-card border border-text-muted/20 rounded-card p-4 flex items-center justify-between">
