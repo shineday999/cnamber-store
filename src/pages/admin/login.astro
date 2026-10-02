@@ -19,6 +19,13 @@ const t = createT(messages);
 const url = Astro.url;
 const redirectTo = url.searchParams.get("redirect") ?? "/admin";
 const error = url.searchParams.get("error");
+
+// Wave 28.8g: login 頁 <title> 也跟 site_name 變動
+const siteName: string =
+  Astro.locals.siteSettings?.siteName[locale] ??
+  Astro.locals.siteSettings?.siteName["zh-Hans"] ??
+  Astro.locals.siteSettings?.siteName["en"] ??
+  "cnamber-store";
 ---
 
 <!doctype html>
@@ -26,7 +33,7 @@ const error = url.searchParams.get("error");
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{t("admin.login.title")} · cnamber-store</title>
+    <title>{t("admin.login.title")} · {siteName}</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   </head>
   <body
