@@ -1,0 +1,121 @@
+---
+// /admin/settings — Wave 28.7d 編輯網站名稱 / 主題 / 次主題 (3 keys × 4 locales)
+// 純文字標籤,管理員自由填寫。前台 layout 用 current locale,缺值 fallback zh-Hans。
+import AdminLayout from "../../layouts/AdminLayout.astro";
+import { createT } from "../../i18n/t";
+import zhHansMessages from "../../i18n/messages/zh-Hans.json";
+
+const env = Astro.locals.runtime?.env;
+const messages = zhHansMessages as Record<string, unknown>;
+const t = createT(messages);
+const admin = Astro.locals.admin;
+
+interface SettingRow {
+  key: string;
+  locale: string;
+  value: string;
+}
+
+const rows = env?.DB
+  ? await env.DB.prepare(
+      "SELECT key, locale, value FROM site_settings",
+    ).all<SettingRow>()
+  : { results: [] as SettingRow[] };
+
+// 3 keys × 4 locales grid:valueMap[key][locale] = current text
+const valueMap: Record<string, Record<string, string>> = {
+  site_name: {},
+  theme: {},
+  sub_theme: {},
+};
+for (const r of rows.results ?? []) {
+  if (r.key in valueMap) valueMap[r.key][r.locale] = r.value;
+}
+
+const LOCALES = [
+  { code: "zh-Hans", label: "中文 (简体)" },
+  { code: "en", label: "English" },
+  { code: "ms-MY", label: "Bahasa Melayu" },
+  { code: "id-ID", label: "Bahasa Indonesia" },
+] as const;
+
+const KEY_SECTIONS = [
+  {
+    key: "site_name",
+    label: t("admin.settings.section.site_name"),
+    hint: t("admin.settings.hint.site_name"),
+  },
+  {
+    key: "theme",
+    label: t("admin.settings.section.theme"),
+    hint: t("admin.settings.hint.theme"),
+  },
+  {
+    key: "sub_theme",
+    label: t("admin.settings.section.sub_theme"),
+    hint: t("admin.settings.hint.sub_theme"),
+  },
+];
+
+const saved = Astro.url.searchParams.get("saved") === "1";
+
+void admin;
+---
+
+<AdminLayout title={t("admin.settings.title")} active="settings">
+  <p class="text-text-secondary mb-6">{t("admin.settings.subtitle")}</p>
+
+  {
+    saved && (
+      <div class="mb-6 bg-success/10 border border-success/30 text-success px-4 py-3 rounded text-sm">
+        {t("admin.settings.saved")}
+      </div>
+    )
+  }
+
+  <form method="POST" action="/api/admin/settings" class="space-y-8">
+    {
+      KEY_SECTIONS.map(({ key, label, hint }) => (
+        <section class="bg-bg-card border border-text-muted/20 rounded-card p-6">
+          <h2 class="text-lg font-serif mb-1">{label}</h2>
+          <p class="text-xs text-text-muted mb-4">{hint}</p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {LOCALES.map(({ code, label: localeLabel }) => (
+              <div>
+                <label
+                  class="block text-sm font-medium mb-1"
+                  for={`${key}__${code}`}
+                >
+                  {localeLabel}
+                  <span class="text-text-muted text-xs ml-1">({code})</span>
+                </label>
+                <input
+                  id={`${key}__${code}`}
+                  name={`${key}__${code}`}
+                  type="text"
+                  value={valueMap[key]?.[code] ?? ""}
+                  class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base font-mono text-sm"
+                />
+              </div>
+            ))}
+          </div>
+        </section>
+      ))
+    }
+
+    <div class="flex items-center gap-3">
+      <button
+        type="submit"
+        class="px-6 py-3 bg-forest-700 text-bg-base rounded-md font-medium hover:bg-forest-900 transition-colors"
+      >
+        {t("admin.common.save")}
+      </button>
+      <a
+        href="/admin"
+        class="text-text-muted hover:text-text-primary text-sm underline"
+      >
+        {t("admin.common.back")}
+      </a>
+    </div>
+  </form>
+</AdminLayout>

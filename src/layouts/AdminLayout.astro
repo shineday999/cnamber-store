@@ -9,7 +9,14 @@ import zhHansMessages from "../i18n/messages/zh-Hans.json";
 
 interface Props {
   title: string;
-  active?: "dashboard" | "products" | "orders" | "reviews" | "blog" | "banners";
+  active?:
+    | "dashboard"
+    | "products"
+    | "orders"
+    | "reviews"
+    | "blog"
+    | "banners"
+    | "settings";
 }
 
 const { title, active = "dashboard" } = Astro.props;
@@ -25,6 +32,7 @@ const navItems = [
   { key: "banners", label: t("admin.nav.banners"), href: "/admin/banners" },
   { key: "blog", label: t("admin.nav.blog"), href: "/admin/posts" },
   { key: "reviews", label: t("admin.nav.reviews"), href: "/admin/reviews" },
+  { key: "settings", label: t("admin.nav.settings"), href: "/admin/settings" },
 ] as const;
 ---
 
