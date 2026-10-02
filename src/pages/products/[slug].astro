@@ -230,6 +230,7 @@ void locale;
                           type="radio"
                           name="sku"
                           value={v.sku}
+                          data-stock={v.stock}
                           required={variants.results.length > 1}
                           checked={variants.results[0]?.sku === v.sku}
                           class="accent-forest-700"
@@ -263,6 +264,7 @@ void locale;
                 type="number"
                 name="qty"
                 min="1"
+                max={variants.results[0]?.stock ?? 999}
                 value="1"
                 class="w-24 px-3 py-2 border border-forest-200 rounded-sm text-center font-mono text-forest-800 focus:outline-none focus:border-forest-700"
               />
@@ -292,4 +294,20 @@ void locale;
       </div>
     </div>
   </section>
+  <script>
+    // qty input max 綁當前選中 SKU 的 stock,切 radio 時 clamp qty
+    document
+      .querySelectorAll('input[type="radio"][name="sku"]')
+      .forEach((radio) => {
+        radio.addEventListener("change", () => {
+          const stock = parseInt(radio.dataset.stock || "999", 10);
+          const qty = document.getElementById("qty-input");
+          if (qty) {
+            qty.max = String(stock);
+            if (parseInt(qty.value || "1", 10) > stock)
+              qty.value = String(stock);
+          }
+        });
+      });
+  </script>
 </Layout>
