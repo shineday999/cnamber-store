@@ -103,6 +103,19 @@ const products = env?.DB
           products.results.map((p) => (
             <tr class="border-t border-text-muted/10 hover:bg-bg-base">
               <td class="px-4 py-3 font-mono text-xs">{p.id as string}</td>
+              <td class="px-4 py-3">
+                {p.image_url ? (
+                  <img
+                    src={p.image_url as string}
+                    alt={p.slug as string}
+                    class="w-12 h-12 object-cover rounded border border-text-muted/20"
+                  />
+                ) : (
+                  <div class="w-12 h-12 rounded bg-text-muted/10 flex items-center justify-center text-text-muted text-xs">
+                    —
+                  </div>
+                )}
+              </td>
               <td class="px-4 py-3 font-medium">
                 {(p.name_zh as string | null) ?? "—"}
               </td>
