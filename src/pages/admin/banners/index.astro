@@ -161,9 +161,11 @@ const banners = env?.DB
               <td class="px-4 py-3 font-mono text-xs">{b.sort_order}</td>
               <td class="px-4 py-3">
                 <span
-                  class={`px-2 py-0.5 rounded text-xs ${b.active === 1 ? "bg-success/20 text-success" : "bg-error/20 text-error"}`}
+                  class={`px-2 py-0.5 rounded text-xs font-medium ${b.active === 1 ? "bg-success/20 text-success" : "bg-text-muted/20 text-text-secondary"}`}
                 >
-                  {b.active === 1 ? t("admin.banners.active") : "—"}
+                  {b.active === 1
+                    ? t("admin.banners.active")
+                    : t("admin.banners.deactivate")}
                 </span>
               </td>
               <td class="px-4 py-3 text-right whitespace-nowrap">
@@ -190,9 +192,12 @@ const banners = env?.DB
                       : t("admin.banners.activate")}
                   </button>
                 </form>
+                <span class="text-text-muted/50 mx-1" aria-hidden="true">
+                  ·
+                </span>
                 <button
                   type="button"
-                  class="text-error hover:underline ml-3"
+                  class="text-error hover:underline"
                   data-banner-id={b.id}
                 >
                   {t("admin.banners.delete")}
