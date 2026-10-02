@@ -10,7 +10,18 @@ import { defaultLocale, type Locale } from "../i18n/config";
 const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
 const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
 const t = createT(messages);
-void locale;
+
+// Wave 28.7f: 首頁 hero 大標 + 副標題 從 D1 site_settings 讀
+// (admin 編輯即時生效,4 語各自獨立,缺值 fallback i18n home.hero_title/subtitle)
+const siteSettings = Astro.locals.siteSettings;
+const heroTitle =
+  siteSettings?.siteName?.[locale] ??
+  siteSettings?.siteName?.["zh-Hans"] ??
+  t("home.hero_title");
+const heroSubtitle =
+  siteSettings?.heroSubtitle?.[locale] ??
+  siteSettings?.heroSubtitle?.["zh-Hans"] ??
+  t("home.hero_subtitle");
 
 const env = Astro.locals.runtime?.env;
 
@@ -159,12 +170,12 @@ const slides = bannerRows.results.map((b) => ({
       <h1
         class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-serif font-light mb-5 md:mb-7 leading-[0.98] tracking-[-0.03em] text-balance text-cream-50"
       >
-        {t("home.hero_title")}
+        {heroTitle}
       </h1>
       <p
         class="text-lg md:text-xl lg:text-2xl text-cream-100/85 font-serif italic font-light mb-9 md:mb-12 leading-snug max-w-2xl"
       >
-        {t("home.hero_subtitle")}
+        {heroSubtitle}
       </p>
       <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
         <a

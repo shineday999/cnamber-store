@@ -15,6 +15,7 @@ interface SiteSettings {
   siteName: Partial<Record<string, string>>;
   theme: Partial<Record<string, string>>;
   subTheme: Partial<Record<string, string>>;
+  heroSubtitle: Partial<Record<string, string>>;
 }
 
 // Wave 28.7: 載入 D1 site_settings → Astro.locals.siteSettings。
@@ -26,12 +27,18 @@ async function loadSiteSettings(
   const rows = await db
     .prepare("SELECT key, locale, value FROM site_settings")
     .all<{ key: string; locale: string; value: string }>();
-  const out: SiteSettings = { siteName: {}, theme: {}, subTheme: {} };
+  const out: SiteSettings = {
+    siteName: {},
+    theme: {},
+    subTheme: {},
+    heroSubtitle: {},
+  };
   for (const r of rows.results ?? []) {
     const l = r.locale as Locale;
     if (r.key === "site_name") out.siteName[l] = r.value;
     else if (r.key === "theme") out.theme[l] = r.value;
     else if (r.key === "sub_theme") out.subTheme[l] = r.value;
+    else if (r.key === "hero_subtitle") out.heroSubtitle[l] = r.value;
   }
   return out;
 }

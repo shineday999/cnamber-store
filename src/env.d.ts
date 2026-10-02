@@ -13,6 +13,7 @@ declare namespace App {
       siteName: Partial<Record<string, string>>;
       theme: Partial<Record<string, string>>;
       subTheme: Partial<Record<string, string>>;
+      heroSubtitle: Partial<Record<string, string>>;
     };
     locale: "zh-Hans" | "en" | "ms-MY" | "id-ID";
     messages: Record<string, unknown>;

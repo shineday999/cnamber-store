@@ -513,12 +513,14 @@
       "section": {
         "site_name": "Nama situs",
         "theme": "Tema",
-        "sub_theme": "Sub-tema"
+        "sub_theme": "Sub-tema",
+        "hero_subtitle": "Subjudul hero"
       },
       "hint": {
         "site_name": "Ditampilkan di header",
         "theme": "Ditampilkan di footer",
-        "sub_theme": "Sub-line setelah tema"
+        "sub_theme": "Sub-line setelah tema",
+        "hero_subtitle": "Teks miring di bawah judul hero besar"
       },
       "saved": "✓ Tersimpan"
     }

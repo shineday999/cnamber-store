@@ -4,7 +4,12 @@
 import type { APIRoute } from "astro";
 import { getDB } from "../../../lib/db";
 
-const ALLOWED_KEYS = ["site_name", "theme", "sub_theme"] as const;
+const ALLOWED_KEYS = [
+  "site_name",
+  "theme",
+  "sub_theme",
+  "hero_subtitle",
+] as const;
 const ALLOWED_LOCALES = ["zh-Hans", "en", "ms-MY", "id-ID"] as const;
 
 export const POST: APIRoute = async (ctx) => {

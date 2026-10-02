@@ -513,12 +513,14 @@
       "section": {
         "site_name": "Nama tapak",
         "theme": "Tema",
-        "sub_theme": "Sub-tema"
+        "sub_theme": "Sub-tema",
+        "hero_subtitle": "Sarikata hero"
       },
       "hint": {
         "site_name": "Dipamerkan di header",
         "theme": "Dipamerkan di footer",
-        "sub_theme": "Sub-line selepas tema"
+        "sub_theme": "Sub-line selepas tema",
+        "hero_subtitle": "Teks italic di bawah tajuk hero utama"
       },
       "saved": "✓ Disimpan"
     }

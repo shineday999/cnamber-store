@@ -513,12 +513,14 @@
       "section": {
         "site_name": "Site name",
         "theme": "Theme",
-        "sub_theme": "Sub-theme"
+        "sub_theme": "Sub-theme",
+        "hero_subtitle": "Hero subtitle"
       },
       "hint": {
         "site_name": "Shown in header brand block",
         "theme": "Shown in footer atmosphere tagline",
-        "sub_theme": "Sub-line after theme"
+        "sub_theme": "Sub-line after theme",
+        "hero_subtitle": "Italic text under the big hero title on homepage"
       },
       "saved": "✓ Saved"
     }

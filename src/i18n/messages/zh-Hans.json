@@ -591,12 +591,14 @@
       "section": {
         "site_name": "網站名稱",
         "theme": "主題",
-        "sub_theme": "次主題"
+        "sub_theme": "次主題",
+        "hero_subtitle": "首頁副標題"
       },
       "hint": {
         "site_name": "顯示於頁首品牌區",
         "theme": "顯示於底欄氛圍描述",
-        "sub_theme": "主題之後的延伸描述"
+        "sub_theme": "主題之後的延伸描述",
+        "hero_subtitle": "首頁 hero 大標下的斜體小標"
       },
       "saved": "✓ 已儲存"
     }
