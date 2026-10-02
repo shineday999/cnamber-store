@@ -254,4 +254,25 @@ const items = order
       </div>
     )
   }
+  <script is:inline>
+    (function () {
+      var statusEl = document.getElementById("status");
+      var paymentEl = document.getElementById("payment_status");
+      if (!statusEl || !paymentEl) return;
+      var MAP = {
+        pending: "unpaid",
+        confirmed: "paid",
+        shipped: "paid",
+        delivered: "paid",
+        cancelled: "refunded",
+      };
+      statusEl.addEventListener("change", function () {
+        var next = MAP[statusEl.value];
+        if (next && !paymentEl.dataset.touched) paymentEl.value = next;
+      });
+      paymentEl.addEventListener("change", function () {
+        paymentEl.dataset.touched = "1";
+      });
+    })();
+  </script>
 </AdminLayout>
