@@ -1,12 +1,11 @@
-import type { APIRoute } from "astro";
+import type { APIRoute, APIContext } from "astro";
 import { getDB } from "../../../../../lib/db";
 
-export const PATCH: APIRoute = async (ctx) => {
+async function doPatch(ctx: APIContext, form: FormData) {
   if (!ctx.locals.admin) return new Response("Unauthorized", { status: 401 });
   const id = ctx.params.id;
   if (!id) return new Response("Missing id", { status: 400 });
 
-  const form = await ctx.request.formData();
   const altText = String(form.get("alt_text") ?? "").trim() || null;
   const sortOrder = Number(form.get("sort_order") ?? 0);
   const activeRaw = form.get("active");
@@ -22,9 +21,9 @@ export const PATCH: APIRoute = async (ctx) => {
     .run();
 
   return ctx.redirect("/admin/banners", 303);
-};
+}
 
-export const DELETE: APIRoute = async (ctx) => {
+async function doDelete(ctx: APIContext) {
   if (!ctx.locals.admin) return new Response("Unauthorized", { status: 401 });
   const id = ctx.params.id;
   if (!id) return new Response("Missing id", { status: 400 });
@@ -32,7 +31,6 @@ export const DELETE: APIRoute = async (ctx) => {
   const db = getDB(ctx);
   const r2 = ctx.locals.runtime?.env.PRODUCT_IMAGES;
 
-  // Fetch existing to clean up R2 object
   const existing = await db
     .prepare("SELECT image_url FROM hero_banners WHERE id = ?")
     .bind(id)
@@ -53,4 +51,33 @@ export const DELETE: APIRoute = async (ctx) => {
     status: 303,
     headers: { Location: "/admin/banners" },
   });
+}
+
+export const PATCH: APIRoute = async (ctx) => {
+  const form = await ctx.request.formData();
+  return doPatch(ctx, form);
+};
+
+export const DELETE: APIRoute = doDelete;
+
+// Form-based method override: HTML <form method="POST"> cannot natively
+// submit PATCH or DELETE, so we honor a hidden _method field as a
+// method-override convention (similar to Rails / Laravel / Express
+// method-override middleware). This is what /admin/banners toggle and
+// delete buttons rely on — see src/pages/admin/banners/index.astro.
+// Before this fix the toggle button POSTed to /api/admin/banners/[id]
+// without a POST handler, so Astro fell through to the 404 page.
+export const POST: APIRoute = async (ctx) => {
+  let form: FormData;
+  try {
+    form = await ctx.request.formData();
+  } catch {
+    return new Response("Bad Request", { status: 400 });
+  }
+  const override = String(form.get("_method") ?? "")
+    .trim()
+    .toUpperCase();
+  if (override === "PATCH") return doPatch(ctx, form);
+  if (override === "DELETE") return doDelete(ctx);
+  return new Response("Method Not Allowed", { status: 405 });
 };
