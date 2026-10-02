@@ -382,7 +382,11 @@
       "btn_update": "Update",
       "meta_created": "Created:",
       "meta_updated": "Updated:",
-      "meta_id": "ID:"
+      "meta_id": "ID:",
+      "col_price": "Harga satuan",
+      "col_line_total": "Subtotal baris",
+      "shipping_fee": "Pengiriman",
+      "total": "Total"
     },
     "posts_list": {
       "title": "Blog Posts",

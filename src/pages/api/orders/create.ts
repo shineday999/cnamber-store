@@ -32,14 +32,47 @@ export const POST: APIRoute = async (ctx) => {
   const now = Math.floor(Date.now() / 1000);
   const locale = ctx.locals.locale;
 
-  const subtotal = 0; // Phase 5+ 從 cart + variants 算實際金額
+  // Wave 28.8: 算 USD subtotal 從 product_prices + cart qty,
+  // 同時將 price snapshot 寫進 items JSON(歷史價格穩定,不隨 product_prices 變動)。
+  // 沒 SKU 的 item (legacy) 跳過,subtotal 不算。
+  const skuList = items
+    .map((i) => i.sku)
+    .filter((s): s is string => Boolean(s));
+  let priceMap = new Map<string, number>();
+  if (skuList.length > 0) {
+    const placeholders = skuList.map(() => "?").join(",");
+    const priceRows = await db
+      .prepare(
+        `SELECT pv.sku, pp.amount AS price_cents
+         FROM product_variants pv
+         JOIN product_prices pp ON pp.variant_id = pv.id
+         WHERE pv.sku IN (${placeholders}) AND pp.currency = 'USD'`,
+      )
+      .bind(...skuList)
+      .all<{ sku: string; price_cents: number }>();
+    priceMap = new Map(
+      (priceRows.results ?? []).map((r) => [r.sku, r.price_cents]),
+    );
+  }
+  const enrichedItems = items.map((i) => ({
+    ...i,
+    priceCents: i.sku ? (priceMap.get(i.sku) ?? null) : null,
+  }));
+  const subtotalCents = enrichedItems.reduce(
+    (sum, i) => sum + (i.priceCents ?? 0) * i.qty,
+    0,
+  );
+  const subtotal = subtotalCents;
+  const shippingFee = 0;
+  const total = subtotal + shippingFee;
+
   const shippingAddress = JSON.stringify({ country, city, address, postal });
-  const itemsJson = JSON.stringify(items);
+  const itemsJson = JSON.stringify(enrichedItems);
 
   await db
     .prepare(
-      `INSERT INTO orders (id, customer_email, customer_name, customer_phone, shipping_address, locale, items, subtotal, currency, total, notes, created_at, updated_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO orders (id, customer_email, customer_name, customer_phone, shipping_address, locale, items, subtotal, currency, shipping_fee, total, notes, created_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     )
     .bind(
       orderId,
@@ -51,7 +84,8 @@ export const POST: APIRoute = async (ctx) => {
       itemsJson,
       subtotal,
       "CNY",
-      subtotal,
+      shippingFee,
+      total,
       notes,
       now,
       now,

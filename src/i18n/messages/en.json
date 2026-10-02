@@ -382,7 +382,11 @@
       "btn_update": "Update",
       "meta_created": "Created:",
       "meta_updated": "Updated:",
-      "meta_id": "ID:"
+      "meta_id": "ID:",
+      "col_price": "Unit price",
+      "col_line_total": "Line total",
+      "shipping_fee": "Shipping",
+      "total": "Total"
     },
     "posts_list": {
       "title": "Blog Posts",

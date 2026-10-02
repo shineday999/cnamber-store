@@ -406,7 +406,11 @@
       "btn_update": "更新",
       "meta_created": "创建于：",
       "meta_updated": "更新于：",
-      "meta_id": "ID："
+      "meta_id": "ID：",
+      "col_price": "单价",
+      "col_line_total": "小计",
+      "shipping_fee": "运费",
+      "total": "总计"
     },
     "posts_list": {
       "title": "博客文章",
