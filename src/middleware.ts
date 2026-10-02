@@ -41,7 +41,12 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const url = context.url;
 
   // 1. Locale detection
-  let locale = localeFromPath(url.pathname);
+  // [lang]/[...path].astro 用 Astro.rewrite 內部渲染子路徑,會 re-run middleware,
+  // 此時 url.pathname 已被改寫成子路徑(如 /checkout/success),localeFromPath 失效。
+  // 解法:catch-all 先把原始 URL 存到 Astro.locals.originalPath,middleware 優先讀這個。
+  const effectivePath =
+    (Astro.locals as { originalPath?: string }).originalPath ?? url.pathname;
+  let locale = localeFromPath(effectivePath);
 
   if (!locale) {
     const cookieLocale = context.cookies.get(LOCALE_COOKIE)?.value;
