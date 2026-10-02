@@ -49,6 +49,12 @@ const sections = [
     ],
   },
 ];
+
+interface Props {
+  themeLabel?: string;
+  subThemeLabel?: string;
+}
+const { themeLabel = "", subThemeLabel = "" } = Astro.props;
 ---
 
 <footer class="mt-24 bg-forest-900 text-cream-100">
@@ -90,6 +96,14 @@ const sections = [
         >
           {t("footer.made_with")}
         </p>
+        {
+          (themeLabel || subThemeLabel) && (
+            <p class="text-[10px] uppercase tracking-[0.4em] text-terra-300/70 mt-1 font-sans">
+              {themeLabel}
+              {subThemeLabel ? ` · ${subThemeLabel}` : ""}
+            </p>
+          )
+        }
       </div>
 
       <div class="lg:col-span-3">

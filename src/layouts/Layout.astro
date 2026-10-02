@@ -26,7 +26,7 @@ const cleanPath =
     ? Astro.url.pathname
     : Astro.url.pathname.replace(new RegExp(`^/${currentLocale}`), "") || "/";
 
-// Hero style overrides from site_settings (admin-editable via /admin/settings → Hero Style).
+// Wave 28.7: site_name + theme + sub_theme from D1 site_settings via middleware.
 
 const hreflangUrls = locales.map((l) => ({
   lang: localeHreflang[l],
@@ -36,7 +36,20 @@ const hreflangUrls = locales.map((l) => ({
 const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
 const t = createT(messages);
 const homePath = localizedPath(currentLocale, "/");
-const siteName = t("common.site_name");
+// Wave 28.7: site_name 從 D1 site_settings 讀 (admin 編輯即時生效) → i18n fallback
+const siteSettings = Astro.locals.siteSettings;
+const siteName =
+  siteSettings?.siteName?.[currentLocale] ??
+  siteSettings?.siteName?.["zh-Hans"] ??
+  t("common.site_name");
+const themeLabel =
+  siteSettings?.theme?.[currentLocale] ??
+  siteSettings?.theme?.["zh-Hans"] ??
+  "";
+const subThemeLabel =
+  siteSettings?.subTheme?.[currentLocale] ??
+  siteSettings?.subTheme?.["zh-Hans"] ??
+  "";
 
 // Main nav (locale-aware)
 const nav = [
@@ -320,7 +333,7 @@ const nav = [
     </div>
 
     <slot />
-    <Footer />
+    <Footer themeLabel={themeLabel} subThemeLabel={subThemeLabel} />
 
     <script is:inline>
       (function () {
