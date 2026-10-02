@@ -31,8 +31,11 @@ const SMTP_HOST = env.EMAIL_SMTP_HOST;
 const SMTP_PORT = parseInt(env.EMAIL_SMTP_PORT || "587", 10);
 const SMTP_USER = env.EMAIL_ADDRESS;
 const SMTP_PASS = env.EMAIL_PASSWORD;
+const GOOGLE_CLIENT_ID = env.GOOGLE_CLIENT_ID;
+const GOOGLE_CLIENT_SECRET = env.GOOGLE_CLIENT_SECRET;
+const GOOGLE_REFRESH_TOKEN = env.GOOGLE_REFRESH_TOKEN;
 
-if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS) {
+if (!SMTP_HOST || !SMTP_USER || !GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET || !GOOGLE_REFRESH_TOKEN) {
   console.error(
     "Missing SMTP creds in /data2/hermes-profiles/profiles/xiaxiq/.env",
   );
@@ -43,7 +46,13 @@ const transporter = nodemailer.createTransport({
   host: SMTP_HOST,
   port: SMTP_PORT,
   secure: SMTP_PORT === 465,
-  auth: { user: SMTP_USER, pass: SMTP_PASS },
+  auth: {
+    type: "OAuth2",
+    user: SMTP_USER,
+    clientId: GOOGLE_CLIENT_ID,
+    clientSecret: GOOGLE_CLIENT_SECRET,
+    refreshToken: GOOGLE_REFRESH_TOKEN,
+  },
 });
 
 function d1(sql) {
