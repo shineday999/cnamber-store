@@ -167,9 +167,32 @@ const banners = env?.DB
                 </span>
               </td>
               <td class="px-4 py-3 text-right whitespace-nowrap">
+                <form
+                  method="POST"
+                  action={`/api/admin/banners/${b.id}`}
+                  class="inline"
+                >
+                  <input type="hidden" name="_method" value="PATCH" />
+                  <input
+                    type="hidden"
+                    name="alt_text"
+                    value={b.alt_text ?? ""}
+                  />
+                  <input type="hidden" name="sort_order" value={b.sort_order} />
+                  <input
+                    type="hidden"
+                    name="active"
+                    value={b.active === 1 ? "0" : "1"}
+                  />
+                  <button type="submit" class="text-accent-700 hover:underline">
+                    {b.active === 1
+                      ? t("admin.banners.deactivate")
+                      : t("admin.banners.activate")}
+                  </button>
+                </form>
                 <button
                   type="button"
-                  class="text-error hover:underline"
+                  class="text-error hover:underline ml-3"
                   data-banner-id={b.id}
                 >
                   {t("admin.banners.delete")}

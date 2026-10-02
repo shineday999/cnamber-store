@@ -487,7 +487,9 @@
       "empty": "Belum ada banner. Muat naik yang pertama.",
       "back": "Kembali ke senarai banner",
       "dimension_label": "Dimensi",
-      "size": "Saiz"
+      "size": "Saiz",
+      "activate": "Aktifkan",
+      "deactivate": "Nyahaktifkan"
     }
   }
 }

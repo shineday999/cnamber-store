@@ -487,7 +487,9 @@
       "empty": "No banners yet. Upload your first one.",
       "back": "Back to banner list",
       "dimension_label": "Dimension",
-      "size": "Size"
+      "size": "Size",
+      "activate": "Activate",
+      "deactivate": "Deactivate"
     }
   }
 }

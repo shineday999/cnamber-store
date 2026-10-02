@@ -569,7 +569,9 @@
       "empty": "还没有横幅,上传第一张吧",
       "back": "返回横幅列表",
       "dimension_label": "尺寸",
-      "size": "大小"
+      "size": "大小",
+      "activate": "启用",
+      "deactivate": "停用"
     }
   }
 }
