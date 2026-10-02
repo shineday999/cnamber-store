@@ -323,7 +323,8 @@
       "products": "产品",
       "orders": "订单",
       "blog": "博客",
-      "reviews": "评论"
+      "reviews": "评论",
+      "banners": "横幅"
     },
     "common": {
       "admin_badge": "后台",
@@ -548,6 +549,27 @@
         "style": "风格",
         "culture": "文化"
       }
+    },
+    "banners": {
+      "title": "首页横幅",
+      "subtitle": "{n} 张横幅 — 在前台以渐亮渐暗轮播切换",
+      "hint_dimension": "建议尺寸 1920×1080 像素,格式 JPG/PNG/WebP/GIF,最大 10MB",
+      "upload": "上传横幅",
+      "upload_image": "选择图片",
+      "alt_text": "替代文字 (alt)",
+      "alt_hint": "无障碍用途,描述图片内容(可留空)",
+      "sort_order": "排序",
+      "sort_hint": "数字小的先显示",
+      "active": "启用",
+      "active_hint": "取消勾选后前台不显示",
+      "preview": "预览",
+      "toggle": "切换启用",
+      "delete": "删除",
+      "confirm_delete": "确定删除该横幅？图片会从 R2 一并移除",
+      "empty": "还没有横幅,上传第一张吧",
+      "back": "返回横幅列表",
+      "dimension_label": "尺寸",
+      "size": "大小"
     }
   }
 }

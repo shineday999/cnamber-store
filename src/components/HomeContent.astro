@@ -53,11 +53,22 @@ function firstImage(json: string | null | undefined): string | undefined {
   }
 }
 
-const slides = [
-  { src: "/images/banners/slide-1.jpg", alt: "" },
-  { src: "/images/banners/bamboo.jpg", alt: "" },
-  { src: "/images/banners/slide-3.jpg", alt: "" },
-];
+const bannerRows = env?.DB
+  ? await env.DB.prepare(
+      "SELECT id, image_url, alt_text FROM hero_banners WHERE active = 1 ORDER BY sort_order ASC, created_at ASC",
+    ).all<{ id: string; image_url: string; alt_text: string | null }>()
+  : {
+      results: [] as Array<{
+        id: string;
+        image_url: string;
+        alt_text: string | null;
+      }>,
+    };
+
+const slides = bannerRows.results.map((b) => ({
+  src: b.image_url,
+  alt: b.alt_text ?? "",
+}));
 ---
 
 <!-- 1. Hero — Awwwards-tier: year badge, scroll indicator, slide dots, stagger reveal -->
@@ -73,7 +84,7 @@ const slides = [
           data-slide-index={i}
           src={slide.src}
           alt={slide.alt}
-          class={`hero-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-[1800ms] ease-out ${i === 0 ? "opacity-60 hero-slide-active" : "opacity-0"}`}
+          class={`hero-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-[1800ms] ease-out ${i === 0 ? "opacity-85 hero-slide-active" : "opacity-0"}`}
           loading={i === 0 ? "eager" : "lazy"}
           fetchpriority={i === 0 ? "high" : "auto"}
         />
@@ -97,7 +108,7 @@ const slides = [
       let i = 0;
       function show(n) {
         slides.forEach((s, idx) => {
-          s.style.opacity = idx === n ? "0.6" : "0";
+          s.style.opacity = idx === n ? "0.85" : "0";
           s.classList.toggle("hero-slide-active", idx === n);
         });
         dots.forEach((d, idx) => {
@@ -115,7 +126,7 @@ const slides = [
         setInterval(() => {
           i = (i + 1) % slides.length;
           show(i);
-        }, 9000);
+        }, 15000);
       }
       dots.forEach((dot, idx) => {
         dot.addEventListener("click", () => {

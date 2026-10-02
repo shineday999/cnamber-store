@@ -295,7 +295,8 @@
       "products": "Products",
       "orders": "Orders",
       "blog": "Blog",
-      "reviews": "Reviews"
+      "reviews": "Reviews",
+      "banners": "Banner"
     },
     "common": {
       "admin_badge": "Admin",
@@ -466,6 +467,27 @@
       "title": "Reviews",
       "subtitle": "{n} review(s). Phase 2 sub-task P2-6 will add approve/reject actions.",
       "empty": "No reviews yet."
+    },
+    "banners": {
+      "title": "Banner Halaman Utama",
+      "subtitle": "{n} banner — bertukar dengan kesan fade di halaman utama",
+      "hint_dimension": "Saiz yang disyorkan 1920×1080 piksel, JPG/PNG/WebP/GIF, maks 10MB",
+      "upload": "Muat Naik Banner",
+      "upload_image": "Pilih imej",
+      "alt_text": "Teks alt",
+      "alt_hint": "Untuk kebolehcapaian, terangkan imej (pilihan)",
+      "sort_order": "Susunan",
+      "sort_hint": "Nombor kecil dipaparkan dahulu",
+      "active": "Aktif",
+      "active_hint": "Nyah tandakan untuk sembunyikan di halaman utama",
+      "preview": "Pratonton",
+      "toggle": "Tukar aktif",
+      "delete": "Padam",
+      "confirm_delete": "Padam banner ini? Imej juga akan dibuang dari R2.",
+      "empty": "Belum ada banner. Muat naik yang pertama.",
+      "back": "Kembali ke senarai banner",
+      "dimension_label": "Dimensi",
+      "size": "Saiz"
     }
   }
 }

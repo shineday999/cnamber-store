@@ -295,7 +295,8 @@
       "products": "Products",
       "orders": "Orders",
       "blog": "Blog",
-      "reviews": "Reviews"
+      "reviews": "Reviews",
+      "banners": "Banners"
     },
     "common": {
       "admin_badge": "Admin",
@@ -466,6 +467,27 @@
       "title": "Reviews",
       "subtitle": "{n} review(s). Phase 2 sub-task P2-6 will add approve/reject actions.",
       "empty": "No reviews yet."
+    },
+    "banners": {
+      "title": "Home Banners",
+      "subtitle": "{n} banner(s) — cycling with fade in/out on the homepage",
+      "hint_dimension": "Recommended size 1920×1080 px, JPG/PNG/WebP/GIF, max 10MB",
+      "upload": "Upload Banner",
+      "upload_image": "Choose image",
+      "alt_text": "Alt text",
+      "alt_hint": "For accessibility, describe the image (optional)",
+      "sort_order": "Order",
+      "sort_hint": "Lower numbers show first",
+      "active": "Active",
+      "active_hint": "Uncheck to hide on homepage",
+      "preview": "Preview",
+      "toggle": "Toggle active",
+      "delete": "Delete",
+      "confirm_delete": "Delete this banner? Image will also be removed from R2.",
+      "empty": "No banners yet. Upload your first one.",
+      "back": "Back to banner list",
+      "dimension_label": "Dimension",
+      "size": "Size"
     }
   }
 }
