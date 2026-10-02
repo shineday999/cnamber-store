@@ -126,52 +126,54 @@ export function contactNotificationEmail(
 export function welcomeNewsletterEmail(
   email: string,
   locale: string,
+  siteName: string,
 ): { subject: string; html: string; text: string } {
-  // Wave 30.1: 歡迎信 4 語版,locale 跟隨用戶訂閱時的隱藏欄位
+  // Wave 30.3: siteName 從 siteSettings 拿(4-tier fallback 在 caller 端算好傳入)
+  const safeName = safe(siteName);
   const safeEmail = safe(email);
   const subjects: Record<string, string> = {
-    "zh-Hans": "歡迎來到 cnamber-store · 來自森林的慢信",
-    en: "Welcome to cnamber-store · Letters from the forest",
-    "ms-MY": "Selamat datang ke cnamber-store · Surat dari hutan",
-    "id-ID": "Selamat datang di cnamber-store · Surat dari hutan",
+    "zh-Hans": `歡迎來到 ${safeName} · 來自森林的慢信`,
+    en: `Welcome to ${safeName} · Letters from the forest`,
+    "ms-MY": `Selamat datang ke ${safeName} · Surat dari hutan`,
+    "id-ID": `Selamat datang di ${safeName} · Surat dari hutan`,
   };
   const bodies: Record<string, { html: string; text: string }> = {
     "zh-Hans": {
       html: `<p>${safeEmail} 您好,</p>
-        <p>感謝訂閱 cnamber-store。我們每季會寄一封慢信,分享新作、調香實驗,以及森林系手作工作室的日常。</p>
+        <p>感謝訂閱 ${safeName}。我們每季會寄一封慢信,分享新作、調香實驗,以及森林系手作工作室的日常。</p>
         <p>若您願意,也可以從 <a href="https://cnamber.ccwu.cc/quiz">風格測驗</a> 開始,讓我們更了解您喜歡的氣味。</p>
-        <p>—— cnamber-store · 森林系手作</p>`,
-      text: `${email} 您好,感謝訂閱 cnamber-store。我們每季會寄一封慢信,分享新作、調香實驗,以及森林系手作工作室的日常。`,
+        <p>—— ${safeName} · 森林系手作</p>`,
+      text: `${email} 您好,感謝訂閱 ${safeName}。我們每季會寄一封慢信,分享新作、調香實驗,以及森林系手作工作室的日常。`,
     },
     en: {
       html: `<p>Hello ${safeEmail},</p>
-        <p>Thanks for subscribing to cnamber-store. We send one slow letter each season — new work, scent experiments, and quiet notes from the studio.</p>
+        <p>Thanks for subscribing to ${safeName}. We send one slow letter each season — new work, scent experiments, and quiet notes from the studio.</p>
         <p>If you'd like, you can also start with our <a href="https://cnamber.ccwu.cc/quiz">style quiz</a> so we can learn the scents you love.</p>
-        <p>— cnamber-store · forest handcraft</p>`,
-      text: `Hello ${email}, thanks for subscribing. We send one slow letter each season — new work, scent experiments, and quiet notes from the studio.`,
+        <p>— ${safeName} · forest handcraft</p>`,
+      text: `Hello ${email}, thanks for subscribing to ${safeName}. We send one slow letter each season — new work, scent experiments, and quiet notes from the studio.`,
     },
     "ms-MY": {
       html: `<p>Helo ${safeEmail},</p>
-        <p>Terima kasih kerana melanggan cnamber-store. Kami akan mengirim satu surat perlahan setiap musim — karya baru, eksperimen wangian, dan catatan tenang dari studio.</p>
-        <p>— cnamber-store · kraf hutan</p>`,
-      text: `Helo ${email}, terima kasih kerana melanggan cnamber-store.`,
+        <p>Terima kasih kerana melanggan ${safeName}. Kami akan mengirim satu surat perlahan setiap musim — karya baru, eksperimen wangian, dan catatan tenang dari studio.</p>
+        <p>— ${safeName} · kraf hutan</p>`,
+      text: `Helo ${email}, terima kasih kerana melanggan ${safeName}.`,
     },
     "id-ID": {
       html: `<p>Halo ${safeEmail},</p>
-        <p>Terima kasih telah berlangganan cnamber-store. Kami mengirim satu surat perlahan setiap musim — karya baru, eksperimen wewangian, dan catatan tenang dari studio.</p>
-        <p>— cnamber-store · kerajinan hutan</p>`,
-      text: `Halo ${email}, terima kasih telah berlangganan cnamber-store.`,
+        <p>Terima kasih telah berlangganan ${safeName}. Kami mengirim satu surat perlahan setiap musim — karya baru, eksperimen wewangian, dan catatan tenang dari studio.</p>
+        <p>— ${safeName} · kerajinan hutan</p>`,
+      text: `Halo ${email}, terima kasih telah berlangganan ${safeName}.`,
     },
   };
   const subject = subjects[locale] ?? subjects["en"];
   const body = bodies[locale] ?? bodies["en"];
   const html = `
     <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-      <h2 style="color: #1A2E1A; font-family: Georgia, serif;">cnamber-store</h2>
+      <h2 style="color: #1A2E1A; font-family: Georgia, serif;">${safeName}</h2>
       ${body.html}
       <hr style="border: none; border-top: 1px solid #DCE5DC; margin: 24px 0;" />
       <p style="color: #8A938A; font-size: 12px;">
-        cnamber-store · 森林系琥珀 + 香品 · oxsupport@0061qwen.cc.cd
+        ${safeName} · 森林系琥珀 + 香品 · oxsupport@0061qwen.cc.cd
       </p>
     </div>
   `;

@@ -56,11 +56,26 @@ function d1(sql) {
   return JSON.parse(m[0])[0].results;
 }
 
+// Wave 30.3: 抓 site_settings 拿 siteName(4-tier fallback per subscriber locale)
+const siteNameRows = d1(
+  "SELECT locale, value FROM site_settings WHERE key = 'site_name'",
+);
+const siteNameMap = {};
+for (const r of siteNameRows) siteNameMap[r.locale] = r.value;
+function siteNameFor(locale) {
+  return (
+    siteNameMap[locale] ??
+    siteNameMap["zh-Hans"] ??
+    siteNameMap["en"] ??
+    "cnamber-store"
+  );
+}
+
 const subjects = {
-  "zh-Hans": "歡迎來到 cnamber-store · 來自森林的慢信",
-  en: "Welcome to cnamber-store · Letters from the forest",
-  "ms-MY": "Selamat datang ke cnamber-store · Surat dari hutan",
-  "id-ID": "Selamat datang di cnamber-store · Surat dari hutan",
+  "zh-Hans": (n) => `歡迎來到 ${n} · 來自森林的慢信`,
+  en: (n) => `Welcome to ${n} · Letters from the forest`,
+  "ms-MY": (n) => `Selamat datang ke ${n} · Surat dari hutan`,
+  "id-ID": (n) => `Selamat datang di ${n} · Surat dari hutan`,
 };
 
 const bodies = {
@@ -83,12 +98,13 @@ let sent = 0;
 let failed = 0;
 for (const s of subs) {
   const locale = s.locale in subjects ? s.locale : "en";
+  const name = siteNameFor(locale);
   try {
     await transporter.sendMail({
-      from: `"cnamber-store" <${SMTP_USER}>`,
+      from: `"${name}" <${SMTP_USER}>`,
       to: s.email,
-      subject: subjects[locale],
-      text: bodies[locale](s.email),
+      subject: subjects[locale](name),
+      text: bodies[locale](s.email, name),
     });
     const now = Math.floor(Date.now() / 1000);
     d1(
