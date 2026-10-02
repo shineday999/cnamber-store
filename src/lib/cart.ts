@@ -1,7 +1,7 @@
 // Cart helpers — 用 cookie 存 server-readable 購物車
 // 簡化版:Phase 4 用 cookie-based cart(避免 localStorage SSR 漂移)
 
-const CART_COOKIE = 'cnamber_cart';
+const CART_COOKIE = "cnamber_cart";
 
 export interface CartItem {
   slug: string;
@@ -12,10 +12,12 @@ export interface CartItem {
 
 export function readCart(cookieHeader: string | null): CartItem[] {
   if (!cookieHeader) return [];
-  const match = cookieHeader.split(';').find((c) => c.trim().startsWith(`${CART_COOKIE}=`));
+  const match = cookieHeader
+    .split(";")
+    .find((c) => c.trim().startsWith(`${CART_COOKIE}=`));
   if (!match) return [];
   try {
-    const raw = match.split('=')[1] ?? '';
+    const raw = match.split("=")[1] ?? "";
     const json = decodeURIComponent(raw);
     const parsed = JSON.parse(atob(json)) as CartItem[];
     if (!Array.isArray(parsed)) return [];
@@ -28,11 +30,13 @@ export function readCart(cookieHeader: string | null): CartItem[] {
 export function writeCart(items: CartItem[]): string {
   const json = JSON.stringify(items);
   const b64 = btoa(json);
-  return encodeURIComponent(b64);
+  return b64;
 }
 
 export function addToCart(items: CartItem[], item: CartItem): CartItem[] {
-  const existing = items.find((i) => i.slug === item.slug && i.sku === item.sku);
+  const existing = items.find(
+    (i) => i.slug === item.slug && i.sku === item.sku,
+  );
   if (existing) {
     return items.map((i) =>
       i === existing ? { ...i, qty: i.qty + item.qty } : i,
@@ -41,8 +45,14 @@ export function addToCart(items: CartItem[], item: CartItem): CartItem[] {
   return [...items, item];
 }
 
-export function removeFromCart(items: CartItem[], slug: string, sku?: string): CartItem[] {
-  return items.filter((i) => !(i.slug === slug && (sku ? i.sku === sku : true)));
+export function removeFromCart(
+  items: CartItem[],
+  slug: string,
+  sku?: string,
+): CartItem[] {
+  return items.filter(
+    (i) => !(i.slug === slug && (sku ? i.sku === sku : true)),
+  );
 }
 
 export function clearCart(): CartItem[] {
