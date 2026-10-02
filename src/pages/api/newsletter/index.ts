@@ -27,6 +27,21 @@ export const POST: APIRoute = async (ctx) => {
   const id = genId("sub");
   const now = Math.floor(Date.now() / 1000);
 
+  // Wave 30.3: 抓 site_settings 拿當前 siteName(4-tier fallback)
+  let siteName = "cnamber-store";
+  try {
+    const settingsRows = await db
+      .prepare(
+        "SELECT locale, value FROM site_settings WHERE key = 'site_name'",
+      )
+      .all<{ locale: string; value: string }>();
+    const map: Record<string, string> = {};
+    for (const r of settingsRows.results ?? []) map[r.locale] = r.value;
+    siteName = map[locale] ?? map["zh-Hans"] ?? map["en"] ?? "cnamber-store";
+  } catch (e) {
+    console.error("[newsletter] siteSettings fetch failed", e);
+  }
+
   let isNewSubscriber = false;
   try {
     // INSERT OR IGNORE: dedupe 同 email 不重複 row
@@ -45,7 +60,7 @@ export const POST: APIRoute = async (ctx) => {
 
   // Wave 30.1: 只有新訂閱才寄歡迎信,dedupe 重複不寄 (省 Gmail quota + 避免打擾)
   if (isNewSubscriber) {
-    const tpl = welcomeNewsletterEmail(email, locale);
+    const tpl = welcomeNewsletterEmail(email, locale, siteName);
     void sendEmail(emailEnvFromContext(ctx), {
       to: email,
       subject: tpl.subject,

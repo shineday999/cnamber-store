@@ -33,7 +33,9 @@ const SMTP_USER = env.EMAIL_ADDRESS;
 const SMTP_PASS = env.EMAIL_PASSWORD;
 
 if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS) {
-  console.error("Missing SMTP creds in /data2/hermes-profiles/profiles/xiaxiq/.env");
+  console.error(
+    "Missing SMTP creds in /data2/hermes-profiles/profiles/xiaxiq/.env",
+  );
   process.exit(1);
 }
 
