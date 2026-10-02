@@ -10,6 +10,7 @@ export const POST: APIRoute = async (ctx) => {
   const category = String(form.get("category") ?? "");
   const subcategory = String(form.get("subcategory") ?? "") || null;
   const slug = String(form.get("slug") ?? "");
+  const tags = String(form.get("tags") ?? "").trim();
   const status = String(form.get("status") ?? "");
 
   if (!["jewelry", "incense"].includes(category)) {
@@ -32,13 +33,14 @@ export const POST: APIRoute = async (ctx) => {
 
   await db
     .prepare(
-      "UPDATE products SET category = ?, subcategory = ?, slug = ?, status = ?, updated_at = ? WHERE id = ?",
+      "UPDATE products SET category = ?, subcategory = ?, slug = ?, status = ?, tags = ?, updated_at = ? WHERE id = ?",
     )
     .bind(
       category,
       subcategory,
       slug,
       status,
+      tags,
       Math.floor(Date.now() / 1000),
       id,
     )

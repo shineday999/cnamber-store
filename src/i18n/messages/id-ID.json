@@ -490,6 +490,11 @@
       "size": "Ukuran",
       "activate": "Aktifkan",
       "deactivate": "Nonaktifkan"
+    },
+    "products_form": {
+      "tags": "Tag",
+      "tags_placeholder": "calm, classic, gift",
+      "tags_hint": "Pisahkan token dengan koma, digunakan oleh kuiz “Recommended for You” untuk mencocokkan jawaban"
     }
   }
 }

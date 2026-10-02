@@ -26,6 +26,7 @@ export const POST: APIRoute = async (ctx) => {
   const category = String(form.get("category") ?? "");
   const subcategory = String(form.get("subcategory") ?? "") || null;
   const slug = String(form.get("slug") ?? "");
+  const tags = String(form.get("tags") ?? "").trim();
 
   if (!category || !slug || !["jewelry", "incense"].includes(category)) {
     return new Response("Invalid input", { status: 400 });
@@ -57,9 +58,9 @@ export const POST: APIRoute = async (ctx) => {
 
   await db
     .prepare(
-      "INSERT INTO products (id, category, subcategory, slug, status, image_url, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+      "INSERT INTO products (id, category, subcategory, slug, status, image_url, tags, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
     )
-    .bind(id, category, subcategory, slug, "draft", imageUrl, now, now)
+    .bind(id, category, subcategory, slug, "draft", imageUrl, tags, now, now)
     .run();
 
   // Initial zh-Hans translation if provided

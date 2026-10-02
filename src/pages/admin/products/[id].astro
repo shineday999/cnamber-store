@@ -187,6 +187,22 @@ const trByLocale = (locale: string) =>
             class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base font-mono"
           />
         </div>
+        <div>
+          <label class="block text-sm font-medium mb-1" for="tags"
+            >{t("admin.products_form.tags")}</label
+          >
+          <input
+            id="tags"
+            name="tags"
+            type="text"
+            value={product.tags ?? ""}
+            placeholder={t("admin.products_form.tags_placeholder")}
+            class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base font-mono"
+          />
+          <p class="text-xs text-text-muted mt-1">
+            {t("admin.products_form.tags_hint")}
+          </p>
+        </div>
         <div class="flex gap-2">
           <button
             type="submit"

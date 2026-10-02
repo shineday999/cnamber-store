@@ -572,6 +572,11 @@
       "size": "大小",
       "activate": "启用",
       "deactivate": "停用"
+    },
+    "products_form": {
+      "tags": "标签",
+      "tags_placeholder": "calm, classic, gift",
+      "tags_hint": "用逗号分隔 token,影响「为我推荐」匹配"
     }
   }
 }

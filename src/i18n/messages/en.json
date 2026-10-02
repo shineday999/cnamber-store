@@ -490,6 +490,11 @@
       "size": "Size",
       "activate": "Activate",
       "deactivate": "Deactivate"
+    },
+    "products_form": {
+      "tags": "Tags",
+      "tags_placeholder": "calm, classic, gift",
+      "tags_hint": "Comma-separated tokens, used by the “Recommended for You” quiz to match answers"
     }
   }
 }
