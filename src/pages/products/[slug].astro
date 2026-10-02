@@ -215,41 +215,42 @@ void locale;
             )
           }
 
-          {
-            variants.results.length > 0 ? (
-              <fieldset class="mb-6 space-y-2">
-                <legend class="text-xs uppercase tracking-[0.4em] text-forest-600 mb-3 font-sans block w-full">
-                  {t("common.options")}
-                </legend>
-                {variants.results.slice(0, 3).map((v) => (
-                  <label class="flex items-center justify-between border border-forest-100 px-3 py-2 cursor-pointer hover:border-forest-700 has-[:checked]:border-forest-700 has-[:checked]:bg-forest-50 transition-colors">
-                    <span class="flex items-center gap-3">
-                      <input
-                        type="radio"
-                        name="sku"
-                        value={v.sku}
-                        required={variants.results[0]?.sku === v.sku}
-                        checked={variants.results[0]?.sku === v.sku}
-                        class="accent-forest-700"
-                      />
-                      <span class="font-mono text-xs text-forest-700">
-                        {v.sku}
-                      </span>
-                    </span>
-                    <span class="text-forest-600 text-xs">stock {v.stock}</span>
-                  </label>
-                ))}
-                <p class="text-xs text-forest-500 pt-1 italic">
-                  {t("common.select_option")}
-                </p>
-              </fieldset>
-            ) : (
-              <input type="hidden" name="sku" value="" />
-            )
-          }
-
           <form method="POST" action="/api/cart/add" class="space-y-4">
             <input type="hidden" name="slug" value={product.slug} />
+            {
+              variants.results.length > 0 ? (
+                <fieldset class="mb-6 space-y-2">
+                  <legend class="text-xs uppercase tracking-[0.4em] text-forest-600 mb-3 font-sans block w-full">
+                    {t("common.options")}
+                  </legend>
+                  {variants.results.slice(0, 3).map((v) => (
+                    <label class="flex items-center justify-between border border-forest-100 px-3 py-2 cursor-pointer hover:border-forest-700 has-[:checked]:border-forest-700 has-[:checked]:bg-forest-50 transition-colors">
+                      <span class="flex items-center gap-3">
+                        <input
+                          type="radio"
+                          name="sku"
+                          value={v.sku}
+                          required={variants.results.length > 1}
+                          checked={variants.results[0]?.sku === v.sku}
+                          class="accent-forest-700"
+                        />
+                        <span class="font-mono text-xs text-forest-700">
+                          {v.sku}
+                        </span>
+                      </span>
+                      <span class="text-forest-600 text-xs">
+                        stock {v.stock}
+                      </span>
+                    </label>
+                  ))}
+                  <p class="text-xs text-forest-500 pt-1 italic">
+                    {t("common.select_option")}
+                  </p>
+                </fieldset>
+              ) : (
+                <input type="hidden" name="sku" value="" />
+              )
+            }
             <div class="flex items-center gap-3">
               <label
                 for="qty-input"
