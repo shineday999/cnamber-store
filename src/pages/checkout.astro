@@ -3,13 +3,41 @@ import Layout from "@layouts/Layout.astro";
 import { createT } from "../i18n/t";
 import { defaultLocale, type Locale } from "../i18n/config";
 import { readCart } from "../lib/cart";
+import { formatPrice } from "../lib/format";
 
 const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
 const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
 const t = createT(messages);
 
 const items = readCart(Astro.request.headers.get("cookie"));
-void locale;
+
+const env = Astro.locals.runtime?.env;
+
+// 跟 cart.astro 同一個聚合 SQL 算 subtotal,確保 checkout total = cart subtotal。
+const enriched =
+  env?.DB && items.length > 0
+    ? await env.DB.prepare(
+        `SELECT p.slug, MIN(pp.amount) AS amount, pp.currency
+       FROM products p
+       LEFT JOIN product_variants pv ON pv.product_id = p.id
+       LEFT JOIN product_prices pp ON pp.variant_id = pv.id AND pp.currency = 'USD'
+       WHERE p.slug IN (${items.map(() => "?").join(",")})
+       GROUP BY p.slug`,
+      )
+        .bind(...items.map((i) => i.slug))
+        .all()
+    : { results: [] as Array<Record<string, unknown>> };
+
+const qtyMap = new Map<string, number>();
+for (const it of items) {
+  qtyMap.set(it.slug, (qtyMap.get(it.slug) ?? 0) + it.qty);
+}
+const subtotalCents = enriched.results.reduce((sum, row) => {
+  const qty = qtyMap.get(row.slug as string) ?? 1;
+  return sum + ((row.amount as number) ?? 0) * qty;
+}, 0);
+
+const totalDisplay = formatPrice(subtotalCents, "USD", locale);
 ---
 
 <Layout
@@ -133,9 +161,14 @@ void locale;
             />
           </div>
 
-          <div class="text-sm text-text-muted pt-2">
-            {items.length} item(s) reserved. Order total + shipping will be
-            confirmed via email.
+          <div class="text-sm text-text-muted pt-2 border-t border-text-muted/20 mt-4">
+            <div class="flex justify-between py-1">
+              <span>{items.length} item(s)</span>
+              <span class="font-mono">{totalDisplay}</span>
+            </div>
+            <p class="text-xs text-text-muted mt-1">
+              運費將於確認信中提供 (Shipping calculated upon confirmation)。
+            </p>
           </div>
 
           <button

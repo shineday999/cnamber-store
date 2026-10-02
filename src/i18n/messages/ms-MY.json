@@ -504,5 +504,13 @@
       "tags_placeholder": "calm, classic, gift",
       "tags_hint": "Pisahkan token dengan koma, digunakan oleh kuiz “Recommended for You” untuk memadankan jawapan"
     }
+  },
+  "cart": {
+    "title": "Troli",
+    "empty": "Troli anda kosong.",
+    "subtotal": "Subjumlah",
+    "checkout": "Tempah (bayaran manual)",
+    "remove": "Buang",
+    "clear": "Kosongkan troli"
   }
 }

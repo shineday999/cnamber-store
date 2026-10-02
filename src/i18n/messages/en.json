@@ -504,5 +504,13 @@
       "tags_placeholder": "calm, classic, gift",
       "tags_hint": "Comma-separated tokens, used by the “Recommended for You” quiz to match answers"
     }
+  },
+  "cart": {
+    "title": "Cart",
+    "empty": "Your cart is empty.",
+    "subtotal": "Subtotal",
+    "checkout": "Reserve (manual payment)",
+    "remove": "Remove",
+    "clear": "Clear cart"
   }
 }

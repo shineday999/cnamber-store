@@ -176,7 +176,8 @@
     "empty": "购物车是空的。",
     "subtotal": "小计",
     "checkout": "预订单(手动付款)",
-    "remove": "移除"
+    "remove": "移除",
+    "clear": "清空购物车"
   },
   "checkout": {
     "title": "预订单",
