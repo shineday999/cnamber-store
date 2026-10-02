@@ -14,6 +14,8 @@
     "reserve": "预订",
     "reserve_help": "预启动中。预订商品，我们将亲自联络您，提供运送与付款选项。",
     "options": "选项",
+    "quantity": "数量",
+    "select_option": "请选择规格",
     "from": "起",
     "translation_missing": "本语言翻译尚未完成，显示英文备用文案。"
   },

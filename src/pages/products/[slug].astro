@@ -1,6 +1,6 @@
 ---
 // /products/[slug] — 2 區塊:大圖 + info。Editorial still-life feel.
-// 不要長篇 story / reviews / related — 留白呼吸感最重要。
+// 不要長篇 story / reviews / related — 將存呼吸感最重要。
 import Layout from "@layouts/Layout.astro";
 import { createT } from "../../i18n/t";
 import { defaultLocale, type Locale } from "../../i18n/config";
@@ -78,7 +78,7 @@ const tr = translation ??
 
 const variants = env?.DB
   ? await env.DB.prepare(
-      "SELECT id, sku, attributes, stock, price_base FROM product_variants WHERE product_id = ?",
+      "SELECT id, sku, attributes, stock, price_base FROM product_variants WHERE product_id = ? ORDER BY sku",
     )
       .bind(product.id)
       .all<Variant>()
@@ -125,7 +125,7 @@ void locale;
   title={pageTitle}
   description={tr.short_description ?? tr.description.slice(0, 160)}
 >
-  <!-- 1. Hero image — full-width 80vh cinematic still-life -->
+  <!-- 1. Hero image — full-width 60vh cinematic still-life -->
   <section
     class="relative h-[60vh] min-h-[420px] overflow-hidden bg-forest-800"
   >
@@ -216,27 +216,56 @@ void locale;
           }
 
           {
-            variants.results.length > 0 && (
-              <div class="mb-8">
-                <p class="text-xs uppercase tracking-[0.4em] text-forest-600 mb-3 font-sans">
+            variants.results.length > 0 ? (
+              <fieldset class="mb-6 space-y-2">
+                <legend class="text-xs uppercase tracking-[0.4em] text-forest-600 mb-3 font-sans block w-full">
                   {t("common.options")}
-                </p>
-                <ul class="space-y-1.5">
-                  {variants.results.slice(0, 3).map((v) => (
-                    <li class="text-sm font-sans text-forest-700 flex justify-between border-b border-forest-100 pb-1">
-                      <span class="font-mono text-xs">{v.sku}</span>
-                      <span class="text-forest-600 text-xs">
-                        stock {v.stock}
+                </legend>
+                {variants.results.slice(0, 3).map((v) => (
+                  <label class="flex items-center justify-between border border-forest-100 px-3 py-2 cursor-pointer hover:border-forest-700 has-[:checked]:border-forest-700 has-[:checked]:bg-forest-50 transition-colors">
+                    <span class="flex items-center gap-3">
+                      <input
+                        type="radio"
+                        name="sku"
+                        value={v.sku}
+                        required={variants.results[0]?.sku === v.sku}
+                        checked={variants.results[0]?.sku === v.sku}
+                        class="accent-forest-700"
+                      />
+                      <span class="font-mono text-xs text-forest-700">
+                        {v.sku}
                       </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+                    </span>
+                    <span class="text-forest-600 text-xs">stock {v.stock}</span>
+                  </label>
+                ))}
+                <p class="text-xs text-forest-500 pt-1 italic">
+                  {t("common.select_option")}
+                </p>
+              </fieldset>
+            ) : (
+              <input type="hidden" name="sku" value="" />
             )
           }
 
-          <form method="POST" action="/api/cart/add" class="space-y-3">
+          <form method="POST" action="/api/cart/add" class="space-y-4">
             <input type="hidden" name="slug" value={product.slug} />
+            <div class="flex items-center gap-3">
+              <label
+                for="qty-input"
+                class="text-xs uppercase tracking-[0.4em] text-forest-600 font-sans"
+              >
+                {t("common.quantity")}
+              </label>
+              <input
+                id="qty-input"
+                type="number"
+                name="qty"
+                min="1"
+                value="1"
+                class="w-24 px-3 py-2 border border-forest-200 rounded-sm text-center font-mono text-forest-800 focus:outline-none focus:border-forest-700"
+              />
+            </div>
             <button
               type="submit"
               class="w-full px-7 py-3.5 bg-forest-700 text-cream-50 text-sm tracking-wide rounded-sm hover:bg-forest-800 transition-all duration-500"

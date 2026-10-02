@@ -12,6 +12,8 @@
     "subscribe": "Subscribe",
     "language": "Language",
     "options": "Options",
+    "quantity": "Quantity",
+    "select_option": "Select an option",
     "reserve": "Reserve"
   },
   "nav": {
