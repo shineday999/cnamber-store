@@ -13,7 +13,10 @@ if (!isLocale(lang) || lang === defaultLocale) {
 }
 
 // 內部 rewrite 到根路徑,保留 URL 但 render 對應 page。
-// Astro.locals.locale 由 middleware 從 URL path 設成正確值,rewrite 後
-// render 的 page 透過 context.locals.messages 拿到對應 locale 的 i18n。
+// Astro.rewrite 會 re-run middleware,此時 url.pathname 是新 path(沒 lang prefix),
+// localeFromPath 找不到 /<lang>/ → fallback Accept-Language → en,所有 /[lang]/* 都錯。
+// 解法:rewrite 前把原始 URL 存進 Astro.locals.originalPath,
+// middleware 改讀 Astro.locals.originalPath ?? url.pathname 拿正確 locale。
+(Astro.locals as { originalPath?: string }).originalPath = Astro.url.pathname;
 return Astro.rewrite(subPath);
 ---
