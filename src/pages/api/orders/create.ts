@@ -83,7 +83,7 @@ export const POST: APIRoute = async (ctx) => {
       locale,
       itemsJson,
       subtotal,
-      "CNY",
+      "USD",
       shippingFee,
       total,
       notes,
