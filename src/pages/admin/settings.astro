@@ -65,6 +65,27 @@ const KEY_SECTIONS = [
 
 const saved = Astro.url.searchParams.get("saved") === "1";
 
+// Wave 29: 橫幅併入設定,直接從 D1 抓 hero_banners list
+const banners = env?.DB
+  ? await env.DB.prepare(
+      "SELECT id, image_url, alt_text, sort_order, active FROM hero_banners ORDER BY sort_order ASC, created_at DESC",
+    ).all<{
+      id: string;
+      image_url: string;
+      alt_text: string | null;
+      sort_order: number;
+      active: number;
+    }>()
+  : {
+      results: [] as Array<{
+        id: string;
+        image_url: string;
+        alt_text: string | null;
+        sort_order: number;
+        active: number;
+      }>,
+    };
+
 void admin;
 ---
 
@@ -124,4 +145,179 @@ void admin;
       </a>
     </div>
   </form>
+
+  <!-- Wave 29: 橫幅管理併入設定頁 -->
+  <section
+    id="banners"
+    class="mt-10 bg-bg-card border border-text-muted/20 rounded-card p-6"
+  >
+    <h2 class="text-lg font-serif mb-1">{t("admin.banners.title")}</h2>
+    <p class="text-xs text-text-muted mb-4">
+      {t("admin.banners.dimension_label")} 1920×1080
+    </p>
+
+    <form
+      method="POST"
+      action="/api/admin/banners"
+      enctype="multipart/form-data"
+      class="space-y-3 max-w-2xl mb-6"
+    >
+      <div>
+        <label class="block text-sm font-medium mb-1" for="image"
+          >{t("admin.banners.upload_image")}</label
+        >
+        <input
+          id="image"
+          name="image"
+          type="file"
+          accept="image/jpeg,image/png,image/webp,image/gif"
+          required
+          class="w-full text-sm file:mr-3 file:py-2 file:px-4 file:border-0 file:bg-forest-700 file:text-bg-base file:rounded file:cursor-pointer"
+        />
+      </div>
+      <div class="grid grid-cols-3 gap-3">
+        <div class="col-span-2">
+          <label class="block text-sm font-medium mb-1" for="alt_text"
+            >{t("admin.banners.alt_text")}</label
+          >
+          <input
+            id="alt_text"
+            name="alt_text"
+            type="text"
+            class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
+          />
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1" for="sort_order"
+            >{t("admin.banners.sort_order")}</label
+          >
+          <input
+            id="sort_order"
+            name="sort_order"
+            type="number"
+            value="0"
+            class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
+          />
+        </div>
+      </div>
+      <label class="inline-flex items-center gap-2 text-sm">
+        <input type="checkbox" name="active" value="1" checked />
+        <span>{t("admin.banners.active")}</span>
+      </label>
+      <div>
+        <button
+          type="submit"
+          class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900"
+        >
+          {t("admin.banners.upload")}
+        </button>
+      </div>
+    </form>
+
+    {
+      banners.results.length === 0 ? (
+        <p class="text-text-muted text-sm">{t("admin.banners.empty")}</p>
+      ) : (
+        <table class="w-full text-sm">
+          <thead class="bg-forest-100 text-text-primary">
+            <tr>
+              <th class="text-left px-3 py-2 font-medium">
+                {t("admin.banners.preview")}
+              </th>
+              <th class="text-left px-3 py-2 font-medium">
+                {t("admin.banners.alt_text")}
+              </th>
+              <th class="text-left px-3 py-2 font-medium">
+                {t("admin.banners.sort_order")}
+              </th>
+              <th class="text-left px-3 py-2 font-medium">
+                {t("admin.banners.active")}
+              </th>
+              <th class="text-right px-3 py-2 font-medium">
+                {t("admin.banners.delete")}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {banners.results.map((b) => (
+              <tr class="border-t border-text-muted/10">
+                <td class="px-3 py-2">
+                  <img
+                    src={b.image_url}
+                    alt={b.alt_text ?? ""}
+                    class="w-32 h-18 object-cover rounded border border-text-muted/20"
+                  />
+                </td>
+                <td class="px-3 py-2">{b.alt_text ?? "—"}</td>
+                <td class="px-3 py-2 font-mono text-xs">{b.sort_order}</td>
+                <td class="px-3 py-2">
+                  <form
+                    method="POST"
+                    action={`/api/admin/banners/${b.id}`}
+                    class="inline"
+                  >
+                    <input type="hidden" name="_method" value="PATCH" />
+                    <input
+                      type="hidden"
+                      name="alt_text"
+                      value={b.alt_text ?? ""}
+                    />
+                    <input
+                      type="hidden"
+                      name="sort_order"
+                      value={b.sort_order}
+                    />
+                    <input
+                      type="hidden"
+                      name="active"
+                      value={b.active === 1 ? "0" : "1"}
+                    />
+                    <button
+                      type="submit"
+                      class="text-accent-700 hover:underline"
+                    >
+                      {b.active === 1
+                        ? t("admin.banners.deactivate")
+                        : t("admin.banners.activate")}
+                    </button>
+                  </form>
+                </td>
+                <td class="px-3 py-2 text-right">
+                  <button
+                    type="button"
+                    class="text-error hover:underline"
+                    data-banner-id={b.id}
+                  >
+                    {t("admin.banners.delete")}
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )
+    }
+  </section>
+
+  <script is:inline>
+    (function () {
+      var confirmText = "确定删除该横幅？图片会从 R2 一并移除";
+      document.querySelectorAll("[data-banner-id]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var id = btn.getAttribute("data-banner-id");
+          if (!id) return;
+          if (!window.confirm(confirmText)) return;
+          var f = document.createElement("form");
+          f.method = "POST";
+          f.action = "/api/admin/banners/" + id;
+          var m = document.createElement("input");
+          m.name = "_method";
+          m.value = "DELETE";
+          f.appendChild(m);
+          document.body.appendChild(f);
+          f.submit();
+        });
+      });
+    })();
+  </script>
 </AdminLayout>
