@@ -3,12 +3,12 @@ import AdminLayout from "../../layouts/AdminLayout.astro";
 import { createT } from "../../i18n/t";
 import { defaultLocale, type Locale } from "../../i18n/config";
 import zhHansMessages from "../../i18n/messages/zh-Hans.json";
+import { formatPrice } from "../../lib/format";
 
 const env = Astro.locals.runtime?.env;
 const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
 const messages = zhHansMessages as Record<string, unknown>;
 const t = createT(messages);
-void locale;
 
 let stats = { products: 0, orders: 0, pendingReviews: 0, totalRevenue: 0 };
 
@@ -67,7 +67,7 @@ if (env?.DB) {
         {t("admin.dashboard.stat_revenue")}
       </div>
       <div class="text-3xl font-serif mt-2 text-success">
-        {stats.totalRevenue}
+        {formatPrice(stats.totalRevenue, "USD", locale)}
       </div>
     </div>
   </div>
