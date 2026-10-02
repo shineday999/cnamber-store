@@ -90,7 +90,10 @@
       "title": "Rekomendasi Anda",
       "intro": "Berdasarkan pilihan Anda, ini mungkin paling cocok.",
       "empty": "Belum ada produk yang cocok.",
-      "empty_hint": "Fase 3 adalah rangka rekomendasi — katalog asli hadir di Fase 4."
+      "empty_hint": "Fase 3 adalah rangka rekomendasi — katalog asli hadir di Fase 4.",
+      "badge_strong_match": "Pilihan utama",
+      "badge_match": "Untuk anda",
+      "badge_fallback": "Anda mungkin juga suka"
     },
     "option": {
       "face": {

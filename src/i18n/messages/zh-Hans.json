@@ -95,7 +95,10 @@
       "title": "为你推荐",
       "intro": "根据你的选择,这些可能最适合你。",
       "empty": "暂无匹配的成品。",
-      "empty_hint": "Phase 3 是产品推荐路径骨架,真实产品库将于 Phase 4 上线。"
+      "empty_hint": "Phase 3 是产品推荐路径骨架,真实产品库将于 Phase 4 上线。",
+      "badge_strong_match": "强力推荐",
+      "badge_match": "为您推荐",
+      "badge_fallback": "您可能也喜欢"
     },
     "option": {
       "face": {

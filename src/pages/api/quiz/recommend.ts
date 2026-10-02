@@ -59,9 +59,10 @@ export const POST: APIRoute = async (ctx) => {
 
   const scored = scoreProducts(type, answers, list);
   const ids = scored.map((s) => s.id).join(",");
+  const scores = scored.map((s) => `${s.id}:${s.score}`).join(",");
 
   return ctx.redirect(
-    `/quiz/result?type=${type}&ids=${encodeURIComponent(ids)}`,
+    `/quiz/result?type=${type}&ids=${encodeURIComponent(ids)}&scores=${encodeURIComponent(scores)}`,
     303,
   );
 };

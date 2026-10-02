@@ -90,7 +90,10 @@
       "title": "Cadanan anda",
       "intro": "Berdasarkan pilihan anda, ini mungkin paling sesuai.",
       "empty": "Tiada produk yang sepadan buat masa ini.",
-      "empty_hint": "Fasa 3 ialah rangka cadangan — katalog sebenar tiba pada Fasa 4."
+      "empty_hint": "Fasa 3 ialah rangka cadangan — katalog sebenar tiba pada Fasa 4.",
+      "badge_strong_match": "Pilihan utama",
+      "badge_match": "Untuk anda",
+      "badge_fallback": "Anda mungkin juga suka"
     },
     "option": {
       "face": {

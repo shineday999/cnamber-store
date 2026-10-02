@@ -90,7 +90,10 @@
       "title": "Your recommendations",
       "intro": "Based on your answers, these may suit you best.",
       "empty": "No matching products yet.",
-      "empty_hint": "Phase 3 is the recommendation skeleton — real catalog lands in Phase 4."
+      "empty_hint": "Phase 3 is the recommendation skeleton — real catalog lands in Phase 4.",
+      "badge_strong_match": "Top pick",
+      "badge_match": "For you",
+      "badge_fallback": "You might also like"
     },
     "option": {
       "face": {
