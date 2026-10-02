@@ -306,7 +306,8 @@
       "orders": "Orders",
       "blog": "Blog",
       "reviews": "Reviews",
-      "banners": "Banner"
+      "banners": "Banner",
+      "settings": "Pengaturan"
     },
     "common": {
       "admin_badge": "Admin",
@@ -505,6 +506,21 @@
       "tags": "Tag",
       "tags_placeholder": "calm, classic, gift",
       "tags_hint": "Pisahkan token dengan koma, digunakan oleh kuiz “Recommended for You” untuk mencocokkan jawaban"
+    },
+    "settings": {
+      "title": "Pengaturan Situs",
+      "subtitle": "Edit nama situs, tema, dan sub-tema. Setiap bahasa independen — frontend pakai bahasa sekarang dengan fallback ke Bahasa Mandarin (Sederhana).",
+      "section": {
+        "site_name": "Nama situs",
+        "theme": "Tema",
+        "sub_theme": "Sub-tema"
+      },
+      "hint": {
+        "site_name": "Ditampilkan di header",
+        "theme": "Ditampilkan di footer",
+        "sub_theme": "Sub-line setelah tema"
+      },
+      "saved": "✓ Tersimpan"
     }
   },
   "cart": {

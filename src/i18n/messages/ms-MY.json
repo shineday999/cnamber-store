@@ -306,7 +306,8 @@
       "orders": "Orders",
       "blog": "Blog",
       "reviews": "Reviews",
-      "banners": "Banner"
+      "banners": "Banner",
+      "settings": "Tetapan"
     },
     "common": {
       "admin_badge": "Admin",
@@ -505,6 +506,21 @@
       "tags": "Tag",
       "tags_placeholder": "calm, classic, gift",
       "tags_hint": "Pisahkan token dengan koma, digunakan oleh kuiz “Recommended for You” untuk memadankan jawapan"
+    },
+    "settings": {
+      "title": "Tetapan Tapak",
+      "subtitle": "Edit nama tapak, tema, dan sub-tema. Setiap bahasa adalah bebas — frontend gunakan bahasa semasa dengan fallback ke Bahasa Cina (Ringkas).",
+      "section": {
+        "site_name": "Nama tapak",
+        "theme": "Tema",
+        "sub_theme": "Sub-tema"
+      },
+      "hint": {
+        "site_name": "Dipamerkan di header",
+        "theme": "Dipamerkan di footer",
+        "sub_theme": "Sub-line selepas tema"
+      },
+      "saved": "✓ Disimpan"
     }
   },
   "cart": {

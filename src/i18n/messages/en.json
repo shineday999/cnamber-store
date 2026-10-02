@@ -306,7 +306,8 @@
       "orders": "Orders",
       "blog": "Blog",
       "reviews": "Reviews",
-      "banners": "Banners"
+      "banners": "Banners",
+      "settings": "Settings"
     },
     "common": {
       "admin_badge": "Admin",
@@ -505,6 +506,21 @@
       "tags": "Tags",
       "tags_placeholder": "calm, classic, gift",
       "tags_hint": "Comma-separated tokens, used by the “Recommended for You” quiz to match answers"
+    },
+    "settings": {
+      "title": "Site Settings",
+      "subtitle": "Edit site name, theme and sub-theme. Each locale is independent — frontend uses current locale with fallback to Chinese (Simplified).",
+      "section": {
+        "site_name": "Site name",
+        "theme": "Theme",
+        "sub_theme": "Sub-theme"
+      },
+      "hint": {
+        "site_name": "Shown in header brand block",
+        "theme": "Shown in footer atmosphere tagline",
+        "sub_theme": "Sub-line after theme"
+      },
+      "saved": "✓ Saved"
     }
   },
   "cart": {

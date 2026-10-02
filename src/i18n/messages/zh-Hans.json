@@ -330,7 +330,8 @@
       "orders": "订单",
       "blog": "博客",
       "reviews": "评论",
-      "banners": "横幅"
+      "banners": "横幅",
+      "settings": "網站設定"
     },
     "common": {
       "admin_badge": "后台",
@@ -583,6 +584,21 @@
       "tags": "标签",
       "tags_placeholder": "calm, classic, gift",
       "tags_hint": "用逗号分隔 token,影响「为我推荐」匹配"
+    },
+    "settings": {
+      "title": "網站設定",
+      "subtitle": "編輯網站名稱、主題與次主題。4 種語言各自獨立,前台優先用當前 locale,缺值 fallback 到中文 (簡體)。",
+      "section": {
+        "site_name": "網站名稱",
+        "theme": "主題",
+        "sub_theme": "次主題"
+      },
+      "hint": {
+        "site_name": "顯示於頁首品牌區",
+        "theme": "顯示於底欄氛圍描述",
+        "sub_theme": "主題之後的延伸描述"
+      },
+      "saved": "✓ 已儲存"
     }
   }
 }
