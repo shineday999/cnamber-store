@@ -166,6 +166,11 @@
       }
     }
   },
+  "checkout": {
+    "success_title": "Terima kasih atas tempahan anda",
+    "success_intro": "Kami telah menerima tempahan anda.",
+    "success_next": "Pasukan kami akan menghubungi anda dalam 1-2 hari bekerja melalui e-mel."
+  },
   "story": {
     "kicker": "Tentang",
     "title": "Hutan, di tangan kami",

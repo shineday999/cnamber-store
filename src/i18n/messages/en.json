@@ -166,6 +166,11 @@
       }
     }
   },
+  "checkout": {
+    "success_title": "Thank you for your reservation",
+    "success_intro": "We have received your reservation.",
+    "success_next": "Our team will contact you within 1-2 business days via email."
+  },
   "story": {
     "kicker": "About",
     "title": "The forest, in our hands",
