@@ -10,6 +10,31 @@ import { loadMessages } from "./i18n/loader";
 import { getAdminFromContext } from "./lib/auth";
 
 const LOCALE_COOKIE = "cnamber_locale";
+
+interface SiteSettings {
+  siteName: Partial<Record<string, string>>;
+  theme: Partial<Record<string, string>>;
+  subTheme: Partial<Record<string, string>>;
+}
+
+// Wave 28.7: 載入 D1 site_settings → Astro.locals.siteSettings。
+// middleware 跑一次/request,SSR 期間所有 page 可讀。
+async function loadSiteSettings(
+  db: D1Database | undefined,
+): Promise<SiteSettings | undefined> {
+  if (!db) return undefined;
+  const rows = await db
+    .prepare("SELECT key, locale, value FROM site_settings")
+    .all<{ key: string; locale: string; value: string }>();
+  const out: SiteSettings = { siteName: {}, theme: {}, subTheme: {} };
+  for (const r of rows.results ?? []) {
+    const l = r.locale as Locale;
+    if (r.key === "site_name") out.siteName[l] = r.value;
+    else if (r.key === "theme") out.theme[l] = r.value;
+    else if (r.key === "sub_theme") out.subTheme[l] = r.value;
+  }
+  return out;
+}
 // F-13: Security headers — Cloudflare Pages _headers 只套 static assets,
 // SSR worker responses 必須由 middleware 注入。
 function setSecurityHeaders(response: Response): void {
@@ -72,6 +97,10 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const messages = await loadMessages(locale);
   context.locals.locale = locale;
   context.locals.messages = messages;
+
+  // Wave 28.7: 載入 D1 site_settings (12 rows,index-covered,~5-15ms)
+  const db = context.locals.runtime?.env?.DB;
+  context.locals.siteSettings = await loadSiteSettings(db);
 
   // 2. CSRF defense (F-03): POST/PUT/DELETE/PATCH /api/admin/* 必須 same-origin
   const requestMethod = context.request.method.toUpperCase();

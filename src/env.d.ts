@@ -9,11 +9,16 @@ type RuntimeEnv = {
 
 declare namespace App {
   interface Locals {
-    locale: 'zh-Hans' | 'en' | 'ms-MY' | 'id-ID';
+    siteSettings?: {
+      siteName: Partial<Record<string, string>>;
+      theme: Partial<Record<string, string>>;
+      subTheme: Partial<Record<string, string>>;
+    };
+    locale: "zh-Hans" | "en" | "ms-MY" | "id-ID";
     messages: Record<string, unknown>;
     admin?: {
       email: string;
-      role: 'super_admin' | 'editor' | 'viewer';
+      role: "super_admin" | "editor" | "viewer";
       displayName?: string;
     };
     runtime?: {
