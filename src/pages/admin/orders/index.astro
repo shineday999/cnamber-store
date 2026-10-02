@@ -3,6 +3,7 @@ import AdminLayout from "../../../layouts/AdminLayout.astro";
 import { createT, tEnum } from "../../../i18n/t";
 import { defaultLocale, type Locale } from "../../../i18n/config";
 import zhHansMessages from "../../../i18n/messages/zh-Hans.json";
+import { formatPrice } from "../../../lib/format";
 
 const env = Astro.locals.runtime?.env;
 const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
@@ -86,7 +87,7 @@ function statusColor(s: string) {
                 </div>
               </td>
               <td class="px-4 py-3 text-right font-mono">
-                {o.total as number} {o.currency as string}
+                {formatPrice(o.total as number, o.currency as string, locale)}
               </td>
               <td class="px-4 py-3">
                 <span
