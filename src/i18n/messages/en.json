@@ -2,11 +2,11 @@
   "common": {
     "site_name": "OxHorseCraft",
     "tagline": "Wear the forest on you",
-    "loading": "Loading...",
+    "loading": "Slowly...",
     "error": "Something went wrong",
     "retry": "Retry",
     "close": "Close",
-    "view_more": "View more",
+    "view_more": "Look again",
     "back": "Back",
     "search": "Search",
     "subscribe": "Subscribe",
@@ -24,11 +24,11 @@
     "blog": "Journal",
     "contact": "Contact",
     "cart": "Cart",
-    "quiz": "Find Yours",
+    "quiz": "Pick one",
     "products": "Products"
   },
   "home": {
-    "hero_kicker": "Coming Soon · 2026",
+    "hero_kicker": "Slowly · 2026",
     "hero_title": "OxHorseCraft",
     "hero_subtitle": "Wear the forest on you",
     "hero_p1": "In the light frozen inside amber, see the breath of the forest.",
@@ -38,40 +38,40 @@
     "story_title": "The forest, in our hands",
     "story_p1": "Each piece begins with a conversation in the forest. From Baltic amber to Yunnan agarwood, from Malaysian rattan to the spice routes of the Middle East — we travel far to bring nature's breath to you.",
     "story_p2": "The forest is not the backdrop. It is the protagonist. Wear one amber, light one incense — the forest lives.",
-    "story_note": "(Full brand story launching Phase 5)",
-    "footer_rights": "© 2026 cnamber-store. All rights reserved.",
-    "footer_tagline": "Forest-rooted handcraft brand · Greater SEA + Middle East · four locales",
-    "hero_cta_shop": "Browse all pieces",
-    "hero_cta_quiz": "Find yours",
+    "story_note": "(The full story, slowly written.)",
+    "footer_rights": "© 2026 {siteName}. All rights reserved.",
+    "footer_tagline": "Forest handcraft · letters to those who wear it",
+    "hero_cta_shop": "Wander through",
+    "hero_cta_quiz": "Five slow questions",
     "categories_kicker": "Categories",
     "categories_title": "Two craft paths",
     "cat_amber_title": "Amber Jewelry",
     "cat_amber_desc": "From the Baltic to Yunnan's highlands, every amber holds a memory of the earth.",
     "cat_incense_title": "Eastern Incense",
     "cat_incense_desc": "Sticks, balms, essential oils — let the air remember the stillness of the forest.",
-    "cat_explore": "Explore",
+    "cat_explore": "Step inside",
     "featured_kicker": "Featured",
-    "featured_title": "Recent highlights",
-    "featured_view_all": "View all pieces",
-    "featured_empty": "No new pieces yet.",
-    "cta_kicker": "Find Yours",
-    "cta_title": "Not sure where to start?",
-    "cta_desc": "Answer 5 questions and we'll match you with the piece that fits.",
-    "cta_quiz_jewelry": "Jewelry match",
-    "cta_quiz_incense": "Incense match",
+    "featured_title": "These recent",
+    "featured_view_all": "Look again",
+    "featured_empty": "Recent work is still on the way.",
+    "cta_kicker": "A quiet match",
+    "cta_title": "Where to begin?",
+    "cta_desc": "Five small questions — let me find one for you.",
+    "cta_quiz_jewelry": "Pick one amber",
+    "cta_quiz_incense": "Pick one incense",
     "cta_jewelry_desc": "Five questions on skin tone, face shape, and style — find the amber that fits you.",
     "cta_incense_desc": "Pick by mood and space — relax, focus, or quiet the mind.",
-    "cta_jewelry_btn": "Start amber quiz",
-    "cta_incense_btn": "Start incense quiz",
-    "cta_meta": "5 questions · ~1 minute"
+    "cta_jewelry_btn": "Ask me five",
+    "cta_incense_btn": "Ask me five",
+    "cta_meta": "Five questions · slowly"
   },
   "quiz": {
-    "intro": "Answer a few questions — we'll find the piece that fits you best.",
+    "intro": "A few small questions — let me find one for you, slowly.",
     "start": "Start",
-    "recommend": "Get recommendation",
-    "retake": "Retake quiz",
+    "recommend": "Pick one for you",
+    "retake": "Ask again",
     "jewelry": {
-      "title": "Jewelry Match",
+      "title": "Pick one amber",
       "desc": "Face shape, skin tone, personality, occasion — let us pick the amber that fits you best.",
       "face_shape": "Your face shape?",
       "skin_tone": "Your skin tone?",
@@ -80,7 +80,7 @@
       "material": "Material preference?"
     },
     "incense": {
-      "title": "Incense Match",
+      "title": "Pick one incense",
       "desc": "Your current concerns and intentions — let us blend the right incense for you.",
       "concerns": "What concerns you right now? (multi)",
       "goals": "What do you wish to feel? (multi)",
@@ -89,13 +89,13 @@
       "scent": "Scent preference?"
     },
     "result": {
-      "title": "Your recommendations",
-      "intro": "Based on your answers, these may suit you best.",
+      "title": "Perhaps these",
+      "intro": "From your answers, perhaps one of these.",
       "empty": "No matching products yet.",
-      "empty_hint": "Phase 3 is the recommendation skeleton — real catalog lands in Phase 4.",
-      "badge_strong_match": "Top pick",
+      "empty_hint": "Maybe try again, or come back a little later.",
+      "badge_strong_match": "Fits well",
       "badge_match": "For you",
-      "badge_fallback": "You might also like"
+      "badge_fallback": "You might like"
     },
     "option": {
       "face": {
@@ -170,8 +170,9 @@
   },
   "checkout": {
     "success_title": "Thank you for your reservation",
-    "success_intro": "We have received your reservation.",
-    "success_next": "Our team will contact you within 1-2 business days via email."
+    "success_intro": "We have received it.",
+    "success_next": "We will write to you within a day or two.",
+    "help": "We will write back within a day or two, with payment options (bank transfer / WeChat / Alipay)."
   },
   "story": {
     "kicker": "About",
@@ -194,15 +195,15 @@
     "cta": "Read the story"
   },
   "contact": {
-    "kicker": "Reach us",
-    "title": "Let's start a conversation",
+    "kicker": "Write a letter",
+    "title": "Write us a letter",
     "subtitle": "We reply within two working days — usually sooner.",
     "name": "Your name",
     "email": "Your email",
     "phone": "Phone (optional)",
     "subject": "Subject",
     "message": "Your message",
-    "submit": "Send message",
+    "submit": "Send",
     "submitting": "Sending…",
     "success_title": "Message received",
     "success_intro": "Thank you — we will reply within two working days.",
@@ -211,34 +212,34 @@
     "channel_email": "Email",
     "channel_whatsapp": "WhatsApp",
     "channel_wechat": "WeChat",
-    "channel_studio": "Studio visits by appointment"
+    "channel_studio": "The studio is open — write first"
   },
   "footer": {
-    "tagline": "Forest handcraft · 4-locale localized",
-    "section_shop": "Shop",
-    "section_brand": "Brand",
-    "section_follow": "Follow",
+    "tagline": "Forest handcraft · letters to those who wear it",
+    "section_shop": "Wander",
+    "section_brand": "Us",
+    "section_follow": "Stay close",
     "link_all": "All pieces",
     "link_amber": "Amber jewelry",
     "link_incense": "Eastern incense",
-    "link_quiz": "Find yours",
-    "link_story": "Our story",
+    "link_quiz": "Pick one",
+    "link_story": "Forest notes",
     "link_vision": "Vision",
-    "link_craft": "Craft",
+    "link_craft": "The hand's work",
     "link_materials": "Materials",
-    "link_blog": "Journal",
-    "link_contact": "Contact",
+    "link_blog": "Slow letters",
+    "link_contact": "Write",
     "link_admin": "Admin sign-in",
-    "newsletter_kicker": "Stay close",
+    "newsletter_kicker": "Slow letters",
     "newsletter_title": "Quiet letters from the studio",
     "newsletter_desc": "One note per season — new pieces, journal entries, occasional fragrance trials.",
     "newsletter_placeholder": "your@email",
-    "newsletter_submit": "Subscribe",
+    "newsletter_submit": "Wait for me",
     "social_instagram": "Instagram",
     "social_pinterest": "Pinterest",
     "social_xiaohongshu": "Xiaohongshu",
     "year": "© 2026 {siteName}. All rights reserved.",
-    "studio": "Studio · Greater Southeast Asia",
+    "studio": "Studio · south of the forest",
     "tag_brand": "Forest-rooted handcraft",
     "made_with": "Handcrafted with patience",
     "newsletter_success": "Thanks for subscribing! We write at our slowest pace."
@@ -256,7 +257,7 @@
     "p1": "Amber is a vessel of time. It preserves resin, bubbles, insect wings, and forest light from forty million years ago. Baltic coast amber contains 3–8% succinic acid, which medieval Europeans called the 'shield against illness' — 'gold of the North'.",
     "p2": "Burmese Hukawng Valley amber dates from the mid-Cretaceous — even older. Dominican blue amber glows with a quiet fluorescence under UV light, rare and prized. Chinese Fushun amber and Sicilian amber each carry the temperament of their soil.",
     "p3": "We choose ours by one standard: how translucent the light passes through. Every piece comes with its origin and age — so the wearer is not just wearing jewelry, but a piece of nature's memory.",
-    "cta": "Browse all amber jewelry"
+    "cta": "See all amber"
   },
   "incense": {
     "kicker": "Incense",
@@ -265,7 +266,7 @@
     "p1": "Incense traces back to ancient ritual in China and India. Han dynasty boshan censers, Tang dynasty incense ceremonies, Song scholars burning incense while reading — a thread of smoke has traveled through a thousand years and is still part of our daily life.",
     "p2": "Agarwood is the resin secreted by wounded trees, transformed by time. It is called 'the diamond of plants.' Yunnan, Hainan, Vietnam, Malaysia, Laos — each region produces a different fragrance: cool, mellow, sweet, or bitter. We select by two standards: translucence, and depth of layer.",
     "p3": "Sticks, balms, essential oils, burners — the forms differ; the essence is the same: let the air remember the stillness of the forest.",
-    "cta": "Browse all incense"
+    "cta": "See all incense"
   },
   "craft": {
     "kicker": "Craft",
@@ -532,10 +533,10 @@
   },
   "cart": {
     "title": "Cart",
-    "empty": "Your cart is empty.",
+    "empty": "This space is still empty.",
     "subtotal": "Subtotal",
-    "checkout": "Reserve (manual payment)",
+    "checkout": "Reserve one",
     "remove": "Remove",
-    "clear": "Clear cart"
+    "clear": "Let it empty"
   }
 }

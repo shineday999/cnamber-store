@@ -2,11 +2,11 @@
   "common": {
     "site_name": "OxHorseCraft",
     "tagline": "Pakai hutan di badan anda",
-    "loading": "Sedang memuatkan...",
+    "loading": "Perlahan...",
     "error": "Sesuatu telah berlaku",
     "retry": "Cuba lagi",
     "close": "Tutup",
-    "view_more": "Lihat lebih",
+    "view_more": "Lihat lagi",
     "back": "Kembali",
     "search": "Cari",
     "subscribe": "Langgan",
@@ -24,11 +24,11 @@
     "blog": "Jurnal",
     "contact": "Hubungi",
     "cart": "Troli",
-    "quiz": "Cari Milik Anda",
+    "quiz": "Pilih satu",
     "products": "Produk"
   },
   "home": {
-    "hero_kicker": "Coming Soon · 2026",
+    "hero_kicker": "Perlahan · 2026",
     "hero_title": "OxHorseCraft",
     "hero_subtitle": "Pakai hutan di badan anda",
     "hero_p1": "Dalam cahaya yang terbeku di dalam ambar, lihat nafas hutan.",
@@ -38,40 +38,40 @@
     "story_title": "Hutan, di tangan kami",
     "story_p1": "Setiap cebisan bermula dengan satu perbualan di dalam hutan. Dari ambar Baltik ke gaharu Yunnan, dari rotan Malaysia ke jalan rempah Timur Tengah — kami menjelajah jauh untuk membawa nafas alam kepada anda.",
     "story_p2": "Hutan bukan latar belakang. Ia ialah pelakon utama. Pakai sebiji ambar, nyalakan sebatang kemenyan — hutan hidup.",
-    "story_note": "(Kisah jenama penuh akan dilancarkan pada Fasa 5)",
-    "footer_rights": "© 2026 cnamber-store. Hak cipta terpelihara.",
-    "footer_tagline": "Jenama kraftangan berakar hutan · SEA Timur + Timur Tengah · empat bahasa",
-    "hero_cta_shop": "Lihat semua karya",
-    "hero_cta_quiz": "Cari milik anda",
+    "story_note": "(Versi penuh, ditulis perlahan.)",
+    "footer_rights": "© 2026 {siteName}. Hak cipta terpelihara.",
+    "footer_tagline": "Kraftangan hutan · surat untuk yang memakai",
+    "hero_cta_shop": "Lihat perlahan",
+    "hero_cta_quiz": "Lima soalan perlahan",
     "categories_kicker": "Kategori",
     "categories_title": "Dua laluan kraftangan",
     "cat_amber_title": "Perhiasan Ambar",
     "cat_amber_desc": "Dari Baltik ke tanah tinggi Yunnan, setiap ambar menyimpan ingatan bumi.",
     "cat_incense_title": "Kemenyan Timur",
     "cat_incense_desc": "Batang, balsem, minyak pati — biar udara mengingati keheningan hutan.",
-    "cat_explore": "Terokai",
+    "cat_explore": "Masuk ke dalam",
     "featured_kicker": "Pilihan",
-    "featured_title": "Sorotan terkini",
-    "featured_view_all": "Lihat semua karya",
-    "featured_empty": "Tiada karya baharu lagi.",
-    "cta_kicker": "Cari Milik Anda",
-    "cta_title": "Tidak tahu di mana untuk bermula?",
-    "cta_desc": "Jawab 5 soalan dan kami akan padankan anda dengan karya yang sesuai.",
-    "cta_quiz_jewelry": "Padanan perhiasan",
-    "cta_quiz_incense": "Padanan kemenyan",
+    "featured_title": "Beberapa karya ini",
+    "featured_view_all": "Lihat lagi",
+    "featured_empty": "Karya baharu masih dalam perjalanan.",
+    "cta_kicker": "Padanan tenang",
+    "cta_title": "Tidak tahu从哪里 mulakan?",
+    "cta_desc": "Lima soalan kecil — biar saya cari satu untuk anda.",
+    "cta_quiz_jewelry": "Pilih satu ambar",
+    "cta_quiz_incense": "Pilih satu kemenyan",
     "cta_jewelry_desc": "Lima soalan tentang warna kulit, bentuk muka dan gaya — cari amber yang sesuai dengan anda.",
     "cta_incense_desc": "Pilih mengikut mood dan ruang — relaks, fokus, atau ketenangan.",
-    "cta_jewelry_btn": "Mula kuiz ambar",
-    "cta_incense_btn": "Mula kuiz kemenyan",
-    "cta_meta": "5 soalan · ~1 minit"
+    "cta_jewelry_btn": "Tanya saya lima",
+    "cta_incense_btn": "Tanya saya lima",
+    "cta_meta": "Lima soalan · perlahan"
   },
   "quiz": {
-    "intro": "Jawab beberapa soalan — kami akan cari yang paling sesuai untuk anda.",
+    "intro": "Beberapa soalan kecil — biar saya cari satu untuk anda, perlahan.",
     "start": "Mula",
-    "recommend": "Dapatkan cadangan",
-    "retake": "Uji semula",
+    "recommend": "Pilih satu untuk anda",
+    "retake": "Tanya lagi",
     "jewelry": {
-      "title": "Padanan Perhiasan",
+      "title": "Pilih satu ambar",
       "desc": "Bentuk muka, ton kulit, personaliti, majlis — biar kami pilih amber yang paling sesuai untuk anda.",
       "face_shape": "Bentuk muka anda?",
       "skin_tone": "Ton kulit anda?",
@@ -80,7 +80,7 @@
       "material": "Pilihan bahan?"
     },
     "incense": {
-      "title": "Padanan Kemenyan",
+      "title": "Pilih satu kemenyan",
       "desc": "Kebimbangan dan niat anda sekarang — biar kami campur kemenyan yang sesuai.",
       "concerns": "Apa yang mengganggu sekarang? (pilihan banyak)",
       "goals": "Apa yang anda ingin rasa? (pilihan banyak)",
@@ -89,13 +89,13 @@
       "scent": "Pilihan bau?"
     },
     "result": {
-      "title": "Cadanan anda",
-      "intro": "Berdasarkan pilihan anda, ini mungkin paling sesuai.",
+      "title": "Mungkin beberapa ini",
+      "intro": "Daripada pilihan anda, mungkin salah satu ini.",
       "empty": "Tiada produk yang sepadan buat masa ini.",
-      "empty_hint": "Fasa 3 ialah rangka cadangan — katalog sebenar tiba pada Fasa 4.",
-      "badge_strong_match": "Pilihan utama",
+      "empty_hint": "Cuba lagi, atau datang semula sedikit lagi.",
+      "badge_strong_match": "Sangat sesuai",
       "badge_match": "Untuk anda",
-      "badge_fallback": "Anda mungkin juga suka"
+      "badge_fallback": "Anda mungkin suka"
     },
     "option": {
       "face": {
@@ -170,8 +170,9 @@
   },
   "checkout": {
     "success_title": "Terima kasih atas tempahan anda",
-    "success_intro": "Kami telah menerima tempahan anda.",
-    "success_next": "Pasukan kami akan menghubungi anda dalam 1-2 hari bekerja melalui e-mel."
+    "success_intro": "Kami telah menerima.",
+    "success_next": "Kami akan menulis kepada anda dalam satu atau dua hari.",
+    "help": "Kami akan menulis semula dalam satu atau dua hari, dengan pilihan bayaran (pindahan bank / WeChat / Alipay)."
   },
   "story": {
     "kicker": "Tentang",
@@ -194,15 +195,15 @@
     "cta": "Baca kisah kami"
   },
   "contact": {
-    "kicker": "Hubungi kami",
-    "title": "Mari mulakan perbualan",
+    "kicker": "Tulis surat",
+    "title": "Tulis surat kepada kami",
     "subtitle": "Kami membalas dalam dua hari bekerja — biasanya lebih cepat.",
     "name": "Nama anda",
     "email": "E-mel anda",
     "phone": "Telefon (pilihan)",
     "subject": "Subjek",
     "message": "Mesej anda",
-    "submit": "Hantar mesej",
+    "submit": "Hantar",
     "submitting": "Menghantar…",
     "success_title": "Mesej diterima",
     "success_intro": "Terima kasih — kami akan membalas dalam dua hari bekerja.",
@@ -211,34 +212,34 @@
     "channel_email": "E-mel",
     "channel_whatsapp": "WhatsApp",
     "channel_wechat": "WeChat",
-    "channel_studio": "Lawatan studio dengan janji temu"
+    "channel_studio": "Studio mengalu-alukan anda — tulis dulu"
   },
   "footer": {
-    "tagline": "Forest handcraft · 4-locale localized",
-    "section_shop": "Beli",
-    "section_brand": "Jenama",
-    "section_follow": "Ikuti",
+    "tagline": "Kraftangan hutan · surat untuk yang memakai",
+    "section_shop": "Jelajah",
+    "section_brand": "Kami",
+    "section_follow": "Kekal dekat",
     "link_all": "Semua karya",
     "link_amber": "Perhiasan ambar",
     "link_incense": "Kemenyan Timur",
-    "link_quiz": "Cari milik anda",
-    "link_story": "Kisah kami",
+    "link_quiz": "Pilih satu",
+    "link_story": "Nota hutan",
     "link_vision": "Visi",
-    "link_craft": "Kraftangan",
+    "link_craft": "Kerja tangan",
     "link_materials": "Bahan",
-    "link_blog": "Jurnal",
-    "link_contact": "Hubungi",
+    "link_blog": "Surat perlahan",
+    "link_contact": "Tulis",
     "link_admin": "Log masuk admin",
-    "newsletter_kicker": "Kekal dekat",
+    "newsletter_kicker": "Surat perlahan",
     "newsletter_title": "Surat tenang dari studio",
     "newsletter_desc": "Satu nota setiap musim — karya baharu, entri jurnal, percubaan wangian sekali-sekala.",
     "newsletter_placeholder": "emel@anda",
-    "newsletter_submit": "Langgan",
+    "newsletter_submit": "Tunggu saya",
     "social_instagram": "Instagram",
     "social_pinterest": "Pinterest",
     "social_xiaohongshu": "Xiaohongshu",
     "year": "© 2026 {siteName}. Hak cipta terpelihara.",
-    "studio": "Studio · Asia Tenggara",
+    "studio": "Studio · selatan hutan",
     "tag_brand": "Kraftangan berakar hutan",
     "made_with": "Diperbuat dengan sabar",
     "newsletter_success": "Terima kasih! Kami akan menulis dengan kadar paling perlahan."
@@ -256,7 +257,7 @@
     "p1": "Ambar ialah pembawa masa. Ia menyimpan resin, buih, sayap serangga, dan cahaya hutan dari empat puluh juta tahun dahulu. Ambar pantai Baltik mengandungi 3–8% asid suksinik, yang digelar 'perisai menentang penyakit' oleh orang Eropah Zaman Pertengahan — 'emas Utara'.",
     "p2": "Ambar Lembah Hukawng Burma berasal dari pertengahan Cretaceous — lebih tua lagi. Ambar biru Dominican bercahaya biru tenang di bawah cahaya UV, jarang dan dihargai. Ambar Fushun China dan ambar Sicily masing-masing membawa temperamen tanah mereka.",
     "p3": "Kami memilih ours mengikut satu piawaian: bagaimana cahaya menembus. Setiap karya datang dengan asal usul dan usia — jadi pemakai bukan sekadar memakai perhiasan, tetapi sekeping ingatan alam semula jadi.",
-    "cta": "Layari semua perhiasan ambar"
+    "cta": "Lihat semua ambar"
   },
   "incense": {
     "kicker": "Kemenyan",
@@ -265,7 +266,7 @@
     "p1": "Kemenyan berasal dari ritual purba di China dan India. Penyanian boshan dinasti Han, upacara kemenyan dinasti Tang, sarjana Song membakar kemenyan semasa membaca — satu helai asap telah menjelajah seribu tahun dan masih sebahagian daripada kehidupan harian kita.",
     "p2": "Gaharu ialah resin yang dirembeskan oleh pokok yang luka, ditransformasikan oleh masa. Ia digelar 'berlian tumbuh-tumbuhan.' Yunnan, Hainan, Vietnam, Malaysia, Laos — setiap kawasan menghasilkan wangian yang berbeza: sejuk, lembut, manis, atau pahit. Kami memilih mengikut dua piawaian: kejernihan, dan kedalaman.",
     "p3": "Batang, balsem, minyak pati, pembakar — bentuknya berbeza; intinya sama: biar udara mengingati keheningan hutan.",
-    "cta": "Layari semua kemenyan"
+    "cta": "Lihat semua kemenyan"
   },
   "craft": {
     "kicker": "Kraftangan",
@@ -532,10 +533,10 @@
   },
   "cart": {
     "title": "Troli",
-    "empty": "Troli anda kosong.",
+    "empty": "Ruang ini masih kosong.",
     "subtotal": "Subjumlah",
-    "checkout": "Tempah (bayaran manual)",
+    "checkout": "Tempah satu",
     "remove": "Buang",
-    "clear": "Kosongkan troli"
+    "clear": "Biarkan kosong"
   }
 }

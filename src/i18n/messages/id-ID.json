@@ -2,11 +2,11 @@
   "common": {
     "site_name": "OxHorseCraft",
     "tagline": "Kenakan hutan di tubuh Anda",
-    "loading": "Memuat...",
+    "loading": "Perlahan...",
     "error": "Terjadi kesalahan",
     "retry": "Coba lagi",
     "close": "Tutup",
-    "view_more": "Lihat lebih",
+    "view_more": "Lihat lagi",
     "back": "Kembali",
     "search": "Cari",
     "subscribe": "Berlangganan",
@@ -24,11 +24,11 @@
     "blog": "Jurnal",
     "contact": "Kontak",
     "cart": "Keranjang",
-    "quiz": "Temukan Milik Anda",
+    "quiz": "Pilih satu",
     "products": "Produk"
   },
   "home": {
-    "hero_kicker": "Coming Soon · 2026",
+    "hero_kicker": "Perlahan · 2026",
     "hero_title": "OxHorseCraft",
     "hero_subtitle": "Kenakan hutan di tubuh Anda",
     "hero_p1": "Dalam cahaya yang membeku di dalam amber, lihat napas hutan.",
@@ -38,40 +38,40 @@
     "story_title": "Hutan, di tangan kami",
     "story_p1": "Setiap karya bermula dari satu percakapan di hutan. Dari amber Baltik ke gaharu Yunnan, dari rotan Malaysia ke jalur rempah Timur Tengah — kami menjelajah jauh demi membawa napas alam kepada Anda.",
     "story_p2": "Hutan bukan latar. Ia adalah tokoh utama. Kenakan sebutir amber, nyalakan sebatang dupa — hutan hidup.",
-    "story_note": "(Cerita merek lengkap akan diluncurkan pada Fase 5)",
-    "footer_rights": "© 2026 cnamber-store. Hak cipta dilindungi.",
-    "footer_tagline": "Merek kerajinan berakar hutan · Asia Tenggara + Timur Tengah · empat bahasa",
-    "hero_cta_shop": "Lihat semua karya",
-    "hero_cta_quiz": "Temukan milik Anda",
+    "story_note": "(Versi lengkap, ditulis perlahan.)",
+    "footer_rights": "© 2026 {siteName}. Hak cipta dilindungi.",
+    "footer_tagline": "Kerajinan hutan · surat untuk yang memakai",
+    "hero_cta_shop": "Lihat perlahan",
+    "hero_cta_quiz": "Lima pertanyaan perlahan",
     "categories_kicker": "Kategori",
     "categories_title": "Dua jalur kerajinan",
     "cat_amber_title": "Perhiasan Amber",
     "cat_amber_desc": "Dari Baltik ke dataran tinggi Yunnan, setiap amber menyimpan kenangan bumi.",
     "cat_incense_title": "Dupa Timur",
     "cat_incense_desc": "Batang, balsem, minyak esensial — biar udara mengingat keheningan hutan.",
-    "cat_explore": "Jelajahi",
+    "cat_explore": "Masuk ke dalam",
     "featured_kicker": "Pilihan",
-    "featured_title": "Sorotan terkini",
-    "featured_view_all": "Lihat semua karya",
-    "featured_empty": "Belum ada karya baru.",
-    "cta_kicker": "Temukan Milik Anda",
-    "cta_title": "Tidak tahu harus mulai dari mana?",
-    "cta_desc": "Jawab 5 pertanyaan dan kami akan mencocokkan Anda dengan karya yang sesuai.",
-    "cta_quiz_jewelry": "Cocokkan perhiasan",
-    "cta_quiz_incense": "Cocokkan dupa",
+    "featured_title": "Beberapa karya ini",
+    "featured_view_all": "Lihat lagi",
+    "featured_empty": "Karya baru masih dalam perjalanan.",
+    "cta_kicker": "Padanan tenang",
+    "cta_title": "Tidak tahu从哪里 mulakan?",
+    "cta_desc": "Lima pertanyaan kecil — biar saya cari satu untuk Anda.",
+    "cta_quiz_jewelry": "Pilih satu amber",
+    "cta_quiz_incense": "Pilih satu dupa",
     "cta_jewelry_desc": "Lima pertanyaan tentang warna kulit, bentuk wajah, dan gaya — temukan amber yang cocok untuk Anda.",
     "cta_incense_desc": "Pilih sesuai mood dan ruang — rileks, fokus, atau ketenangan.",
-    "cta_jewelry_btn": "Mulai kuiz amber",
-    "cta_incense_btn": "Mulai kuiz dupa",
-    "cta_meta": "5 pertanyaan · ~1 menit"
+    "cta_jewelry_btn": "Tanya saya lima",
+    "cta_incense_btn": "Tanya saya lima",
+    "cta_meta": "Lima pertanyaan · perlahan"
   },
   "quiz": {
-    "intro": "Jawab beberapa pertanyaan — kami akan carikan yang paling cocok untuk Anda.",
+    "intro": "Beberapa pertanyaan kecil — biar saya cari satu untuk Anda, perlahan.",
     "start": "Mulai",
-    "recommend": "Dapatkan rekomendasi",
-    "retake": "Ulangi kuis",
+    "recommend": "Pilih satu untuk Anda",
+    "retake": "Tanya lagi",
     "jewelry": {
-      "title": "Padanan Perhiasan",
+      "title": "Pilih satu amber",
       "desc": "Bentuk wajah, warna kulit, kepribadian, acara — biar kami pilih amber yang paling cocok untuk Anda.",
       "face_shape": "Bentuk wajah Anda?",
       "skin_tone": "Warna kulit Anda?",
@@ -80,7 +80,7 @@
       "material": "Pilihan bahan?"
     },
     "incense": {
-      "title": "Padanan Dupa",
+      "title": "Pilih satu dupa",
       "desc": "Kekhawatiran dan tujuan Anda sekarang — biar kami racik dupa yang cocok.",
       "concerns": "Apa yang mengganggu sekarang? (pilih banyak)",
       "goals": "Apa yang ingin Anda rasakan? (pilih banyak)",
@@ -89,13 +89,13 @@
       "scent": "Pilihan aroma?"
     },
     "result": {
-      "title": "Rekomendasi Anda",
-      "intro": "Berdasarkan pilihan Anda, ini mungkin paling cocok.",
+      "title": "Mungkin beberapa ini",
+      "intro": "Dari pilihan Anda, mungkin salah satu ini.",
       "empty": "Belum ada produk yang cocok.",
-      "empty_hint": "Fase 3 adalah rangka rekomendasi — katalog asli hadir di Fase 4.",
-      "badge_strong_match": "Pilihan utama",
-      "badge_match": "Untuk anda",
-      "badge_fallback": "Anda mungkin juga suka"
+      "empty_hint": "Coba lagi, atau datang lagi sebentar lagi.",
+      "badge_strong_match": "Sangat cocok",
+      "badge_match": "Untuk Anda",
+      "badge_fallback": "Anda mungkin suka"
     },
     "option": {
       "face": {
@@ -170,8 +170,9 @@
   },
   "checkout": {
     "success_title": "Terima kasih atas pemesanan Anda",
-    "success_intro": "Kami telah menerima pemesanan Anda.",
-    "success_next": "Tim kami akan menghubungi Anda dalam 1-2 hari kerja melalui email."
+    "success_intro": "Kami telah menerima.",
+    "success_next": "Kami akan menulis kepada Anda dalam satu atau dua hari.",
+    "help": "Kami akan menulis kembali dalam satu atau dua hari, dengan pilihan pembayaran (transfer bank / WeChat / Alipay)."
   },
   "story": {
     "kicker": "Tentang",
@@ -194,15 +195,15 @@
     "cta": "Baca cerita kami"
   },
   "contact": {
-    "kicker": "Hubungi kami",
-    "title": "Mari mulai percakapan",
+    "kicker": "Tulis surat",
+    "title": "Tulis surat kepada kami",
     "subtitle": "Kami membalas dalam dua hari kerja — biasanya lebih cepat.",
     "name": "Nama Anda",
     "email": "Email Anda",
     "phone": "Telepon (opsional)",
     "subject": "Subjek",
     "message": "Pesan Anda",
-    "submit": "Kirim pesan",
+    "submit": "Kirim",
     "submitting": "Mengirim…",
     "success_title": "Pesan diterima",
     "success_intro": "Terima kasih — kami akan membalas dalam dua hari kerja.",
@@ -211,34 +212,34 @@
     "channel_email": "Email",
     "channel_whatsapp": "WhatsApp",
     "channel_wechat": "WeChat",
-    "channel_studio": "Kunjungan studio dengan janji temu"
+    "channel_studio": "Studio menyambut Anda — tulis dulu"
   },
   "footer": {
-    "tagline": "Forest handcraft · 4-locale localized",
-    "section_shop": "Beli",
-    "section_brand": "Merek",
-    "section_follow": "Ikuti",
+    "tagline": "Kerajinan hutan · surat untuk yang memakai",
+    "section_shop": "Jelajahi",
+    "section_brand": "Kami",
+    "section_follow": "Tetap dekat",
     "link_all": "Semua karya",
     "link_amber": "Perhiasan amber",
     "link_incense": "Dupa Timur",
-    "link_quiz": "Temukan milik Anda",
-    "link_story": "Cerita kami",
+    "link_quiz": "Pilih satu",
+    "link_story": "Catatan hutan",
     "link_vision": "Visi",
-    "link_craft": "Kerajinan",
+    "link_craft": "Kerja tangan",
     "link_materials": "Bahan",
-    "link_blog": "Jurnal",
-    "link_contact": "Kontak",
+    "link_blog": "Surat perlahan",
+    "link_contact": "Tulis",
     "link_admin": "Login admin",
-    "newsletter_kicker": "Tetap dekat",
+    "newsletter_kicker": "Surat perlahan",
     "newsletter_title": "Surat tenang dari studio",
     "newsletter_desc": "Satu catatan setiap musim — karya baru, entri jurnal, percobaan aroma sesekali.",
     "newsletter_placeholder": "email@Anda",
-    "newsletter_submit": "Berlangganan",
+    "newsletter_submit": "Tunggu saya",
     "social_instagram": "Instagram",
     "social_pinterest": "Pinterest",
     "social_xiaohongshu": "Xiaohongshu",
     "year": "© 2026 {siteName}. Hak cipta dilindungi.",
-    "studio": "Studio · Asia Tenggara",
+    "studio": "Studio · selatan hutan",
     "tag_brand": "Kerajinan berakar hutan",
     "made_with": "Dibuat dengan sabar",
     "newsletter_success": "Terima kasih! Kami akan menulis dengan tempo paling lambat."
@@ -256,7 +257,7 @@
     "p1": "Amber adalah wadah waktu. Ia menyimpan resin, gelembung, sayap serangga, dan cahaya hutan dari empat puluh juta tahun lalu. Amber pantai Baltik mengandung 3–8% asam suksinat, yang oleh orang Eropa abad pertengahan disebut 'perisai menentang penyakit' — 'emas Utara'.",
     "p2": "Amber Lembah Hukawng Burma berasal dari pertengahan Kapur — bahkan lebih tua. Amber biru Dominika bercahaya biru tenang di bawah cahaya UV, langka dan berharga. Amber Fushun China dan amber Sisilia masing-masing membawa temperamen tanah mereka.",
     "p3": "Kami memilih milik kami berdasarkan satu standar: bagaimana cahaya menembus. Setiap作品 masuk diperoleh dengan asal dan usia — jadi pemakai bukan sekadar memakai perhiasan, tetapi sepotong kenangan alam.",
-    "cta": "Jelajahi semua perhiasan amber"
+    "cta": "Lihat semua amber"
   },
   "incense": {
     "kicker": "Dupa",
@@ -265,7 +266,7 @@
     "p1": "Dupa berasal dari ritual kuno di China dan India. Penyanian boshan dinasti Han, upacara dupa dinasti Tang, sarjana Song membakar dupa saat membaca — sehelai asap telah menjelajah seribu tahun dan masih bagian dari kehidupan harian kita.",
     "p2": "Gaharu adalah resin yang dirembeskan oleh pohon yang terluka, ditransformasikan oleh waktu. Ia disebut 'berlian tumbuh-tumbuhan.' Yunnan, Hainan, Vietnam, Malaysia, Laos — setiap kawasan menghasilkan aroma yang berbeda: sejuk, lembut, manis, atau pahit. Kami memilih dengan dua standar: kejernihan, dan kedalaman.",
     "p3": "Batang, balsem, minyak esensial, pembakar — bentuknya berbeda; intinya sama: biar udara mengingat kesunyian hutan.",
-    "cta": "Jelajahi semua dupa"
+    "cta": "Lihat semua dupa"
   },
   "craft": {
     "kicker": "Kerajinan",
@@ -532,10 +533,10 @@
   },
   "cart": {
     "title": "Keranjang",
-    "empty": "Keranjang Anda kosong.",
+    "empty": "Ruang ini masih kosong.",
     "subtotal": "Subtotal",
-    "checkout": "Pesan (pembayaran manual)",
+    "checkout": "Pesan satu",
     "remove": "Hapus",
-    "clear": "Kosongkan keranjang"
+    "clear": "Biarkan kosong"
   }
 }
