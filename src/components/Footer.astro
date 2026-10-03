@@ -51,10 +51,11 @@ const sections = [
 ];
 
 interface Props {
+  siteName: string;
   themeLabel?: string;
   subThemeLabel?: string;
 }
-const { themeLabel = "", subThemeLabel = "" } = Astro.props;
+const { siteName, themeLabel = "", subThemeLabel = "" } = Astro.props;
 ---
 
 <footer class="mt-24 bg-forest-900 text-cream-100">
@@ -182,7 +183,7 @@ const { themeLabel = "", subThemeLabel = "" } = Astro.props;
     <div
       class="pt-8 border-t border-cream-100/20 flex items-center justify-center text-xs text-cream-100/55 font-sans"
     >
-      <p>{t("footer.year")}</p>
+      <p>{t("footer.year", { siteName })}</p>
     </div>
   </div>
 </footer>

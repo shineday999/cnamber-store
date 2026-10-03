@@ -333,7 +333,11 @@ const nav = [
     </div>
 
     <slot />
-    <Footer themeLabel={themeLabel} subThemeLabel={subThemeLabel} />
+    <Footer
+      siteName={siteName}
+      themeLabel={themeLabel}
+      subThemeLabel={subThemeLabel}
+    />
 
     <script is:inline>
       (function () {
