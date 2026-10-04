@@ -512,7 +512,12 @@
       "no_image": "暂无封面图",
       "label_image": "更换封面图",
       "hint_image": "上传新图会替换当前封面",
-      "upload_image": "上传新图"
+      "upload_image": "上传新图",
+      "tab_faq": "FAQ",
+      "label_faq_json": "FAQ JSON（{loc}）",
+      "hint_faq_json": "JSON 數組,每元素 { q, a }。建議 4 個 Q&A,空請填 []。",
+      "save_faq": "保存 FAQ",
+      "faq_intro": "FAQ 為產品頁底部的常見問題,4 個 locale 各自編輯。空 locale 留 [] 即可。"
     },
     "products_new": {
       "title": "新增產品",
