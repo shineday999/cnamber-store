@@ -46,6 +46,7 @@ async function loadSiteSettings(
 // SSR worker responses 必須由 middleware 注入。
 function setSecurityHeaders(response: Response): void {
   response.headers.set("X-Frame-Options", "DENY");
+  response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
   response.headers.set("X-Content-Type-Options", "nosniff");
   response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
   response.headers.set(
@@ -114,7 +115,22 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const db = context.locals.runtime?.env?.DB;
   context.locals.siteSettings = await loadSiteSettings(db);
 
-  // 2. CSRF defense (F-03): POST/PUT/DELETE/PATCH /api/admin/* 必須 same-origin
+  // 2. Admin write audit log (Wave 79.3)
+  if (
+    context.request.method !== "GET" &&
+    context.request.method !== "HEAD" &&
+    context.url.pathname.startsWith("/api/admin/")
+  ) {
+    const email = context.locals.admin?.email ?? "anonymous";
+    const ip = context.request.headers.get("CF-Connecting-IP") ?? "unknown";
+    const method = context.request.method;
+    const path = context.url.pathname;
+    console.log(
+      `[AUDIT] ${new Date().toISOString()} ${email} ${method} ${path} from ${ip}`,
+    );
+  }
+
+  // 3. CSRF defense (F-03): POST/PUT/DELETE/PATCH /api/admin/* 必須 same-origin
   const requestMethod = context.request.method.toUpperCase();
   if (
     url.pathname.startsWith("/api/admin") &&

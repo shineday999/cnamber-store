@@ -1,6 +1,45 @@
 import type { APIRoute } from "astro";
 import { setSessionCookie, verifyPassword } from "../../../lib/auth";
 
+// Wave 79: simple in-memory rate limit (5 attempts / 15 min lockout per IP)
+const loginAttempts = new Map<
+  string,
+  { count: number; firstAt: number; lockedUntil: number }
+>();
+const MAX_ATTEMPTS = 5;
+const WINDOW_MS = 15 * 60 * 1000;
+const LOCKOUT_MS = 15 * 60 * 1000;
+function checkRateLimit(ip: string): { allowed: boolean; retryAfter?: number } {
+  const now = Date.now();
+  const rec = loginAttempts.get(ip);
+  if (!rec) return { allowed: true };
+  if (rec.lockedUntil > now)
+    return {
+      allowed: false,
+      retryAfter: Math.ceil((rec.lockedUntil - now) / 1000),
+    };
+  if (now - rec.firstAt > WINDOW_MS) {
+    loginAttempts.delete(ip);
+    return { allowed: true };
+  }
+  return { allowed: true };
+}
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function recordAttempt(ip: string, success: boolean): void {
+  const now = Date.now();
+  if (success) {
+    loginAttempts.delete(ip);
+    return;
+  }
+  const rec = loginAttempts.get(ip);
+  if (!rec || now - rec.firstAt > WINDOW_MS) {
+    loginAttempts.set(ip, { count: 1, firstAt: now, lockedUntil: 0 });
+    return;
+  }
+  rec.count += 1;
+  if (rec.count >= MAX_ATTEMPTS) rec.lockedUntil = now + LOCKOUT_MS;
+}
+
 interface AdminRow {
   email: string;
   role: string;
@@ -15,6 +54,17 @@ export const POST: APIRoute = async (ctx) => {
     .trim()
     .toLowerCase();
   const password = String(form.get("password") ?? "");
+  const ip =
+    ctx.request.headers.get("CF-Connecting-IP") ??
+    ctx.request.headers.get("X-Forwarded-For") ??
+    "unknown";
+  const rl = checkRateLimit(ip);
+  if (!rl.allowed) {
+    return new Response(`Too many attempts. Try again in ${rl.retryAfter}s.`, {
+      status: 429,
+      headers: { "Retry-After": String(rl.retryAfter) },
+    });
+  }
   const redirectTo = String(form.get("redirect") ?? "/admin");
 
   if (!email || !password) {
