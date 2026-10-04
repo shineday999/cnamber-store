@@ -47,6 +47,18 @@ async function loadSiteSettings(
 function setSecurityHeaders(response: Response): void {
   response.headers.set("X-Frame-Options", "DENY");
   response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  // Wave 84: long cache for /assets/ (Vite hashed) + R2 images
+  if (
+    context.url.pathname.startsWith("/_astro/") ||
+    context.url.pathname.startsWith("/assets/")
+  ) {
+    response.headers.set(
+      "Cache-Control",
+      "public, max-age=31536000, immutable",
+    );
+  } else if (/\.(jpg|jpeg|png|webp|avif|svg)$/i.test(context.url.pathname)) {
+    response.headers.set("Cache-Control", "public, max-age=86400");
+  }
   response.headers.set("X-Content-Type-Options", "nosniff");
   response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
   response.headers.set(
