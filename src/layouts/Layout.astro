@@ -266,7 +266,10 @@ const nav = [
         >
           {
             nav.map((item) => {
-              const isActive = Astro.url.pathname === item.href;
+              const itemPath = item.href.startsWith(`/${currentLocale}`)
+                ? item.href.slice(`/${currentLocale}`.length) || "/"
+                : item.href;
+              const isActive = cleanPath === itemPath;
               return (
                 <a
                   href={item.href}
@@ -354,7 +357,10 @@ const nav = [
       >
         {
           nav.map((item) => {
-            const isActive = Astro.url.pathname === item.href;
+            const itemPath = item.href.startsWith(`/${currentLocale}`)
+              ? item.href.slice(`/${currentLocale}`.length) || "/"
+              : item.href;
+            const isActive = cleanPath === itemPath;
             return (
               <a
                 href={item.href}
