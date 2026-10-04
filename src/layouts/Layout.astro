@@ -82,6 +82,29 @@ const nav = [
     <!-- Wave 32 SEO: self-referential canonical (x-default hreflang points to default-locale version) -->
     <link rel="canonical" href={`${siteUrl}${Astro.url.pathname}`} />
 
+    <!-- Wave 32.2 Phase 2.1: JSON-LD structured data (Organization + WebSite) for AI / SEO / rich results -->
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        name: siteName,
+        url: siteUrl,
+        logo: `${siteUrl}/favicon.svg`,
+        description: t("common.tagline"),
+      })}
+    />
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        name: siteName,
+        url: siteUrl,
+        inLanguage: ["zh-Hans", "en", "ms-MY", "id-ID"],
+      })}
+    />
+
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
