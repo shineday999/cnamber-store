@@ -8,23 +8,34 @@ const t = createT(messages);
 
 const pageTitle = `${t("common.site_name")} — ${t("common.tagline")}`;
 const pageDescription = t("home.hero_p3") ?? "";
+// Wave 62: SSR inject 動態 LCP preload (zh-Hans default)
+// try/catch 包 D1 query 防 SSR fail → 15 bytes partial HTML
+let lcpImageUrl: string | null = null;
+try {
+  const env = Astro.locals.runtime?.env;
+  if (env?.DB) {
+    const row = await env.DB.prepare(
+      "SELECT image_url FROM hero_banners WHERE active = 1 ORDER BY sort_order ASC, created_at ASC LIMIT 1",
+    ).first<{ image_url: string }>();
+    lcpImageUrl = row?.image_url ?? null;
+  }
+} catch {
+  lcpImageUrl = null;
+}
 ---
 
 <Layout title={pageTitle} description={pageDescription}>
-  <Fragment slot="head">
-    <!--
-      Wave 61 LCP preload mechanism: 證明 Layout <slot name="head" /> wiring 可運作.
-      實際 LCP image 是 D1 runtime fetch 的 hero_banners[0].image_url (HomeContent.astro:69-70),
-      故 page-level 預先不知道 URL → 留 Wave 62 SSR inject 動態 preload (server-side render HomeContent
-      取得 banner.image_url 後用 <link rel="preload"> 注入 head slot).
-      此處用 1x1 transparent placeholder 預載 image decoder pipeline,加速 LCP 渲染.
-    -->
-    <link
-      rel="preload"
-      as="image"
-      href="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
-      fetchpriority="low"
-    />
-  </Fragment>
+  {
+    lcpImageUrl && (
+      <Fragment slot="head">
+        <link
+          rel="preload"
+          as="image"
+          href={lcpImageUrl}
+          fetchpriority="high"
+        />
+      </Fragment>
+    )
+  }
   <HomeContent />
 </Layout>
