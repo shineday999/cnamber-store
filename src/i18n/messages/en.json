@@ -430,7 +430,8 @@
       "label_title": "Title",
       "label_excerpt": "Excerpt",
       "label_body": "Body (Markdown)",
-      "save_translation": "Save {loc}"
+      "save_translation": "Save {loc}",
+      "label_author_email": "Author email"
     },
     "posts_new": {
       "title": "New Post",

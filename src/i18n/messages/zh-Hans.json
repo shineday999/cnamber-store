@@ -460,7 +460,8 @@
       "label_faq_json": "FAQ JSON（{loc}）",
       "hint_faq_json": "JSON 數組,每元素 { q, a }。建議 4 個 Q&A,空請填 []。",
       "save_faq": "保存 FAQ",
-      "faq_intro": "FAQ 為文章底部的常見問題,4 個 locale 各自編輯。空 locale 留 [] 即可。"
+      "faq_intro": "FAQ 為文章底部的常見問題,4 個 locale 各自編輯。空 locale 留 [] 即可。",
+      "label_author_email": "作者邮箱"
     },
     "posts_new": {
       "title": "新建文章",
