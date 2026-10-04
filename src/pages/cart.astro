@@ -2,7 +2,7 @@
 import Layout from "@layouts/Layout.astro";
 import Button from "@components/Button.astro";
 import { createT } from "../i18n/t";
-import { defaultLocale, type Locale } from "../i18n/config";
+import { localizedPath, defaultLocale, type Locale } from "../i18n/config";
 import { readCart } from "../lib/cart";
 import { formatPrice } from "../lib/format";
 
@@ -74,7 +74,9 @@ void t;
       items.length === 0 ? (
         <div class="text-center py-12 text-text-muted">
           <p class="text-lg mb-4">{t("cart.empty")}</p>
-          <Button href="/products">{t("common.view_more")}</Button>
+          <Button href={localizedPath(locale, "/products")}>
+            {t("common.view_more")}
+          </Button>
         </div>
       ) : (
         <div class="space-y-4">
@@ -136,7 +138,12 @@ void t;
             </div>
           </div>
 
-          <Button href="/checkout" variant="primary" size="lg" class="w-full">
+          <Button
+            href={localizedPath(locale, "/checkout")}
+            variant="primary"
+            size="lg"
+            class="w-full"
+          >
             {t("cart.checkout") ?? "Proceed to checkout"}
           </Button>
 

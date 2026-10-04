@@ -207,7 +207,7 @@ void locale;
 
     <div class="absolute bottom-8 left-0 right-0 px-6 max-w-6xl mx-auto">
       <a
-        href="/products"
+        href={localizedPath(locale, "/products")}
         class="inline-block text-xs uppercase tracking-[0.4em] text-cream-100/80 hover:text-cream-50 transition-colors font-sans border-b border-cream-100/30 pb-0.5"
       >
         ← Back to all
@@ -329,7 +329,7 @@ void locale;
               {t("common.reserve")} →
             </button>
             <a
-              href="/contact"
+              href={localizedPath(locale, "/contact")}
               class="block text-center text-xs text-forest-700 hover:text-forest-700 transition-colors tracking-wide font-sans border-b border-forest-200 pb-0.5"
             >
               {t("nav.contact")} →

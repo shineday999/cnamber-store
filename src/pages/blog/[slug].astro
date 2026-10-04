@@ -105,7 +105,7 @@ const postFaqs: { q: string; a: string }[] = (() => {
   }
   <article class="max-w-3xl mx-auto px-6 py-section">
     <a
-      href="/blog"
+      href={localizedPath(locale, "/blog")}
       class="text-sm text-text-secondary hover:text-text-primary inline-block mb-6"
       >← Blog</a
     >
@@ -184,8 +184,9 @@ const postFaqs: { q: string; a: string }[] = (() => {
     }
 
     <div class="mt-12 pt-6 border-t border-text-muted/20 text-sm">
-      <a href="/blog" class="text-text-secondary hover:text-text-primary"
-        >← Back to Blog</a
+      <a
+        href={localizedPath(locale, "/blog")}
+        class="text-text-secondary hover:text-text-primary">← Back to Blog</a
       >
     </div>
   </article>

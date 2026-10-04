@@ -78,7 +78,7 @@ void locale;
           <p class="text-lg mb-2">{t("quiz.result.empty")}</p>
           <p class="text-sm">{t("quiz.result.empty_hint")}</p>
           <a
-            href="/products"
+            href={localizedPath(locale, "/products")}
             class="text-accent-700 underline mt-4 inline-block"
           >
             {t("common.view_more")} →
@@ -133,7 +133,7 @@ void locale;
 
     <div class="text-center">
       <a
-        href="/quiz"
+        href={localizedPath(locale, "/quiz")}
         class="text-text-secondary hover:text-text-primary text-sm"
       >
         ← {t("quiz.retake")}
