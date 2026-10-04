@@ -265,14 +265,22 @@ const nav = [
           aria-label={t("header.aria_main")}
         >
           {
-            nav.map((item) => (
-              <a
-                href={item.href}
-                class="text-text-secondary hover:text-forest-700 transition-colors duration-300 link-underline"
-              >
-                {item.label}
-              </a>
-            ))
+            nav.map((item) => {
+              const isActive = Astro.url.pathname === item.href;
+              return (
+                <a
+                  href={item.href}
+                  aria-current={isActive ? "page" : undefined}
+                  class={
+                    isActive
+                      ? "text-forest-700 font-medium transition-colors duration-300 link-underline"
+                      : "text-text-secondary hover:text-forest-700 transition-colors duration-300 link-underline"
+                  }
+                >
+                  {item.label}
+                </a>
+              );
+            })
           }
         </nav>
 
@@ -345,15 +353,23 @@ const nav = [
         aria-label={t("header.aria_mobile_nav")}
       >
         {
-          nav.map((item) => (
-            <a
-              href={item.href}
-              class="font-serif text-4xl text-bg-base hover:opacity-70 transition-opacity duration-300"
-              data-mobile-menu-link
-            >
-              {item.label}
-            </a>
-          ))
+          nav.map((item) => {
+            const isActive = Astro.url.pathname === item.href;
+            return (
+              <a
+                href={item.href}
+                aria-current={isActive ? "page" : undefined}
+                class={
+                  isActive
+                    ? "font-serif text-4xl text-bg-base font-medium transition-opacity duration-300"
+                    : "font-serif text-4xl text-bg-base hover:opacity-70 transition-opacity duration-300"
+                }
+                data-mobile-menu-link
+              >
+                {item.label}
+              </a>
+            );
+          })
         }
       </nav>
 

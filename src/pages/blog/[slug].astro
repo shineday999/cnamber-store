@@ -133,6 +133,8 @@ const postFaqs: { q: string; a: string }[] = (() => {
     {
       post.cover_image_url && (
         <img
+          loading="lazy"
+          decoding="async"
           decoding="async"
           src={post.cover_image_url}
           alt={title}
