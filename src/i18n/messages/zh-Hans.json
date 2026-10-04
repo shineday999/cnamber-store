@@ -204,7 +204,8 @@
     "success_next": "客服会在一两个工作天內,寫信与你联络。",
     "shipping_note": "运費將于確認信中提供",
     "cart_empty": "购物车空着。",
-    "browse_products": "看看产品"
+    "browse_products": "看看产品",
+    "success_order_id": "订单编号"
   },
   "contact": {
     "title": "给我们写一封信",

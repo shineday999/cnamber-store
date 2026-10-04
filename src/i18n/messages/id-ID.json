@@ -193,7 +193,8 @@
     "submit": "Kirim pemesanan",
     "shipping_note": "Pengiriman dihitung setelah konfirmasi",
     "cart_empty": "Keranjang Anda kosong.",
-    "browse_products": "Jelajahi produk"
+    "browse_products": "Jelajahi produk",
+    "success_order_id": "ID Pesanan"
   },
   "story": {
     "kicker": "Tentang",

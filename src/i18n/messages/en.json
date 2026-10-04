@@ -193,7 +193,8 @@
     "submit": "Submit reservation",
     "shipping_note": "Shipping calculated upon confirmation",
     "cart_empty": "Your cart is empty.",
-    "browse_products": "Browse products"
+    "browse_products": "Browse products",
+    "success_order_id": "Order ID"
   },
   "story": {
     "kicker": "About",

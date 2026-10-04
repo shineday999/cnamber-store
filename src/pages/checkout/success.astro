@@ -43,7 +43,9 @@ const orderId = Astro.url.searchParams.get("id") ?? "";
     </p>
     {
       orderId && (
-        <p class="text-xs text-text-muted font-mono">Order ID: {orderId}</p>
+        <p class="text-xs text-text-muted font-mono">
+          {t("checkout.success_order_id")}: {orderId}
+        </p>
       )
     }
     <a href={homePath} class="text-accent-700 underline mt-8 inline-block">

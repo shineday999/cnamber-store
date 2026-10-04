@@ -193,7 +193,8 @@
     "submit": "Hantar tempahan",
     "shipping_note": "Pengiraan penghantaran selepas pengesahan",
     "cart_empty": "Troli anda kosong.",
-    "browse_products": "Layari produk"
+    "browse_products": "Layari produk",
+    "success_order_id": "ID Pesanan"
   },
   "story": {
     "kicker": "Tentang",
