@@ -5,6 +5,7 @@ import Layout from "@layouts/Layout.astro";
 import { createT } from "../../i18n/t";
 import { defaultLocale, type Locale } from "../../i18n/config";
 import { formatPrice } from "@lib/format";
+import BreadcrumbSchema from "@components/BreadcrumbSchema.astro";
 
 const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
 const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
@@ -116,6 +117,38 @@ const priceMap = new Map(
   prices.results.map((p) => [p.currency, p.amount / 100]),
 );
 const usdPrice = priceMap.get("USD");
+// Wave 33 Phase 2.2 fix: siteUrl + siteName defined in page frontmatter (Layout scoped vars not accessible here)
+const siteUrl = Astro.url.origin || "https://cnamber.ccwu.cc";
+const siteSettings = Astro.locals.siteSettings;
+const siteName =
+  siteSettings?.siteName?.[locale] ??
+  siteSettings?.siteName?.["zh-Hans"] ??
+  t("common.site_name");
+
+// Wave 33 Phase 2.2: Product JSON-LD (per-product structured data)
+const productJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: tr.name,
+  description: (tr.short_description ?? tr.description ?? "").slice(0, 500),
+  image: heroImage || undefined,
+  brand: { "@type": "Brand", name: siteName ?? t("common.site_name") },
+  sku: variants.results[0]?.sku ?? product.id,
+  offers: {
+    "@type": "Offer",
+    priceCurrency: "USD",
+    price: usdPrice ?? undefined,
+    availability: "https://schema.org/PreOrder",
+    url: `${siteUrl}${Astro.url.pathname}`,
+  },
+};
+
+// Wave 33 Phase 2.3: BreadcrumbList
+const breadcrumbItems = [
+  { name: t("nav.home"), url: "/" },
+  { name: t("nav.products"), url: "/products" },
+  { name: tr.name, url: Astro.url.pathname },
+];
 
 const pageTitle = `${tr.name} — ${t("common.site_name")}`;
 void locale;
@@ -125,6 +158,13 @@ void locale;
   title={pageTitle}
   description={tr.short_description ?? tr.description.slice(0, 160)}
 >
+  <Fragment slot="head">
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(productJsonLd)}
+    />
+    <BreadcrumbSchema items={breadcrumbItems} />
+  </Fragment>
   <!-- 1. Hero image — full-width 60vh cinematic still-life -->
   <section
     class="relative h-[60vh] min-h-[420px] overflow-hidden bg-forest-800"

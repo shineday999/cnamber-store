@@ -25,7 +25,8 @@
     "contact": "Hubungi",
     "cart": "Troli",
     "quiz": "Pilih satu",
-    "products": "Produk"
+    "products": "Produk",
+    "about": "Tentang"
   },
   "home": {
     "hero_kicker": "Perlahan · 2026",
@@ -591,5 +592,18 @@
       "next_3_label": "Lihat semua kemenyan",
       "next_3_desc": "Mungkin harum ini"
     }
+  },
+  "about": {
+    "kicker": "Tentang",
+    "title": "Bengkel Selatan Hutan",
+    "subtitle": "Dua tangan, lebih sedekad kesabaran",
+    "p1": "Kami tidak mendedahkan umur, jantina, atau lokasi pengasas. Ini pilihan sengaja — biar hasil kerja berbicara, bukan orang.",
+    "p2": "Bahan dari hutan, masa dari tangan. Ambar dari batu kasar ke bulat lembut, kemenyan dari habuk ke seutas asap — semuanya perlahan.",
+    "p3": "Kami percaya kraftangan adalah amalan — mengasah, memanas, menunggu. Selepas sedekad, hanya satu pengajaran tinggal: biarkan ruang putih.",
+    "p4": "Jika anda ada fikiran tentang bahan, proses, atau tempahan, kami alu-alukan perbualan melalui /contact.",
+    "story_label": "Di mana kisah bermula",
+    "story_desc": "Hutan, di tangan kami",
+    "craft_label": "Lihat kerja tangan",
+    "craft_desc": "Mengasah, memanas, menunggu"
   }
 }

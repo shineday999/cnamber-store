@@ -57,6 +57,7 @@ const nav = [
   { label: t("nav.story"), href: localizedPath(currentLocale, "/story") },
   { label: t("nav.quiz"), href: localizedPath(currentLocale, "/quiz") },
   { label: t("nav.contact"), href: localizedPath(currentLocale, "/contact") },
+  { label: t("nav.about"), href: localizedPath(currentLocale, "/about") },
 ];
 ---
 
@@ -171,6 +172,9 @@ const nav = [
         update();
       })();
     </script>
+
+    <!-- Wave 33 Phase 2.2 + 2.3: per-page JSON-LD slot (Product / BreadcrumbList) -->
+    <slot name="head" />
     <script is:inline>
       // Wave 13: hero parallax — rAF-thrustly translate3d(0, scrollY*0.35, 0)
       // on [data-hero-slide]. Skip when no slides (non-home pages) or

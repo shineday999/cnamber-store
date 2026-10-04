@@ -20,6 +20,7 @@ const STATIC_PATHS = [
   "/blog",
   "/quiz",
   "/contact",
+  "/about",
 ];
 
 export const GET: APIRoute = async () => {

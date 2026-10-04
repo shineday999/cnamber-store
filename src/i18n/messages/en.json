@@ -25,7 +25,8 @@
     "contact": "Contact",
     "cart": "Cart",
     "quiz": "Pick one",
-    "products": "Products"
+    "products": "Products",
+    "about": "About"
   },
   "home": {
     "hero_kicker": "Slowly · 2026",
@@ -591,5 +592,18 @@
       "next_3_label": "See all the incense",
       "next_3_desc": "Maybe this breath"
     }
+  },
+  "about": {
+    "kicker": "About",
+    "title": "The Workshop South of the Forest",
+    "subtitle": "Two hands, over a decade of patience",
+    "p1": "We do not disclose the founder's age, gender, or location. This is intentional — letting the work speak, not the person.",
+    "p2": "Materials from the forest, time given by hand. Amber from rough stone to soft roundness, incense from sawdust to a thread of smoke — all slow.",
+    "p3": "We believe craft is a practice — sharpening, heating, waiting. After a decade, only one lesson remains: leave white space.",
+    "p4": "If you have thoughts on materials, process, or reservation, we welcome a conversation through /contact.",
+    "story_label": "Where the story begins",
+    "story_desc": "Forest, in our hands",
+    "craft_label": "See the handwork",
+    "craft_desc": "Sharpening, heating, waiting"
   }
 }

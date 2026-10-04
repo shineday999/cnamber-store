@@ -25,7 +25,8 @@
     "contact": "Kontak",
     "cart": "Keranjang",
     "quiz": "Pilih satu",
-    "products": "Produk"
+    "products": "Produk",
+    "about": "Tentang"
   },
   "home": {
     "hero_kicker": "Perlahan · 2026",
@@ -591,5 +592,18 @@
       "next_3_label": "Lihat semua dupa",
       "next_3_desc": "Mungkin harum ini"
     }
+  },
+  "about": {
+    "kicker": "Tentang",
+    "title": "Bengkel Selatan Hutan",
+    "subtitle": "Dua tangan, lebih dari satu dekade kesabaran",
+    "p1": "Kami tidak mengungkap usia, jenis kelamin, atau lokasi pendiri. Ini pilihan sadar — membiarkan karya berbicara, bukan orang.",
+    "p2": "Bahan dari hutan, waktu dari tangan. Amber dari batu kasar ke bulat lembut, dupa dari serbuk ke sehelai asap — semua lambat.",
+    "p3": "Kami percaya kerajinan adalah praktik — mengasah, memanas, menunggu. Setelah satu dekade, hanya satu pelajaran tersisa: biarkan ruang putih.",
+    "p4": "Jika Anda punya pendapat tentang bahan, proses, atau pemesanan, kami menyambut percakapan melalui /contact.",
+    "story_label": "Di mana cerita dimulai",
+    "story_desc": "Hutan, di tangan kami",
+    "craft_label": "Lihat pekerjaan tangan",
+    "craft_desc": "Mengasah, memanas, menunggu"
   }
 }

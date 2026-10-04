@@ -2,6 +2,7 @@
 import Layout from "@layouts/Layout.astro";
 import RevealOnScroll from "@components/RevealOnScroll.astro";
 import ContinueReading from "@components/ContinueReading.astro";
+import BreadcrumbSchema from "@components/BreadcrumbSchema.astro";
 import { createT } from "../i18n/t";
 import { defaultLocale, type Locale } from "../i18n/config";
 
@@ -9,12 +10,20 @@ const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
 const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
 const t = createT(messages);
 void locale;
+
+const breadcrumbItems = [
+  { name: t("nav.home"), url: "/" },
+  { name: t("nav.story"), url: "/story" },
+];
 ---
 
 <Layout
   title={`${t("story.title")} — ${t("common.site_name")}`}
   description={t("story.p1")}
 >
+  <Fragment slot="head">
+    <BreadcrumbSchema items={breadcrumbItems} />
+  </Fragment>
   <article class="max-w-3xl mx-auto px-6 py-section">
     <RevealOnScroll>
       <header class="mb-16 text-center">

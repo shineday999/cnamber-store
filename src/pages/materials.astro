@@ -2,6 +2,7 @@
 import Layout from "@layouts/Layout.astro";
 import RevealOnScroll from "@components/RevealOnScroll.astro";
 import ContinueReading from "@components/ContinueReading.astro";
+import BreadcrumbSchema from "@components/BreadcrumbSchema.astro";
 import { createT } from "../i18n/t";
 import { defaultLocale, type Locale } from "../i18n/config";
 
@@ -18,12 +19,21 @@ const items = [
   ["materials.amber_sicily_title", "materials.amber_sicily_desc"],
   ["materials.agarwood_title", "materials.agarwood_desc"],
 ] as const;
+
+const breadcrumbItems = [
+  { name: t("nav.home"), url: "/" },
+  { name: t("nav.story"), url: "/story" },
+  { name: t("nav.materials"), url: "/materials" },
+];
 ---
 
 <Layout
   title={`${t("materials.title")} — ${t("common.site_name")}`}
   description={t("materials.intro")}
 >
+  <Fragment slot="head">
+    <BreadcrumbSchema items={breadcrumbItems} />
+  </Fragment>
   <article class="max-w-5xl mx-auto px-6 py-section">
     <RevealOnScroll>
       <header class="mb-16 text-center">
