@@ -328,7 +328,10 @@
     "title": "日志",
     "intro": "田野笔记、材料研究、与工作室寄出的慢信。",
     "empty": "尚无日志——第一篇正在酝酿。",
-    "read_more": "继续阅读"
+    "read_more": "继续阅读",
+    "blog.faq_kicker": "細問慢答",
+    "blog.faq_heading": "讀者常問的",
+    "blog.no_faq_yet": "尚無常見問題。"
   },
   "404": {
     "kicker": "此处无路",
@@ -450,7 +453,14 @@
       "label_title": "标题",
       "label_excerpt": "摘要",
       "label_body": "正文（Markdown）",
-      "save_translation": "保存 {loc}"
+      "save_translation": "保存 {loc}",
+      "tab_core": "核心",
+      "tab_translations": "翻譯",
+      "tab_faq": "FAQ",
+      "label_faq_json": "FAQ JSON（{loc}）",
+      "hint_faq_json": "JSON 數組,每元素 { q, a }。建議 4 個 Q&A,空請填 []。",
+      "save_faq": "保存 FAQ",
+      "faq_intro": "FAQ 為文章底部的常見問題,4 個 locale 各自編輯。空 locale 留 [] 即可。"
     },
     "posts_new": {
       "title": "新建文章",

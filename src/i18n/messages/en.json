@@ -261,7 +261,10 @@
     "title": "Journal",
     "intro": "Field notes, material studies, and slow letters from the studio.",
     "empty": "No journal entries yet — the first one is brewing.",
-    "read_more": "Read on"
+    "read_more": "Read on",
+    "blog.faq_kicker": "Common Questions",
+    "blog.faq_heading": "What readers ask",
+    "blog.no_faq_yet": "No common questions yet."
   },
   "amber": {
     "kicker": "Amber",

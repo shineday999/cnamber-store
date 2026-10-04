@@ -261,7 +261,10 @@
     "title": "Jurnal",
     "intro": "Catatan lapangan, studi bahan, dan surat tenang dari studio.",
     "empty": "Belum ada entri jurnal — yang pertama sedang disiapkan.",
-    "read_more": "Baca lagi"
+    "read_more": "Baca lagi",
+    "blog.faq_kicker": "Pertanyaan Umum",
+    "blog.faq_heading": "Apa yang pembaca tanyakan",
+    "blog.no_faq_yet": "Belum ada pertanyaan umum."
   },
   "amber": {
     "kicker": "Amber",

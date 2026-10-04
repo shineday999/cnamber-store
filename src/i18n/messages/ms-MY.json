@@ -261,7 +261,10 @@
     "title": "Jurnal",
     "intro": "Nota lapangan, kajian bahan, dan surat tenang dari studio.",
     "empty": "Tiada entri jurnal lagi — yang pertama sedang dibancuh.",
-    "read_more": "Baca lagi"
+    "read_more": "Baca lagi",
+    "blog.faq_kicker": "Soalan Lazim",
+    "blog.faq_heading": "Apa yang pembaca tanya",
+    "blog.no_faq_yet": "Tiada soalan lazim lagi."
   },
   "amber": {
     "kicker": "Ambar",
