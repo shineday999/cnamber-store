@@ -79,6 +79,9 @@ const nav = [
       href={`${siteUrl}${localizedPath(defaultLocale, cleanPath)}`}
     />
 
+    <!-- Wave 32 SEO: self-referential canonical (x-default hreflang points to default-locale version) -->
+    <link rel="canonical" href={`${siteUrl}${Astro.url.pathname}`} />
+
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
