@@ -58,7 +58,7 @@ export const POST: APIRoute = async (ctx) => {
     ctx.request.headers.get("CF-Connecting-IP") ??
     ctx.request.headers.get("X-Forwarded-For") ??
     "unknown";
-  const rl = checkRateLimit(ip);
+  const rl = checkRateLimit(clientIp);
   if (!rl.allowed) {
     return new Response(`Too many attempts. Try again in ${rl.retryAfter}s.`, {
       status: 429,
@@ -87,8 +87,8 @@ export const POST: APIRoute = async (ctx) => {
   const ok = row ? await verifyPassword(password, row.password_hash) : false;
   if (!ok || !row) {
     // F-08: log failed attempt (含 IP + email,不含密碼)
-    const ip = ctx.request.headers.get("cf-connecting-ip") ?? "?";
-    console.warn(`[admin login] failed email=${email} ip=${ip}`);
+    const clientIp = ctx.request.headers.get("cf-connecting-ip") ?? "?";
+    console.warn(`[admin login] failed email=${email} ip=${clientIp}`);
     return ctx.redirect("/admin/login?error=invalid", 303);
   }
 
@@ -96,7 +96,7 @@ export const POST: APIRoute = async (ctx) => {
 
   // F-09: 更新 last_login_at / last_login_ip
   const now = Math.floor(Date.now() / 1000);
-  const ip = ctx.request.headers.get("cf-connecting-ip") ?? null;
+  const clientIp = ctx.request.headers.get("cf-connecting-ip") ?? null;
   await db
     .prepare(
       "UPDATE admin_users SET last_login_at = ?, last_login_ip = ? WHERE email = ?",
