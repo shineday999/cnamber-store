@@ -34,7 +34,7 @@
     "about": "关于"
   },
   "home": {
-    "hero_kicker": "慢慢來 · 2026",
+    "hero_kicker": "慢慢来 · 2026",
     "hero_title": "牛马得饰",
     "hero_subtitle": "把森林穿戴在身上",
     "hero_p1": "在琥珀凝结的光里,看见森林的呼吸。",
@@ -48,7 +48,7 @@
     "footer_rights": "© 2026 {siteName}. 版权所有。",
     "footer_tagline": "森林手作 · 寫給穿戴的人",
     "hero_cta_shop": "慢慢看",
-    "hero_cta_quiz": "為你慢慢問",
+    "hero_cta_quiz": "为你慢慢问",
     "categories_kicker": "Categories",
     "categories_title": "两条手作路线",
     "cat_amber_title": "琥珀饰品",
@@ -56,28 +56,28 @@
     "cat_incense_title": "东方香品",
     "cat_incense_desc": "线香、香膏、精油——让空气记得山林的静谧。",
     "cat_amber_alt": "手工琥珀飾品,木質背景",
-    "cat_incense_alt": "東方香品,輕煙繚繞",
+    "cat_incense_alt": "东方香品,轻煙缭绕",
     "cat_explore": "走進去",
     "featured_kicker": "Featured",
-    "featured_title": "這幾件",
+    "featured_title": "这幾件",
     "featured_view_all": "再看看",
-    "featured_empty": "近作還在路上。",
-    "cta_kicker": "慢慢問你",
-    "cta_title": "不知從哪一件開始?",
-    "cta_desc": "問你五個小問題,讓我為你找一件。",
+    "featured_empty": "近作还在路上。",
+    "cta_kicker": "慢慢问你",
+    "cta_title": "不知从哪一件开始?",
+    "cta_desc": "问你五个小问題,让我为你找一件。",
     "cta_quiz_jewelry": "選一件琥珀",
     "cta_quiz_incense": "選一件香",
     "cta_jewelry_desc": "五题肤色、脸型与风格,推荐最契合你的琥珀。",
     "cta_incense_desc": "依心境与空间选香,放松、聚焦或沉静。",
-    "cta_jewelry_btn": "問我五題",
-    "cta_incense_btn": "問我五題",
+    "cta_jewelry_btn": "问我五題",
+    "cta_incense_btn": "问我五題",
     "cta_meta": "五題 · 慢慢"
   },
   "quiz": {
-    "intro": "問你幾個小問題,讓我為你慢慢挑。",
+    "intro": "问你幾个小问題,让我为你慢慢挑。",
     "start": "开始",
-    "recommend": "為你挑一件",
-    "retake": "再問一次",
+    "recommend": "为你挑一件",
+    "retake": "再问一次",
     "jewelry": {
       "title": "選一件琥珀",
       "desc": "脸型、肤色、个性、场合——让我们为你挑出最契合的那颗琥珀。",
@@ -97,13 +97,13 @@
       "scent": "香味偏好?"
     },
     "result": {
-      "title": "也許是這幾件",
-      "intro": "依你方才的回答,也許是這幾件。",
+      "title": "也許是这幾件",
+      "intro": "依你方才的回答,也許是这幾件。",
       "empty": "暂无匹配的成品。",
-      "empty_hint": "也許再換一題,或過一會兒再來。",
+      "empty_hint": "也許再換一題,或过一会兒再来。",
       "badge_strong_match": "很合",
       "badge_match": "適合你",
-      "badge_fallback": "也許你會喜歡"
+      "badge_fallback": "也許你会喜欢"
     },
     "option": {
       "face": {
@@ -178,11 +178,11 @@
   },
   "cart": {
     "title": "购物车",
-    "empty": "這裡還空著。",
+    "empty": "这裡还空著。",
     "subtotal": "小计",
     "checkout": "留一件給我",
     "remove": "移除",
-    "clear": "讓它空",
+    "clear": "让它空",
     "page_title": "购物车",
     "page_description": "静心挑选,准备留下。随时预订一件你中意的。",
     "continue_shopping": "继续逛"
@@ -198,11 +198,11 @@
     "postal": "邮编",
     "notes": "备注",
     "submit": "提交预订单",
-    "help": "我們會在一兩個工作天內回信,給你付款方式(銀行轉帳 / 微信 / 支付寶)。",
+    "help": "我們会在一两个工作天內回信,給你付款方式(銀行轉帐 / 微信 / 支付寶)。",
     "success_title": "感谢您的预订",
     "success_intro": "我們收到了。",
-    "success_next": "客服會在一兩個工作天內,寫信與你聯絡。",
-    "shipping_note": "運費將於確認信中提供",
+    "success_next": "客服会在一两个工作天內,寫信与你联络。",
+    "shipping_note": "运費將于確認信中提供",
     "cart_empty": "购物车空着。",
     "browse_products": "看看产品"
   },
@@ -286,7 +286,7 @@
     "studio": "工作室 · 森林以南",
     "tag_brand": "森林系手作",
     "made_with": "以耐心手作",
-    "newsletter_success": "感謝訂閱!我們會用最慢的速度寫信給您。"
+    "newsletter_success": "感謝訂閱!我們会用最慢的速度寫信給您。"
   },
   "amber": {
     "kicker": "琥珀",
@@ -337,9 +337,9 @@
     "intro": "田野笔记、材料研究、与工作室寄出的慢信。",
     "empty": "尚无日志——第一篇正在酝酿。",
     "read_more": "继续阅读",
-    "blog.faq_kicker": "細問慢答",
-    "blog.faq_heading": "讀者常問的",
-    "blog.no_faq_yet": "尚無常見問題。"
+    "blog.faq_kicker": "细问慢答",
+    "blog.faq_heading": "讀者常问的",
+    "blog.no_faq_yet": "尚無常见问題。"
   },
   "404": {
     "kicker": "此处无路",
@@ -470,9 +470,9 @@
       "tab_translations": "翻譯",
       "tab_faq": "FAQ",
       "label_faq_json": "FAQ JSON（{loc}）",
-      "hint_faq_json": "JSON 數組,每元素 { q, a }。建議 4 個 Q&A,空請填 []。",
+      "hint_faq_json": "JSON 數組,每元素 { q, a }。建議 4 个 Q&A,空请填 []。",
       "save_faq": "保存 FAQ",
-      "faq_intro": "FAQ 為文章底部的常見問題,4 個 locale 各自編輯。空 locale 留 [] 即可。",
+      "faq_intro": "FAQ 为文章底部的常见问題,4 个 locale 各自編輯。空 locale 留 [] 即可。",
       "label_author_email": "作者邮箱"
     },
     "posts_new": {
@@ -538,9 +538,9 @@
       "upload_image": "上传新图",
       "tab_faq": "FAQ",
       "label_faq_json": "FAQ JSON（{loc}）",
-      "hint_faq_json": "JSON 數組,每元素 { q, a }。建議 4 個 Q&A,空請填 []。",
+      "hint_faq_json": "JSON 數組,每元素 { q, a }。建議 4 个 Q&A,空请填 []。",
       "save_faq": "保存 FAQ",
-      "faq_intro": "FAQ 為產品頁底部的常見問題,4 個 locale 各自編輯。空 locale 留 [] 即可。"
+      "faq_intro": "FAQ 为產品頁底部的常见问題,4 个 locale 各自編輯。空 locale 留 [] 即可。"
     },
     "products_new": {
       "title": "新增產品",
@@ -638,7 +638,7 @@
     },
     "settings": {
       "title": "網站設定",
-      "subtitle": "編輯網站名稱、主題與次主題。4 種語言各自獨立,前台優先用當前 locale,缺值 fallback 到中文 (簡體)。",
+      "subtitle": "編輯網站名稱、主題与次主題。4 种語言各自獨立,前台優先用當前 locale,缺值 fallback 到中文 (簡体)。",
       "section": {
         "site_name": "網站名稱",
         "theme": "主題",
@@ -646,10 +646,10 @@
         "hero_subtitle": "首頁副標題"
       },
       "hint": {
-        "site_name": "顯示於頁首品牌區",
-        "theme": "顯示於底欄氛圍描述",
-        "sub_theme": "主題之後的延伸描述",
-        "hero_subtitle": "首頁 hero 大標下的斜體小標"
+        "site_name": "顯示于頁首品牌区",
+        "theme": "顯示于底欄氛圍描述",
+        "sub_theme": "主題之后的延伸描述",
+        "hero_subtitle": "首頁 hero 大標下的斜体小標"
       },
       "saved": "✓ 已儲存"
     }
@@ -659,39 +659,39 @@
     "story_next_1_label": "一片森林的氣息",
     "story_next_1_desc": "森林以南,慢慢寫給穿戴的人",
     "story_next_2_label": "手怎麼把光收進去",
-    "story_next_2_desc": "一片琥珀如何變成飾品",
-    "story_next_3_label": "這些材料從何而來",
-    "story_next_3_desc": "波羅的海、緬甸、撫順,還有一縷沉香",
-    "vision_next_1_label": "手作的過程",
+    "story_next_2_desc": "一片琥珀如何变成飾品",
+    "story_next_3_label": "这些材料从何而来",
+    "story_next_3_desc": "波羅的海、緬甸、撫順,还有一縷沉香",
+    "vision_next_1_label": "手作的过程",
     "vision_next_1_desc": "刀磨、火候、等待",
     "vision_next_2_label": "走進材料的故事",
-    "vision_next_2_desc": "琥珀與香,從山林與海岸",
+    "vision_next_2_desc": "琥珀与香,从山林与海岸",
     "vision_next_3_label": "戴在身上的琥珀",
     "vision_next_3_desc": "波羅的海一縷光",
-    "craft_next_1_label": "材料的來歷",
+    "craft_next_1_label": "材料的来歷",
     "craft_next_1_desc": "琥珀、沉香、檀香",
     "craft_next_2_label": "做成琥珀飾品",
-    "craft_next_2_desc": "從原石到圓潤",
-    "craft_next_3_label": "做成東方香品",
-    "craft_next_3_desc": "從木屑到一縷煙",
+    "craft_next_2_desc": "从原石到圓潤",
+    "craft_next_3_label": "做成东方香品",
+    "craft_next_3_desc": "从木屑到一縷煙",
     "materials_next_1_label": "做成琥珀飾品",
     "materials_next_1_desc": "波羅的海、緬甸、撫順…",
-    "materials_next_2_label": "做成東方香品",
+    "materials_next_2_label": "做成东方香品",
     "materials_next_2_desc": "沉香、檀香、楠木…",
-    "materials_next_3_label": "森林以南的由來",
+    "materials_next_3_label": "森林以南的由来",
     "materials_next_3_desc": "回到最初的那片林",
-    "amber_next_1_label": "材料的來歷",
-    "amber_next_1_desc": "5 種琥珀 + 沉香",
-    "amber_next_2_label": "手作的過程",
-    "amber_next_2_desc": "從原石到圓潤",
+    "amber_next_1_label": "材料的来歷",
+    "amber_next_1_desc": "5 种琥珀 + 沉香",
+    "amber_next_2_label": "手作的过程",
+    "amber_next_2_desc": "从原石到圓潤",
     "amber_next_3_label": "去看所有琥珀",
-    "amber_next_3_desc": "也許是這一件",
-    "incense_next_1_label": "材料的來歷",
-    "incense_next_1_desc": "5 種琥珀 + 沉香",
-    "incense_next_2_label": "手作的過程",
-    "incense_next_2_desc": "從木屑到一縷煙",
+    "amber_next_3_desc": "也許是这一件",
+    "incense_next_1_label": "材料的来歷",
+    "incense_next_1_desc": "5 种琥珀 + 沉香",
+    "incense_next_2_label": "手作的过程",
+    "incense_next_2_desc": "从木屑到一縷煙",
     "incense_next_3_label": "去看所有香品",
-    "incense_next_3_desc": "也許是這一縷"
+    "incense_next_3_desc": "也許是这一縷"
   },
   "about": {
     "kicker": "关于",
@@ -717,8 +717,8 @@
     "faq_a4_a": "通过 /contact 与我们对话,我们会在一到两个工作天内回复。"
   },
   "product": {
-    "faq_kicker": "常見問題",
-    "faq_heading": "問答"
+    "faq_kicker": "常见问題",
+    "faq_heading": "问答"
   },
   "header": {
     "aria_main": "主导航",
