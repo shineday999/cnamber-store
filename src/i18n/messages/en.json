@@ -26,7 +26,9 @@
     "cart": "Cart",
     "quiz": "Pick one",
     "products": "Products",
-    "about": "About"
+    "about": "About",
+    "craft": "Craft",
+    "materials": "Materials"
   },
   "home": {
     "hero_kicker": "Slowly · 2026",
@@ -621,5 +623,12 @@
   "product": {
     "faq_kicker": "Common Questions",
     "faq_heading": "Q & A"
+  },
+  "header": {
+    "aria_main": "Main",
+    "aria_mobile_nav": "Mobile",
+    "aria_open_menu": "Open menu",
+    "aria_close_menu": "Close menu",
+    "aria_main_menu": "Main menu"
   }
 }

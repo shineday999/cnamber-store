@@ -26,7 +26,9 @@
     "cart": "Keranjang",
     "quiz": "Pilih satu",
     "products": "Produk",
-    "about": "Tentang"
+    "about": "Tentang",
+    "craft": "Kerajinan",
+    "materials": "Bahan"
   },
   "home": {
     "hero_kicker": "Perlahan · 2026",
@@ -621,5 +623,12 @@
   "product": {
     "faq_kicker": "Pertanyaan Umum",
     "faq_heading": "Q & A"
+  },
+  "header": {
+    "aria_main": "Navigasi utama",
+    "aria_mobile_nav": "Navigasi seluler",
+    "aria_open_menu": "Buka menu",
+    "aria_close_menu": "Tutup menu",
+    "aria_main_menu": "Menu utama"
   }
 }

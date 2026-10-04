@@ -702,5 +702,12 @@
   "product": {
     "faq_kicker": "常見問題",
     "faq_heading": "問答"
+  },
+  "header": {
+    "aria_main": "主导航",
+    "aria_mobile_nav": "手机导航",
+    "aria_open_menu": "打开菜单",
+    "aria_close_menu": "关闭菜单",
+    "aria_main_menu": "主菜单"
   }
 }
