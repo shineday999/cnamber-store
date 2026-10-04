@@ -453,7 +453,14 @@
       "label_excerpt": "Excerpt",
       "label_body": "Body (Markdown)",
       "save_translation": "Save {loc}",
-      "label_author_email": "Email penulis"
+      "label_author_email": "Email penulis",
+      "faq_intro": "FAQ untuk footer artikel. Edit per locale (4 locale). Biarkan [] jika tidak digunakan.",
+      "hint_faq_json": "Array JSON objek { q, a }. Disarankan 4 Q&A. Gunakan [] jika kosong.",
+      "label_faq_json": "FAQ JSON ({loc})",
+      "save_faq": "Simpan FAQ",
+      "tab_core": "Inti",
+      "tab_faq": "FAQ",
+      "tab_translations": "Terjemahan"
     },
     "posts_new": {
       "title": "New Post",
@@ -483,7 +490,9 @@
       "col_actions": "Actions",
       "link_edit": "Edit",
       "delete": "Hapus",
-      "delete_confirm": "Hapus produk ini? Tindakan ini tidak dapat dibatalkan."
+      "delete_confirm": "Hapus produk ini? Tindakan ini tidak dapat dibatalkan.",
+      "col_image": "Sampul",
+      "col_name": "Nama"
     },
     "products_detail": {
       "title_prefix": "Edit · ",
@@ -505,7 +514,20 @@
       "save_translation": "Save {loc}",
       "no_variants": "No variants. Add via seed.sql (Phase 5+ needs a variant editor).",
       "delete": "Hapus produk",
-      "delete_confirm": "Hapus produk ini? Semua varian, terjemahan, dan ulasan akan dihapus."
+      "delete_confirm": "Hapus produk ini? Semua varian, terjemahan, dan ulasan akan dihapus.",
+      "current_image": "Sampul saat ini",
+      "faq_intro": "FAQ untuk footer halaman produk. Edit per locale. Biarkan [] jika tidak digunakan.",
+      "hint_faq_json": "Array JSON objek { q, a }. Disarankan 4 Q&A. Gunakan [] jika kosong.",
+      "hint_image": "Mengunggah gambar baru akan mengganti sampul saat ini.",
+      "label_faq_json": "FAQ JSON ({loc})",
+      "label_image": "Ganti gambar sampul",
+      "no_image": "Belum ada gambar sampul",
+      "save_faq": "Simpan FAQ",
+      "tab_faq": "FAQ",
+      "toggle_to_active": "Aktifkan",
+      "toggle_to_archived": "Arsipkan",
+      "toggle_to_draft": "Kembalikan ke draf",
+      "upload_image": "Unggah gambar baru"
     },
     "products_new": {
       "title": "New Product",
@@ -517,7 +539,12 @@
       "label_slug": "Slug",
       "initial_name": "Initial name (zh-Hans default)",
       "create_draft": "Create Draft",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "hint_image": "JPG/PNG/WebP/GIF, hingga 5MB. Opsional.",
+      "label_image": "Gambar sampul",
+      "placeholder_description": "Deskripsi dalam Bahasa Indonesia",
+      "placeholder_name": "mis. Liontin Amber Baltik",
+      "placeholder_slug": "mis. baltic-amber-pendant"
     },
     "reviews_list": {
       "title": "Reviews",
@@ -573,6 +600,45 @@
         "hero_subtitle": "Teks miring di bawah judul hero besar"
       },
       "saved": "✓ Tersimpan"
+    },
+    "value": {
+      "category": {
+        "incense": "Dupa",
+        "jewelry": "Perhiasan"
+      },
+      "payment": {
+        "paid": "Dibayar",
+        "refunded": "Dikembalikan",
+        "unpaid": "Belum dibayar"
+      },
+      "post_category": {
+        "craft": "Kerajinan",
+        "culture": "Budaya",
+        "material": "Bahan",
+        "style": "Gaya"
+      },
+      "status": {
+        "active": "Aktif",
+        "approved": "Disetujui",
+        "archived": "Diarsipkan",
+        "cancelled": "Dibatalkan",
+        "confirmed": "Dikonfirmasi",
+        "delivered": "Dikirim",
+        "draft": "Draf",
+        "pending": "Menunggu",
+        "published": "Diterbitkan",
+        "rejected": "Ditolak",
+        "shipped": "Dikirim"
+      },
+      "subcategory": {
+        "balm": "Balsem",
+        "bracelet": "Gelang tangan",
+        "earring": "Anting-anting",
+        "necklace": "Kalung",
+        "oil": "Minyak",
+        "ring": "Cincin",
+        "stick": "Batang"
+      }
     }
   },
   "cart": {

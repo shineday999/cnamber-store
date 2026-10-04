@@ -453,7 +453,14 @@
       "label_excerpt": "Excerpt",
       "label_body": "Body (Markdown)",
       "save_translation": "Save {loc}",
-      "label_author_email": "Author email"
+      "label_author_email": "Author email",
+      "faq_intro": "FAQ for the article footer. Edit per locale (4 locales). Leave [] for unused.",
+      "hint_faq_json": "JSON array of { q, a } objects. Recommend 4 Q&A. Use [] if empty.",
+      "label_faq_json": "FAQ JSON ({loc})",
+      "save_faq": "Save FAQ",
+      "tab_core": "Core",
+      "tab_faq": "FAQ",
+      "tab_translations": "Translations"
     },
     "posts_new": {
       "title": "New Post",
@@ -483,7 +490,9 @@
       "col_actions": "Actions",
       "link_edit": "Edit",
       "delete": "Delete",
-      "delete_confirm": "Delete this product? This cannot be undone."
+      "delete_confirm": "Delete this product? This cannot be undone.",
+      "col_image": "Cover",
+      "col_name": "Name"
     },
     "products_detail": {
       "title_prefix": "Edit · ",
@@ -505,7 +514,20 @@
       "save_translation": "Save {loc}",
       "no_variants": "No variants. Add via seed.sql (Phase 5+ needs a variant editor).",
       "delete": "Delete product",
-      "delete_confirm": "Delete this product? All variants, translations, and reviews will be removed."
+      "delete_confirm": "Delete this product? All variants, translations, and reviews will be removed.",
+      "current_image": "Current cover",
+      "faq_intro": "FAQ for the product page footer. Edit per locale. Leave [] for unused.",
+      "hint_faq_json": "JSON array of { q, a } objects. Recommend 4 Q&A. Use [] if empty.",
+      "hint_image": "Uploading a new image replaces the current cover.",
+      "label_faq_json": "FAQ JSON ({loc})",
+      "label_image": "Replace cover image",
+      "no_image": "No cover image yet",
+      "save_faq": "Save FAQ",
+      "tab_faq": "FAQ",
+      "toggle_to_active": "Activate",
+      "toggle_to_archived": "Archive",
+      "toggle_to_draft": "Revert to draft",
+      "upload_image": "Upload new image"
     },
     "products_new": {
       "title": "New Product",
@@ -517,7 +539,12 @@
       "label_slug": "Slug",
       "initial_name": "Initial name (zh-Hans default)",
       "create_draft": "Create Draft",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "hint_image": "JPG/PNG/WebP/GIF, up to 5MB. Optional.",
+      "label_image": "Cover image",
+      "placeholder_description": "Description in English",
+      "placeholder_name": "e.g. Baltic Amber Pendant",
+      "placeholder_slug": "e.g. baltic-amber-pendant"
     },
     "reviews_list": {
       "title": "Reviews",
@@ -573,6 +600,45 @@
         "hero_subtitle": "Italic text under the big hero title on homepage"
       },
       "saved": "✓ Saved"
+    },
+    "value": {
+      "category": {
+        "incense": "Incense",
+        "jewelry": "Jewelry"
+      },
+      "payment": {
+        "paid": "Paid",
+        "refunded": "Refunded",
+        "unpaid": "Unpaid"
+      },
+      "post_category": {
+        "craft": "Craft",
+        "culture": "Culture",
+        "material": "Material",
+        "style": "Style"
+      },
+      "status": {
+        "active": "Active",
+        "approved": "Approved",
+        "archived": "Archived",
+        "cancelled": "Cancelled",
+        "confirmed": "Confirmed",
+        "delivered": "Delivered",
+        "draft": "Draft",
+        "pending": "Pending",
+        "published": "Published",
+        "rejected": "Rejected",
+        "shipped": "Shipped"
+      },
+      "subcategory": {
+        "balm": "Balm",
+        "bracelet": "Bracelet",
+        "earring": "Earring",
+        "necklace": "Necklace",
+        "oil": "Oil",
+        "ring": "Ring",
+        "stick": "Stick"
+      }
     }
   },
   "cart": {
