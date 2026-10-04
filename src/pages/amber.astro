@@ -4,12 +4,11 @@ import RevealOnScroll from "@components/RevealOnScroll.astro";
 import ContinueReading from "@components/ContinueReading.astro";
 import BreadcrumbSchema from "@components/BreadcrumbSchema.astro";
 import { createT } from "../i18n/t";
-import { defaultLocale, type Locale } from "../i18n/config";
+import { localizedPath, defaultLocale, type Locale } from "../i18n/config";
 
 const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
 const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
 const t = createT(messages);
-void locale;
 
 const breadcrumbItems = [
   { name: t("nav.home"), url: "/" },
@@ -58,17 +57,17 @@ const breadcrumbItems = [
       heading={t("continue.heading")}
       links={[
         {
-          href: "/materials",
+          href: localizedPath(locale, "/materials"),
           label: t("continue.amber_next_1_label"),
           desc: t("continue.amber_next_1_desc"),
         },
         {
-          href: "/craft",
+          href: localizedPath(locale, "/craft"),
           label: t("continue.amber_next_2_label"),
           desc: t("continue.amber_next_2_desc"),
         },
         {
-          href: "/products?cat=jewelry",
+          href: localizedPath(locale, "/products?cat=jewelry"),
           label: t("continue.amber_next_3_label"),
           desc: t("continue.amber_next_3_desc"),
         },
