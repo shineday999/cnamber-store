@@ -9,6 +9,7 @@ const subPath =
 
 // /zh-Hans/* 不該走這條路(default locale 不加 prefix)
 if (!isLocale(lang) || lang === defaultLocale) {
+  Astro.response.status = 404;
   return Astro.rewrite("/404");
 }
 
@@ -37,7 +38,8 @@ const isKnownSubPath =
   subPath.startsWith("/products/") ||
   subPath.startsWith("/checkout/");
 if (!isKnownSubPath) {
-  return Astro.rewrite(`/${lang}/404`);
+  Astro.response.status = 404;
+  return Astro.rewrite("/404");
 }
 
 // 內部 rewrite 到根路徑,保留 URL 但 render 對應 page。

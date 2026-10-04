@@ -52,7 +52,8 @@ const product = env?.DB
   : null;
 
 if (!product) {
-  return Astro.rewrite(`/${locale}/404`);
+  Astro.response.status = 404;
+  return Astro.rewrite("/404");
 }
 
 const translation = env?.DB

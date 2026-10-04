@@ -34,7 +34,8 @@ const post = env?.DB
   : null;
 
 if (!post) {
-  return Astro.rewrite(`/${locale}/404`);
+  Astro.response.status = 404;
+  return Astro.rewrite("/404");
 }
 
 // 簡易 markdown 渲染(粗體 + 段落)
