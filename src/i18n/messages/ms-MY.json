@@ -542,7 +542,10 @@
       "dimension_label": "Dimensi",
       "size": "Saiz",
       "activate": "Aktifkan",
-      "deactivate": "Nyahaktifkan"
+      "deactivate": "Nyahaktifkan",
+      "upload_mobile_image": "Imej mudah alih (pilihan)",
+      "mobile_hint": "Disyorkan 768×768 atau serupa. Kembali ke desktop jika kosong.",
+      "mobile_label": "Mudah alih"
     },
     "products_form": {
       "tags": "Tag",

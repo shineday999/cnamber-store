@@ -542,7 +542,10 @@
       "dimension_label": "Dimension",
       "size": "Size",
       "activate": "Activate",
-      "deactivate": "Deactivate"
+      "deactivate": "Deactivate",
+      "upload_mobile_image": "Mobile image (optional)",
+      "mobile_hint": "Recommended 768×768 or similar. Falls back to desktop if empty.",
+      "mobile_label": "Mobile"
     },
     "products_form": {
       "tags": "Tags",

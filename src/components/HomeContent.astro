@@ -66,18 +66,26 @@ function firstImage(json: string | null | undefined): string | undefined {
 
 const bannerRows = env?.DB
   ? await env.DB.prepare(
-      "SELECT id, image_url, alt_text FROM hero_banners WHERE active = 1 ORDER BY sort_order ASC, created_at ASC",
-    ).all<{ id: string; image_url: string; alt_text: string | null }>()
+      "SELECT id, image_url, mobile_image_url, alt_text FROM hero_banners WHERE active = 1 ORDER BY sort_order ASC, created_at ASC",
+    ).all<{
+      id: string;
+      image_url: string;
+      mobile_image_url: string | null;
+      alt_text: string | null;
+    }>()
   : {
       results: [] as Array<{
         id: string;
         image_url: string;
+        mobile_image_url: string | null;
         alt_text: string | null;
       }>,
     };
 
 const slides = bannerRows.results.map((b) => ({
   src: b.image_url,
+  // Wave 65: 真實 mobile variant (real responsive LCP 縮小);fallback desktop src
+  mobileSrc: b.mobile_image_url ?? b.image_url,
   alt: b.alt_text ?? "",
 }));
 ---
@@ -100,7 +108,7 @@ const slides = bannerRows.results.map((b) => ({
           */}
           <source
             media="(max-width: 768px)"
-            srcset={`${slide.src} 1920w`}
+            srcset={`${slide.mobileSrc} ${slide.mobileSrc === slide.src ? "1920w" : "768w"}`}
             sizes="100vw"
             type="image/jpeg"
           />

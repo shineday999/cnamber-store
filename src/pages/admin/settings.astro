@@ -68,10 +68,11 @@ const saved = Astro.url.searchParams.get("saved") === "1";
 // Wave 29: 橫幅併入設定,直接從 D1 抓 hero_banners list
 const banners = env?.DB
   ? await env.DB.prepare(
-      "SELECT id, image_url, alt_text, sort_order, active FROM hero_banners ORDER BY sort_order ASC, created_at DESC",
+      "SELECT id, image_url, mobile_image_url, alt_text, sort_order, active FROM hero_banners ORDER BY sort_order ASC, created_at DESC",
     ).all<{
       id: string;
       image_url: string;
+      mobile_image_url: string | null;
       alt_text: string | null;
       sort_order: number;
       active: number;
@@ -175,6 +176,21 @@ void admin;
           class="w-full text-sm file:mr-3 file:py-2 file:px-4 file:border-0 file:bg-forest-700 file:text-bg-base file:rounded file:cursor-pointer"
         />
       </div>
+      <div>
+        <label class="block text-sm font-medium mb-1" for="mobile_image"
+          >{t("admin.banners.upload_mobile_image")}</label
+        >
+        <p class="text-xs text-text-muted mb-1">
+          {t("admin.banners.mobile_hint")}
+        </p>
+        <input
+          id="mobile_image"
+          name="mobile_image"
+          type="file"
+          accept="image/jpeg,image/png,image/webp,image/gif"
+          class="w-full text-sm file:mr-3 file:py-2 file:px-4 file:border-0 file:bg-forest-700 file:text-bg-base file:rounded file:cursor-pointer"
+        />
+      </div>
       <div class="grid grid-cols-3 gap-3">
         <div class="col-span-2">
           <label class="block text-sm font-medium mb-1" for="alt_text"
@@ -225,6 +241,9 @@ void admin;
                 {t("admin.banners.preview")}
               </th>
               <th class="text-left px-3 py-2 font-medium">
+                {t("admin.banners.mobile_label")}
+              </th>
+              <th class="text-left px-3 py-2 font-medium">
                 {t("admin.banners.alt_text")}
               </th>
               <th class="text-left px-3 py-2 font-medium">
@@ -249,6 +268,19 @@ void admin;
                     alt={b.alt_text ?? ""}
                     class="w-32 h-18 object-cover rounded border border-text-muted/20"
                   />
+                </td>
+                <td class="px-3 py-2">
+                  {b.mobile_image_url ? (
+                    <img
+                      loading="lazy"
+                      decoding="async"
+                      src={b.mobile_image_url}
+                      alt={b.alt_text ?? ""}
+                      class="w-16 h-16 object-cover rounded border border-text-muted/20"
+                    />
+                  ) : (
+                    <span class="text-xs text-text-muted">—</span>
+                  )}
                 </td>
                 <td class="px-3 py-2">{b.alt_text ?? "—"}</td>
                 <td class="px-3 py-2 font-mono text-xs">{b.sort_order}</td>
