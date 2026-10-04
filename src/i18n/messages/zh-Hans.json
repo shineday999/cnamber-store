@@ -234,7 +234,9 @@
     "faq_q3_q": "工作室在哪?",
     "faq_a3_a": "位於東南亞 Greater Southeast Asia 區域,採預約制,不對外開放。",
     "faq_q4_q": "多久會回覆?",
-    "faq_a4_a": "一到兩個工作天。週末與國定假日延後,敬請見諒。"
+    "faq_a4_a": "一到兩個工作天。週末與國定假日延後,敬請見諒。",
+    "by_appointment": "预约制",
+    "studio_location": "东南亚"
   },
   "story": {
     "title": "品牌故事",
@@ -734,5 +736,13 @@
     "suggested_heading": "您或许想看",
     "search_label": "搜索产品",
     "search_placeholder": "按名称或关键词..."
+  },
+  "products": {
+    "kicker": "慢慢看",
+    "filter_all": "全部",
+    "filter_jewelry": "琥珀",
+    "filter_incense": "香品",
+    "empty_title": "还没有作品",
+    "empty_desc": "第一批作品正在慢慢成形,先来一封信预约。"
   }
 }

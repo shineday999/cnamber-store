@@ -243,7 +243,9 @@
     "faq_q3_q": "Where is the studio?",
     "faq_a3_a": "Greater Southeast Asia. By appointment only, not open to walk-in.",
     "faq_q4_q": "How long until you reply?",
-    "faq_a4_a": "One to two working days. Replies may be delayed on weekends and public holidays."
+    "faq_a4_a": "One to two working days. Replies may be delayed on weekends and public holidays.",
+    "by_appointment": "By appointment",
+    "studio_location": "Greater Southeast Asia"
   },
   "footer": {
     "tagline": "Forest handcraft · letters to those who wear it",
@@ -734,5 +736,13 @@
     "suggested_heading": "You might also like",
     "search_label": "Search products",
     "search_placeholder": "Search by name or keyword..."
+  },
+  "products": {
+    "kicker": "Shop",
+    "filter_all": "All",
+    "filter_jewelry": "Amber",
+    "filter_incense": "Incense",
+    "empty_title": "No pieces yet",
+    "empty_desc": "Our first batch is being prepared — please check back soon."
   }
 }

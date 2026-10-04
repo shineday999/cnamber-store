@@ -54,7 +54,7 @@ function firstImage(json: string | null | undefined): string | undefined {
       <p
         class="text-sm uppercase tracking-[0.3em] text-accent-700 font-sans mb-3"
       >
-        Shop
+        {t("products.kicker")}
       </p>
       <h1
         class="text-display-sm md:text-display-md font-serif text-text-primary mb-3"
@@ -81,10 +81,10 @@ function firstImage(json: string | null | undefined): string | undefined {
               }`}
             >
               {cat === "all"
-                ? "All"
+                ? t("products.filter_all")
                 : cat === "jewelry"
-                  ? t("nav.amber")
-                  : t("nav.incense")}
+                  ? t("products.filter_jewelry")
+                  : t("products.filter_incense")}
             </a>
           );
         })
@@ -94,10 +94,8 @@ function firstImage(json: string | null | undefined): string | undefined {
     {
       products.results.length === 0 ? (
         <div class="text-center py-section text-text-muted">
-          <p class="text-lg mb-2">No products yet.</p>
-          <p class="text-sm">
-            Our first batch is being prepared — please check back soon.
-          </p>
+          <p class="text-lg mb-2">{t("products.empty_title")}</p>
+          <p class="text-sm">{t("products.empty_desc")}</p>
         </div>
       ) : (
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

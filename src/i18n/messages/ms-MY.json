@@ -243,7 +243,9 @@
     "faq_q3_q": "Di mana studio?",
     "faq_a3_a": "Greater Southeast Asia. Temu janji sahaja, tidak terbuka untuk walk-in.",
     "faq_q4_q": "Berapa lama untuk balasan?",
-    "faq_a4_a": "Satu hingga dua hari bekerja. Balasan mungkin lewat pada hujung minggu dan cuti umum."
+    "faq_a4_a": "Satu hingga dua hari bekerja. Balasan mungkin lewat pada hujung minggu dan cuti umum.",
+    "by_appointment": "Atas janjitemu",
+    "studio_location": "Asia Tenggara"
   },
   "footer": {
     "tagline": "Kraftangan hutan · surat untuk yang memakai",
@@ -734,5 +736,13 @@
     "suggested_heading": "Anda mungkin juga suka",
     "search_label": "Cari produk",
     "search_placeholder": "Cari mengikut nama atau kata kunci..."
+  },
+  "products": {
+    "kicker": "Kedai",
+    "filter_all": "Semua",
+    "filter_jewelry": "Amber",
+    "filter_incense": "Kemenyan",
+    "empty_title": "Belum ada karya",
+    "empty_desc": "Kumpulan pertama sedang dibentuk perlahan — sila hubungi kami untuk tempahan."
   }
 }
