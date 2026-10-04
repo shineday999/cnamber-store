@@ -46,6 +46,8 @@ export const GET: APIRoute = async (ctx) => {
       const isProductList = path === "/products";
       const isBlog = path === "/blog";
       const isAbout = path === "/about";
+      // Wave 38: amber/incense 是主要 category landing,跟 /products 同 priority
+      const isAmberOrIncense = path === "/amber" || path === "/incense";
       urls.push({
         loc: `${SITE_URL}${localized}`,
         lastmod: today,
@@ -54,7 +56,7 @@ export const GET: APIRoute = async (ctx) => {
           ? "1.0"
           : isProductList
             ? "0.9"
-            : isAbout
+            : isAbout || isAmberOrIncense
               ? "0.8"
               : "0.7",
       });
