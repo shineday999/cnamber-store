@@ -182,7 +182,10 @@
     "subtotal": "小计",
     "checkout": "留一件給我",
     "remove": "移除",
-    "clear": "讓它空"
+    "clear": "讓它空",
+    "page_title": "购物车",
+    "page_description": "静心挑选,准备留下。随时预订一件你中意的。",
+    "continue_shopping": "继续逛"
   },
   "checkout": {
     "title": "预订单",

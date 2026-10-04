@@ -62,8 +62,8 @@ void t;
 ---
 
 <Layout
-  title={`Cart — ${t("common.site_name")}`}
-  description={`Your selected pieces, quietly gathered. Reserve one when you're ready. — ${t("common.site_name")}`}
+  title={`${t("cart.page_title")} — ${t("common.site_name")}`}
+  description={t("cart.page_description")}
 >
   <div class="max-w-4xl mx-auto px-6 py-section">
     <h1 class="text-display-sm font-serif text-text-primary mb-8">
@@ -75,7 +75,7 @@ void t;
         <div class="text-center py-12 text-text-muted">
           <p class="text-lg mb-4">{t("cart.empty")}</p>
           <Button href={localizedPath(locale, "/products")}>
-            {t("common.view_more")}
+            {t("cart.continue_shopping") ?? t("common.view_more")}
           </Button>
         </div>
       ) : (

@@ -581,7 +581,10 @@
     "subtotal": "Subtotal",
     "checkout": "Pesan satu",
     "remove": "Hapus",
-    "clear": "Biarkan kosong"
+    "clear": "Biarkan kosong",
+    "page_title": "Keranjang",
+    "page_description": "Pilihan Anda, dikumpulkan dengan tenang. Pesan satu saat Anda siap.",
+    "continue_shopping": "Lanjut menjelajah"
   },
   "continue": {
     "heading": "Lanjut",

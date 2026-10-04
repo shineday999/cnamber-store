@@ -581,7 +581,10 @@
     "subtotal": "Subjumlah",
     "checkout": "Tempah satu",
     "remove": "Buang",
-    "clear": "Biarkan kosong"
+    "clear": "Biarkan kosong",
+    "page_title": "Troli",
+    "page_description": "Pilihan anda, dikumpul dengan tenang. Tempah satu apabila anda bersedia.",
+    "continue_shopping": "Terus melayari"
   },
   "continue": {
     "heading": "Seterusnya",

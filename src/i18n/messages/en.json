@@ -581,7 +581,10 @@
     "subtotal": "Subtotal",
     "checkout": "Reserve one",
     "remove": "Remove",
-    "clear": "Let it empty"
+    "clear": "Let it empty",
+    "page_title": "Cart",
+    "page_description": "Your selected pieces, quietly gathered. Reserve one when you're ready.",
+    "continue_shopping": "Continue browsing"
   },
   "continue": {
     "heading": "Walk on",
