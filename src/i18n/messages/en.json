@@ -14,7 +14,10 @@
     "options": "Options",
     "quantity": "Quantity",
     "select_option": "Select an option",
-    "reserve": "Reserve"
+    "reserve": "Reserve",
+    "from": "from",
+    "reserve_help": "Pre-launch. Reserve a piece, and we'll reach out personally with shipping and payment options.",
+    "translation_missing": "This language's translation is not yet complete; English fallback is shown."
   },
   "nav": {
     "home": "Home",
@@ -354,7 +357,7 @@
       "back": "Back"
     },
     "footer": {
-      "tagline": "cnamber-store admin · Phase 2 build"
+      "tagline": "© 2026 cnamber-store admin · All rights reserved"
     },
     "login": {
       "title": "Admin Login",

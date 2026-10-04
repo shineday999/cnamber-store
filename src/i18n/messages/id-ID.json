@@ -14,7 +14,10 @@
     "options": "Pilihan",
     "quantity": "Jumlah",
     "select_option": "Silakan pilih pilihan",
-    "reserve": "Pesan"
+    "reserve": "Pesan",
+    "from": "mulai dari",
+    "reserve_help": "Pra-peluncuran. Pesan satu, dan kami akan menghubungi Anda secara pribadi dengan opsi pengiriman dan pembayaran.",
+    "translation_missing": "Terjemahan bahasa ini belum lengkap; fallback bahasa Inggris ditampilkan."
   },
   "nav": {
     "home": "Beranda",
@@ -354,7 +357,7 @@
       "back": "Back"
     },
     "footer": {
-      "tagline": "cnamber-store admin · Phase 2 build"
+      "tagline": "© 2026 cnamber-store admin · Hak cipta dilindungi"
     },
     "login": {
       "title": "Admin Login",
