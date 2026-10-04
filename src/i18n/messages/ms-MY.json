@@ -540,5 +540,56 @@
     "checkout": "Tempah satu",
     "remove": "Buang",
     "clear": "Biarkan kosong"
+  },
+  "continue": {
+    "heading": "Seterusnya",
+    "story": {
+      "next_1_label": "Harum hutan",
+      "next_1_desc": "Catatan dari hutan selatan, ditulis untuk pemakai",
+      "next_2_label": "Bagaimana tangan melipat cahaya",
+      "next_2_desc": "Bagaimana sebatang ambar menjadi perhiasan",
+      "next_3_label": "Dari mana datangnya bahan",
+      "next_3_desc": "Baltik, Burma, Fushun, dan setitis gaharu"
+    },
+    "vision": {
+      "next_1_label": "Bagaimana ia dibuat",
+      "next_1_desc": "Pisau, api, dan kesabaran",
+      "next_2_label": "Kisah bahan",
+      "next_2_desc": "Ambar dan kemenyan, dari hutan dan pesisir",
+      "next_3_label": "Ambar, dipakai di badan",
+      "next_3_desc": "Sepotong cahaya dari Baltik"
+    },
+    "craft": {
+      "next_1_label": "Asal-usul bahan",
+      "next_1_desc": "Ambar, gaharu, cendana",
+      "next_2_label": "Dijadikan perhiasan ambar",
+      "next_2_desc": "Dari batu kasar ke bulatan yang lembut",
+      "next_3_label": "Dijadikan kemenyan timur",
+      "next_3_desc": "Dari serpihan kayu ke seutas asap"
+    },
+    "materials": {
+      "next_1_label": "Dijadikan perhiasan ambar",
+      "next_1_desc": "Baltik, Burma, Fushun…",
+      "next_2_label": "Dijadikan kemenyan timur",
+      "next_2_desc": "Gaharu, cendana, nanmu…",
+      "next_3_label": "Di mana tempat ini bermula",
+      "next_3_desc": "Kembali ke hutan pertama"
+    },
+    "amber": {
+      "next_1_label": "Asal-usul bahan",
+      "next_1_desc": "Lima jenis ambar, dan gaharu",
+      "next_2_label": "Bagaimana ia dibuat",
+      "next_2_desc": "Dari batu kasar ke bulatan yang lembut",
+      "next_3_label": "Lihat semua kepingan ambar",
+      "next_3_desc": "Mungkin yang satu ini"
+    },
+    "incense": {
+      "next_1_label": "Asal-usul bahan",
+      "next_1_desc": "Lima jenis ambar, dan gaharu",
+      "next_2_label": "Bagaimana ia dibuat",
+      "next_2_desc": "Dari serpihan kayu ke seutas asap",
+      "next_3_label": "Lihat semua kemenyan",
+      "next_3_desc": "Mungkin harum ini"
+    }
   }
 }

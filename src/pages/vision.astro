@@ -1,6 +1,7 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import RevealOnScroll from "@components/RevealOnScroll.astro";
+import ContinueReading from "@components/ContinueReading.astro";
 import { createT } from "../i18n/t";
 import { defaultLocale, type Locale } from "../i18n/config";
 
@@ -49,17 +50,27 @@ void locale;
         </blockquote>
       </div>
     </RevealOnScroll>
-
-    <RevealOnScroll>
-      <div class="mt-16 text-center">
-        <a
-          href="/story"
-          class="inline-flex items-center gap-2 text-forest-700 hover:text-forest-800 border-b border-forest-300 pb-1 font-sans tracking-wide transition-colors link-underline"
-        >
-          {t("vision.cta")}
-          <span aria-hidden="true">→</span>
-        </a>
-      </div>
-    </RevealOnScroll>
   </article>
+  <div class="max-w-5xl mx-auto px-6 pb-section">
+    <ContinueReading
+      heading={t("continue.heading")}
+      links={[
+        {
+          href: "/craft",
+          label: t("continue.vision_next_1_label"),
+          desc: t("continue.vision_next_1_desc"),
+        },
+        {
+          href: "/materials",
+          label: t("continue.vision_next_2_label"),
+          desc: t("continue.vision_next_2_desc"),
+        },
+        {
+          href: "/amber",
+          label: t("continue.vision_next_3_label"),
+          desc: t("continue.vision_next_3_desc"),
+        },
+      ]}
+    />
+  </div>
 </Layout>

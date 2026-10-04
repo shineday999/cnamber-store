@@ -540,5 +540,56 @@
     "checkout": "Pesan satu",
     "remove": "Hapus",
     "clear": "Biarkan kosong"
+  },
+  "continue": {
+    "heading": "Lanjut",
+    "story": {
+      "next_1_label": "Aroma hutan",
+      "next_1_desc": "Catatan dari hutan selatan, ditulis untuk pemakai",
+      "next_2_label": "Bagaimana tangan melipat cahaya",
+      "next_2_desc": "Bagaimana sebatang amber menjadi perhiasan",
+      "next_3_label": "Dari mana datangnya bahan",
+      "next_3_desc": "Baltik, Burma, Fushun, dan setetes gaharu"
+    },
+    "vision": {
+      "next_1_label": "Bagaimana ia dibuat",
+      "next_1_desc": "Pisau, api, dan kesabaran",
+      "next_2_label": "Kisah bahan",
+      "next_2_desc": "Amber dan dupa, dari hutan dan pesisir",
+      "next_3_label": "Amber, dipakai di badan",
+      "next_3_desc": "Sepotong cahaya dari Baltik"
+    },
+    "craft": {
+      "next_1_label": "Asal-usul bahan",
+      "next_1_desc": "Amber, gaharu, cendana",
+      "next_2_label": "Dijadikan perhiasan amber",
+      "next_2_desc": "Dari batu kasar ke bulatan yang lembut",
+      "next_3_label": "Dijadikan dupa timur",
+      "next_3_desc": "Dari serpihan kayu ke seutas asap"
+    },
+    "materials": {
+      "next_1_label": "Dijadikan perhiasan amber",
+      "next_1_desc": "Baltik, Burma, Fushun…",
+      "next_2_label": "Dijadikan dupa timur",
+      "next_2_desc": "Gaharu, cendana, nanmu…",
+      "next_3_label": "Di mana tempat ini bermula",
+      "next_3_desc": "Kembali ke hutan pertama"
+    },
+    "amber": {
+      "next_1_label": "Asal-usul bahan",
+      "next_1_desc": "Lima jenis amber, dan gaharu",
+      "next_2_label": "Bagaimana ia dibuat",
+      "next_2_desc": "Dari batu kasar ke bulatan yang lembut",
+      "next_3_label": "Lihat semua kepingan amber",
+      "next_3_desc": "Mungkin yang satu ini"
+    },
+    "incense": {
+      "next_1_label": "Asal-usul bahan",
+      "next_1_desc": "Lima jenis amber, dan gaharu",
+      "next_2_label": "Bagaimana ia dibuat",
+      "next_2_desc": "Dari serpihan kayu ke seutas asap",
+      "next_3_label": "Lihat semua dupa",
+      "next_3_desc": "Mungkin harum ini"
+    }
   }
 }

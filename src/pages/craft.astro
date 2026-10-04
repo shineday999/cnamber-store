@@ -1,6 +1,7 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import RevealOnScroll from "@components/RevealOnScroll.astro";
+import ContinueReading from "@components/ContinueReading.astro";
 import { createT } from "../i18n/t";
 import { defaultLocale, type Locale } from "../i18n/config";
 
@@ -46,4 +47,26 @@ void locale;
       </div>
     </RevealOnScroll>
   </article>
+  <div class="max-w-5xl mx-auto px-6 pb-section">
+    <ContinueReading
+      heading={t("continue.heading")}
+      links={[
+        {
+          href: "/materials",
+          label: t("continue.craft_next_1_label"),
+          desc: t("continue.craft_next_1_desc"),
+        },
+        {
+          href: "/amber",
+          label: t("continue.craft_next_2_label"),
+          desc: t("continue.craft_next_2_desc"),
+        },
+        {
+          href: "/incense",
+          label: t("continue.craft_next_3_label"),
+          desc: t("continue.craft_next_3_desc"),
+        },
+      ]}
+    />
+  </div>
 </Layout>

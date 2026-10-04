@@ -540,5 +540,56 @@
     "checkout": "Reserve one",
     "remove": "Remove",
     "clear": "Let it empty"
+  },
+  "continue": {
+    "heading": "Walk on",
+    "story": {
+      "next_1_label": "Scent of a forest",
+      "next_1_desc": "Notes from the southern forest, written for the wearer",
+      "next_2_label": "How hands fold light inside",
+      "next_2_desc": "How a piece of amber becomes a quiet ornament",
+      "next_3_label": "Where the materials come from",
+      "next_3_desc": "The Baltic, Burma, Fushun, and a breath of agarwood"
+    },
+    "vision": {
+      "next_1_label": "How it is made",
+      "next_1_desc": "Knife, fire, and patience",
+      "next_2_label": "Stories of the materials",
+      "next_2_desc": "Amber and incense, from forests and shores",
+      "next_3_label": "Amber, worn on the body",
+      "next_3_desc": "A sliver of light from the Baltic"
+    },
+    "craft": {
+      "next_1_label": "Origins of the materials",
+      "next_1_desc": "Amber, agarwood, sandalwood",
+      "next_2_label": "Made into amber jewelry",
+      "next_2_desc": "From rough stone to quiet roundness",
+      "next_3_label": "Made into eastern incense",
+      "next_3_desc": "From wood shavings to a single thread of smoke"
+    },
+    "materials": {
+      "next_1_label": "Made into amber jewelry",
+      "next_1_desc": "Baltic, Burma, Fushun…",
+      "next_2_label": "Made into eastern incense",
+      "next_2_desc": "Agarwood, sandalwood, nanmu…",
+      "next_3_label": "Where this place began",
+      "next_3_desc": "Back to the first forest"
+    },
+    "amber": {
+      "next_1_label": "Origins of the materials",
+      "next_1_desc": "Five kinds of amber, plus agarwood",
+      "next_2_label": "How it is made",
+      "next_2_desc": "From rough stone to quiet roundness",
+      "next_3_label": "See all the amber pieces",
+      "next_3_desc": "Maybe this one"
+    },
+    "incense": {
+      "next_1_label": "Origins of the materials",
+      "next_1_desc": "Five kinds of amber, plus agarwood",
+      "next_2_label": "How it is made",
+      "next_2_desc": "From wood shavings to a single thread of smoke",
+      "next_3_label": "See all the incense",
+      "next_3_desc": "Maybe this breath"
+    }
   }
 }
