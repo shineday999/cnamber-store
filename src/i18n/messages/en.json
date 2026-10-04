@@ -334,7 +334,10 @@
     "subtitle": "The path you followed fades into the morning mist.",
     "cta_primary": "Return to the trailhead",
     "cta_secondary": "Browse the collection",
-    "svg_aria": "A misty morning forest with a single pine branch and one falling amber leaf"
+    "svg_aria": "A misty morning forest with a single pine branch and one falling amber leaf",
+    "suggested_heading": "You might also like",
+    "search_label": "Search products",
+    "search_placeholder": "Search by name or keyword..."
   },
   "admin": {
     "nav": {

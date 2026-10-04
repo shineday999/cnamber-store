@@ -334,7 +334,10 @@
     "subtitle": "Jalur yang Anda ikuti hilang ke dalam kabut pagi.",
     "cta_primary": "Kembali ke awal",
     "cta_secondary": "Jelajahi koleksi",
-    "svg_aria": "Hutan berkabut dengan satu ranting cemara dan satu daun amber yang jatuh"
+    "svg_aria": "Hutan berkabut dengan satu ranting cemara dan satu daun amber yang jatuh",
+    "suggested_heading": "Anda mungkin juga tertarik",
+    "search_label": "Cari produk",
+    "search_placeholder": "Cari mengikut nama atau kata kunci..."
   },
   "admin": {
     "nav": {

@@ -334,7 +334,10 @@
     "subtitle": "Laluan yang anda ikuti hilang ke dalam kabus pagi.",
     "cta_primary": "Kembali ke permulaan",
     "cta_secondary": "Jelajah koleksi",
-    "svg_aria": "Hutan pagi yang berkabus dengan satu dahan pain dan satu daun amber yang jatuh"
+    "svg_aria": "Hutan pagi yang berkabus dengan satu dahan pain dan satu daun amber yang jatuh",
+    "suggested_heading": "Anda mungkin juga suka",
+    "search_label": "Cari produk",
+    "search_placeholder": "Cari mengikut nama atau kata kunci..."
   },
   "admin": {
     "nav": {
