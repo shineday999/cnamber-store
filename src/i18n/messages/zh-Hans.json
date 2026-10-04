@@ -339,7 +339,10 @@
     "read_more": "继续阅读",
     "blog.faq_kicker": "细问慢答",
     "blog.faq_heading": "讀者常问的",
-    "blog.no_faq_yet": "尚無常见问題。"
+    "blog.no_faq_yet": "尚無常见问題。",
+    "blog": {
+      "faq_heading": "读者常问的"
+    }
   },
   "404": {
     "kicker": "此处无路",
