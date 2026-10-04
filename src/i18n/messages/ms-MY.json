@@ -604,6 +604,16 @@
     "story_label": "Di mana kisah bermula",
     "story_desc": "Hutan, di tangan kami",
     "craft_label": "Lihat kerja tangan",
-    "craft_desc": "Mengasah, memanas, menunggu"
+    "craft_desc": "Mengasah, memanas, menunggu",
+    "faq_kicker": "Soalan Lazim",
+    "faq_heading": "Q & A",
+    "faq_q1_q": "Siapa pengasas?",
+    "faq_a1_a": "Kami tidak mendedahkan umur, jantina, atau lokasi pengasas. Biar hasil kerja berbicara, bukan orang.",
+    "faq_q2_q": "Mengapa inspirasi hutan?",
+    "faq_a2_a": "Bahan dari hutan, masa dari tangan. Ambar, gaharu, cendana — semuanya dari hutan, semuanya perlahan.",
+    "faq_q3_q": "Bagaimana anda melihat kraftangan?",
+    "faq_a3_a": "Kraftangan adalah amalan — mengasah, memanas, menunggu. Selepas sedekad, hanya satu pengajaran tinggal: biar ruang putih.",
+    "faq_q4_q": "Bagaimana kita boleh berbual?",
+    "faq_a4_a": "Melalui /contact. Kami akan membalas dalam satu hingga dua hari bekerja."
   }
 }

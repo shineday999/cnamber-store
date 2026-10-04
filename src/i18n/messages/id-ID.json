@@ -604,6 +604,16 @@
     "story_label": "Di mana cerita dimulai",
     "story_desc": "Hutan, di tangan kami",
     "craft_label": "Lihat pekerjaan tangan",
-    "craft_desc": "Mengasah, memanas, menunggu"
+    "craft_desc": "Mengasah, memanas, menunggu",
+    "faq_kicker": "Pertanyaan Umum",
+    "faq_heading": "Q & A",
+    "faq_q1_q": "Siapa pendiri?",
+    "faq_a1_a": "Kami tidak mengungkap usia, jenis kelamin, atau lokasi pendiri. Membiarkan karya berbicara, bukan orang.",
+    "faq_q2_q": "Mengapa inspirasi hutan?",
+    "faq_a2_a": "Bahan dari hutan, waktu dari tangan. Amber, gaharu, cendana — semuanya dari hutan, semuanya lambat.",
+    "faq_q3_q": "Bagaimana Anda melihat kerajinan?",
+    "faq_a3_a": "Kerajinan adalah praktik — mengasah, memanas, menunggu. Setelah satu dekade, hanya satu pelajaran tersisa: biarkan ruang putih.",
+    "faq_q4_q": "Bagaimana kita bisa bicara?",
+    "faq_a4_a": "Melalui /contact. Kami akan membalas dalam satu hingga dua hari kerja."
   }
 }

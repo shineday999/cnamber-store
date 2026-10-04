@@ -604,6 +604,16 @@
     "story_label": "Where the story begins",
     "story_desc": "Forest, in our hands",
     "craft_label": "See the handwork",
-    "craft_desc": "Sharpening, heating, waiting"
+    "craft_desc": "Sharpening, heating, waiting",
+    "faq_kicker": "Common Questions",
+    "faq_heading": "Q & A",
+    "faq_q1_q": "Who is the founder?",
+    "faq_a1_a": "We do not disclose the founder's age, gender, or location. Letting the work speak, not the person.",
+    "faq_q2_q": "Why forest-inspired?",
+    "faq_a2_a": "Materials from the forest, time given by hand. Amber, agarwood, sandalwood — all from the forest, all slow.",
+    "faq_q3_q": "How do you see craft?",
+    "faq_a3_a": "Craft is a practice — sharpening, heating, waiting. After a decade, only one lesson remains: leave white space.",
+    "faq_q4_q": "How can we talk?",
+    "faq_a4_a": "Through /contact. We will reply within one to two working days."
   }
 }

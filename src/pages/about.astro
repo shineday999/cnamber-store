@@ -3,6 +3,7 @@ import Layout from "@layouts/Layout.astro";
 import RevealOnScroll from "@components/RevealOnScroll.astro";
 import ContinueReading from "@components/ContinueReading.astro";
 import BreadcrumbSchema from "@components/BreadcrumbSchema.astro";
+import FaqSchema from "@components/FaqSchema.astro";
 import { createT } from "../i18n/t";
 import { defaultLocale, type Locale } from "../i18n/config";
 
@@ -15,6 +16,13 @@ const breadcrumbItems = [
   { name: t("nav.home"), url: "/" },
   { name: t("nav.about"), url: "/about" },
 ];
+
+const faqs = [
+  { q: t("about.faq_q1_q"), a: t("about.faq_a1_a") },
+  { q: t("about.faq_q2_q"), a: t("about.faq_a2_a") },
+  { q: t("about.faq_q3_q"), a: t("about.faq_a3_a") },
+  { q: t("about.faq_q4_q"), a: t("about.faq_a4_a") },
+];
 ---
 
 <Layout
@@ -23,6 +31,7 @@ const breadcrumbItems = [
 >
   <Fragment slot="head">
     <BreadcrumbSchema items={breadcrumbItems} />
+    <FaqSchema items={faqs} />
   </Fragment>
   <article class="max-w-3xl mx-auto px-6 py-section">
     <RevealOnScroll>
@@ -60,6 +69,36 @@ const breadcrumbItems = [
       </div>
     </RevealOnScroll>
   </article>
+  <div class="max-w-3xl mx-auto px-6 py-section">
+    <RevealOnScroll>
+      <section class="border-t border-forest-100 pt-16">
+        <p
+          class="text-[10px] uppercase tracking-[0.4em] text-forest-600 font-sans mb-4"
+        >
+          {t("about.faq_kicker")}
+        </p>
+        <h2
+          class="text-display-sm md:text-display-md font-serif text-text-primary mb-12 leading-[1.08]"
+        >
+          {t("about.faq_heading")}
+        </h2>
+        <div class="space-y-8">
+          {
+            faqs.map((f, i) => (
+              <div class="border-l-2 border-terra-500 pl-6">
+                <h3 class="text-xl font-serif text-forest-700 mb-2 italic">
+                  Q{i + 1}. {f.q}
+                </h3>
+                <p class="text-text-secondary leading-relaxed font-sans text-base">
+                  {f.a}
+                </p>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+    </RevealOnScroll>
+  </div>
   <div class="max-w-5xl mx-auto px-6 pb-section">
     <ContinueReading
       heading={t("continue.heading")}
