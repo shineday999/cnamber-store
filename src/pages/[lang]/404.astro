@@ -1,0 +1,9 @@
+---
+// Wave 39 fix: per-locale 404 page
+// 之前 catch-all Astro.rewrite('/404') 在 [lang]/* 路由內 re-enter catch-all
+// 造成 infinite routing recursion → CF edge 508 Loop Detected
+// 修法:建立 [lang]/404.astro,讓 /<lang>/404 直接 match 此檔,不再 re-enter catch-all
+import Root404 from "../404.astro";
+---
+
+<Root404 />
