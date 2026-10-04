@@ -338,7 +338,8 @@
     "title": "林深不知处",
     "subtitle": "你追随的小径,已消失在晨雾之中。",
     "cta_primary": "返回起点",
-    "cta_secondary": "探寻藏品"
+    "cta_secondary": "探寻藏品",
+    "svg_aria": "一片晨雾弥漫的森林,一枝松,一片飘落的琥珀叶"
   },
   "admin": {
     "nav": {

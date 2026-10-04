@@ -317,7 +317,8 @@
     "title": "Hilang di dalam hutan",
     "subtitle": "Laluan yang anda ikuti hilang ke dalam kabus pagi.",
     "cta_primary": "Kembali ke permulaan",
-    "cta_secondary": "Jelajah koleksi"
+    "cta_secondary": "Jelajah koleksi",
+    "svg_aria": "Hutan pagi yang berkabus dengan satu dahan pain dan satu daun amber yang jatuh"
   },
   "admin": {
     "nav": {
