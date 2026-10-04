@@ -12,6 +12,34 @@ if (!isLocale(lang) || lang === defaultLocale) {
   return Astro.rewrite("/404");
 }
 
+// Wave 39: 對應不到的 path → locale-specific 404 (不 strip locale)
+// (避免 middleware 把 locale 重設成 zh-Hans,user 才看到正確 locale 404)
+const KNOWN_TOP = new Set([
+  "/",
+  "/products",
+  "/story",
+  "/vision",
+  "/craft",
+  "/materials",
+  "/amber",
+  "/incense",
+  "/blog",
+  "/quiz",
+  "/contact",
+  "/about",
+  "/cart",
+  "/checkout",
+  "/404",
+]);
+const isKnownSubPath =
+  KNOWN_TOP.has(subPath) ||
+  subPath.startsWith("/blog/") ||
+  subPath.startsWith("/products/") ||
+  subPath.startsWith("/checkout/");
+if (!isKnownSubPath) {
+  return Astro.rewrite(`/${lang}/404`);
+}
+
 // 內部 rewrite 到根路徑,保留 URL 但 render 對應 page。
 // Astro.locals.locale 由 middleware 從 URL path 設成正確值,rewrite 後
 // render 的 page 透過 context.locals.messages 拿到對應 locale 的 i18n。

@@ -52,7 +52,7 @@ const product = env?.DB
   : null;
 
 if (!product) {
-  return new Response("Product not found", { status: 404 });
+  return Astro.rewrite(`/${locale}/404`);
 }
 
 const translation = env?.DB
