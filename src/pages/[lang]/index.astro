@@ -20,5 +20,18 @@ void locale;
 ---
 
 <Layout title={pageTitle} description={pageDescription}>
+  <Fragment slot="head">
+    <!--
+      Wave 61 LCP preload mechanism (per-locale): 跟 zh-Hans default /index.astro 同 wiring.
+      真實 LCP image (D1 hero_banners[0].image_url) 為 runtime fetch, 留 Wave 62 SSR inject 動態 preload.
+      此處用 1x1 transparent placeholder 預載 image decoder pipeline.
+    -->
+    <link
+      rel="preload"
+      as="image"
+      href="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+      fetchpriority="low"
+    />
+  </Fragment>
   <HomeContent />
 </Layout>
