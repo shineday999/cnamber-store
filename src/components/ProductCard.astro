@@ -2,7 +2,7 @@
 // ProductCard — Editorial layout, Cormorant Garamond name, no rounded corners (sharp edges),
 // subtle hover scale, generous whitespace between elements
 import { createT } from "../i18n/t";
-import { defaultLocale, type Locale } from "../i18n/config";
+import { defaultLocale, localizedPath, type Locale } from "../i18n/config";
 
 interface Props {
   slug: string;
@@ -39,7 +39,7 @@ const catLabel: Record<string, string> = {
 ---
 
 <a
-  href={`/products/${slug}`}
+  href={localizedPath(locale, `/products/${slug}`)}
   class:list={[
     "group block relative overflow-hidden border border-forest-100 hover:border-forest-300 transition-colors duration-700",
     variant === "large" ? "h-full" : "",
