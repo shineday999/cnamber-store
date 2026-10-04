@@ -271,15 +271,65 @@ void admin;
                 </td>
                 <td class="px-3 py-2">
                   {b.mobile_image_url ? (
-                    <img
-                      loading="lazy"
-                      decoding="async"
-                      src={b.mobile_image_url}
-                      alt={b.alt_text ?? ""}
-                      class="w-16 h-16 object-cover rounded border border-text-muted/20"
-                    />
+                    <div class="space-y-1">
+                      <img
+                        loading="lazy"
+                        decoding="async"
+                        src={b.mobile_image_url}
+                        alt={b.alt_text ?? ""}
+                        class="w-16 h-16 object-cover rounded border border-text-muted/20"
+                      />
+                      <form
+                        method="POST"
+                        action={`/api/admin/banners/${b.id}`}
+                        enctype="multipart/form-data"
+                        class="space-y-1"
+                      >
+                        <input type="hidden" name="_method" value="PATCH" />
+                        <input
+                          type="file"
+                          name="mobile_image"
+                          accept="image/jpeg,image/png,image/webp,image/gif"
+                          class="text-xs"
+                        />
+                        <label class="inline-flex items-center gap-1 text-xs">
+                          <input
+                            type="checkbox"
+                            name="clear_mobile"
+                            value="1"
+                          />
+                          <span>{t("admin.banners.clear_mobile")}</span>
+                        </label>
+                        <button
+                          type="submit"
+                          class="block text-xs text-accent-700 hover:underline"
+                        >
+                          {t("admin.banners.replace_mobile")}
+                        </button>
+                      </form>
+                    </div>
                   ) : (
-                    <span class="text-xs text-text-muted">—</span>
+                    <form
+                      method="POST"
+                      action={`/api/admin/banners/${b.id}`}
+                      enctype="multipart/form-data"
+                      class="space-y-1"
+                    >
+                      <input type="hidden" name="_method" value="PATCH" />
+                      <input
+                        type="file"
+                        name="mobile_image"
+                        accept="image/jpeg,image/png,image/webp,image/gif"
+                        required
+                        class="text-xs"
+                      />
+                      <button
+                        type="submit"
+                        class="block text-xs text-accent-700 hover:underline"
+                      >
+                        + Mobile
+                      </button>
+                    </form>
                   )}
                 </td>
                 <td class="px-3 py-2">{b.alt_text ?? "—"}</td>

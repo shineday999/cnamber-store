@@ -545,7 +545,9 @@
       "deactivate": "Nonaktifkan",
       "upload_mobile_image": "Gambar seluler (opsional)",
       "mobile_hint": "Disarankan 768×768 atau serupa. Kembali ke desktop jika kosong.",
-      "mobile_label": "Seluler"
+      "mobile_label": "Seluler",
+      "replace_mobile": "Ganti seluler",
+      "clear_mobile": "Kosongkan"
     },
     "products_form": {
       "tags": "Tag",

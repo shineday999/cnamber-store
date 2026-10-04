@@ -619,7 +619,9 @@
       "deactivate": "停用",
       "upload_mobile_image": "移动端图片（可选）",
       "mobile_hint": "建议 768×768 或类似比例，留空时自动使用桌面端图片",
-      "mobile_label": "移动端"
+      "mobile_label": "移动端",
+      "replace_mobile": "替换移动端",
+      "clear_mobile": "清除"
     },
     "products_form": {
       "tags": "标签",

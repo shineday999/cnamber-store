@@ -545,7 +545,9 @@
       "deactivate": "Nyahaktifkan",
       "upload_mobile_image": "Imej mudah alih (pilihan)",
       "mobile_hint": "Disyorkan 768×768 atau serupa. Kembali ke desktop jika kosong.",
-      "mobile_label": "Mudah alih"
+      "mobile_label": "Mudah alih",
+      "replace_mobile": "Ganti mudah alih",
+      "clear_mobile": "Kosongkan"
     },
     "products_form": {
       "tags": "Tag",

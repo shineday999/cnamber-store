@@ -545,7 +545,9 @@
       "deactivate": "Deactivate",
       "upload_mobile_image": "Mobile image (optional)",
       "mobile_hint": "Recommended 768×768 or similar. Falls back to desktop if empty.",
-      "mobile_label": "Mobile"
+      "mobile_label": "Mobile",
+      "replace_mobile": "Replace mobile",
+      "clear_mobile": "Clear"
     },
     "products_form": {
       "tags": "Tags",
