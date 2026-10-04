@@ -655,5 +655,15 @@
     "aria_open_menu": "Open menu",
     "aria_close_menu": "Close menu",
     "aria_main_menu": "Main menu"
+  },
+  "500": {
+    "kicker": "moment lost",
+    "title": "Even forests have storms",
+    "subtitle": "Even the deepest forest has its storms. Take a breath, then try again.",
+    "cta_primary": "Return to the trailhead",
+    "cta_secondary": "Browse the collection",
+    "suggested_heading": "You might also like",
+    "search_label": "Search products",
+    "search_placeholder": "Search by name or keyword..."
   }
 }

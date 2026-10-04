@@ -655,5 +655,15 @@
     "aria_open_menu": "Buka menu",
     "aria_close_menu": "Tutup menu",
     "aria_main_menu": "Menu utama"
+  },
+  "500": {
+    "kicker": "huru-hara sebentar",
+    "title": "Hutan juga ada ribut",
+    "subtitle": "Hutan yang paling dalam pun ada ribut. Tarik nafas, cuba lagi.",
+    "cta_primary": "Kembali ke permulaan",
+    "cta_secondary": "Jelajah koleksi",
+    "suggested_heading": "Anda mungkin juga suka",
+    "search_label": "Cari produk",
+    "search_placeholder": "Cari mengikut nama atau kata kunci..."
   }
 }

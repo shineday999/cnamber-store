@@ -721,5 +721,15 @@
     "aria_open_menu": "打开菜单",
     "aria_close_menu": "关闭菜单",
     "aria_main_menu": "主菜单"
+  },
+  "500": {
+    "kicker": "片刻失序",
+    "title": "林深亦有风浪",
+    "subtitle": "森林偶有风浪。请稍候,再走一次。",
+    "cta_primary": "返回起点",
+    "cta_secondary": "探寻藏品",
+    "suggested_heading": "您或许想看",
+    "search_label": "搜索产品",
+    "search_placeholder": "按名称或关键词..."
   }
 }

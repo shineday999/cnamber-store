@@ -655,5 +655,15 @@
     "aria_open_menu": "Buka menu",
     "aria_close_menu": "Tutup menu",
     "aria_main_menu": "Menu utama"
+  },
+  "500": {
+    "kicker": "sedikit chaos",
+    "title": "Hutan juga punya badai",
+    "subtitle": "Hutan terdalam pun punya badai. Tarik napas, coba lagi.",
+    "cta_primary": "Kembali ke awal",
+    "cta_secondary": "Jelajahi koleksi",
+    "suggested_heading": "Anda mungkin juga tertarik",
+    "search_label": "Cari produk",
+    "search_placeholder": "Cari mengikut nama atau kata kunci..."
   }
 }
