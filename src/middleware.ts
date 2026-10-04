@@ -73,7 +73,12 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const url = context.url;
 
   // 1. Locale detection
-  let locale = localeFromPath(url.pathname);
+  // Wave 41.2: catch-all `[lang]/[...path].astro` 的 `Astro.rewrite(subPath)`
+  // 會 re-run middleware,第二次 URL 已 strip locale prefix,會 fallback 到 zh-Hans
+  // 蓋掉原本 en/ms-MY/id-ID。reuse 已存在的 locale 解決。
+  let locale =
+    (context.locals.locale as Locale | undefined) ??
+    localeFromPath(url.pathname);
 
   if (!locale) {
     const cookieLocale = context.cookies.get(LOCALE_COOKIE)?.value;
