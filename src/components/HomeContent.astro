@@ -89,16 +89,38 @@ const slides = bannerRows.results.map((b) => ({
   <div class="absolute inset-0">
     {
       slides.map((slide, i) => (
-        <img
-          decoding="async"
-          data-hero-slide
-          data-slide-index={i}
-          src={slide.src}
-          alt={slide.alt}
-          class={`hero-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-[1800ms] ease-out ${i === 0 ? "opacity-85 hero-slide-active" : "opacity-0"}`}
-          loading={i === 0 ? "eager" : "lazy"}
-          fetchpriority={i === 0 ? "high" : "auto"}
-        />
+        <picture>
+          {/*
+            Wave 64 responsive LCP semantic: <picture> + <source media> + <img> fallback.
+            目前 srcset 只有 1 個 1920w descriptor (banner 原圖 1920x1080 per Wave 26 hint).
+            真實 mobile variant (e.g. 768w webp) 需 Wave 65+ — 要 admin upload mobile variant
+            + D1 schema `mobile_image_url` column + 後端 image variant API,或
+            Cloudflare cf-image-resizing (Pro plan + DNS zone config,非 code scope).
+            此處 semantic 改進對 SEO + a11y + future-ready 有好處,browser 知道 image intrinsic width.
+          */}
+          <source
+            media="(max-width: 768px)"
+            srcset={`${slide.src} 1920w`}
+            sizes="100vw"
+            type="image/jpeg"
+          />
+          <source
+            media="(min-width: 769px)"
+            srcset={`${slide.src} 1920w`}
+            sizes="100vw"
+            type="image/jpeg"
+          />
+          <img
+            decoding="async"
+            data-hero-slide
+            data-slide-index={i}
+            src={slide.src}
+            alt={slide.alt}
+            class={`hero-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-[1800ms] ease-out ${i === 0 ? "opacity-85 hero-slide-active" : "opacity-0"}`}
+            loading={i === 0 ? "eager" : "lazy"}
+            fetchpriority={i === 0 ? "high" : "auto"}
+          />
+        </picture>
       ))
     }
     <div
