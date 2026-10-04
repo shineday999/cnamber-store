@@ -177,7 +177,20 @@
     "success_title": "Terima kasih atas pemesanan Anda",
     "success_intro": "Kami telah menerima.",
     "success_next": "Kami akan menulis kepada Anda dalam satu atau dua hari.",
-    "help": "Kami akan menulis kembali dalam satu atau dua hari, dengan pilihan pembayaran (transfer bank / WeChat / Alipay)."
+    "help": "Kami akan menulis kembali dalam satu atau dua hari, dengan pilihan pembayaran (transfer bank / WeChat / Alipay).",
+    "title": "Pemesanan",
+    "name": "Nama",
+    "email": "Email",
+    "phone": "Telepon",
+    "country": "Negara",
+    "city": "Kota",
+    "address": "Alamat",
+    "postal": "Kode pos",
+    "notes": "Catatan",
+    "submit": "Kirim pemesanan",
+    "shipping_note": "Pengiriman dihitung setelah konfirmasi",
+    "cart_empty": "Keranjang Anda kosong.",
+    "browse_products": "Jelajahi produk"
   },
   "story": {
     "kicker": "Tentang",

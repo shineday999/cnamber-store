@@ -1,7 +1,10 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import { createT } from "../../i18n/t";
+import { defaultLocale, localizedPath, type Locale } from "../../i18n/config";
 
+const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
+const homePath = localizedPath(locale, "/");
 const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
 const t = createT(messages);
 const orderId = Astro.url.searchParams.get("id") ?? "";
@@ -43,7 +46,7 @@ const orderId = Astro.url.searchParams.get("id") ?? "";
         <p class="text-xs text-text-muted font-mono">Order ID: {orderId}</p>
       )
     }
-    <a href="/" class="text-accent-700 underline mt-8 inline-block">
+    <a href={homePath} class="text-accent-700 underline mt-8 inline-block">
       ← {t("common.back")}
     </a>
   </div>

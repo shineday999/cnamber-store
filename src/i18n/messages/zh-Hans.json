@@ -198,7 +198,10 @@
     "help": "我們會在一兩個工作天內回信,給你付款方式(銀行轉帳 / 微信 / 支付寶)。",
     "success_title": "感谢您的预订",
     "success_intro": "我們收到了。",
-    "success_next": "客服會在一兩個工作天內,寫信與你聯絡。"
+    "success_next": "客服會在一兩個工作天內,寫信與你聯絡。",
+    "shipping_note": "運費將於確認信中提供",
+    "cart_empty": "购物车空着。",
+    "browse_products": "看看产品"
   },
   "contact": {
     "title": "給我們寫一封信",

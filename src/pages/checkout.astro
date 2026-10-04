@@ -1,13 +1,14 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import { createT } from "../i18n/t";
-import { defaultLocale, type Locale } from "../i18n/config";
+import { defaultLocale, localizedPath, type Locale } from "../i18n/config";
 import { readCart } from "../lib/cart";
 import { formatPrice } from "../lib/format";
 
 const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
 const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
 const t = createT(messages);
+const productsPath = localizedPath(locale, "/products");
 
 const items = readCart(Astro.request.headers.get("cookie"));
 
@@ -68,9 +69,9 @@ const totalDisplay = formatPrice(subtotalCents, "USD", locale);
     {
       items.length === 0 ? (
         <p class="text-text-muted">
-          Cart is empty.{" "}
-          <a href="/products" class="text-accent-700 underline">
-            Browse products
+          {t("checkout.cart_empty") ?? "Your cart is empty."}{" "}
+          <a href={productsPath} class="text-accent-700 underline">
+            {t("checkout.browse_products") ?? "Browse products"}
           </a>
           .
         </p>
@@ -206,7 +207,9 @@ const totalDisplay = formatPrice(subtotalCents, "USD", locale);
               <span class="font-mono font-medium">{totalDisplay}</span>
             </div>
             <p class="text-xs text-text-muted mt-1">
-              運費將於確認信中提供 (Shipping calculated upon confirmation)。
+              {t("checkout.shipping_note") ??
+                "Shipping calculated upon confirmation"}
+              .
             </p>
           </div>
 

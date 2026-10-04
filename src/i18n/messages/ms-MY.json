@@ -177,7 +177,20 @@
     "success_title": "Terima kasih atas tempahan anda",
     "success_intro": "Kami telah menerima.",
     "success_next": "Kami akan menulis kepada anda dalam satu atau dua hari.",
-    "help": "Kami akan menulis semula dalam satu atau dua hari, dengan pilihan bayaran (pindahan bank / WeChat / Alipay)."
+    "help": "Kami akan menulis semula dalam satu atau dua hari, dengan pilihan bayaran (pindahan bank / WeChat / Alipay).",
+    "title": "Tempahan",
+    "name": "Nama",
+    "email": "E-mel",
+    "phone": "Telefon",
+    "country": "Negara",
+    "city": "Bandar",
+    "address": "Alamat",
+    "postal": "Poskod",
+    "notes": "Nota",
+    "submit": "Hantar tempahan",
+    "shipping_note": "Pengiraan penghantaran selepas pengesahan",
+    "cart_empty": "Troli anda kosong.",
+    "browse_products": "Layari produk"
   },
   "story": {
     "kicker": "Tentang",

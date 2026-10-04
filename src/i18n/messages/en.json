@@ -177,7 +177,20 @@
     "success_title": "Thank you for your reservation",
     "success_intro": "We have received it.",
     "success_next": "We will write to you within a day or two.",
-    "help": "We will write back within a day or two, with payment options (bank transfer / WeChat / Alipay)."
+    "help": "We will write back within a day or two, with payment options (bank transfer / WeChat / Alipay).",
+    "title": "Reservation",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "country": "Country",
+    "city": "City",
+    "address": "Address",
+    "postal": "Postal code",
+    "notes": "Notes",
+    "submit": "Submit reservation",
+    "shipping_note": "Shipping calculated upon confirmation",
+    "cart_empty": "Your cart is empty.",
+    "browse_products": "Browse products"
   },
   "story": {
     "kicker": "About",
