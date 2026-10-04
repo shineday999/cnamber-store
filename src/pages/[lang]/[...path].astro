@@ -36,7 +36,8 @@ const isKnownSubPath =
   KNOWN_TOP.has(subPath) ||
   subPath.startsWith("/blog/") ||
   subPath.startsWith("/products/") ||
-  subPath.startsWith("/checkout/");
+  subPath.startsWith("/checkout/") ||
+  subPath.startsWith("/quiz/");
 if (!isKnownSubPath) {
   Astro.response.status = 404;
   return Astro.rewrite("/404");
