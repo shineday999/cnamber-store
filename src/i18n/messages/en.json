@@ -215,7 +215,17 @@
     "channel_email": "Email",
     "channel_whatsapp": "WhatsApp",
     "channel_wechat": "WeChat",
-    "channel_studio": "The studio is open — write first"
+    "channel_studio": "The studio is open — write first",
+    "faq_kicker": "Common Questions",
+    "faq_heading": "Q & A",
+    "faq_q1_q": "How do I place a pre-order?",
+    "faq_a1_a": "Fill in the form. We will reply within one to two working days to confirm materials, shipping, and payment.",
+    "faq_q2_q": "Can I reach you another way?",
+    "faq_a2_a": "Yes. WhatsApp is by appointment, WeChat id cnamber_studio, or email oxsupport@0061qwen.cc.cd.",
+    "faq_q3_q": "Where is the studio?",
+    "faq_a3_a": "Greater Southeast Asia. By appointment only, not open to walk-in.",
+    "faq_q4_q": "How long until you reply?",
+    "faq_a4_a": "One to two working days. Replies may be delayed on weekends and public holidays."
   },
   "footer": {
     "tagline": "Forest handcraft · letters to those who wear it",

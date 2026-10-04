@@ -27,7 +27,7 @@
     "materials": "材质来源",
     "craft": "手作工艺",
     "blog": "日志",
-    "contact": "联络",
+    "contact": "聯絡",
     "cart": "购物车",
     "quiz": "選一件",
     "products": "产品",
@@ -218,7 +218,17 @@
     "channel_email": "邮件",
     "channel_whatsapp": "WhatsApp",
     "channel_wechat": "微信",
-    "channel_studio": "工作室歡迎你來——提前說一聲"
+    "channel_studio": "工作室歡迎你來——提前說一聲",
+    "faq_kicker": "常見問題",
+    "faq_heading": "問答",
+    "faq_q1_q": "預訂制怎麼下單?",
+    "faq_a1_a": "填寫表單,我們會在一到兩個工作天內回覆,確認材料、運送與付款細節。",
+    "faq_q2_q": "可以用其他方式聯絡嗎?",
+    "faq_a2_a": "可以。WhatsApp 採預約制,微信帳號 cnamber_studio,或電郵 oxsupport@0061qwen.cc.cd。",
+    "faq_q3_q": "工作室在哪?",
+    "faq_a3_a": "位於東南亞 Greater Southeast Asia 區域,採預約制,不對外開放。",
+    "faq_q4_q": "多久會回覆?",
+    "faq_a4_a": "一到兩個工作天。週末與國定假日延後,敬請見諒。"
   },
   "story": {
     "title": "品牌故事",

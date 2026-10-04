@@ -215,7 +215,17 @@
     "channel_email": "Email",
     "channel_whatsapp": "WhatsApp",
     "channel_wechat": "WeChat",
-    "channel_studio": "Studio menyambut Anda — tulis dulu"
+    "channel_studio": "Studio menyambut Anda — tulis dulu",
+    "faq_kicker": "Pertanyaan Umum",
+    "faq_heading": "Q & A",
+    "faq_q1_q": "Bagaimana cara pesan?",
+    "faq_a1_a": "Isi formulir. Kami akan membalas dalam satu hingga dua hari kerja untuk konfirmasi bahan, pengiriman, dan pembayaran.",
+    "faq_q2_q": "Bisa hubungi cara lain?",
+    "faq_a2_a": "Bisa. WhatsApp dengan janji, WeChat id cnamber_studio, atau email oxsupport@0061qwen.cc.cd.",
+    "faq_q3_q": "Di mana studio?",
+    "faq_a3_a": "Greater Southeast Asia. Hanya dengan janji, tidak terbuka untuk walk-in.",
+    "faq_q4_q": "Berapa lama sampai dibalas?",
+    "faq_a4_a": "Satu hingga dua hari kerja. Balasan mungkin tertunda pada akhir pekan dan hari libur."
   },
   "footer": {
     "tagline": "Kerajinan hutan · surat untuk yang memakai",
