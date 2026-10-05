@@ -5,8 +5,12 @@
 import Layout from "@layouts/Layout.astro";
 import RevealOnScroll from "@components/RevealOnScroll.astro";
 import { createT } from "../i18n/t";
+import { defaultLocale, localizedPath, type Locale } from "../i18n/config";
 
 const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
+const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
+const homePath = localizedPath(locale, "/");
+const productsPath = localizedPath(locale, "/products");
 const t = createT(messages);
 const title = t("404.title");
 const subtitle = t("404.subtitle");
@@ -14,6 +18,28 @@ const ctaPrimary = t("404.cta_primary");
 const ctaSecondary = t("404.cta_secondary");
 const kicker = t("404.kicker");
 const pageTitle = t("common.site_name") + " — " + title;
+
+// Wave 67: 3 active products (popular / latest) for "您或许想看" suggestions
+const env = Astro.locals.runtime?.env;
+interface SuggestedProduct {
+  slug: string;
+  name: string | null;
+  short_description: string | null;
+  category: string;
+}
+const suggested = env?.DB
+  ? await env.DB.prepare(
+      `SELECT p.slug, p.category, pt.name, pt.short_description
+       FROM products p
+       LEFT JOIN product_translations pt ON pt.product_id = p.id AND pt.locale = ?
+       WHERE p.status = 'active'
+       ORDER BY p.created_at DESC LIMIT 3`,
+    )
+      .bind(locale)
+      .all<SuggestedProduct>()
+  : { results: [] as SuggestedProduct[] };
+
+const suggestedProducts = suggested.results ?? [];
 ---
 
 <Layout title={pageTitle} description={subtitle}>
@@ -32,7 +58,7 @@ const pageTitle = t("common.site_name") + " — " + title;
             xmlns="http://www.w3.org/2000/svg"
             preserveAspectRatio="xMidYMid slice"
             role="img"
-            aria-label="A misty morning forest with a single pine branch and one falling amber leaf"
+            aria-label={t("404.svg_aria")}
           >
             <defs>
               <linearGradient id="dawn" x1="0" y1="0" x2="0" y2="1">
@@ -153,12 +179,12 @@ const pageTitle = t("common.site_name") + " — " + title;
           </p>
           <div class="flex flex-col sm:flex-row gap-4">
             <a
-              href="/"
+              href={homePath}
               class="inline-block px-8 py-3 bg-forest-800 text-bg-base font-sans text-sm tracking-wider hover:bg-forest-900 transition-colors duration-300"
               >{ctaPrimary}</a
             >
             <a
-              href="/products"
+              href={productsPath}
               class="inline-block px-8 py-3 border border-forest-800 text-forest-800 font-sans text-sm tracking-wider hover:bg-forest-800 hover:text-bg-base transition-colors duration-300"
               >{ctaSecondary}</a
             >
@@ -166,6 +192,70 @@ const pageTitle = t("common.site_name") + " — " + title;
         </div>
       </RevealOnScroll>
     </div>
+
+    <!-- Wave 67: Suggested products + search input (replace dead-end with paths forward) -->
+    <section
+      class="mt-16 md:mt-24 max-w-5xl mx-auto px-2"
+      aria-labelledby="suggested-heading"
+    >
+      <h2
+        id="suggested-heading"
+        class="font-serif text-2xl md:text-3xl text-forest-800 mb-6 text-center"
+      >
+        {t("404.suggested_heading")}
+      </h2>
+
+      {
+        suggestedProducts.length > 0 ? (
+          <ul class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-12">
+            {suggestedProducts.map((p) => {
+              const pPath = localizedPath(locale, `/products/${p.slug}`);
+              return (
+                <li>
+                  <a
+                    href={pPath}
+                    class="block p-5 bg-bg-card border border-text-muted/20 rounded-card hover:border-forest-700 transition-colors duration-300"
+                  >
+                    <h3 class="font-serif text-lg text-forest-800 mb-2">
+                      {p.name ?? p.slug}
+                    </h3>
+                    <p class="text-sm text-text-secondary line-clamp-2">
+                      {p.short_description ?? ""}
+                    </p>
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        ) : null
+      }
+
+      <form
+        method="GET"
+        action={productsPath}
+        role="search"
+        class="max-w-xl mx-auto"
+      >
+        <label for="product-search" class="sr-only">
+          {t("404.search_label")}
+        </label>
+        <div class="flex gap-2">
+          <input
+            id="product-search"
+            type="search"
+            name="q"
+            placeholder={t("404.search_placeholder")}
+            class="flex-1 px-4 py-3 border border-text-muted/30 rounded-md bg-bg-base text-text-primary focus:outline-none focus:border-forest-700"
+          />
+          <button
+            type="submit"
+            class="px-6 py-3 bg-forest-800 text-bg-base font-sans text-sm tracking-wider hover:bg-forest-900 transition-colors duration-300 rounded-md"
+          >
+            {t("404.search_label")}
+          </button>
+        </div>
+      </form>
+    </section>
   </main>
 </Layout>
 

@@ -1,7 +1,7 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import { createT } from "../../i18n/t";
-import { defaultLocale, type Locale } from "../../i18n/config";
+import { defaultLocale, localizedPath, type Locale } from "../../i18n/config";
 
 const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
 const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
@@ -56,7 +56,7 @@ const posts = env?.DB
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           {posts.results.map((p) => (
             <a
-              href={`/blog/${p.slug}`}
+              href={localizedPath(locale, `/blog/${p.slug}`)}
               class="block bg-bg-card border border-text-muted/20 rounded-card overflow-hidden hover:border-accent-500 transition-colors"
             >
               <div class="aspect-video bg-forest-100 flex items-center justify-center">

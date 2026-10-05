@@ -1,7 +1,7 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import { createT } from "../../i18n/t";
-import { defaultLocale, type Locale } from "../../i18n/config";
+import { defaultLocale, localizedPath, type Locale } from "../../i18n/config";
 import { JEWELRY_STEPS } from "../../lib/quiz";
 
 const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
@@ -15,7 +15,7 @@ void locale;
 <Layout title={pageTitle} description={t("quiz.jewelry.desc")}>
   <div class="max-w-2xl mx-auto px-6 py-section">
     <a
-      href="/quiz"
+      href={localizedPath(locale, "/quiz")}
       class="text-sm text-text-secondary hover:text-text-primary mb-6 inline-block"
     >
       ← {t("common.back")}

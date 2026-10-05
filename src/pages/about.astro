@@ -5,12 +5,11 @@ import ContinueReading from "@components/ContinueReading.astro";
 import BreadcrumbSchema from "@components/BreadcrumbSchema.astro";
 import FaqSchema from "@components/FaqSchema.astro";
 import { createT } from "../i18n/t";
-import { defaultLocale, type Locale } from "../i18n/config";
+import { defaultLocale, localizedPath, type Locale } from "../i18n/config";
 
 const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
 const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
 const t = createT(messages);
-void locale;
 
 const breadcrumbItems = [
   { name: t("nav.home"), url: "/" },
@@ -104,12 +103,12 @@ const faqs = [
       heading={t("continue.heading")}
       links={[
         {
-          href: "/story",
+          href: localizedPath(locale, "/story"),
           label: t("about.story_label"),
           desc: t("about.story_desc"),
         },
         {
-          href: "/craft",
+          href: localizedPath(locale, "/craft"),
           label: t("about.craft_label"),
           desc: t("about.craft_desc"),
         },

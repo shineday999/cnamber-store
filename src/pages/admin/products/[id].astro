@@ -22,6 +22,7 @@ const product = env?.DB
       image_url: string | null;
       created_at: number;
       tags: string | null;
+      faq: string | null;
     }>()
   : null;
 
@@ -73,6 +74,7 @@ const trByLocale = (locale: string) =>
         label: t("admin.products_detail.tab_translations"),
       },
       { id: "variants", label: t("admin.products_detail.tab_variants") },
+      { id: "faq", label: t("admin.products_detail.tab_faq") },
     ]}
     defaultTab="core"
   >
@@ -86,6 +88,8 @@ const trByLocale = (locale: string) =>
         {
           product.image_url ? (
             <img
+              loading="lazy"
+              decoding="async"
               src={product.image_url}
               alt={product.slug}
               class="w-48 h-48 object-cover rounded border border-text-muted/20"
@@ -344,6 +348,59 @@ const trByLocale = (locale: string) =>
           }
         </ul>
       </div>
+    </div>
+    <div slot="faq">
+      <form
+        method="POST"
+        action={`/api/admin/products/${id}/faq`}
+        class="bg-bg-card border border-text-muted/20 rounded-card p-6 space-y-4 max-w-3xl"
+      >
+        <p class="text-sm text-text-secondary">
+          {t("admin.products_detail.faq_intro")}
+        </p>
+        {
+          LOCALES.map((loc) => {
+            let faqArr: { q: string; a: string }[] = [];
+            if (product.faq) {
+              try {
+                const parsed = JSON.parse(product.faq);
+                faqArr = Array.isArray(parsed?.[loc]) ? parsed[loc] : [];
+              } catch (_) {
+                /* ignore */
+              }
+            }
+            const faqJson = JSON.stringify(faqArr, null, 2);
+            return (
+              <div class="border border-text-muted/20 rounded-md p-4">
+                <h3 class="font-serif text-lg mb-2">{loc}</h3>
+                <label
+                  class="block text-sm font-medium mb-1"
+                  for={`faq-${loc}`}
+                >
+                  {t("admin.products_detail.label_faq_json", { loc })}
+                </label>
+                <textarea
+                  id={`faq-${loc}`}
+                  name={`faq_${loc}`}
+                  rows="8"
+                  class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base font-mono text-sm"
+                >
+                  {faqJson}
+                </textarea>
+                <p class="text-xs text-text-muted mt-1">
+                  {t("admin.products_detail.hint_faq_json")}
+                </p>
+              </div>
+            );
+          })
+        }
+        <button
+          type="submit"
+          class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900"
+        >
+          {t("admin.products_detail.save_faq")}
+        </button>
+      </form>
     </div>
   </Tabs>
 </AdminLayout>

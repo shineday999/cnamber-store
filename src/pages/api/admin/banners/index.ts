@@ -62,14 +62,33 @@ export const POST: APIRoute = async (ctx) => {
     httpMetadata: { contentType: file.type },
   });
   const url = `/api/images/${key}`;
+
+  // Wave 65: optional mobile variant (real responsive LCP 縮小)
+  let mobileUrl: string | null = null;
+  const mobileFile = form.get("mobile_image");
+  if (mobileFile instanceof File && mobileFile.size > 0) {
+    if (!ALLOWED.has(mobileFile.type)) {
+      return new Response("Invalid mobile image type", { status: 400 });
+    }
+    if (mobileFile.size > MAX) {
+      return new Response("Mobile image too large (max 10MB)", { status: 413 });
+    }
+    const mobileExt = EXT[mobileFile.type] ?? "jpg";
+    const mobileKey = `banners/${id}/mobile-${Date.now()}.${mobileExt}`;
+    await r2.put(mobileKey, mobileFile.stream(), {
+      httpMetadata: { contentType: mobileFile.type },
+    });
+    mobileUrl = `/api/images/${mobileKey}`;
+  }
+
   const now = Math.floor(Date.now() / 1000);
 
   const db = getDB(ctx);
   await db
     .prepare(
-      "INSERT INTO hero_banners (id, image_url, alt_text, sort_order, active, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      "INSERT INTO hero_banners (id, image_url, mobile_image_url, alt_text, sort_order, active, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
     )
-    .bind(id, url, altText, sortOrder, active, now, now)
+    .bind(id, url, mobileUrl, altText, sortOrder, active, now, now)
     .run();
 
   return ctx.redirect("/admin/banners", 303);

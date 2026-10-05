@@ -14,7 +14,10 @@
     "options": "Options",
     "quantity": "Quantity",
     "select_option": "Select an option",
-    "reserve": "Reserve"
+    "reserve": "Reserve",
+    "from": "from",
+    "reserve_help": "Pre-launch. Reserve a piece, and we'll reach out personally with shipping and payment options.",
+    "translation_missing": "This language's translation is not yet complete; English fallback is shown."
   },
   "nav": {
     "home": "Home",
@@ -26,7 +29,9 @@
     "cart": "Cart",
     "quiz": "Pick one",
     "products": "Products",
-    "about": "About"
+    "about": "About",
+    "craft": "Craft",
+    "materials": "Materials"
   },
   "home": {
     "hero_kicker": "Slowly · 2026",
@@ -175,7 +180,21 @@
     "success_title": "Thank you for your reservation",
     "success_intro": "We have received it.",
     "success_next": "We will write to you within a day or two.",
-    "help": "We will write back within a day or two, with payment options (bank transfer / WeChat / Alipay)."
+    "help": "We will write back within a day or two, with payment options (bank transfer / WeChat / Alipay).",
+    "title": "Reservation",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "country": "Country",
+    "city": "City",
+    "address": "Address",
+    "postal": "Postal code",
+    "notes": "Notes",
+    "submit": "Submit reservation",
+    "shipping_note": "Shipping calculated upon confirmation",
+    "cart_empty": "Your cart is empty.",
+    "browse_products": "Browse products",
+    "success_order_id": "Order ID"
   },
   "story": {
     "kicker": "About",
@@ -225,7 +244,9 @@
     "faq_q3_q": "Where is the studio?",
     "faq_a3_a": "Greater Southeast Asia. By appointment only, not open to walk-in.",
     "faq_q4_q": "How long until you reply?",
-    "faq_a4_a": "One to two working days. Replies may be delayed on weekends and public holidays."
+    "faq_a4_a": "One to two working days. Replies may be delayed on weekends and public holidays.",
+    "by_appointment": "By appointment",
+    "studio_location": "Greater Southeast Asia"
   },
   "footer": {
     "tagline": "Forest handcraft · letters to those who wear it",
@@ -261,7 +282,10 @@
     "title": "Journal",
     "intro": "Field notes, material studies, and slow letters from the studio.",
     "empty": "No journal entries yet — the first one is brewing.",
-    "read_more": "Read on"
+    "read_more": "Read on",
+    "blog.faq_kicker": "Common Questions",
+    "blog.faq_heading": "What readers ask",
+    "blog.no_faq_yet": "No common questions yet."
   },
   "amber": {
     "kicker": "Amber",
@@ -312,7 +336,11 @@
     "title": "Lost in the wood",
     "subtitle": "The path you followed fades into the morning mist.",
     "cta_primary": "Return to the trailhead",
-    "cta_secondary": "Browse the collection"
+    "cta_secondary": "Browse the collection",
+    "svg_aria": "A misty morning forest with a single pine branch and one falling amber leaf",
+    "suggested_heading": "You might also like",
+    "search_label": "Search products",
+    "search_placeholder": "Search by name or keyword..."
   },
   "admin": {
     "nav": {
@@ -335,7 +363,7 @@
       "back": "Back"
     },
     "footer": {
-      "tagline": "cnamber-store admin · Phase 2 build"
+      "tagline": "© 2026 cnamber-store admin · All rights reserved"
     },
     "login": {
       "title": "Admin Login",
@@ -427,7 +455,15 @@
       "label_title": "Title",
       "label_excerpt": "Excerpt",
       "label_body": "Body (Markdown)",
-      "save_translation": "Save {loc}"
+      "save_translation": "Save {loc}",
+      "label_author_email": "Author email",
+      "faq_intro": "FAQ for the article footer. Edit per locale (4 locales). Leave [] for unused.",
+      "hint_faq_json": "JSON array of { q, a } objects. Recommend 4 Q&A. Use [] if empty.",
+      "label_faq_json": "FAQ JSON ({loc})",
+      "save_faq": "Save FAQ",
+      "tab_core": "Core",
+      "tab_faq": "FAQ",
+      "tab_translations": "Translations"
     },
     "posts_new": {
       "title": "New Post",
@@ -457,7 +493,9 @@
       "col_actions": "Actions",
       "link_edit": "Edit",
       "delete": "Delete",
-      "delete_confirm": "Delete this product? This cannot be undone."
+      "delete_confirm": "Delete this product? This cannot be undone.",
+      "col_image": "Cover",
+      "col_name": "Name"
     },
     "products_detail": {
       "title_prefix": "Edit · ",
@@ -479,7 +517,20 @@
       "save_translation": "Save {loc}",
       "no_variants": "No variants. Add via seed.sql (Phase 5+ needs a variant editor).",
       "delete": "Delete product",
-      "delete_confirm": "Delete this product? All variants, translations, and reviews will be removed."
+      "delete_confirm": "Delete this product? All variants, translations, and reviews will be removed.",
+      "current_image": "Current cover",
+      "faq_intro": "FAQ for the product page footer. Edit per locale. Leave [] for unused.",
+      "hint_faq_json": "JSON array of { q, a } objects. Recommend 4 Q&A. Use [] if empty.",
+      "hint_image": "Uploading a new image replaces the current cover.",
+      "label_faq_json": "FAQ JSON ({loc})",
+      "label_image": "Replace cover image",
+      "no_image": "No cover image yet",
+      "save_faq": "Save FAQ",
+      "tab_faq": "FAQ",
+      "toggle_to_active": "Activate",
+      "toggle_to_archived": "Archive",
+      "toggle_to_draft": "Revert to draft",
+      "upload_image": "Upload new image"
     },
     "products_new": {
       "title": "New Product",
@@ -491,7 +542,12 @@
       "label_slug": "Slug",
       "initial_name": "Initial name (zh-Hans default)",
       "create_draft": "Create Draft",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "hint_image": "JPG/PNG/WebP/GIF, up to 5MB. Optional.",
+      "label_image": "Cover image",
+      "placeholder_description": "Description in English",
+      "placeholder_name": "e.g. Baltic Amber Pendant",
+      "placeholder_slug": "e.g. baltic-amber-pendant"
     },
     "reviews_list": {
       "title": "Reviews",
@@ -519,7 +575,12 @@
       "dimension_label": "Dimension",
       "size": "Size",
       "activate": "Activate",
-      "deactivate": "Deactivate"
+      "deactivate": "Deactivate",
+      "upload_mobile_image": "Mobile image (optional)",
+      "mobile_hint": "Recommended 768×768 or similar. Falls back to desktop if empty.",
+      "mobile_label": "Mobile",
+      "replace_mobile": "Replace mobile",
+      "clear_mobile": "Clear"
     },
     "products_form": {
       "tags": "Tags",
@@ -542,6 +603,45 @@
         "hero_subtitle": "Italic text under the big hero title on homepage"
       },
       "saved": "✓ Saved"
+    },
+    "value": {
+      "category": {
+        "incense": "Incense",
+        "jewelry": "Jewelry"
+      },
+      "payment": {
+        "paid": "Paid",
+        "refunded": "Refunded",
+        "unpaid": "Unpaid"
+      },
+      "post_category": {
+        "craft": "Craft",
+        "culture": "Culture",
+        "material": "Material",
+        "style": "Style"
+      },
+      "status": {
+        "active": "Active",
+        "approved": "Approved",
+        "archived": "Archived",
+        "cancelled": "Cancelled",
+        "confirmed": "Confirmed",
+        "delivered": "Delivered",
+        "draft": "Draft",
+        "pending": "Pending",
+        "published": "Published",
+        "rejected": "Rejected",
+        "shipped": "Shipped"
+      },
+      "subcategory": {
+        "balm": "Balm",
+        "bracelet": "Bracelet",
+        "earring": "Earring",
+        "necklace": "Necklace",
+        "oil": "Oil",
+        "ring": "Ring",
+        "stick": "Stick"
+      }
     }
   },
   "cart": {
@@ -550,64 +650,55 @@
     "subtotal": "Subtotal",
     "checkout": "Reserve one",
     "remove": "Remove",
-    "clear": "Let it empty"
+    "clear": "Let it empty",
+    "page_title": "Cart",
+    "page_description": "Your selected pieces, quietly gathered. Reserve one when you're ready.",
+    "continue_shopping": "Continue browsing"
   },
   "continue": {
     "heading": "Walk on",
-    "story": {
-      "next_1_label": "Scent of a forest",
-      "next_1_desc": "Notes from the southern forest, written for the wearer",
-      "next_2_label": "How hands fold light inside",
-      "next_2_desc": "How a piece of amber becomes a quiet ornament",
-      "next_3_label": "Where the materials come from",
-      "next_3_desc": "The Baltic, Burma, Fushun, and a breath of agarwood"
-    },
-    "vision": {
-      "next_1_label": "How it is made",
-      "next_1_desc": "Knife, fire, and patience",
-      "next_2_label": "Stories of the materials",
-      "next_2_desc": "Amber and incense, from forests and shores",
-      "next_3_label": "Amber, worn on the body",
-      "next_3_desc": "A sliver of light from the Baltic"
-    },
-    "craft": {
-      "next_1_label": "Origins of the materials",
-      "next_1_desc": "Amber, agarwood, sandalwood",
-      "next_2_label": "Made into amber jewelry",
-      "next_2_desc": "From rough stone to quiet roundness",
-      "next_3_label": "Made into eastern incense",
-      "next_3_desc": "From wood shavings to a single thread of smoke"
-    },
-    "materials": {
-      "next_1_label": "Made into amber jewelry",
-      "next_1_desc": "Baltic, Burma, Fushun…",
-      "next_2_label": "Made into eastern incense",
-      "next_2_desc": "Agarwood, sandalwood, nanmu…",
-      "next_3_label": "Where this place began",
-      "next_3_desc": "Back to the first forest"
-    },
-    "amber": {
-      "next_1_label": "Origins of the materials",
-      "next_1_desc": "Five kinds of amber, plus agarwood",
-      "next_2_label": "How it is made",
-      "next_2_desc": "From rough stone to quiet roundness",
-      "next_3_label": "See all the amber pieces",
-      "next_3_desc": "Maybe this one"
-    },
-    "incense": {
-      "next_1_label": "Origins of the materials",
-      "next_1_desc": "Five kinds of amber, plus agarwood",
-      "next_2_label": "How it is made",
-      "next_2_desc": "From wood shavings to a single thread of smoke",
-      "next_3_label": "See all the incense",
-      "next_3_desc": "Maybe this breath"
-    }
+    "story_next_1_label": "Scent of a forest",
+    "story_next_1_desc": "Notes from the southern forest, written for the wearer",
+    "story_next_2_label": "How hands fold light inside",
+    "story_next_2_desc": "How a piece of amber becomes a quiet ornament",
+    "story_next_3_label": "Where the materials come from",
+    "story_next_3_desc": "The Baltic, Burma, Fushun, and a breath of agarwood",
+    "vision_next_1_label": "How it is made",
+    "vision_next_1_desc": "Knife, fire, and patience",
+    "vision_next_2_label": "Stories of the materials",
+    "vision_next_2_desc": "Amber and incense, from forests and shores",
+    "vision_next_3_label": "Amber, worn on the body",
+    "vision_next_3_desc": "A sliver of light from the Baltic",
+    "craft_next_1_label": "Origins of the materials",
+    "craft_next_1_desc": "Amber, agarwood, sandalwood",
+    "craft_next_2_label": "Made into amber jewelry",
+    "craft_next_2_desc": "From rough stone to quiet roundness",
+    "craft_next_3_label": "Made into eastern incense",
+    "craft_next_3_desc": "From wood shavings to a single thread of smoke",
+    "materials_next_1_label": "Made into amber jewelry",
+    "materials_next_1_desc": "Baltic, Burma, Fushun…",
+    "materials_next_2_label": "Made into eastern incense",
+    "materials_next_2_desc": "Agarwood, sandalwood, nanmu…",
+    "materials_next_3_label": "Where this place began",
+    "materials_next_3_desc": "Back to the first forest",
+    "amber_next_1_label": "Origins of the materials",
+    "amber_next_1_desc": "Five kinds of amber, plus agarwood",
+    "amber_next_2_label": "How it is made",
+    "amber_next_2_desc": "From rough stone to quiet roundness",
+    "amber_next_3_label": "See all the amber pieces",
+    "amber_next_3_desc": "Maybe this one",
+    "incense_next_1_label": "Origins of the materials",
+    "incense_next_1_desc": "Five kinds of amber, plus agarwood",
+    "incense_next_2_label": "How it is made",
+    "incense_next_2_desc": "From wood shavings to a single thread of smoke",
+    "incense_next_3_label": "See all the incense",
+    "incense_next_3_desc": "Maybe this breath"
   },
   "about": {
     "kicker": "About",
     "title": "The Workshop South of the Forest",
     "subtitle": "Two hands, over a decade of patience",
-    "p1": "We do not disclose the founder's age, gender, or location. This is intentional — letting the work speak, not the person.",
+    "p1": "This corner holds the works, not the person. Forest, materials, and a little time.",
     "p2": "Materials from the forest, time given by hand. Amber from rough stone to soft roundness, incense from sawdust to a thread of smoke — all slow.",
     "p3": "We believe craft is a practice — sharpening, heating, waiting. After a decade, only one lesson remains: leave white space.",
     "p4": "If you have thoughts on materials, process, or reservation, we welcome a conversation through /contact.",
@@ -617,8 +708,8 @@
     "craft_desc": "Sharpening, heating, waiting",
     "faq_kicker": "Common Questions",
     "faq_heading": "Q & A",
-    "faq_q1_q": "Who is the founder?",
-    "faq_a1_a": "We do not disclose the founder's age, gender, or location. Letting the work speak, not the person.",
+    "faq_q1_q": "Why so quiet?",
+    "faq_a1_a": "The writing is deliberately spacious — slow words, slow sentences, slow paragraphs. Reading is slow too: unhurried, unforced.",
     "faq_q2_q": "Why forest-inspired?",
     "faq_a2_a": "Materials from the forest, time given by hand. Amber, agarwood, sandalwood — all from the forest, all slow.",
     "faq_q3_q": "How do you see craft?",
@@ -629,5 +720,30 @@
   "product": {
     "faq_kicker": "Common Questions",
     "faq_heading": "Q & A"
+  },
+  "header": {
+    "aria_main": "Main",
+    "aria_mobile_nav": "Mobile",
+    "aria_open_menu": "Open menu",
+    "aria_close_menu": "Close menu",
+    "aria_main_menu": "Main menu"
+  },
+  "500": {
+    "kicker": "moment lost",
+    "title": "Even forests have storms",
+    "subtitle": "Even the deepest forest has its storms. Take a breath, then try again.",
+    "cta_primary": "Return to the trailhead",
+    "cta_secondary": "Browse the collection",
+    "suggested_heading": "You might also like",
+    "search_label": "Search products",
+    "search_placeholder": "Search by name or keyword..."
+  },
+  "products": {
+    "kicker": "Shop",
+    "filter_all": "All",
+    "filter_jewelry": "Amber",
+    "filter_incense": "Incense",
+    "empty_title": "No pieces yet",
+    "empty_desc": "Our first batch is being prepared — please check back soon."
   }
 }

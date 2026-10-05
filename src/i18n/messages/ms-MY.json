@@ -14,7 +14,10 @@
     "options": "Pilihan",
     "quantity": "Kuantiti",
     "select_option": "Sila pilih pilihan",
-    "reserve": "Tempah"
+    "reserve": "Tempah",
+    "from": "dari",
+    "reserve_help": "Pra-pelancaran. Tempah sekeping, dan kami akan menghubungi anda secara peribadi dengan pilihan penghantaran dan pembayaran.",
+    "translation_missing": "Terjemahan bahasa ini belum selesai; sandaran bahasa Inggeris ditunjukkan."
   },
   "nav": {
     "home": "Laman",
@@ -26,7 +29,9 @@
     "cart": "Troli",
     "quiz": "Pilih satu",
     "products": "Produk",
-    "about": "Tentang"
+    "about": "Tentang",
+    "craft": "Kraftangan",
+    "materials": "Bahan"
   },
   "home": {
     "hero_kicker": "Perlahan · 2026",
@@ -175,7 +180,21 @@
     "success_title": "Terima kasih atas tempahan anda",
     "success_intro": "Kami telah menerima.",
     "success_next": "Kami akan menulis kepada anda dalam satu atau dua hari.",
-    "help": "Kami akan menulis semula dalam satu atau dua hari, dengan pilihan bayaran (pindahan bank / WeChat / Alipay)."
+    "help": "Kami akan menulis semula dalam satu atau dua hari, dengan pilihan bayaran (pindahan bank / WeChat / Alipay).",
+    "title": "Tempahan",
+    "name": "Nama",
+    "email": "E-mel",
+    "phone": "Telefon",
+    "country": "Negara",
+    "city": "Bandar",
+    "address": "Alamat",
+    "postal": "Poskod",
+    "notes": "Nota",
+    "submit": "Hantar tempahan",
+    "shipping_note": "Pengiraan penghantaran selepas pengesahan",
+    "cart_empty": "Troli anda kosong.",
+    "browse_products": "Layari produk",
+    "success_order_id": "ID Pesanan"
   },
   "story": {
     "kicker": "Tentang",
@@ -225,7 +244,9 @@
     "faq_q3_q": "Di mana studio?",
     "faq_a3_a": "Greater Southeast Asia. Temu janji sahaja, tidak terbuka untuk walk-in.",
     "faq_q4_q": "Berapa lama untuk balasan?",
-    "faq_a4_a": "Satu hingga dua hari bekerja. Balasan mungkin lewat pada hujung minggu dan cuti umum."
+    "faq_a4_a": "Satu hingga dua hari bekerja. Balasan mungkin lewat pada hujung minggu dan cuti umum.",
+    "by_appointment": "Atas janjitemu",
+    "studio_location": "Asia Tenggara"
   },
   "footer": {
     "tagline": "Kraftangan hutan · surat untuk yang memakai",
@@ -261,7 +282,10 @@
     "title": "Jurnal",
     "intro": "Nota lapangan, kajian bahan, dan surat tenang dari studio.",
     "empty": "Tiada entri jurnal lagi — yang pertama sedang dibancuh.",
-    "read_more": "Baca lagi"
+    "read_more": "Baca lagi",
+    "blog.faq_kicker": "Soalan Lazim",
+    "blog.faq_heading": "Apa yang pembaca tanya",
+    "blog.no_faq_yet": "Tiada soalan lazim lagi."
   },
   "amber": {
     "kicker": "Ambar",
@@ -269,7 +293,7 @@
     "subtitle": "Nafas hutan purba yang dipakai di kulit anda.",
     "p1": "Ambar ialah pembawa masa. Ia menyimpan resin, buih, sayap serangga, dan cahaya hutan dari empat puluh juta tahun dahulu. Ambar pantai Baltik mengandungi 3–8% asid suksinik, yang digelar 'perisai menentang penyakit' oleh orang Eropah Zaman Pertengahan — 'emas Utara'.",
     "p2": "Ambar Lembah Hukawng Burma berasal dari pertengahan Cretaceous — lebih tua lagi. Ambar biru Dominican bercahaya biru tenang di bawah cahaya UV, jarang dan dihargai. Ambar Fushun China dan ambar Sicily masing-masing membawa temperamen tanah mereka.",
-    "p3": "Kami memilih ours mengikut satu piawaian: bagaimana cahaya menembus. Setiap karya datang dengan asal usul dan usia — jadi pemakai bukan sekadar memakai perhiasan, tetapi sekeping ingatan alam semula jadi.",
+    "p3": "Kami memilih ours mengikut satu piawaian: bagaimana cahaya menembus. Setiap karya datang dengan asal usul dan empoh — jadi pemakai bukan sekadar memakai perhiasan, tetapi sekeping ingatan alam semula jadi.",
     "cta": "Lihat semua ambar"
   },
   "incense": {
@@ -312,7 +336,11 @@
     "title": "Hilang di dalam hutan",
     "subtitle": "Laluan yang anda ikuti hilang ke dalam kabus pagi.",
     "cta_primary": "Kembali ke permulaan",
-    "cta_secondary": "Jelajah koleksi"
+    "cta_secondary": "Jelajah koleksi",
+    "svg_aria": "Hutan pagi yang berkabus dengan satu dahan pain dan satu daun amber yang jatuh",
+    "suggested_heading": "Anda mungkin juga suka",
+    "search_label": "Cari produk",
+    "search_placeholder": "Cari mengikut nama atau kata kunci..."
   },
   "admin": {
     "nav": {
@@ -335,7 +363,7 @@
       "back": "Back"
     },
     "footer": {
-      "tagline": "cnamber-store admin · Phase 2 build"
+      "tagline": "© 2026 cnamber-store admin · Hak cipta terpelihara"
     },
     "login": {
       "title": "Admin Login",
@@ -427,7 +455,15 @@
       "label_title": "Title",
       "label_excerpt": "Excerpt",
       "label_body": "Body (Markdown)",
-      "save_translation": "Save {loc}"
+      "save_translation": "Save {loc}",
+      "label_author_email": "E-mel pengarang",
+      "faq_intro": "FAQ untuk pengaki artikel. Sunting setiap locale (4 locale). Biarkan [] jika tidak digunakan.",
+      "hint_faq_json": "Susunan JSON objek { q, a }. Disyorkan 4 Q&A. Gunakan [] jika kosong.",
+      "label_faq_json": "JSON FAQ ({loc})",
+      "save_faq": "Simpan FAQ",
+      "tab_core": "Teras",
+      "tab_faq": "FAQ",
+      "tab_translations": "Terjemahan"
     },
     "posts_new": {
       "title": "New Post",
@@ -457,7 +493,9 @@
       "col_actions": "Actions",
       "link_edit": "Edit",
       "delete": "Padam",
-      "delete_confirm": "Padam produk ini? Tindakan ini tidak boleh dibatalkan."
+      "delete_confirm": "Padam produk ini? Tindakan ini tidak boleh dibatalkan.",
+      "col_image": "Kulit",
+      "col_name": "Nama"
     },
     "products_detail": {
       "title_prefix": "Edit · ",
@@ -479,7 +517,20 @@
       "save_translation": "Save {loc}",
       "no_variants": "No variants. Add via seed.sql (Phase 5+ needs a variant editor).",
       "delete": "Padam produk",
-      "delete_confirm": "Padam produk ini? Semua varian, terjemahan dan ulasan akan dipadam."
+      "delete_confirm": "Padam produk ini? Semua varian, terjemahan dan ulasan akan dipadam.",
+      "current_image": "Kulit semasa",
+      "faq_intro": "FAQ untuk pengaki halaman produk. Sunting setiap locale. Biarkan [] jika tidak digunakan.",
+      "hint_faq_json": "Susunan JSON objek { q, a }. Disyorkan 4 Q&A. Gunakan [] jika kosong.",
+      "hint_image": "Muat naik imej baru akan menggantikan kulit semasa.",
+      "label_faq_json": "JSON FAQ ({loc})",
+      "label_image": "Ganti imej kulit",
+      "no_image": "Belum ada imej kulit",
+      "save_faq": "Simpan FAQ",
+      "tab_faq": "FAQ",
+      "toggle_to_active": "Aktifkan",
+      "toggle_to_archived": "Arkibkan",
+      "toggle_to_draft": "Kembalikan kepada draf",
+      "upload_image": "Muat naik imej baru"
     },
     "products_new": {
       "title": "New Product",
@@ -491,7 +542,12 @@
       "label_slug": "Slug",
       "initial_name": "Initial name (zh-Hans default)",
       "create_draft": "Create Draft",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "hint_image": "JPG/PNG/WebP/GIF, sehingga 5MB. Pilihan.",
+      "label_image": "Imej kulit",
+      "placeholder_description": "Penerangan dalam Bahasa Melayu",
+      "placeholder_name": "cth. Loket Amber Baltik",
+      "placeholder_slug": "cth. baltic-amber-pendant"
     },
     "reviews_list": {
       "title": "Reviews",
@@ -519,7 +575,12 @@
       "dimension_label": "Dimensi",
       "size": "Saiz",
       "activate": "Aktifkan",
-      "deactivate": "Nyahaktifkan"
+      "deactivate": "Nyahaktifkan",
+      "upload_mobile_image": "Imej mudah alih (pilihan)",
+      "mobile_hint": "Disyorkan 768×768 atau serupa. Kembali ke desktop jika kosong.",
+      "mobile_label": "Mudah alih",
+      "replace_mobile": "Ganti mudah alih",
+      "clear_mobile": "Kosongkan"
     },
     "products_form": {
       "tags": "Tag",
@@ -542,6 +603,45 @@
         "hero_subtitle": "Teks italic di bawah tajuk hero utama"
       },
       "saved": "✓ Disimpan"
+    },
+    "value": {
+      "category": {
+        "incense": "Kemenyan",
+        "jewelry": "Perhiasan"
+      },
+      "payment": {
+        "paid": "Dibayar",
+        "refunded": "Dikembalikan",
+        "unpaid": "Belum dibayar"
+      },
+      "post_category": {
+        "craft": "Kraft",
+        "culture": "Budaya",
+        "material": "Bahan",
+        "style": "Gaya"
+      },
+      "status": {
+        "active": "Aktif",
+        "approved": "Diluluskan",
+        "archived": "Diarkibkan",
+        "cancelled": "Dibatalkan",
+        "confirmed": "Disahkan",
+        "delivered": "Dihantar",
+        "draft": "Draf",
+        "pending": "Menunggu",
+        "published": "Diterbitkan",
+        "rejected": "Ditolak",
+        "shipped": "Dihantar"
+      },
+      "subcategory": {
+        "balm": "Balsem",
+        "bracelet": "Gelang tangan",
+        "earring": "Anting-anting",
+        "necklace": "Kalung",
+        "oil": "Minyak",
+        "ring": "Cincin",
+        "stick": "Batang"
+      }
     }
   },
   "cart": {
@@ -550,64 +650,55 @@
     "subtotal": "Subjumlah",
     "checkout": "Tempah satu",
     "remove": "Buang",
-    "clear": "Biarkan kosong"
+    "clear": "Biarkan kosong",
+    "page_title": "Troli",
+    "page_description": "Pilihan anda, dikumpul dengan tenang. Tempah satu apabila anda bersedia.",
+    "continue_shopping": "Terus melayari"
   },
   "continue": {
     "heading": "Seterusnya",
-    "story": {
-      "next_1_label": "Harum hutan",
-      "next_1_desc": "Catatan dari hutan selatan, ditulis untuk pemakai",
-      "next_2_label": "Bagaimana tangan melipat cahaya",
-      "next_2_desc": "Bagaimana sebatang ambar menjadi perhiasan",
-      "next_3_label": "Dari mana datangnya bahan",
-      "next_3_desc": "Baltik, Burma, Fushun, dan setitis gaharu"
-    },
-    "vision": {
-      "next_1_label": "Bagaimana ia dibuat",
-      "next_1_desc": "Pisau, api, dan kesabaran",
-      "next_2_label": "Kisah bahan",
-      "next_2_desc": "Ambar dan kemenyan, dari hutan dan pesisir",
-      "next_3_label": "Ambar, dipakai di badan",
-      "next_3_desc": "Sepotong cahaya dari Baltik"
-    },
-    "craft": {
-      "next_1_label": "Asal-usul bahan",
-      "next_1_desc": "Ambar, gaharu, cendana",
-      "next_2_label": "Dijadikan perhiasan ambar",
-      "next_2_desc": "Dari batu kasar ke bulatan yang lembut",
-      "next_3_label": "Dijadikan kemenyan timur",
-      "next_3_desc": "Dari serpihan kayu ke seutas asap"
-    },
-    "materials": {
-      "next_1_label": "Dijadikan perhiasan ambar",
-      "next_1_desc": "Baltik, Burma, Fushun…",
-      "next_2_label": "Dijadikan kemenyan timur",
-      "next_2_desc": "Gaharu, cendana, nanmu…",
-      "next_3_label": "Di mana tempat ini bermula",
-      "next_3_desc": "Kembali ke hutan pertama"
-    },
-    "amber": {
-      "next_1_label": "Asal-usul bahan",
-      "next_1_desc": "Lima jenis ambar, dan gaharu",
-      "next_2_label": "Bagaimana ia dibuat",
-      "next_2_desc": "Dari batu kasar ke bulatan yang lembut",
-      "next_3_label": "Lihat semua kepingan ambar",
-      "next_3_desc": "Mungkin yang satu ini"
-    },
-    "incense": {
-      "next_1_label": "Asal-usul bahan",
-      "next_1_desc": "Lima jenis ambar, dan gaharu",
-      "next_2_label": "Bagaimana ia dibuat",
-      "next_2_desc": "Dari serpihan kayu ke seutas asap",
-      "next_3_label": "Lihat semua kemenyan",
-      "next_3_desc": "Mungkin harum ini"
-    }
+    "story_next_1_label": "Harum hutan",
+    "story_next_1_desc": "Catatan dari hutan selatan, ditulis untuk pemakai",
+    "story_next_2_label": "Bagaimana tangan melipat cahaya",
+    "story_next_2_desc": "Bagaimana sebatang ambar menjadi perhiasan",
+    "story_next_3_label": "Dari mana datangnya bahan",
+    "story_next_3_desc": "Baltik, Burma, Fushun, dan setitis gaharu",
+    "vision_next_1_label": "Bagaimana ia dibuat",
+    "vision_next_1_desc": "Pisau, api, dan kesabaran",
+    "vision_next_2_label": "Kisah bahan",
+    "vision_next_2_desc": "Ambar dan kemenyan, dari hutan dan pesisir",
+    "vision_next_3_label": "Ambar, dipakai di badan",
+    "vision_next_3_desc": "Sepotong cahaya dari Baltik",
+    "craft_next_1_label": "Asal-usul bahan",
+    "craft_next_1_desc": "Ambar, gaharu, cendana",
+    "craft_next_2_label": "Dijadikan perhiasan ambar",
+    "craft_next_2_desc": "Dari batu kasar ke bulatan yang lembut",
+    "craft_next_3_label": "Dijadikan kemenyan timur",
+    "craft_next_3_desc": "Dari serpihan kayu ke seutas asap",
+    "materials_next_1_label": "Dijadikan perhiasan ambar",
+    "materials_next_1_desc": "Baltik, Burma, Fushun…",
+    "materials_next_2_label": "Dijadikan kemenyan timur",
+    "materials_next_2_desc": "Gaharu, cendana, nanmu…",
+    "materials_next_3_label": "Di mana tempat ini bermula",
+    "materials_next_3_desc": "Kembali ke hutan pertama",
+    "amber_next_1_label": "Asal-usul bahan",
+    "amber_next_1_desc": "Lima jenis ambar, dan gaharu",
+    "amber_next_2_label": "Bagaimana ia dibuat",
+    "amber_next_2_desc": "Dari batu kasar ke bulatan yang lembut",
+    "amber_next_3_label": "Lihat semua kepingan ambar",
+    "amber_next_3_desc": "Mungkin yang satu ini",
+    "incense_next_1_label": "Asal-usul bahan",
+    "incense_next_1_desc": "Lima jenis ambar, dan gaharu",
+    "incense_next_2_label": "Bagaimana ia dibuat",
+    "incense_next_2_desc": "Dari serpihan kayu ke seutas asap",
+    "incense_next_3_label": "Lihat semua kemenyan",
+    "incense_next_3_desc": "Mungkin harum ini"
   },
   "about": {
     "kicker": "Tentang",
     "title": "Bengkel Selatan Hutan",
     "subtitle": "Dua tangan, lebih sedekad kesabaran",
-    "p1": "Kami tidak mendedahkan umur, jantina, atau lokasi pengasas. Ini pilihan sengaja — biar hasil kerja berbicara, bukan orang.",
+    "p1": "Sudut ini menyimpan karya, bukan orang. Hutan, bahan, dan sedikit masa.",
     "p2": "Bahan dari hutan, masa dari tangan. Ambar dari batu kasar ke bulat lembut, kemenyan dari habuk ke seutas asap — semuanya perlahan.",
     "p3": "Kami percaya kraftangan adalah amalan — mengasah, memanas, menunggu. Selepas sedekad, hanya satu pengajaran tinggal: biarkan ruang putih.",
     "p4": "Jika anda ada fikiran tentang bahan, proses, atau tempahan, kami alu-alukan perbualan melalui /contact.",
@@ -618,7 +709,7 @@
     "faq_kicker": "Soalan Lazim",
     "faq_heading": "Q & A",
     "faq_q1_q": "Siapa pengasas?",
-    "faq_a1_a": "Kami tidak mendedahkan umur, jantina, atau lokasi pengasas. Biar hasil kerja berbicara, bukan orang.",
+    "faq_a1_a": "Gaya penulisan sengaja lapang — perkataan perlahan, ayat perlahan, perenggan perlahan. Membaca juga perlahan, tanpa tergesa-gesa, tanpa bertindan.",
     "faq_q2_q": "Mengapa inspirasi hutan?",
     "faq_a2_a": "Bahan dari hutan, masa dari tangan. Ambar, gaharu, cendana — semuanya dari hutan, semuanya perlahan.",
     "faq_q3_q": "Bagaimana anda melihat kraftangan?",
@@ -629,5 +720,30 @@
   "product": {
     "faq_kicker": "Soalan Lazim",
     "faq_heading": "Q & A"
+  },
+  "header": {
+    "aria_main": "Navigasi utama",
+    "aria_mobile_nav": "Navigasi mudah alih",
+    "aria_open_menu": "Buka menu",
+    "aria_close_menu": "Tutup menu",
+    "aria_main_menu": "Menu utama"
+  },
+  "500": {
+    "kicker": "huru-hara sebentar",
+    "title": "Hutan juga ada ribut",
+    "subtitle": "Hutan yang paling dalam pun ada ribut. Tarik nafas, cuba lagi.",
+    "cta_primary": "Kembali ke permulaan",
+    "cta_secondary": "Jelajah koleksi",
+    "suggested_heading": "Anda mungkin juga suka",
+    "search_label": "Cari produk",
+    "search_placeholder": "Cari mengikut nama atau kata kunci..."
+  },
+  "products": {
+    "kicker": "Kedai",
+    "filter_all": "Semua",
+    "filter_jewelry": "Amber",
+    "filter_incense": "Kemenyan",
+    "empty_title": "Belum ada karya",
+    "empty_desc": "Kumpulan pertama sedang dibentuk perlahan — sila hubungi kami untuk tempahan."
   }
 }

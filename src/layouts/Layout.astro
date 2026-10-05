@@ -62,7 +62,7 @@ const nav = [
 ---
 
 <!doctype html>
-<html lang={currentLocale} lang={currentLocale}>
+<html lang={currentLocale}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -131,6 +131,12 @@ const nav = [
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={`${siteUrl}${ogImage}`} />
 
+    <link
+      rel="preconnect"
+      href="https://cnamber-store-images.r2.dev"
+      crossorigin
+    />
+    <link rel="dns-prefetch" href="https://cnamber-store-images.r2.dev" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -143,6 +149,12 @@ const nav = [
     <title>{title}</title>
   </head>
   <body class="bg-white text-text-primary">
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-accent-700 focus:text-bg-base focus:rounded"
+    >
+      跳至主要内容
+    </a>
     <!-- Wave 12: Awwwards-tier scroll progress indicator (z-60 above mobile menu z-50; aria-hidden; JS-only state) -->
     <div class="scroll-progress" aria-hidden="true">
       <div class="scroll-progress-bar"></div>
@@ -174,6 +186,8 @@ const nav = [
     </script>
 
     <!-- Wave 33 Phase 2.2 + 2.3: per-page JSON-LD slot (Product / BreadcrumbList) -->
+    <meta name="theme-color" content="#2d4a3e" />
+    <meta name="format-detection" content="telephone=no" />
     <slot name="head" />
     <script is:inline>
       // Wave 13: hero parallax — rAF-thrustly translate3d(0, scrollY*0.35, 0)
@@ -235,7 +249,7 @@ const nav = [
       >
         <a
           href={homePath}
-          aria-label={`${siteName} — home`}
+          aria-label={`${siteName} — ${t("nav.home")}`}
           class="flex items-center gap-2.5 group focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-500/40 rounded-md shrink-0"
         >
           <svg
@@ -262,17 +276,28 @@ const nav = [
 
         <nav
           class="hidden md:flex items-center gap-7 text-base font-sans"
-          aria-label="Main"
+          aria-label={t("header.aria_main")}
         >
           {
-            nav.map((item) => (
-              <a
-                href={item.href}
-                class="text-text-secondary hover:text-forest-700 transition-colors duration-300 link-underline"
-              >
-                {item.label}
-              </a>
-            ))
+            nav.map((item) => {
+              const itemPath = item.href.startsWith(`/${currentLocale}`)
+                ? item.href.slice(`/${currentLocale}`.length) || "/"
+                : item.href;
+              const isActive = cleanPath === itemPath;
+              return (
+                <a
+                  href={item.href}
+                  aria-current={isActive ? "page" : undefined}
+                  class={
+                    isActive
+                      ? "text-forest-700 font-medium transition-colors duration-300 link-underline"
+                      : "text-text-secondary hover:text-forest-700 transition-colors duration-300 link-underline"
+                  }
+                >
+                  {item.label}
+                </a>
+              );
+            })
           }
         </nav>
 
@@ -280,7 +305,7 @@ const nav = [
           <button
             type="button"
             class="md:hidden p-2 -mr-2 text-forest-800 hover:opacity-70 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-500/40 rounded"
-            aria-label="Open menu"
+            aria-label={t("header.aria_open_menu")}
             aria-controls="mobile-menu"
             aria-expanded="false"
             data-mobile-menu-trigger
@@ -311,7 +336,7 @@ const nav = [
       aria-hidden="true"
       aria-modal="true"
       role="dialog"
-      aria-label="Main menu"
+      aria-label={t("header.aria_main_menu")}
     >
       <div
         class="flex items-center justify-between p-6 border-b border-forest-700/40"
@@ -322,7 +347,7 @@ const nav = [
         <button
           type="button"
           class="p-2 -mr-2 text-bg-base hover:opacity-70 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-300/40 rounded"
-          aria-label="Close menu"
+          aria-label={t("header.aria_close_menu")}
           data-mobile-menu-close
         >
           <svg
@@ -342,18 +367,29 @@ const nav = [
 
       <nav
         class="flex-1 flex flex-col items-center justify-center px-8 gap-8"
-        aria-label="Mobile"
+        aria-label={t("header.aria_mobile_nav")}
       >
         {
-          nav.map((item) => (
-            <a
-              href={item.href}
-              class="font-serif text-4xl text-bg-base hover:opacity-70 transition-opacity duration-300"
-              data-mobile-menu-link
-            >
-              {item.label}
-            </a>
-          ))
+          nav.map((item) => {
+            const itemPath = item.href.startsWith(`/${currentLocale}`)
+              ? item.href.slice(`/${currentLocale}`.length) || "/"
+              : item.href;
+            const isActive = cleanPath === itemPath;
+            return (
+              <a
+                href={item.href}
+                aria-current={isActive ? "page" : undefined}
+                class={
+                  isActive
+                    ? "font-serif text-4xl text-bg-base font-medium transition-opacity duration-300"
+                    : "font-serif text-4xl text-bg-base hover:opacity-70 transition-opacity duration-300"
+                }
+                data-mobile-menu-link
+              >
+                {item.label}
+              </a>
+            );
+          })
         }
       </nav>
 
@@ -362,7 +398,9 @@ const nav = [
       </div>
     </div>
 
-    <slot />
+    <main id="main-content" tabindex="-1">
+      <slot />
+    </main>
     <Footer
       siteName={siteName}
       themeLabel={themeLabel}

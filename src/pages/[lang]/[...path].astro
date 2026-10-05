@@ -9,6 +9,37 @@ const subPath =
 
 // /zh-Hans/* 不該走這條路(default locale 不加 prefix)
 if (!isLocale(lang) || lang === defaultLocale) {
+  Astro.response.status = 404;
+  return Astro.rewrite("/404");
+}
+
+// Wave 39: 對應不到的 path → locale-specific 404 (不 strip locale)
+// (避免 middleware 把 locale 重設成 zh-Hans,user 才看到正確 locale 404)
+const KNOWN_TOP = new Set([
+  "/",
+  "/products",
+  "/story",
+  "/vision",
+  "/craft",
+  "/materials",
+  "/amber",
+  "/incense",
+  "/blog",
+  "/quiz",
+  "/contact",
+  "/about",
+  "/cart",
+  "/checkout",
+  "/404",
+]);
+const isKnownSubPath =
+  KNOWN_TOP.has(subPath) ||
+  subPath.startsWith("/blog/") ||
+  subPath.startsWith("/products/") ||
+  subPath.startsWith("/checkout/") ||
+  subPath.startsWith("/quiz/");
+if (!isKnownSubPath) {
+  Astro.response.status = 404;
   return Astro.rewrite("/404");
 }
 

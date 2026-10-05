@@ -46,6 +46,7 @@ async function loadSiteSettings(
 // SSR worker responses 必須由 middleware 注入。
 function setSecurityHeaders(response: Response): void {
   response.headers.set("X-Frame-Options", "DENY");
+  response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
   response.headers.set("X-Content-Type-Options", "nosniff");
   response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
   response.headers.set(
@@ -73,7 +74,12 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const url = context.url;
 
   // 1. Locale detection
-  let locale = localeFromPath(url.pathname);
+  // Wave 41.2: catch-all `[lang]/[...path].astro` 的 `Astro.rewrite(subPath)`
+  // 會 re-run middleware,第二次 URL 已 strip locale prefix,會 fallback 到 zh-Hans
+  // 蓋掉原本 en/ms-MY/id-ID。reuse 已存在的 locale 解決。
+  let locale =
+    (context.locals.locale as Locale | undefined) ??
+    localeFromPath(url.pathname);
 
   if (!locale) {
     const cookieLocale = context.cookies.get(LOCALE_COOKIE)?.value;
@@ -110,7 +116,22 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const siteSettings = await loadSiteSettings(db);
   if (siteSettings) context.locals.siteSettings = siteSettings;
 
-  // 2. CSRF defense (F-03): POST/PUT/DELETE/PATCH /api/admin/* 必須 same-origin
+  // 2. Admin write audit log (Wave 79.3)
+  if (
+    context.request.method !== "GET" &&
+    context.request.method !== "HEAD" &&
+    context.url.pathname.startsWith("/api/admin/")
+  ) {
+    const email = context.locals.admin?.email ?? "anonymous";
+    const ip = context.request.headers.get("CF-Connecting-IP") ?? "unknown";
+    const method = context.request.method;
+    const path = context.url.pathname;
+    console.log(
+      `[AUDIT] ${new Date().toISOString()} ${email} ${method} ${path} from ${ip}`,
+    );
+  }
+
+  // 3. CSRF defense (F-03): POST/PUT/DELETE/PATCH /api/admin/* 必須 same-origin
   const requestMethod = context.request.method.toUpperCase();
   if (
     url.pathname.startsWith("/api/admin") &&
