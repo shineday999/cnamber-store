@@ -10,7 +10,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro",
+    "preview": "astro preview",
     "astro": "astro",
     "deploy": "wrangler pages deploy ./dist --project-name=cnamber-store --branch=main --commit-dirty=true",
     "check": "astro check",
