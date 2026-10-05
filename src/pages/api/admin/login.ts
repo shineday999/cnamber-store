@@ -58,7 +58,7 @@ export const POST: APIRoute = async (ctx) => {
     ctx.request.headers.get("CF-Connecting-IP") ??
     ctx.request.headers.get("X-Forwarded-For") ??
     "unknown";
-  const rl = checkRateLimit(clientIp);
+  const rl = checkRateLimit(ip);
   if (!rl.allowed) {
     return new Response(`Too many attempts. Try again in ${rl.retryAfter}s.`, {
       status: 429,
@@ -96,7 +96,6 @@ export const POST: APIRoute = async (ctx) => {
 
   // F-09: 更新 last_login_at / last_login_ip
   const now = Math.floor(Date.now() / 1000);
-  const clientIp = ctx.request.headers.get("cf-connecting-ip") ?? null;
   await db
     .prepare(
       "UPDATE admin_users SET last_login_at = ?, last_login_ip = ? WHERE email = ?",
