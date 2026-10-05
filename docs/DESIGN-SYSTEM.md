@@ -11,49 +11,49 @@
 
 ### Forest(主色,低飽和度森林綠)
 
-| Token | Hex | 用途 |
-|---|---|---|
-| `forest-50`  | `#F2EFE5` | 紙感背景基底 |
-| `forest-100` | `#DDD8C7` | 米白/亞麻 |
-| `forest-200` | `#BFB89E` | 沙岩 / 邊框 |
-| `forest-300` | `#9A9175` | 描邊文字 |
-| `forest-400` | `#73704D` | 次要文字 |
-| `forest-500` | `#4F5C36` | **Moss Green**(主品牌色)|
-| `forest-600` | `#3D4828` | 深 moss |
-| `forest-700` | `#2D3520` | 森林背景 |
-| `forest-800` | `#1F2615` | Hero 深色底 |
-| `forest-900` | `#161A0F` | 最深 |
+| Token        | Hex       | 用途                     |
+| ------------ | --------- | ------------------------ |
+| `forest-50`  | `#F2EFE5` | 紙感背景基底             |
+| `forest-100` | `#DDD8C7` | 米白/亞麻                |
+| `forest-200` | `#BFB89E` | 沙岩 / 邊框              |
+| `forest-300` | `#9A9175` | 描邊文字                 |
+| `forest-400` | `#73704D` | 次要文字                 |
+| `forest-500` | `#4F5C36` | **Moss Green**(主品牌色) |
+| `forest-600` | `#3D4828` | 深 moss                  |
+| `forest-700` | `#2D3520` | 森林背景                 |
+| `forest-800` | `#1F2615` | Hero 深色底              |
+| `forest-900` | `#161A0F` | 最深                     |
 
 ### Cream(背景,暖手工紙)
 
-| Token | Hex | 用途 |
-|---|---|---|
-| `cream-50`  | `#FAF7EE` | 卡片底 / 主背景(替代純白)|
-| `cream-100` | `#F2EDDF` | 次背景 |
-| `cream-200` | `#E8E2D0` | 邊框 / 分隔線 |
-| `cream-300` | `#D8D1BB` | 弱分隔 |
+| Token       | Hex       | 用途                      |
+| ----------- | --------- | ------------------------- |
+| `cream-50`  | `#FAF7EE` | 卡片底 / 主背景(替代純白) |
+| `cream-100` | `#F2EDDF` | 次背景                    |
+| `cream-200` | `#E8E2D0` | 邊框 / 分隔線             |
+| `cream-300` | `#D8D1BB` | 弱分隔                    |
 
 ### Terra(陶土 / 暖砂點綴)
 
-| Token | Hex | 用途 |
-|---|---|---|
-| `terra-300` | `#D29E7B` | 裝飾 |
-| `terra-500` | `#A45E3D` | **Terracotta**(CTA hover、強調)|
-| `terra-700` | `#5F3220` | 深棕 |
+| Token       | Hex       | 用途                            |
+| ----------- | --------- | ------------------------------- |
+| `terra-300` | `#D29E7B` | 裝飾                            |
+| `terra-500` | `#A45E3D` | **Terracotta**(CTA hover、強調) |
+| `terra-700` | `#5F3220` | 深棕                            |
 
 ### Bamboo(竹青通透色,極少用)
 
-| Token | Hex | 用途 |
-|---|---|---|
-| `bamboo-400` | `#6F9353` | 點綴 |
+| Token        | Hex       | 用途     |
+| ------------ | --------- | -------- |
+| `bamboo-400` | `#6F9353` | 點綴     |
 | `bamboo-500` | `#4F7A38` | 罕用強調 |
 
 ### Stone(冷灰輔助)
 
-| Token | Hex | 用途 |
-|---|---|---|
+| Token       | Hex       | 用途     |
+| ----------- | --------- | -------- |
 | `stone-400` | `#8B8275` | 弱化文字 |
-| `stone-600` | `#4A4538` | 邊框暗 |
+| `stone-600` | `#4A4538` | 邊框暗   |
 
 ### ❌ 不用
 
@@ -84,14 +84,14 @@
 
 ### 排版尺寸
 
-| 元素 | size | line-height | tracking |
-|---|---|---|---|
-| Hero 主標題 | `text-5xl md:text-7xl lg:text-8xl` | `1.05` | `-0.02em` |
-| 區塊標題 | `text-3xl md:text-5xl` | `1.15` | `-0.01em` |
-| 副標 | `text-xl italic` | `1.4` | `0` |
-| 內文 | `text-base` | `1.85` | `0`(東方禪意寬鬆行高)|
-| Kicker | `text-xs uppercase` | `1` | `0.4em`(間距寬,奢牌感)|
-| 按鈕 | `text-sm font-medium` | `1` | `0.04em` |
+| 元素        | size                               | line-height | tracking               |
+| ----------- | ---------------------------------- | ----------- | ---------------------- |
+| Hero 主標題 | `text-5xl md:text-7xl lg:text-8xl` | `1.05`      | `-0.02em`              |
+| 區塊標題    | `text-3xl md:text-5xl`             | `1.15`      | `-0.01em`              |
+| 副標        | `text-xl italic`                   | `1.4`       | `0`                    |
+| 內文        | `text-base`                        | `1.85`      | `0`(東方禪意寬鬆行高)  |
+| Kicker      | `text-xs uppercase`                | `1`         | `0.4em`(間距寬,奢牌感) |
+| 按鈕        | `text-sm font-medium`              | `1`         | `0.04em`               |
 
 ---
 
@@ -100,26 +100,46 @@
 ### Film Grain — 全站覆蓋
 
 ```css
-.bg-grain { background-image: url("data:image/svg+xml;utf8,<svg...feTurbulence...>"); background-size: 240px 240px; opacity: 0.06; mix-blend-mode: overlay; }
+.bg-grain {
+  background-image: url("data:image/svg+xml;utf8,<svg...feTurbulence...>");
+  background-size: 240px 240px;
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+}
 ```
 
 ### Handmade Paper Texture(背景區塊)
 
 ```css
-.bg-paper { background-image: url("data:image/svg+xml;utf8,<feTurbulence baseFrequency='0.04' numOctaves='5'/>"); background-size: 300px; opacity: 0.04; }
+.bg-paper {
+  background-image: url("data:image/svg+xml;utf8,<feTurbulence baseFrequency='0.04' numOctaves='5'/>");
+  background-size: 300px;
+  opacity: 0.04;
+}
 ```
 
 ### Glassmorphism(玻璃擬態 — 卡片 / overlays)
 
 ```css
-.glass { background: rgba(250, 247, 238, 0.65); backdrop-filter: blur(20px) saturate(120%); -webkit-backdrop-filter: blur(20px) saturate(120%); border: 1px solid rgba(115, 112, 77, 0.12); }
-.glass-dark { background: rgba(31, 38, 21, 0.5); backdrop-filter: blur(20px) saturate(110%); border: 1px solid rgba(255,255,255,0.08); }
+.glass {
+  background: rgba(250, 247, 238, 0.65);
+  backdrop-filter: blur(20px) saturate(120%);
+  -webkit-backdrop-filter: blur(20px) saturate(120%);
+  border: 1px solid rgba(115, 112, 77, 0.12);
+}
+.glass-dark {
+  background: rgba(31, 38, 21, 0.5);
+  backdrop-filter: blur(20px) saturate(110%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
 ```
 
 ### Cinematic Image Filter
 
 ```css
-.cinematic { filter: saturate(0.85) brightness(0.92) contrast(1.05); }
+.cinematic {
+  filter: saturate(0.85) brightness(0.92) contrast(1.05);
+}
 ```
 
 ---
@@ -128,12 +148,12 @@
 
 ### 留白節奏
 
-| 區塊 | padding | 用途 |
-|---|---|---|
-| Hero | `h-[88vh] min-h-[640px]` | 滿版森林底 |
-| 區塊間距 | `py-16 md:py-20` | 比之前 `py-24` 緊湊 |
-| 內容間距 | `mb-12 md:mb-16` | 標題到內容 |
-| Section 內部 | `max-w-6xl mx-auto px-6` | 固定 |
+| 區塊         | padding                  | 用途                |
+| ------------ | ------------------------ | ------------------- |
+| Hero         | `h-[88vh] min-h-[640px]` | 滿版森林底          |
+| 區塊間距     | `py-16 md:py-20`         | 比之前 `py-24` 緊湊 |
+| 內容間距     | `mb-12 md:mb-16`         | 標題到內容          |
+| Section 內部 | `max-w-6xl mx-auto px-6` | 固定                |
 
 ### 構圖 — **非對稱 grid**(Asymmetric Grid)
 
@@ -156,22 +176,46 @@ Featured Products: **3-2-3-2** 交錯排列
 ### 慢速有機曲線
 
 ```css
-transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1); /* "expo out" — 慢起慢收 */
+transition-timing-function: cubic-bezier(
+  0.16,
+  1,
+  0.3,
+  1
+); /* "expo out" — 慢起慢收 */
 transition-duration: 1.1s;
 ```
 
 ### 微風拂動(Ken Burns on Hero)
 
 ```css
-@keyframes breathe { 0%,100% { transform: scale(1); } 50% { transform: scale(1.03); } }
-.animate-breathe { animation: breathe 16s ease-in-out infinite; }
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+}
+.animate-breathe {
+  animation: breathe 16s ease-in-out infinite;
+}
 ```
 
 ### Scroll Reveal(IntersectionObserver)
 
 ```css
-.reveal-on-scroll { opacity: 0; transform: translateY(28px); transition: opacity 1.1s ease, transform 1.1s ease; }
-.reveal-on-scroll.revealed { opacity: 1; transform: translateY(0); }
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 1.1s ease,
+    transform 1.1s ease;
+}
+.reveal-on-scroll.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
 ```
 
 ### Hover 微互動
@@ -183,7 +227,9 @@ transition-duration: 1.1s;
 ### 平滑捲動
 
 ```css
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+}
 ```
 
 ---
@@ -191,35 +237,42 @@ html { scroll-behavior: smooth; }
 ## 6. 組件架構(Components)
 
 ### `Layout.astro`
+
 - 載入 `global.css`
 - 載入字體(Cormorant Garamond + Noto Serif SC + Inter)
 - 設定 hreflang / OG / Twitter
 - `<slot />` 內容區
 
 ### `HomeContent.astro`
+
 - `<Hero>`(full-bleed forest + grain + Ken Burns)
 - `<Categories>`(asymmetric 5/7 + 7/5 cards)
 - `<FeaturedProducts>`(3-2-3-2 asymmetric grid)
 - `<Brand>`(compact 1 sentence + 2 mini CTAs)
 
 ### `GlassCard.astro`(新組件)
+
 ```astro
 <GlassCard>{children}</GlassCard>
 ```
+
 應用:`background: rgba(crag, 0.65) + backdrop-blur(20px) + 細邊框`
 
 ### `AsymmetricGrid.astro`(新組件)
+
 ```astro
 <AsymmetricGrid left="5/7" right="7/5">{children}</AsymmetricGrid>
 ```
 
 ### `ProductCard.astro`
+
 - 編輯式排版:小 Kicker + 大 Serif Name + 簡短描述 + 小 Price
 - 圖片 `group-hover:scale-[1.04]`(1.4s)
 - 邊框細 1px forest-200,hover 時變 forest-500
 - 大量 padding 給「靜物感」
 
 ### `RevealOnScroll.astro`(已存在)
+
 - IntersectionObserver fade-up + 延遲
 - 用於區塊與卡片進場
 
@@ -267,17 +320,19 @@ Footer (簡潔,2 行)
 ### 處理
 
 ```css
-img.cinematic { filter: saturate(0.85) brightness(0.92) contrast(1.05); }
+img.cinematic {
+  filter: saturate(0.85) brightness(0.92) contrast(1.05);
+}
 ```
 
 ### 比例
 
-| 用途 | 比例 |
-|---|---|
-| Hero | 16:9 或 21:9 |
-| Category card | 5:4 |
-| Product card | 1:1 或 4:5 |
-| Detail hero | 4:5 直式 |
+| 用途          | 比例         |
+| ------------- | ------------ |
+| Hero          | 16:9 或 21:9 |
+| Category card | 5:4          |
+| Product card  | 1:1 或 4:5   |
+| Detail hero   | 4:5 直式     |
 
 ---
 

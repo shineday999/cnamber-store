@@ -35,7 +35,13 @@ const GOOGLE_CLIENT_ID = env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = env.GOOGLE_CLIENT_SECRET;
 const GOOGLE_REFRESH_TOKEN = env.GOOGLE_REFRESH_TOKEN;
 
-if (!SMTP_HOST || !SMTP_USER || !GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET || !GOOGLE_REFRESH_TOKEN) {
+if (
+  !SMTP_HOST ||
+  !SMTP_USER ||
+  !GOOGLE_CLIENT_ID ||
+  !GOOGLE_CLIENT_SECRET ||
+  !GOOGLE_REFRESH_TOKEN
+) {
   console.error(
     "Missing SMTP creds in /data2/hermes-profiles/profiles/xiaxiq/.env",
   );

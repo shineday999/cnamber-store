@@ -1,7 +1,7 @@
 ---
 name: Doc
 about: 文件需求
-title: '[doc] '
+title: "[doc] "
 labels: doc
 ---
 

@@ -66,18 +66,18 @@
 
 ## CWE Top 25(常見項)
 
-| CWE | 名稱 | 狀態 | 備註 |
-|---|---|---|---|
-| CWE-79 | XSS | ✅ | 無 `dangerouslySetInnerHTML`,所有輸出 escape |
-| CWE-89 | SQL Injection | ✅ | prepared statements 全用 |
-| CWE-352 | CSRF | ⚠️ | POST 表單需同源;同源 + sameSite=lax 提供基本防護 |
-| CWE-22 | Path Traversal | ✅ | 動態路由只 `[id]` + `[lang]`,D1 直接 bind |
-| CWE-798 | Hardcoded Credentials | ✅ | 無 hardcoded secrets;`.env` 透過 `wrangler secret` |
-| CWE-787 | Out-of-bounds Write | N/A | 不適用(無 C code) |
-| CWE-125 | Out-of-bounds Read | N/A | 不適用 |
-| CWE-416 | Use After Free | N/A | 不適用 |
-| CWE-476 | NULL Pointer Deref | ✅ | TypeScript 強制 null check |
-| CWE-190 | Integer Overflow | N/A | JS Number 範圍足夠 |
+| CWE     | 名稱                  | 狀態 | 備註                                               |
+| ------- | --------------------- | ---- | -------------------------------------------------- |
+| CWE-79  | XSS                   | ✅   | 無 `dangerouslySetInnerHTML`,所有輸出 escape       |
+| CWE-89  | SQL Injection         | ✅   | prepared statements 全用                           |
+| CWE-352 | CSRF                  | ⚠️   | POST 表單需同源;同源 + sameSite=lax 提供基本防護   |
+| CWE-22  | Path Traversal        | ✅   | 動態路由只 `[id]` + `[lang]`,D1 直接 bind          |
+| CWE-798 | Hardcoded Credentials | ✅   | 無 hardcoded secrets;`.env` 透過 `wrangler secret` |
+| CWE-787 | Out-of-bounds Write   | N/A  | 不適用(無 C code)                                  |
+| CWE-125 | Out-of-bounds Read    | N/A  | 不適用                                             |
+| CWE-416 | Use After Free        | N/A  | 不適用                                             |
+| CWE-476 | NULL Pointer Deref    | ✅   | TypeScript 強制 null check                         |
+| CWE-190 | Integer Overflow      | N/A  | JS Number 範圍足夠                                 |
 
 ---
 
@@ -88,7 +88,7 @@
 3. **Honeypot field**:聯絡表單加隱藏欄位抓 bot
 4. **CSP headers**:Layout 加 `Content-Security-Policy`
 5. **HSTS**:Cloudflare Dashboard 啟用 Strict-Transport-Security
-7. **Email 通知**:接 Resend + DKIM/SPF/DMARC 設定
+6. **Email 通知**:接 Resend + DKIM/SPF/DMARC 設定
 
 ---
 

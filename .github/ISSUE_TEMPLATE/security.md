@@ -1,7 +1,7 @@
 ---
 name: Security
 about: 回報安全弱點
-title: '[security] '
+title: "[security] "
 labels: security
 ---
 

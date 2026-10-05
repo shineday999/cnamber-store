@@ -28,22 +28,22 @@
 
 ## 技術決定(鎖定)
 
-| 項目 | 決定 | 原因 |
-|---|---|---|
-| Astro 模式 | `output: 'server'` + `@astrojs/cloudflare` v11+ | 計畫書 §4 |
-| D1 database_id | `adbf8443-b2ab-4042-9781-d36588a8f5b8`(APAC) | 計畫書 §4 |
-| KV namespace id | `4c8f1d2d42c040a9958d3c133426d896` | I18N 快取 |
-| i18n | 自寫 t() helper + 中間件 | Astro 慣例、零 runtime cost |
-| API | Hono + Pages Functions `[[path]].ts` | 輕量、TypeScript-first |
-| 測試 | Vitest(已裝) | Astro 預設整合 |
-| 部署 | `cloudflare/pages-action` | 自動部署 + PR preview |
+| 項目            | 決定                                            | 原因                        |
+| --------------- | ----------------------------------------------- | --------------------------- |
+| Astro 模式      | `output: 'server'` + `@astrojs/cloudflare` v11+ | 計畫書 §4                   |
+| D1 database_id  | `adbf8443-b2ab-4042-9781-d36588a8f5b8`(APAC)    | 計畫書 §4                   |
+| KV namespace id | `4c8f1d2d42c040a9958d3c133426d896`              | I18N 快取                   |
+| i18n            | 自寫 t() helper + 中間件                        | Astro 慣例、零 runtime cost |
+| API             | Hono + Pages Functions `[[path]].ts`            | 輕量、TypeScript-first      |
+| 測試            | Vitest(已裝)                                    | Astro 預設整合              |
+| 部署            | `cloudflare/pages-action`                       | 自動部署 + PR preview       |
 
 ---
 
 ## 進度記錄
 
-| 日期 | Task | 狀態 | 備註 |
-|---|---|---|---|
+| 日期       | Task   | 狀態                               | 備註                                               |
+| ---------- | ------ | ---------------------------------- | -------------------------------------------------- |
 | 2026-09-29 | T1-T10 | ✅ Commit `1cd6f05` pushed to main | astro check 0 errors / 6 tests pass / SSR build OK |
 
 ## 驗收證據

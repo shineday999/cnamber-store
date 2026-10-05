@@ -345,7 +345,6 @@ h6 {
   }
 }
 
-
 /* === Wave 8 polish: hero text-shadow + focus-visible global === */
 
 /* Hero h1/p legibility over mid-tone forest photography:
@@ -369,7 +368,6 @@ h6 {
     border-radius: 2px;
   }
 }
-
 
 /* === Wave 12: scroll progress indicator (Awwwards-tier) === */
 
@@ -410,7 +408,6 @@ h6 {
   }
 }
 
-
 /* === Wave 14: page fade-in (Awwwards-tier perceived quality) === */
 
 /* Body fades + subtly rises on every page load. Wave 11's * blanket
@@ -429,7 +426,6 @@ body {
     transform: translateY(0);
   }
 }
-
 
 /* === Wave 15: sticky header elevation on scroll === */
 

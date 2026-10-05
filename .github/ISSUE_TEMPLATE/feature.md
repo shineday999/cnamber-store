@@ -1,7 +1,7 @@
 ---
 name: Feature
 about: 提出新功能
-title: '[feature] '
+title: "[feature] "
 labels: feature
 ---
 

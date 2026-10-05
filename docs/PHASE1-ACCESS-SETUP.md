@@ -47,6 +47,7 @@
 ## 驗證
 
 完成後:
+
 1. 訪問 `https://cnamber.ccwu.cc/admin`(即使 Phase 1 還沒 admin 內容)
 2. 應自動跳轉到 CF Access login 頁
 3. 輸入您的 email → 收到 OTP 信

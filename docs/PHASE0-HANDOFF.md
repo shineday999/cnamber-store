@@ -57,11 +57,11 @@ curl -s https://cnamber.ccwu.cc | head -10
 2. 進入 repo **shineday999/cnamber-store**
 3. 上方頁籤 → **Projects** → 點 **→ New project**(或 **Create a project**)
 4. 選擇模板:**Kanban**(或 "Team planning")
-6. 填寫:
+5. 填寫:
    - **Project name**:`cnamber-store Phase 0-6`
    - **Description**:`追蹤 Phase 0-6 進度,Kanban 4 欄視覺化`
-7. 點 **Create**
-8. 確認 4 個欄位存在:**Todo / In Progress / In Review / Done**
+6. 點 **Create**
+7. 確認 4 個欄位存在:**Todo / In Progress / In Review / Done**
 
 ### 連結 Milestones 到 Project
 
@@ -107,16 +107,16 @@ Phase 1 開工時,我會自動接續處理(您不需手動操作):
 
 Phase 1+ 才會用到,先列出提醒:
 
-| Secret | 用途 | Phase |
-|---|---|---|
-| `STRIPE_PUBLISHABLE_KEY` | Stripe | Phase 4 |
-| `STRIPE_SECRET_KEY` | Stripe | Phase 4 |
-| `STRIPE_WEBHOOK_SECRET` | Stripe | Phase 4 |
-| `RESEND_API_KEY` | Email 交易信 | Phase 4 |
-| `CLERK_PUBLISHABLE_KEY` | 認證 | Phase 5 |
-| `CLERK_SECRET_KEY` | 認證 | Phase 5 |
-| `SF_API_KEY` / `SF_API_SECRET` | SF International | Phase 4 |
-| `ARAMEX_ACCOUNT_NUMBER` / `ARAMEX_USERNAME` | Aramex | Phase 4 |
+| Secret                                      | 用途             | Phase   |
+| ------------------------------------------- | ---------------- | ------- |
+| `STRIPE_PUBLISHABLE_KEY`                    | Stripe           | Phase 4 |
+| `STRIPE_SECRET_KEY`                         | Stripe           | Phase 4 |
+| `STRIPE_WEBHOOK_SECRET`                     | Stripe           | Phase 4 |
+| `RESEND_API_KEY`                            | Email 交易信     | Phase 4 |
+| `CLERK_PUBLISHABLE_KEY`                     | 認證             | Phase 5 |
+| `CLERK_SECRET_KEY`                          | 認證             | Phase 5 |
+| `SF_API_KEY` / `SF_API_SECRET`              | SF International | Phase 4 |
+| `ARAMEX_ACCOUNT_NUMBER` / `ARAMEX_USERNAME` | Aramex           | Phase 4 |
 
 ---
 

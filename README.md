@@ -15,7 +15,7 @@
 - **後端**:Cloudflare Workers + Hono(Astro API routes 形式)
 - **資料庫**:Cloudflare D1(SQLite,13 個表)
 - **儲存**:Cloudflare R2(產品圖)+ KV(i18n 快取)
-- **認證**:Cloudflare Access(JWT-based,role  whitelist)
+- **認證**:Cloudflare Access(JWT-based,role whitelist)
 - **Email**:Resend(Phase 5 接入)
 - **部署**:Cloudflare Pages + GitHub App(PR preview + main deploy)
 
@@ -72,11 +72,13 @@ npm test                       # Vitest
 詳見 [`docs/PHASE1-ACCESS-SETUP.md`](./docs/PHASE1-ACCESS-SETUP.md)
 
 ### DNS CNAME
+
 ```
 cnamber.ccwu.cc → cnamber-store.pages.dev (Proxied)
 ```
 
 ### Cloudflare Access Application
+
 ```
 Application domain: cnamber.ccwu.cc
 Path: /admin*
