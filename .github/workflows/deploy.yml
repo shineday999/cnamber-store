@@ -24,6 +24,24 @@ jobs:
       - run: pnpm run build
         env:
           NODE_VERSION: "22"
+      - name: Flatten dist/client static assets for wrangler Pages
+        run: |
+          if [ -d dist/client ]; then
+            echo "Before flatten: dist/ top-level"
+            ls -1 dist/ | head -10
+            cp -r dist/client/. dist/
+            rm -rf dist/client
+            echo ""
+            echo "After flatten: dist/ top-level"
+            ls -1 dist/ | head -20
+            echo ""
+            echo "Spot check:"
+            test -f dist/_astro/page-ssr.D7vGzN-b.css && echo "  ✓ dist/_astro/page-ssr.D7vGzN-b.css"
+            test -f dist/images/banners/slide-1.jpg && echo "  ✓ dist/images/banners/slide-1.jpg"
+            test -f dist/favicon.ico && echo "  ✓ dist/favicon.ico"
+          else
+            echo "dist/client/ not found, skip flatten"
+          fi
       - run: pnpm test
 
       - name: Upload dist artifact
