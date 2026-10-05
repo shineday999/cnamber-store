@@ -13,6 +13,7 @@
     "language": "Language",
     "options": "Options",
     "quantity": "Quantity",
+    "stock": "Stock",
     "select_option": "Select an option",
     "reserve": "Reserve",
     "from": "from",
@@ -701,7 +702,7 @@
     "p1": "This corner holds the works, not the person. Forest, materials, and a little time.",
     "p2": "Materials from the forest, time given by hand. Amber from rough stone to soft roundness, incense from sawdust to a thread of smoke — all slow.",
     "p3": "We believe craft is a practice — sharpening, heating, waiting. After a decade, only one lesson remains: leave white space.",
-    "p4": "If you have thoughts on materials, process, or reservation, we welcome a conversation through /contact.",
+    "p4": "If you have thoughts on materials, process, or reservation, we welcome a conversation through our contact page.",
     "story_label": "Where the story begins",
     "story_desc": "Forest, in our hands",
     "craft_label": "See the handwork",
@@ -715,7 +716,7 @@
     "faq_q3_q": "How do you see craft?",
     "faq_a3_a": "Craft is a practice — sharpening, heating, waiting. After a decade, only one lesson remains: leave white space.",
     "faq_q4_q": "How can we talk?",
-    "faq_a4_a": "Through /contact. We will reply within one to two working days."
+    "faq_a4_a": "Through our contact page. We will reply within one to two working days."
   },
   "product": {
     "faq_kicker": "Common Questions",

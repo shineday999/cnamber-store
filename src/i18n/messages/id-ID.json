@@ -13,6 +13,7 @@
     "language": "Bahasa",
     "options": "Pilihan",
     "quantity": "Jumlah",
+    "stock": "Stok",
     "select_option": "Silakan pilih pilihan",
     "reserve": "Pesan",
     "from": "mulai dari",
@@ -701,7 +702,7 @@
     "p1": "Sudut ini menyimpan karya, bukan orang. Hutan, bahan, dan sedikit waktu.",
     "p2": "Bahan dari hutan, waktu dari tangan. Amber dari batu kasar ke bulat lembut, dupa dari serbuk ke sehelai asap — semua lambat.",
     "p3": "Kami percaya kerajinan adalah praktik — mengasah, memanas, menunggu. Setelah satu dekade, hanya satu pelajaran tersisa: biarkan ruang putih.",
-    "p4": "Jika Anda punya pendapat tentang bahan, proses, atau pemesanan, kami menyambut percakapan melalui /contact.",
+    "p4": "Jika Anda punya pendapat tentang bahan, proses, atau pemesanan, kami menyambut percakapan melalui halaman kontak kami.",
     "story_label": "Di mana cerita dimulai",
     "story_desc": "Hutan, di tangan kami",
     "craft_label": "Lihat pekerjaan tangan",
@@ -715,7 +716,7 @@
     "faq_q3_q": "Bagaimana Anda melihat kerajinan?",
     "faq_a3_a": "Kerajinan adalah praktik — mengasah, memanas, menunggu. Setelah satu dekade, hanya satu pelajaran tersisa: biarkan ruang putih.",
     "faq_q4_q": "Bagaimana kita bisa bicara?",
-    "faq_a4_a": "Melalui /contact. Kami akan membalas dalam satu hingga dua hari kerja."
+    "faq_a4_a": "Melalui halaman kontak kami. Kami akan membalas dalam satu hingga dua hari kerja."
   },
   "product": {
     "faq_kicker": "Pertanyaan Umum",

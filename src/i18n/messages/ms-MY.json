@@ -13,6 +13,7 @@
     "language": "Bahasa",
     "options": "Pilihan",
     "quantity": "Kuantiti",
+    "stock": "Stok",
     "select_option": "Sila pilih pilihan",
     "reserve": "Tempah",
     "from": "dari",
@@ -701,7 +702,7 @@
     "p1": "Sudut ini menyimpan karya, bukan orang. Hutan, bahan, dan sedikit masa.",
     "p2": "Bahan dari hutan, masa dari tangan. Ambar dari batu kasar ke bulat lembut, kemenyan dari habuk ke seutas asap — semuanya perlahan.",
     "p3": "Kami percaya kraftangan adalah amalan — mengasah, memanas, menunggu. Selepas sedekad, hanya satu pengajaran tinggal: biarkan ruang putih.",
-    "p4": "Jika anda ada fikiran tentang bahan, proses, atau tempahan, kami alu-alukan perbualan melalui /contact.",
+    "p4": "Jika anda ada fikiran tentang bahan, proses, atau tempahan, kami alu-alukan perbualan melalui halaman hubungi kami.",
     "story_label": "Di mana kisah bermula",
     "story_desc": "Hutan, di tangan kami",
     "craft_label": "Lihat kerja tangan",
@@ -715,7 +716,7 @@
     "faq_q3_q": "Bagaimana anda melihat kraftangan?",
     "faq_a3_a": "Kraftangan adalah amalan — mengasah, memanas, menunggu. Selepas sedekad, hanya satu pengajaran tinggal: biar ruang putih.",
     "faq_q4_q": "Bagaimana kita boleh berbual?",
-    "faq_a4_a": "Melalui /contact. Kami akan membalas dalam satu hingga dua hari bekerja."
+    "faq_a4_a": "Melalui halaman hubungi kami. Kami akan membalas dalam satu hingga dua hari bekerja."
   },
   "product": {
     "faq_kicker": "Soalan Lazim",
