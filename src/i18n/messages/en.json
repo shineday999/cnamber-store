@@ -363,7 +363,7 @@
       "back": "Back"
     },
     "footer": {
-      "tagline": "© 2026 cnamber-store admin · All rights reserved"
+      "tagline": "© 2026 {siteName} admin · All rights reserved"
     },
     "login": {
       "title": "Admin Login",

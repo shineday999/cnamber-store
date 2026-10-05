@@ -363,7 +363,7 @@
       "back": "Back"
     },
     "footer": {
-      "tagline": "© 2026 cnamber-store admin · Hak cipta dilindungi"
+      "tagline": "© 2026 {siteName} admin · Hak cipta dilindungi"
     },
     "login": {
       "title": "Admin Login",

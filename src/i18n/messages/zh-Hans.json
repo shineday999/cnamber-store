@@ -377,7 +377,7 @@
       "back": "返回"
     },
     "footer": {
-      "tagline": "© 2026 cnamber-store 后台 · 全部版权保留"
+      "tagline": "© 2026 {siteName} 后台 · 全部版权保留"
     },
     "login": {
       "title": "管理员登录",
