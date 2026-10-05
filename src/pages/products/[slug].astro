@@ -349,11 +349,13 @@ void locale;
   <script>
     // qty input max 綁當前選中 SKU 的 stock,切 radio 時 clamp qty
     document
-      .querySelectorAll('input[type="radio"][name="sku"]')
+      .querySelectorAll<HTMLInputElement>('input[type="radio"][name="sku"]')
       .forEach((radio) => {
         radio.addEventListener("change", () => {
           const stock = parseInt(radio.dataset.stock || "999", 10);
-          const qty = document.getElementById("qty-input");
+          const qty = document.getElementById(
+            "qty-input",
+          ) as HTMLInputElement | null;
           if (qty) {
             qty.max = String(stock);
             if (parseInt(qty.value || "1", 10) > stock)

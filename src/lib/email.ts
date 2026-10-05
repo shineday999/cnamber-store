@@ -68,7 +68,7 @@ export async function sendEmail(
     return { ok: false, error: `cf_email_${res.status}` };
   }
   const data = (await res.json()) as { result?: { id?: string } };
-  return { ok: true, id: data.result?.id };
+  return data.result?.id ? { ok: true, id: data.result.id } : { ok: true };
 }
 
 export function emailEnvFromContext(ctx: {
@@ -165,8 +165,8 @@ export function welcomeNewsletterEmail(
       text: `Halo ${email}, terima kasih telah berlangganan ${safeName}.`,
     },
   };
-  const subject = subjects[locale] ?? subjects["en"];
-  const body = bodies[locale] ?? bodies["en"];
+  const subject = subjects[locale] ?? subjects["en"] ?? "";
+  const body = bodies[locale] ?? bodies["en"] ?? { html: "", text: "" };
   const html = `
     <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
       <h2 style="color: #1A2E1A; font-family: Georgia, serif;">${safeName}</h2>

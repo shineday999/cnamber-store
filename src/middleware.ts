@@ -107,7 +107,8 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
   // Wave 28.7: 載入 D1 site_settings (12 rows,index-covered,~5-15ms)
   const db = context.locals.runtime?.env?.DB;
-  context.locals.siteSettings = await loadSiteSettings(db);
+  const siteSettings = await loadSiteSettings(db);
+  if (siteSettings) context.locals.siteSettings = siteSettings;
 
   // 2. CSRF defense (F-03): POST/PUT/DELETE/PATCH /api/admin/* 必須 same-origin
   const requestMethod = context.request.method.toUpperCase();

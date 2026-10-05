@@ -30,7 +30,10 @@ const valueMap: Record<string, Record<string, string>> = {
   sub_theme: {},
 };
 for (const r of rows.results ?? []) {
-  if (r.key in valueMap) valueMap[r.key][r.locale] = r.value;
+  if (r.key in valueMap) {
+    const sub = valueMap[r.key];
+    if (sub) sub[r.locale] = r.value;
+  }
 }
 
 const LOCALES = [

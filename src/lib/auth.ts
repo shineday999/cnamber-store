@@ -14,7 +14,7 @@ import bcrypt from "bcryptjs";
 export interface AdminSession {
   email: string;
   role: "super_admin";
-  displayName?: string;
+  displayName: string;
 }
 
 const SESSION_COOKIE = "cnamber_admin_session";
@@ -115,7 +115,7 @@ export async function getAdminFromContext(
   return {
     email: row.email,
     role: "super_admin",
-    displayName: row.display_name ?? row.email.split("@")[0],
+    displayName: row.display_name ?? row.email.split("@")[0] ?? row.email,
   };
 }
 

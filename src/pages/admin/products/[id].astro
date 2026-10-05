@@ -21,6 +21,7 @@ const product = env?.DB
       status: string;
       image_url: string | null;
       created_at: number;
+      tags: string | null;
     }>()
   : null;
 
@@ -73,7 +74,7 @@ const trByLocale = (locale: string) =>
       },
       { id: "variants", label: t("admin.products_detail.tab_variants") },
     ]}
-    paramName="tab"
+    defaultTab="core"
   >
     <div slot="core">
       <div
