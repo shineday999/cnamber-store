@@ -7,8 +7,10 @@ const pathParts = Astro.params.path ?? [];
 const subPath =
   "/" + (Array.isArray(pathParts) ? pathParts.join("/") : pathParts);
 
-// /zh-Hans/* 不該走這條路(default locale 不加 prefix)
-if (!isLocale(lang) || lang === defaultLocale) {
+// 非法 locale (e.g. /abc/...) → 404
+// Wave 88.5: default locale 加 prefix (e.g. /zh-Hans/products) 不再 404,
+// 改走下面 rewrite 到 subPath,等同訪問 /products (locale 仍由 middleware 從 URL 設為 zh-Hans)
+if (!isLocale(lang)) {
   Astro.response.status = 404;
   return Astro.rewrite("/404");
 }

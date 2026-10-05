@@ -7,7 +7,9 @@ import { defaultLocale, isLocale, type Locale } from "../../i18n/config";
 
 const lang = Astro.params.lang ?? "";
 
-if (!isLocale(lang) || lang === defaultLocale) {
+// Wave 88.5: default locale 加 prefix (e.g. /zh-Hans/) 不再 404,
+// 直接走下面 render(等同訪問 /,但 URL prefix 保留)
+if (!isLocale(lang)) {
   return Astro.rewrite("/404");
 }
 
