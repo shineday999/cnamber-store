@@ -57,9 +57,6 @@ const breadcrumbItems = [
         items.map(([titleKey, descKey], i) => (
           <RevealOnScroll delay={i * 60} class="h-full">
             <article class="h-full p-6 md:p-7 bg-bg-card border border-forest-100 hover:border-forest-300 rounded-card transition-all duration-500 hover:shadow-soft">
-              <p class="text-[10px] uppercase tracking-[0.3em] text-terra-500 font-sans mb-3">
-                {String(i + 1).padStart(2, "0")}
-              </p>
               <h3 class="font-serif text-xl md:text-2xl font-light text-forest-800 mb-3 leading-tight">
                 {t(titleKey)}
               </h3>
