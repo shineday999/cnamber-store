@@ -2,6 +2,7 @@
 // Phase 5 之後可改用 quiz_rules 表 + 預寫產品文案
 
 import type { APIRoute } from "astro";
+import { env } from "cloudflare:workers";
 import { scoreProducts } from "../../../lib/quiz";
 
 export const POST: APIRoute = async (ctx) => {
@@ -25,7 +26,6 @@ export const POST: APIRoute = async (ctx) => {
   }
 
   // Load active products
-  const env = ctx.locals.runtime?.env;
   const products = env?.DB
     ? await env.DB.prepare(
         `SELECT p.id, p.slug, pt.name, p.tags

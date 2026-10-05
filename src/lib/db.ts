@@ -1,9 +1,8 @@
 // D1 query helpers — 共用型別 + CRUD wrappers
-import type { APIContext } from 'astro';
+import { env } from "cloudflare:workers";
 
-export function getDB(ctx: APIContext): D1Database {
-  const env = ctx.locals.runtime?.env as { DB?: D1Database } | undefined;
-  if (!env?.DB) throw new Error('D1 binding DB not available');
+export function getDB(): D1Database {
+  if (!env?.DB) throw new Error("D1 binding DB not available");
   return env.DB;
 }
 
@@ -12,7 +11,7 @@ export interface Product {
   category: string;
   subcategory: string | null;
   slug: string;
-  status: 'draft' | 'active' | 'archived';
+  status: "draft" | "active" | "archived";
   created_at: number;
   updated_at: number;
 }
@@ -51,8 +50,8 @@ export interface Order {
   currency: string;
   shipping_fee: number;
   total: number;
-  status: 'pending' | 'confirmed' | 'shipped' | 'delivered' | 'cancelled';
-  payment_status: 'unpaid' | 'paid' | 'refunded';
+  status: "pending" | "confirmed" | "shipped" | "delivered" | "cancelled";
+  payment_status: "unpaid" | "paid" | "refunded";
   notes: string | null;
   tracking_number: string | null;
   created_at: number;
@@ -68,12 +67,12 @@ export interface Review {
   rating: number;
   content: string;
   image_urls: string | null;
-  status: 'pending' | 'approved' | 'rejected';
+  status: "pending" | "approved" | "rejected";
   locale: string | null;
   created_at: number;
 }
 
 export function genId(prefix: string): string {
-  const rand = crypto.randomUUID().replace(/-/g, '').slice(0, 12);
+  const rand = crypto.randomUUID().replace(/-/g, "").slice(0, 12);
   return `${prefix}_${rand}`;
 }

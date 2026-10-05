@@ -1,4 +1,6 @@
 ---
+import { env } from "cloudflare:workers";
+
 // 前台商品列表頁(SSR)
 import Layout from "@layouts/Layout.astro";
 import ProductCard from "@components/ProductCard.astro";
@@ -15,7 +17,6 @@ const url = Astro.url;
 const filter = url.searchParams.get("cat") ?? "all";
 const pageTitle = `${t("nav.amber")} · ${t("nav.incense")} — ${t("common.site_name")}`;
 
-const env = Astro.locals.runtime?.env;
 const products = env?.DB
   ? await env.DB.prepare(
       `SELECT p.id, p.slug, p.category,

@@ -28,6 +28,7 @@ function tsToDate(unixSeconds: number): string {
   return new Date(unixSeconds * 1000).toISOString().slice(0, 10);
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const GET: APIRoute = async (ctx) => {
   const today = new Date().toISOString().slice(0, 10);
 
@@ -65,7 +66,7 @@ export const GET: APIRoute = async (ctx) => {
 
   // (B) Wave 37: D1 products (active) × 4 locales
   try {
-    const db = getDB(ctx);
+    const db = getDB();
     const productsRes = await db
       .prepare(
         "SELECT slug, updated_at FROM products WHERE status = 'active' ORDER BY updated_at DESC",

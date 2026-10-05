@@ -25,7 +25,7 @@ export const POST: APIRoute = async (ctx) => {
     return new Response("Invalid email", { status: 400 });
   }
 
-  const db = getDB(ctx);
+  const db = getDB();
   const id = genId("inq");
   await db
     .prepare(

@@ -20,7 +20,7 @@ export const POST: APIRoute = async (ctx) => {
     return new Response("Unauthorized", { status: 401 });
   }
 
-  const r2 = ctx.locals.runtime?.env.PRODUCT_IMAGES;
+  const r2 = env.PRODUCT_IMAGES;
   const form = await ctx.request.formData();
 
   const category = String(form.get("category") ?? "");
@@ -32,7 +32,7 @@ export const POST: APIRoute = async (ctx) => {
     return new Response("Invalid input", { status: 400 });
   }
 
-  const db = getDB(ctx);
+  const db = getDB();
   const id = genId("prod");
   const now = Math.floor(Date.now() / 1000);
 

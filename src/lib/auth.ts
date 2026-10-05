@@ -8,6 +8,7 @@
 // F-06: role 一律為 super_admin(保留欄位相容性)
 
 import type { APIContext } from "astro";
+import { env } from "cloudflare:workers";
 import { jwtVerify, SignJWT } from "jose";
 import bcrypt from "bcryptjs";
 
@@ -21,11 +22,6 @@ const SESSION_COOKIE = "cnamber_admin_session";
 const SESSION_MAX_AGE_SECONDS = 60 * 60 * 12; // 12h
 const BCRYPT_COST = 12;
 
-interface SessionEnv {
-  SESSION_SECRET?: string;
-  DB?: D1Database;
-}
-
 interface AdminRow {
   email: string;
   role: string;
@@ -33,8 +29,7 @@ interface AdminRow {
   password_hash: string | null;
 }
 
-async function getSessionKey(ctx: APIContext): Promise<Uint8Array | null> {
-  const env = (ctx.locals.runtime?.env ?? {}) as SessionEnv;
+async function getSessionKey(): Promise<Uint8Array | null> {
   const secret =
     typeof env.SESSION_SECRET === "string" && env.SESSION_SECRET.length >= 32
       ? env.SESSION_SECRET
@@ -59,7 +54,7 @@ export async function setSessionCookie(
   ctx: APIContext,
   email: string,
 ): Promise<void> {
-  const key = await getSessionKey(ctx);
+  const key = await getSessionKey();
   if (!key) throw new Error("SESSION_SECRET not configured");
 
   const token = await new SignJWT({ email, role: "super_admin" })
@@ -84,7 +79,7 @@ export function clearSessionCookie(ctx: APIContext): void {
 export async function getAdminFromContext(
   ctx: APIContext,
 ): Promise<AdminSession | null> {
-  const key = await getSessionKey(ctx);
+  const key = await getSessionKey();
   if (!key) return null;
 
   const cookie = ctx.cookies.get(SESSION_COOKIE)?.value;
@@ -98,8 +93,6 @@ export async function getAdminFromContext(
     return null;
   }
   if (!email) return null;
-
-  const env = (ctx.locals.runtime?.env ?? {}) as SessionEnv;
   const db = env.DB;
   if (!db) return null;
 

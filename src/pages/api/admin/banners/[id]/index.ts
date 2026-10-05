@@ -13,8 +13,8 @@ async function doPatch(ctx: APIContext, form: FormData) {
     activeRaw === null || activeRaw === "" || activeRaw === "1" ? 1 : 0;
   const clearMobile = form.get("clear_mobile") === "1";
 
-  const db = getDB(ctx);
-  const r2 = ctx.locals.runtime?.env.PRODUCT_IMAGES;
+  const db = getDB();
+  const r2 = env.PRODUCT_IMAGES;
   const now = Math.floor(Date.now() / 1000);
 
   let mobileUrl: string | null | undefined = undefined;
@@ -89,8 +89,8 @@ async function doDelete(ctx: APIContext) {
   const id = ctx.params.id;
   if (!id) return new Response("Missing id", { status: 400 });
 
-  const db = getDB(ctx);
-  const r2 = ctx.locals.runtime?.env.PRODUCT_IMAGES;
+  const db = getDB();
+  const r2 = env.PRODUCT_IMAGES;
 
   const existing = await db
     .prepare("SELECT image_url FROM hero_banners WHERE id = ?")

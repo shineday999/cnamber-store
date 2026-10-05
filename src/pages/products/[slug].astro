@@ -1,4 +1,6 @@
 ---
+import { env } from "cloudflare:workers";
+
 // /products/[slug] — 2 區塊:大圖 + info。Editorial still-life feel.
 // 不要長篇 story / reviews / related — 將存呼吸感最重要。
 import Layout from "@layouts/Layout.astro";
@@ -14,7 +16,6 @@ const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
 const t = createT(messages);
 
 const slug = Astro.params.slug ?? "";
-const env = Astro.locals.runtime?.env;
 
 interface Product {
   id: string;

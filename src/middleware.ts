@@ -1,4 +1,5 @@
 import { defineMiddleware } from "astro:middleware";
+import { env } from "cloudflare:workers";
 import {
   defaultLocale,
   isLocale,
@@ -112,8 +113,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
   context.locals.messages = messages;
 
   // Wave 28.7: 載入 D1 site_settings (12 rows,index-covered,~5-15ms)
-  const db = context.locals.runtime?.env?.DB;
-  const siteSettings = await loadSiteSettings(db);
+  const siteSettings = await loadSiteSettings(env?.DB);
   if (siteSettings) context.locals.siteSettings = siteSettings;
 
   // 2. Admin write audit log (Wave 79.3)

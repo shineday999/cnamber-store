@@ -18,7 +18,7 @@ export const POST: APIRoute = async (ctx) => {
     return new Response("Invalid email", { status: 400 });
   }
 
-  const db = getDB(ctx);
+  const db = getDB();
   const id = genId("sub");
   const now = Math.floor(Date.now() / 1000);
 

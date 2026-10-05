@@ -43,7 +43,7 @@ export const POST: APIRoute = async (ctx) => {
     ? submittedPay
     : (PAYMENT_CASCADE[status as keyof typeof PAYMENT_CASCADE] ?? "unpaid");
 
-  const db = getDB(ctx);
+  const db = getDB();
   await db
     .prepare(
       "UPDATE orders SET status = ?, payment_status = ?, tracking_number = ?, notes = ?, updated_at = ? WHERE id = ?",

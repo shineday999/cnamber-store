@@ -71,10 +71,7 @@ export async function sendEmail(
   return data.result?.id ? { ok: true, id: data.result.id } : { ok: true };
 }
 
-export function emailEnvFromContext(ctx: {
-  locals: { runtime?: { env?: unknown } };
-}): EmailEnv {
-  const env = ctx.locals.runtime?.env as EmailEnv | undefined;
+export function emailEnvFromContext(): EmailEnv {
   return env ?? {};
 }
 

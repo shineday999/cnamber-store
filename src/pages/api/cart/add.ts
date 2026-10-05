@@ -1,4 +1,5 @@
 import type { APIRoute } from "astro";
+import { env } from "cloudflare:workers";
 import { readCart, writeCart, addToCart } from "../../../lib/cart";
 
 export const POST: APIRoute = async (ctx) => {
@@ -15,9 +16,6 @@ export const POST: APIRoute = async (ctx) => {
     return new Response("Missing sku — please select an option", {
       status: 400,
     });
-
-  const env = ctx.locals.runtime?.env;
-
   // Stock validation:從 product_variants 查 sku 對應庫存,
   // 累加 cart 現有 qty 後不得超過 stock(超庫存 → 400)。
   if (env?.DB) {

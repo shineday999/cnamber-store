@@ -12,7 +12,7 @@ const MAX = 10 * 1024 * 1024; // 10MB for high-res 1920x1080 banners
 
 export const GET: APIRoute = async (ctx) => {
   if (!ctx.locals.admin) return new Response("Unauthorized", { status: 401 });
-  const db = getDB(ctx);
+  const db = getDB();
   const result = await db
     .prepare(
       "SELECT id, image_url, alt_text, sort_order, active, created_at, updated_at FROM hero_banners ORDER BY sort_order ASC, created_at DESC",
@@ -34,7 +34,7 @@ export const GET: APIRoute = async (ctx) => {
 
 export const POST: APIRoute = async (ctx) => {
   if (!ctx.locals.admin) return new Response("Unauthorized", { status: 401 });
-  const r2 = ctx.locals.runtime?.env.PRODUCT_IMAGES;
+  const r2 = env.PRODUCT_IMAGES;
   if (!r2) return new Response("R2 not bound", { status: 500 });
 
   const form = await ctx.request.formData();
@@ -83,7 +83,7 @@ export const POST: APIRoute = async (ctx) => {
 
   const now = Math.floor(Date.now() / 1000);
 
-  const db = getDB(ctx);
+  const db = getDB();
   await db
     .prepare(
       "INSERT INTO hero_banners (id, image_url, mobile_image_url, alt_text, sort_order, active, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",

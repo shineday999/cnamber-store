@@ -1,5 +1,6 @@
 ---
 import Layout from "@layouts/Layout.astro";
+import { env } from "cloudflare:workers";
 import Button from "@components/Button.astro";
 import { createT } from "../i18n/t";
 import { localizedPath, defaultLocale, type Locale } from "../i18n/config";
@@ -12,8 +13,6 @@ const t = createT(messages);
 
 const cookieHeader = Astro.request.headers.get("cookie");
 const items = readCart(cookieHeader);
-
-const env = Astro.locals.runtime?.env;
 
 // 修正 SQL 聚合:一個 (slug, sku) 一個 row,只抓 USD 價(轉 CNY 顯示),
 // GROUP BY p.slug, pv.sku 防 product_variants 多 variant 拆多 row

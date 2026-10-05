@@ -23,7 +23,7 @@ export const POST: APIRoute = async (ctx) => {
     return new Response("Invalid slug", { status: 400 });
   }
 
-  const db = getDB(ctx);
+  const db = getDB();
 
   // _action=delete: cascade delete (variants/translations/prices/reviews all FK CASCADE)
   if (String(form.get("_action") ?? "") === "delete") {

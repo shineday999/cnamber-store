@@ -1,11 +1,11 @@
 import type { APIRoute } from "astro";
 
-export const GET: APIRoute = async ({ params, locals }) => {
+export const GET: APIRoute = async ({ params }) => {
   const keySegments = params.key;
   if (!keySegments) return new Response("Not found", { status: 404 });
   const key = Array.isArray(keySegments) ? keySegments.join("/") : keySegments;
 
-  const r2 = locals.runtime?.env.PRODUCT_IMAGES;
+  const r2 = env.PRODUCT_IMAGES;
   if (!r2) return new Response("R2 not bound", { status: 500 });
 
   const obj = await r2.get(key);

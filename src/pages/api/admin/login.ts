@@ -1,4 +1,5 @@
 import type { APIRoute } from "astro";
+import { env } from "cloudflare:workers";
 import { setSessionCookie, verifyPassword } from "../../../lib/auth";
 
 // Wave 79: simple in-memory rate limit (5 attempts / 15 min lockout per IP)
@@ -70,8 +71,6 @@ export const POST: APIRoute = async (ctx) => {
   if (!email || !password) {
     return ctx.redirect("/admin/login?error=empty", 303);
   }
-
-  const env = ctx.locals.runtime?.env;
   const db = env?.DB;
   if (!db) {
     return ctx.redirect("/admin/login?error=server", 303);

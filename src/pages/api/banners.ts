@@ -1,8 +1,9 @@
 import type { APIRoute } from "astro";
 import { getDB } from "../../lib/db";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const GET: APIRoute = async (ctx) => {
-  const db = getDB(ctx);
+  const db = getDB();
   const result = await db
     .prepare(
       "SELECT id, image_url, alt_text, sort_order FROM hero_banners WHERE active = 1 ORDER BY sort_order ASC, created_at ASC",

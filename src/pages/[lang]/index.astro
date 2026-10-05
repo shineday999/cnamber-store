@@ -1,5 +1,6 @@
 ---
 import Layout from "@layouts/Layout.astro";
+import { env } from "cloudflare:workers";
 import HomeContent from "@components/HomeContent.astro";
 import { createT } from "../../i18n/t";
 import { defaultLocale, isLocale, type Locale } from "../../i18n/config";
@@ -21,7 +22,6 @@ void locale;
 // try/catch 包 D1 query 防 SSR fail → 15 bytes partial HTML
 let lcpImageUrl: string | null = null;
 try {
-  const env = Astro.locals.runtime?.env;
   if (env?.DB) {
     const row = await env.DB.prepare(
       "SELECT image_url FROM hero_banners WHERE active = 1 ORDER BY sort_order ASC, created_at ASC LIMIT 1",

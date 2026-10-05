@@ -1,4 +1,6 @@
 ---
+import { env } from "cloudflare:workers";
+
 // HomeContent — 2026-10-01 Awwwards-tier hero (year badge, scroll indicator, slide dots, stagger reveal)
 // Inline footer 移除 — 改由 Layout.astro 透過 <Footer /> 全站統一渲染
 import ProductCard from "@components/ProductCard.astro";
@@ -22,8 +24,6 @@ const heroSubtitle =
   siteSettings?.heroSubtitle?.[locale] ??
   siteSettings?.heroSubtitle?.["zh-Hans"] ??
   t("home.hero_subtitle");
-
-const env = Astro.locals.runtime?.env;
 
 interface FeaturedProduct {
   id: string;

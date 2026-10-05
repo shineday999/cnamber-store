@@ -18,7 +18,7 @@ export const POST: APIRoute = async (ctx) => {
   }
 
   const form = await ctx.request.formData();
-  const db = getDB(ctx);
+  const db = getDB();
   const now = Math.floor(Date.now() / 1000);
   const adminEmail = ctx.locals.admin.email;
 

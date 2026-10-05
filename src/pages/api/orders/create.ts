@@ -27,7 +27,7 @@ export const POST: APIRoute = async (ctx) => {
     return new Response("Cart is empty", { status: 400 });
   }
 
-  const db = getDB(ctx);
+  const db = getDB();
   const orderId = genId("ord");
   const now = Math.floor(Date.now() / 1000);
   const locale = ctx.locals.locale;

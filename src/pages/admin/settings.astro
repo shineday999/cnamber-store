@@ -1,11 +1,12 @@
 ---
+import { env } from "cloudflare:workers";
+
 // /admin/settings — Wave 28.7d 編輯網站名稱 / 主題 / 次主題 (3 keys × 4 locales)
 // 純文字標籤,管理員自由填寫。前台 layout 用 current locale,缺值 fallback zh-Hans。
 import AdminLayout from "../../layouts/AdminLayout.astro";
 import { createT } from "../../i18n/t";
 import zhHansMessages from "../../i18n/messages/zh-Hans.json";
 
-const env = Astro.locals.runtime?.env;
 const messages = zhHansMessages as Record<string, unknown>;
 const t = createT(messages);
 const admin = Astro.locals.admin;

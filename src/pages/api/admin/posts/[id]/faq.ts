@@ -37,7 +37,7 @@ export const POST: APIRoute = async (ctx) => {
     }
   }
 
-  const db = getDB(ctx);
+  const db = getDB();
   await db
     .prepare("UPDATE posts SET faq = ?, updated_at = ? WHERE id = ?")
     .bind(JSON.stringify(faq), Math.floor(Date.now() / 1000), id)

@@ -11,7 +11,7 @@ export const POST: APIRoute = async (ctx) => {
   const form = await ctx.request.formData();
   const action = String(form.get("_action") ?? "meta");
 
-  const db = getDB(ctx);
+  const db = getDB();
 
   if (action === "delete") {
     await db.prepare("DELETE FROM posts WHERE id = ?").bind(id).run();

@@ -16,7 +16,7 @@ export const POST: APIRoute = async (ctx) => {
   }
 
   const id = ctx.params.id;
-  const r2 = ctx.locals.runtime?.env.PRODUCT_IMAGES;
+  const r2 = env.PRODUCT_IMAGES;
   if (!r2) return new Response("R2 not bound", { status: 500 });
 
   const form = await ctx.request.formData();
@@ -39,7 +39,7 @@ export const POST: APIRoute = async (ctx) => {
   const url = `/api/images/${key}`;
   const now = Math.floor(Date.now() / 1000);
 
-  const db = getDB(ctx);
+  const db = getDB();
   await db
     .prepare("UPDATE products SET image_url = ?, updated_at = ? WHERE id = ?")
     .bind(url, now, id)

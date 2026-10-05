@@ -1,5 +1,6 @@
 ---
 import Layout from "@layouts/Layout.astro";
+import { env } from "cloudflare:workers";
 import { createT } from "../i18n/t";
 import { defaultLocale, localizedPath, type Locale } from "../i18n/config";
 import { readCart } from "../lib/cart";
@@ -11,8 +12,6 @@ const t = createT(messages);
 const productsPath = localizedPath(locale, "/products");
 
 const items = readCart(Astro.request.headers.get("cookie"));
-
-const env = Astro.locals.runtime?.env;
 
 // 跟 cart.astro 同一個聚合 SQL (GROUP BY slug,sku),確保 checkout total = cart subtotal + 顯示 SKU。
 const enriched =

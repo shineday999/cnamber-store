@@ -1,5 +1,6 @@
 ---
 import Layout from "@layouts/Layout.astro";
+import { env } from "cloudflare:workers";
 import ProductCard from "@components/ProductCard.astro";
 import { createT } from "../../i18n/t";
 import { defaultLocale, localizedPath, type Locale } from "../../i18n/config";
@@ -30,7 +31,6 @@ interface QuizResult {
   min_currency: string | null;
 }
 
-const env = Astro.locals.runtime?.env;
 const products =
   idsParam && env?.DB
     ? await env.DB.prepare(
