@@ -2,10 +2,12 @@
 // AdminLayout — 後台共用 layout
 // 認證已由 middleware 處理(session JWT cookie,2026-10-01 取代 Cloudflare Access)
 // Wave 16: 加入 global.css import(補 :root CSS vars)+ t() i18n 整合
+// 2026-10-05: 右上角加「改密碼」trigger button + mount ChangePasswordModal
 import "../styles/global.css";
 import { createT } from "../i18n/t";
 import { defaultLocale, type Locale } from "../i18n/config";
 import zhHansMessages from "../i18n/messages/zh-Hans.json";
+import ChangePasswordModal from "../components/admin/ChangePasswordModal.astro";
 
 interface Props {
   title: string;
@@ -20,6 +22,8 @@ interface Props {
 }
 
 const { title, active = "dashboard" } = Astro.props;
+const pwError = Astro.url.searchParams.get("pw_error");
+const pwSaved = Astro.url.searchParams.get("password_changed") === "1";
 const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
 const messages = zhHansMessages as Record<string, unknown>;
 const t = createT(messages);
@@ -66,6 +70,14 @@ const navItems = [
           <span class="px-2 py-0.5 rounded bg-accent-700 text-bg-base text-xs"
             >{admin?.role}</span
           >
+          <button
+            type="button"
+            class="text-bg-base/70 hover:text-bg-base text-sm hover:underline underline-offset-2"
+            data-change-password-trigger
+            aria-haspopup="dialog"
+          >
+            {t("admin.change_password.trigger_label")}
+          </button>
           <a href="/" class="text-bg-base/70 hover:text-bg-base"
             >{t("admin.common.view_site")}</a
           >
@@ -105,6 +117,12 @@ const navItems = [
       <h1 class="text-display-sm font-serif mb-6">{title}</h1>
       <slot />
     </main>
+
+    <ChangePasswordModal
+      currentPath={Astro.url.pathname}
+      error={pwError}
+      saved={pwSaved}
+    />
 
     <footer
       class="max-w-7xl mx-auto px-6 py-6 text-xs text-text-muted border-t border-text-muted/20"
