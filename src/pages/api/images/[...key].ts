@@ -1,4 +1,5 @@
 import type { APIRoute } from "astro";
+import { env } from "cloudflare:workers";
 
 export const GET: APIRoute = async ({ params }) => {
   const keySegments = params.key;

@@ -1,4 +1,5 @@
 import type { APIRoute } from "astro";
+import { env } from "cloudflare:workers";
 import { getDB, genId } from "../../../../lib/db";
 
 const ALLOWED_IMAGE_TYPES = new Set([

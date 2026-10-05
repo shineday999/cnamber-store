@@ -98,7 +98,7 @@ export const POST: APIRoute = async (ctx) => {
   // 寄確認信(非阻塞失敗)
   const itemsSummary = items.map((i) => `${i.slug} × ${i.qty}`).join(", ");
   const template = orderConfirmationEmail(orderId, name, itemsSummary);
-  void sendEmail(emailEnvFromContext(ctx), {
+  void sendEmail(emailEnvFromContext(), {
     to: email,
     subject: template.subject,
     html: template.html,
@@ -107,7 +107,7 @@ export const POST: APIRoute = async (ctx) => {
   }).catch((e) => console.error("[orders/create] email failed", e));
 
   // 同時寄通知給管理員(若有 email setting)
-  void sendEmail(emailEnvFromContext(ctx), {
+  void sendEmail(emailEnvFromContext(), {
     to: "oxsupport@0061qwen.cc.cd",
     subject: `[New Order] ${orderId} from ${name}`,
     html: `<p>${name} (${email}) placed a new order.</p><pre>${JSON.stringify(items, null, 2)}</pre><p>Notes: ${notes ?? "(none)"}</p>`,

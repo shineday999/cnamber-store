@@ -3,6 +3,8 @@
 // 需要在 CF Dashboard → Email → Sending 驗證 0061qwen.cc.cd 域 + 設 DKIM
 // F-05: universal safe() HTML escape for email templates
 
+import { env } from "cloudflare:workers";
+
 interface EmailEnv {
   CF_API_TOKEN?: string;
   CF_ACCOUNT_ID?: string;

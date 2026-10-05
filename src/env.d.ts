@@ -28,3 +28,17 @@ declare namespace App {
     };
   }
 }
+
+// cnamber-store Cloudflare bindings — augment @cloudflare/workers-types 的 Cloudflare.Env
+// (Astro v6+ env 從 "cloudflare:workers" 拿,type 推為 Cloudflare.Env,所以要 merge 到該 namespace)
+declare namespace Cloudflare {
+  interface Env {
+    DB: D1Database;
+    PRODUCT_IMAGES: R2Bucket;
+    I18N: KVNamespace;
+    SESSION: KVNamespace;
+    EMAIL_FROM: string;
+    EMAIL_REPLY_TO: string;
+    SESSION_SECRET?: string;
+  }
+}

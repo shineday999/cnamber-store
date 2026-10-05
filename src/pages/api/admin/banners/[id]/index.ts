@@ -1,3 +1,4 @@
+import { env } from "cloudflare:workers";
 import type { APIRoute, APIContext } from "astro";
 import { getDB } from "../../../../../lib/db";
 
