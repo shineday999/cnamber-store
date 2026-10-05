@@ -45,3 +45,5 @@ coverage/
 # Misc
 *.tsbuildinfo
 .tmp/
+# Local screenshots (Claude generated, not in repo)
+screenshots/
