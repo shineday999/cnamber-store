@@ -40,33 +40,47 @@ if (env?.DB) {
 
 <AdminLayout title={t("admin.dashboard.title")} active="dashboard">
   <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-    <div class="bg-bg-card border border-text-muted/20 rounded-card p-5">
-      <div class="text-sm uppercase tracking-wider text-text-muted">
+    <div
+      class="bg-bg-card border border-text-muted/20 rounded-card p-5 animate-fade-up hover:shadow-soft transition-shadow"
+      style="animation-delay: 0ms"
+    >
+      <div class="text-xs uppercase tracking-wider text-text-muted">
         {t("admin.dashboard.stat_products")}
       </div>
-      <div class="text-3xl font-serif mt-2 text-forest-700">
+      <div class="text-3xl font-serif mt-3 text-forest-700 tabular-nums">
         {stats.products}
       </div>
     </div>
-    <div class="bg-bg-card border border-text-muted/20 rounded-card p-5">
-      <div class="text-sm uppercase tracking-wider text-text-muted">
+    <div
+      class="bg-bg-card border border-text-muted/20 rounded-card p-5 animate-fade-up hover:shadow-soft transition-shadow"
+      style="animation-delay: 80ms"
+    >
+      <div class="text-xs uppercase tracking-wider text-text-muted">
         {t("admin.dashboard.stat_orders")}
       </div>
-      <div class="text-3xl font-serif mt-2 text-forest-700">{stats.orders}</div>
+      <div class="text-3xl font-serif mt-3 text-forest-700 tabular-nums">
+        {stats.orders}
+      </div>
     </div>
-    <div class="bg-bg-card border border-text-muted/20 rounded-card p-5">
-      <div class="text-sm uppercase tracking-wider text-text-muted">
+    <div
+      class="bg-bg-card border border-text-muted/20 rounded-card p-5 animate-fade-up hover:shadow-soft transition-shadow"
+      style="animation-delay: 160ms"
+    >
+      <div class="text-xs uppercase tracking-wider text-text-muted">
         {t("admin.dashboard.stat_pending_reviews")}
       </div>
-      <div class="text-3xl font-serif mt-2 text-accent-700">
+      <div class="text-3xl font-serif mt-3 text-accent-700 tabular-nums">
         {stats.pendingReviews}
       </div>
     </div>
-    <div class="bg-bg-card border border-text-muted/20 rounded-card p-5">
-      <div class="text-sm uppercase tracking-wider text-text-muted">
+    <div
+      class="bg-bg-card border border-text-muted/20 rounded-card p-5 animate-fade-up hover:shadow-soft transition-shadow"
+      style="animation-delay: 240ms"
+    >
+      <div class="text-xs uppercase tracking-wider text-text-muted">
         {t("admin.dashboard.stat_revenue")}
       </div>
-      <div class="text-3xl font-serif mt-2 text-success">
+      <div class="text-3xl font-serif mt-3 text-success tabular-nums">
         {formatPrice(stats.totalRevenue, "USD", locale)}
       </div>
     </div>
@@ -75,39 +89,91 @@ if (env?.DB) {
   <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
     <a
       href="/admin/products"
-      class="block bg-bg-card border border-text-muted/20 rounded-card p-6 hover:border-accent-500 transition-colors"
+      class="group block bg-bg-card border border-text-muted/20 rounded-card p-6 hover:border-accent-500 hover:-translate-y-0.5 hover:shadow-soft transition-all animate-fade-up"
+      style="animation-delay: 280ms"
     >
-      <h2 class="font-serif text-xl mb-2">
-        {t("admin.dashboard.manage_products")}
-      </h2>
-      <p class="text-sm text-text-secondary">
-        {t("admin.dashboard.manage_products_desc")}
-      </p>
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <h2 class="font-serif text-xl mb-2">
+            {t("admin.dashboard.manage_products")}
+          </h2>
+          <p class="text-sm text-text-secondary">
+            {t("admin.dashboard.manage_products_desc")}
+          </p>
+        </div>
+        <svg
+          class="w-5 h-5 shrink-0 mt-1 text-text-muted group-hover:text-accent-700 group-hover:translate-x-1 transition-all duration-300"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M5 12h14M13 6l6 6-6 6"></path>
+        </svg>
+      </div>
     </a>
     <a
       href="/admin/orders"
-      class="block bg-bg-card border border-text-muted/20 rounded-card p-6 hover:border-accent-500 transition-colors"
+      class="group block bg-bg-card border border-text-muted/20 rounded-card p-6 hover:border-accent-500 hover:-translate-y-0.5 hover:shadow-soft transition-all animate-fade-up"
+      style="animation-delay: 360ms"
     >
-      <h2 class="font-serif text-xl mb-2">
-        {t("admin.dashboard.manage_orders")}
-      </h2>
-      <p class="text-sm text-text-secondary">
-        {t("admin.dashboard.manage_orders_desc")}
-      </p>
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <h2 class="font-serif text-xl mb-2">
+            {t("admin.dashboard.manage_orders")}
+          </h2>
+          <p class="text-sm text-text-secondary">
+            {t("admin.dashboard.manage_orders_desc")}
+          </p>
+        </div>
+        <svg
+          class="w-5 h-5 shrink-0 mt-1 text-text-muted group-hover:text-accent-700 group-hover:translate-x-1 transition-all duration-300"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M5 12h14M13 6l6 6-6 6"></path>
+        </svg>
+      </div>
     </a>
     <a
       href="/admin/reviews"
-      class="block bg-bg-card border border-text-muted/20 rounded-card p-6 hover:border-accent-500 transition-colors"
+      class="group block bg-bg-card border border-text-muted/20 rounded-card p-6 hover:border-accent-500 hover:-translate-y-0.5 hover:shadow-soft transition-all animate-fade-up"
+      style="animation-delay: 440ms"
     >
-      <h2 class="font-serif text-xl mb-2">
-        {t("admin.dashboard.review_moderation")}
-      </h2>
-      <p class="text-sm text-text-secondary">
-        {t("admin.dashboard.review_moderation_desc")}
-      </p>
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <h2 class="font-serif text-xl mb-2">
+            {t("admin.dashboard.review_moderation")}
+          </h2>
+          <p class="text-sm text-text-secondary">
+            {t("admin.dashboard.review_moderation_desc")}
+          </p>
+        </div>
+        <svg
+          class="w-5 h-5 shrink-0 mt-1 text-text-muted group-hover:text-accent-700 group-hover:translate-x-1 transition-all duration-300"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M5 12h14M13 6l6 6-6 6"></path>
+        </svg>
+      </div>
     </a>
     <div
-      class="block bg-bg-card border border-text-muted/20 rounded-card p-6 opacity-60 cursor-not-allowed"
+      class="block bg-bg-card border border-text-muted/20 rounded-card p-6 opacity-60 cursor-not-allowed animate-fade-up"
+      style="animation-delay: 520ms"
     >
       <h2 class="font-serif text-xl mb-2">{t("admin.dashboard.blog_phase")}</h2>
       <p class="text-sm text-text-secondary">

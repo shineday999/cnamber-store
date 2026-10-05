@@ -142,23 +142,23 @@ function linePriceCents(i: {
           <h2 class="font-serif text-lg mb-3">
             {t("admin.orders_detail.sec_items", { n: items.length })}
           </h2>
-          <table class="w-full text-sm">
+          <table class="w-full text-sm leading-normal">
             <thead class="text-text-muted">
               <tr>
                 <>
-                  <th class="text-left py-1">
+                  <th class="text-left py-1 text-xs font-medium tracking-wide">
                     {t("admin.orders_detail.col_slug")}
                   </th>
-                  <th class="text-left py-1">
+                  <th class="text-left py-1 text-xs font-medium tracking-wide">
                     {t("admin.orders_detail.col_sku")}
                   </th>
-                  <th class="text-right py-1">
+                  <th class="text-right py-1 text-xs font-medium tracking-wide">
                     {t("admin.orders_detail.col_qty")}
                   </th>
-                  <th class="text-right py-1">
+                  <th class="text-right py-1 text-xs font-medium tracking-wide">
                     {t("admin.orders_detail.col_price")}
                   </th>
-                  <th class="text-right py-1">
+                  <th class="text-right py-1 text-xs font-medium tracking-wide">
                     {t("admin.orders_detail.col_line_total")}
                   </th>
                 </>
@@ -296,7 +296,7 @@ function linePriceCents(i: {
             </div>
             <button
               type="submit"
-              class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900"
+              class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900 transition-colors"
             >
               {t("admin.orders_detail.btn_update")}
             </button>

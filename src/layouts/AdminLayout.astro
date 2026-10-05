@@ -54,19 +54,25 @@ const navItems = [
     <title>{title} · {siteName} admin</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   </head>
-  <body class="min-h-screen bg-bg-base font-sans text-text-primary">
+  <body class="min-h-screen bg-cream-50 font-sans text-text-primary">
+    <div
+      class="h-[3px] w-full bg-gradient-to-r from-accent-700 via-accent-500 to-accent-300"
+      aria-hidden="true"
+    >
+    </div>
     <header class="bg-forest-900 text-bg-base shadow-md">
       <div
-        class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between"
+        class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-wrap items-center justify-between gap-x-4 gap-y-2"
       >
         <div class="flex items-center gap-3">
           <span class="font-serif text-xl">{siteName}</span>
-          <span class="text-xs uppercase tracking-wider text-accent-300"
+          <span
+            class="text-[0.7rem] uppercase tracking-[0.15em] text-accent-300"
             >{t("admin.common.admin_badge")}</span
           >
         </div>
-        <div class="flex items-center gap-4 text-sm">
-          <span class="text-bg-base/70">{admin?.email}</span>
+        <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
+          <span class="hidden sm:inline text-bg-base/70">{admin?.email}</span>
           <span class="px-2 py-0.5 rounded bg-accent-700 text-bg-base text-xs"
             >{admin?.role}</span
           >
@@ -92,16 +98,18 @@ const navItems = [
         </div>
       </div>
       <nav class="bg-forest-700">
-        <ul class="max-w-7xl mx-auto px-6 flex gap-1">
+        <ul
+          class="max-w-7xl mx-auto px-4 sm:px-6 flex gap-1 overflow-x-auto flex-nowrap"
+        >
           {
             navItems.map((item) => (
-              <li>
+              <li class="shrink-0">
                 <a
                   href={item.href}
-                  class={`block px-4 py-3 text-sm font-medium transition-colors ${
+                  class={`block whitespace-nowrap px-4 py-3 text-sm font-medium transition-colors border-b-2 ${
                     active === item.key
-                      ? "bg-bg-base text-forest-900 border-b-2 border-accent-500"
-                      : "text-bg-base/80 hover:bg-forest-500 hover:text-bg-base"
+                      ? "text-bg-base border-accent-500"
+                      : "text-bg-base/70 border-transparent hover:text-bg-base"
                   }`}
                 >
                   {item.label}
@@ -113,8 +121,8 @@ const navItems = [
       </nav>
     </header>
 
-    <main class="max-w-7xl mx-auto px-6 py-8">
-      <h1 class="text-display-sm font-serif mb-6">{title}</h1>
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
+      <h1 class="text-3xl font-serif mb-6">{title}</h1>
       <slot />
     </main>
 
@@ -125,7 +133,7 @@ const navItems = [
     />
 
     <footer
-      class="max-w-7xl mx-auto px-6 py-6 text-xs text-text-muted border-t border-text-muted/20"
+      class="max-w-7xl mx-auto px-4 sm:px-6 py-6 text-xs text-text-muted border-t border-text-muted/20"
     >
       {t("admin.footer.tagline", { siteName })}
     </footer>

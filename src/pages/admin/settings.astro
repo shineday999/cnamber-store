@@ -145,7 +145,7 @@ void admin;
       </button>
       <a
         href="/admin"
-        class="text-text-muted hover:text-text-primary text-sm underline"
+        class="text-text-muted hover:text-text-primary text-sm underline transition-colors"
       >
         {t("admin.common.back")}
       </a>
@@ -228,7 +228,7 @@ void admin;
       <div>
         <button
           type="submit"
-          class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900"
+          class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900 transition-colors"
         >
           {t("admin.banners.upload")}
         </button>
@@ -239,51 +239,82 @@ void admin;
       banners.results.length === 0 ? (
         <p class="text-text-muted text-sm">{t("admin.banners.empty")}</p>
       ) : (
-        <table class="w-full text-sm">
-          <thead class="bg-forest-100 text-text-primary">
-            <tr>
-              <th class="text-left px-3 py-2 font-medium">
-                {t("admin.banners.preview")}
-              </th>
-              <th class="text-left px-3 py-2 font-medium">
-                {t("admin.banners.mobile_label")}
-              </th>
-              <th class="text-left px-3 py-2 font-medium">
-                {t("admin.banners.alt_text")}
-              </th>
-              <th class="text-left px-3 py-2 font-medium">
-                {t("admin.banners.sort_order")}
-              </th>
-              <th class="text-left px-3 py-2 font-medium">
-                {t("admin.banners.active")}
-              </th>
-              <th class="text-right px-3 py-2 font-medium">
-                {t("admin.banners.delete")}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {banners.results.map((b) => (
-              <tr class="border-t border-text-muted/10">
-                <td class="px-3 py-2">
-                  <img
-                    loading="lazy"
-                    decoding="async"
-                    src={b.image_url}
-                    alt={b.alt_text ?? ""}
-                    class="w-32 h-18 object-cover rounded border border-text-muted/20"
-                  />
-                </td>
-                <td class="px-3 py-2">
-                  {b.mobile_image_url ? (
-                    <div class="space-y-1">
-                      <img
-                        loading="lazy"
-                        decoding="async"
-                        src={b.mobile_image_url}
-                        alt={b.alt_text ?? ""}
-                        class="w-16 h-16 object-cover rounded border border-text-muted/20"
-                      />
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm leading-normal">
+            <thead class="bg-forest-100">
+              <tr>
+                <th class="text-left px-3 py-2 text-xs font-medium tracking-wide text-text-secondary">
+                  {t("admin.banners.preview")}
+                </th>
+                <th class="text-left px-3 py-2 text-xs font-medium tracking-wide text-text-secondary">
+                  {t("admin.banners.mobile_label")}
+                </th>
+                <th class="text-left px-3 py-2 text-xs font-medium tracking-wide text-text-secondary">
+                  {t("admin.banners.alt_text")}
+                </th>
+                <th class="text-left px-3 py-2 text-xs font-medium tracking-wide text-text-secondary">
+                  {t("admin.banners.sort_order")}
+                </th>
+                <th class="text-left px-3 py-2 text-xs font-medium tracking-wide text-text-secondary">
+                  {t("admin.banners.active")}
+                </th>
+                <th class="text-right px-3 py-2 text-xs font-medium tracking-wide text-text-secondary">
+                  {t("admin.banners.delete")}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {banners.results.map((b) => (
+                <tr class="border-t border-text-muted/10 hover:bg-forest-50 transition-colors">
+                  <td class="px-3 py-2">
+                    <img
+                      loading="lazy"
+                      decoding="async"
+                      src={b.image_url}
+                      alt={b.alt_text ?? ""}
+                      class="w-32 h-18 object-cover rounded border border-text-muted/20"
+                    />
+                  </td>
+                  <td class="px-3 py-2">
+                    {b.mobile_image_url ? (
+                      <div class="space-y-1">
+                        <img
+                          loading="lazy"
+                          decoding="async"
+                          src={b.mobile_image_url}
+                          alt={b.alt_text ?? ""}
+                          class="w-16 h-16 object-cover rounded border border-text-muted/20"
+                        />
+                        <form
+                          method="POST"
+                          action={`/api/admin/banners/${b.id}`}
+                          enctype="multipart/form-data"
+                          class="space-y-1"
+                        >
+                          <input type="hidden" name="_method" value="PATCH" />
+                          <input
+                            type="file"
+                            name="mobile_image"
+                            accept="image/jpeg,image/png,image/webp,image/gif"
+                            class="text-xs"
+                          />
+                          <label class="inline-flex items-center gap-1 text-xs">
+                            <input
+                              type="checkbox"
+                              name="clear_mobile"
+                              value="1"
+                            />
+                            <span>{t("admin.banners.clear_mobile")}</span>
+                          </label>
+                          <button
+                            type="submit"
+                            class="block text-xs text-accent-700 hover:underline"
+                          >
+                            {t("admin.banners.replace_mobile")}
+                          </button>
+                        </form>
+                      </div>
+                    ) : (
                       <form
                         method="POST"
                         action={`/api/admin/banners/${b.id}`}
@@ -295,95 +326,66 @@ void admin;
                           type="file"
                           name="mobile_image"
                           accept="image/jpeg,image/png,image/webp,image/gif"
+                          required
                           class="text-xs"
                         />
-                        <label class="inline-flex items-center gap-1 text-xs">
-                          <input
-                            type="checkbox"
-                            name="clear_mobile"
-                            value="1"
-                          />
-                          <span>{t("admin.banners.clear_mobile")}</span>
-                        </label>
                         <button
                           type="submit"
                           class="block text-xs text-accent-700 hover:underline"
                         >
-                          {t("admin.banners.replace_mobile")}
+                          + Mobile
                         </button>
                       </form>
-                    </div>
-                  ) : (
+                    )}
+                  </td>
+                  <td class="px-3 py-2">{b.alt_text ?? "—"}</td>
+                  <td class="px-3 py-2 font-mono text-xs">{b.sort_order}</td>
+                  <td class="px-3 py-2">
                     <form
                       method="POST"
                       action={`/api/admin/banners/${b.id}`}
-                      enctype="multipart/form-data"
-                      class="space-y-1"
+                      class="inline"
                     >
                       <input type="hidden" name="_method" value="PATCH" />
                       <input
-                        type="file"
-                        name="mobile_image"
-                        accept="image/jpeg,image/png,image/webp,image/gif"
-                        required
-                        class="text-xs"
+                        type="hidden"
+                        name="alt_text"
+                        value={b.alt_text ?? ""}
+                      />
+                      <input
+                        type="hidden"
+                        name="sort_order"
+                        value={b.sort_order}
+                      />
+                      <input
+                        type="hidden"
+                        name="active"
+                        value={b.active === 1 ? "0" : "1"}
                       />
                       <button
                         type="submit"
-                        class="block text-xs text-accent-700 hover:underline"
+                        class="text-accent-700 hover:underline"
                       >
-                        + Mobile
+                        {b.active === 1
+                          ? t("admin.banners.deactivate")
+                          : t("admin.banners.activate")}
                       </button>
                     </form>
-                  )}
-                </td>
-                <td class="px-3 py-2">{b.alt_text ?? "—"}</td>
-                <td class="px-3 py-2 font-mono text-xs">{b.sort_order}</td>
-                <td class="px-3 py-2">
-                  <form
-                    method="POST"
-                    action={`/api/admin/banners/${b.id}`}
-                    class="inline"
-                  >
-                    <input type="hidden" name="_method" value="PATCH" />
-                    <input
-                      type="hidden"
-                      name="alt_text"
-                      value={b.alt_text ?? ""}
-                    />
-                    <input
-                      type="hidden"
-                      name="sort_order"
-                      value={b.sort_order}
-                    />
-                    <input
-                      type="hidden"
-                      name="active"
-                      value={b.active === 1 ? "0" : "1"}
-                    />
+                  </td>
+                  <td class="px-3 py-2 text-right">
                     <button
-                      type="submit"
-                      class="text-accent-700 hover:underline"
+                      type="button"
+                      class="text-error hover:underline"
+                      data-banner-id={b.id}
                     >
-                      {b.active === 1
-                        ? t("admin.banners.deactivate")
-                        : t("admin.banners.activate")}
+                      {t("admin.banners.delete")}
                     </button>
-                  </form>
-                </td>
-                <td class="px-3 py-2 text-right">
-                  <button
-                    type="button"
-                    class="text-error hover:underline"
-                    data-banner-id={b.id}
-                  >
-                    {t("admin.banners.delete")}
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )
     }
   </section>

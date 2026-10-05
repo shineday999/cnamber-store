@@ -47,33 +47,39 @@ function statusColor(s: string) {
     </p>
     <a
       href="/admin/posts/new"
-      class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900"
+      class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900 transition-colors"
       >{t("admin.posts_list.new_post")}</a
     >
   </div>
 
   <div
-    class="bg-bg-card border border-text-muted/20 rounded-card overflow-hidden"
+    class="bg-bg-card border border-text-muted/20 rounded-card overflow-x-auto"
   >
-    <table class="w-full text-sm">
-      <thead class="bg-forest-100 text-text-primary">
+    <table class="w-full text-sm leading-normal">
+      <thead class="bg-forest-100">
         <tr>
-          <th class="text-left px-4 py-3 font-medium"
+          <th
+            class="text-left px-4 py-3 text-xs font-medium tracking-wide text-text-secondary"
             >{t("admin.posts_list.col_title")}</th
           >
-          <th class="text-left px-4 py-3 font-medium"
+          <th
+            class="text-left px-4 py-3 text-xs font-medium tracking-wide text-text-secondary"
             >{t("admin.posts_list.col_slug")}</th
           >
-          <th class="text-left px-4 py-3 font-medium"
+          <th
+            class="text-left px-4 py-3 text-xs font-medium tracking-wide text-text-secondary"
             >{t("admin.posts_list.col_category")}</th
           >
-          <th class="text-left px-4 py-3 font-medium"
+          <th
+            class="text-left px-4 py-3 text-xs font-medium tracking-wide text-text-secondary"
             >{t("admin.posts_list.col_status")}</th
           >
-          <th class="text-left px-4 py-3 font-medium"
+          <th
+            class="text-left px-4 py-3 text-xs font-medium tracking-wide text-text-secondary"
             >{t("admin.posts_list.col_updated")}</th
           >
-          <th class="text-right px-4 py-3 font-medium"
+          <th
+            class="text-right px-4 py-3 text-xs font-medium tracking-wide text-text-secondary"
             >{t("admin.posts_list.col_actions")}</th
           >
         </tr>
@@ -90,7 +96,7 @@ function statusColor(s: string) {
         }
         {
           posts.results.map((p) => (
-            <tr class="border-t border-text-muted/10 hover:bg-bg-base">
+            <tr class="border-t border-text-muted/10 hover:bg-forest-50 transition-colors">
               <td class="px-4 py-3 font-medium">
                 {p.title ?? t("admin.posts_list.untitled")}
               </td>

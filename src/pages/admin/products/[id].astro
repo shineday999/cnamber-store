@@ -121,7 +121,7 @@ const trByLocale = (locale: string) =>
           </p>
           <button
             type="submit"
-            class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900 text-sm"
+            class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900 transition-colors text-sm"
           >
             {t("admin.products_detail.upload_image")}
           </button>
@@ -211,14 +211,14 @@ const trByLocale = (locale: string) =>
         <div class="flex gap-2">
           <button
             type="submit"
-            class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900"
+            class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900 transition-colors"
             >{t("admin.products_detail.save")}</button
           >
           <button
             type="submit"
             formaction={`/api/admin/products/${id}/status`}
             formmethod="POST"
-            class="px-4 py-2 border border-text-muted/30 rounded-md hover:bg-bg-base"
+            class="px-4 py-2 border border-text-muted/30 rounded-md hover:bg-bg-base transition-colors"
             >{
               product.status === "draft"
                 ? t("admin.products_detail.toggle_to_active")
@@ -229,7 +229,7 @@ const trByLocale = (locale: string) =>
           >
           <button
             type="button"
-            class="px-4 py-2 ml-auto border border-error/40 text-error rounded-md hover:bg-error/10"
+            class="px-4 py-2 ml-auto border border-error/40 text-error rounded-md hover:bg-error/10 transition-colors"
             onclick={`if (!confirm('确定删除该产品？所有变体、翻译、评论都会一并删除。')) return false; const f = document.createElement('form'); f.method='POST'; f.action='/api/admin/products/${id}'; const i=document.createElement('input'); i.type='hidden'; i.name='_action'; i.value='delete'; f.appendChild(i); document.body.appendChild(f); f.submit();`}
           >
             {t("admin.products_detail.delete")}
@@ -315,7 +315,7 @@ const trByLocale = (locale: string) =>
                 </div>
                 <button
                   type="submit"
-                  class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900 text-sm"
+                  class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900 transition-colors text-sm"
                 >
                   {t("admin.products_detail.save_translation", { loc })}
                 </button>
@@ -396,7 +396,7 @@ const trByLocale = (locale: string) =>
         }
         <button
           type="submit"
-          class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900"
+          class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900 transition-colors"
         >
           {t("admin.products_detail.save_faq")}
         </button>

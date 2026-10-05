@@ -34,27 +34,33 @@ function statusColor(s: string) {
   </p>
 
   <div
-    class="bg-bg-card border border-text-muted/20 rounded-card overflow-hidden"
+    class="bg-bg-card border border-text-muted/20 rounded-card overflow-x-auto"
   >
-    <table class="w-full text-sm">
-      <thead class="bg-forest-100 text-text-primary">
+    <table class="w-full text-sm leading-normal">
+      <thead class="bg-forest-100">
         <tr>
-          <th class="text-left px-4 py-3 font-medium"
+          <th
+            class="text-left px-4 py-3 text-xs font-medium tracking-wide text-text-secondary"
             >{t("admin.orders_list.col_order_id")}</th
           >
-          <th class="text-left px-4 py-3 font-medium"
+          <th
+            class="text-left px-4 py-3 text-xs font-medium tracking-wide text-text-secondary"
             >{t("admin.orders_list.col_customer")}</th
           >
-          <th class="text-right px-4 py-3 font-medium"
+          <th
+            class="text-right px-4 py-3 text-xs font-medium tracking-wide text-text-secondary"
             >{t("admin.orders_list.col_total")}</th
           >
-          <th class="text-left px-4 py-3 font-medium"
+          <th
+            class="text-left px-4 py-3 text-xs font-medium tracking-wide text-text-secondary"
             >{t("admin.orders_list.col_status")}</th
           >
-          <th class="text-left px-4 py-3 font-medium"
+          <th
+            class="text-left px-4 py-3 text-xs font-medium tracking-wide text-text-secondary"
             >{t("admin.orders_list.col_payment")}</th
           >
-          <th class="text-left px-4 py-3 font-medium"
+          <th
+            class="text-left px-4 py-3 text-xs font-medium tracking-wide text-text-secondary"
             >{t("admin.orders_list.col_created")}</th
           >
         </tr>
@@ -71,7 +77,7 @@ function statusColor(s: string) {
         }
         {
           orders.results.map((o) => (
-            <tr class="border-t border-text-muted/10 hover:bg-bg-base">
+            <tr class="border-t border-text-muted/10 hover:bg-forest-50 transition-colors">
               <td class="px-4 py-3 font-mono text-xs">
                 <a
                   href={`/admin/orders/${o.id as string}`}

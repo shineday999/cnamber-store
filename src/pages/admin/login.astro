@@ -37,11 +37,29 @@ const siteName: string =
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   </head>
   <body
-    class="min-h-screen bg-bg-base font-sans text-text-primary flex items-center justify-center px-4"
+    class="min-h-screen bg-cream-50 font-sans text-text-primary flex items-center justify-center px-4"
   >
     <div
-      class="max-w-md w-full bg-bg-card border border-text-muted/20 rounded-card p-8 shadow-soft"
+      class="pointer-events-none fixed inset-0 overflow-hidden"
+      aria-hidden="true"
     >
+      <div
+        class="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-accent-300/25 blur-3xl"
+      >
+      </div>
+      <div
+        class="absolute -bottom-32 -left-32 w-96 h-96 rounded-full bg-forest-300/20 blur-3xl"
+      >
+      </div>
+    </div>
+    <div
+      class="relative max-w-md w-full bg-bg-card border border-text-muted/20 rounded-card p-8 shadow-soft overflow-hidden animate-fade-up"
+    >
+      <div
+        class="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-accent-700 via-accent-500 to-accent-300"
+        aria-hidden="true"
+      >
+      </div>
       <div class="text-center mb-6">
         <h1 class="font-serif text-2xl text-forest-800 mb-1">
           {siteName}
@@ -91,7 +109,7 @@ const siteName: string =
         </div>
         <button
           type="submit"
-          class="w-full px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900"
+          class="w-full px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900 transition-colors"
         >
           {t("admin.login.signin")}
         </button>
