@@ -21,22 +21,30 @@ export const POST: APIRoute = async (ctx) => {
   if (!product) return new Response("Product not found", { status: 404 });
 
   // 收集欄位式輸入:faq_{loc}_q_{i} / faq_{loc}_a_{i}(index 可跳號,依序排序)
-  const byLoc: Record<string, Map<number, { q: string; a: string }>> = {};
-  for (const loc of LOCALES) byLoc[loc] = new Map();
+  const byLoc: Record<string, Map<number, { q: string; a: string }>> = {
+    "zh-Hans": new Map(),
+    en: new Map(),
+    "ms-MY": new Map(),
+    "id-ID": new Map(),
+  };
   for (const [key, value] of form.entries()) {
     const m = /^faq_(.+?)_(q|a)_(\d+)$/.exec(key);
     if (!m) continue;
     const loc = m[1];
+    const kind = m[2] as "q" | "a";
+    if (!loc || !kind) continue;
     if (!(loc in byLoc)) continue;
     const idx = Number(m[3]);
-    const pair = byLoc[loc].get(idx) ?? { q: "", a: "" };
-    pair[m[2] as "q" | "a"] = String(value ?? "");
-    byLoc[loc].set(idx, pair);
+    const map = byLoc[loc]!;
+    const pair = map.get(idx) ?? { q: "", a: "" };
+    pair[kind] = String(value ?? "");
+    map.set(idx, pair);
   }
 
   const faq: Record<string, { q: string; a: string }[]> = {};
   for (const loc of LOCALES) {
-    faq[loc] = [...byLoc[loc].entries()]
+    const map = byLoc[loc]!;
+    faq[loc] = [...map.entries()]
       .sort((x, y) => x[0] - y[0])
       .map(([, pair]) => ({ q: pair.q.trim(), a: pair.a.trim() }))
       .filter((pair) => pair.q !== "" || pair.a !== "");

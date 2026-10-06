@@ -53,7 +53,6 @@ if (!post) {
     tabs={[
       { id: "core", label: t("admin.posts_detail.tab_core") },
       { id: "translations", label: t("admin.posts_detail.tab_translations") },
-      { id: "faq", label: t("admin.posts_detail.tab_faq") },
     ]}
     defaultTab="core"
   >
@@ -203,60 +202,18 @@ if (!post) {
           })
         }
       </div>
-
-      <div slot="faq">
-        <form
-          method="POST"
-          action={`/api/admin/posts/${id}/faq`}
-          class="bg-bg-card border border-text-muted/20 rounded-card p-6 space-y-4 max-w-3xl"
-        >
-          <p class="text-sm text-text-secondary">
-            {t("admin.posts_detail.faq_intro")}
-          </p>
-          {
-            LOCALES.map((loc) => {
-              let faqArr: { q: string; a: string }[] = [];
-              if (post.faq) {
-                try {
-                  const parsed = JSON.parse(post.faq);
-                  faqArr = Array.isArray(parsed?.[loc]) ? parsed[loc] : [];
-                } catch (_) {
-                  /* ignore */
-                }
-              }
-              const faqJson = JSON.stringify(faqArr, null, 2);
-              return (
-                <div class="border border-text-muted/20 rounded-md p-4">
-                  <h3 class="font-serif text-lg mb-2">{loc}</h3>
-                  <label
-                    class="block text-sm font-medium mb-1"
-                    for={`faq-${loc}`}
-                  >
-                    {t("admin.posts_detail.label_faq_json", { loc })}
-                  </label>
-                  <textarea
-                    id={`faq-${loc}`}
-                    name={`faq_${loc}`}
-                    rows="8"
-                    class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base font-mono text-sm"
-                  >
-                    {faqJson}
-                  </textarea>
-                  <p class="text-xs text-text-muted mt-1">
-                    {t("admin.posts_detail.hint_faq_json")}
-                  </p>
-                </div>
-              );
-            })
-          }
-          <button
-            type="submit"
-            class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900 transition-colors"
-          >
-            {t("admin.posts_detail.save_faq")}
-          </button>
-        </form>
-      </div>
+    </div>
+    <div
+      class="mt-8 p-4 bg-bg-card border border-text-muted/20 rounded-card max-w-3xl"
+    >
+      <p class="text-sm text-text-secondary">
+        文章 FAQ 已搬到独立管理页,所有文章与产品的 FAQ 集中维护。
+      </p>
+      <a
+        href="/admin/faqs"
+        class="inline-block mt-2 text-accent-700 hover:underline text-sm font-medium"
+        >→ FAQ 维护</a
+      >
     </div>
   </Tabs>
 </AdminLayout>

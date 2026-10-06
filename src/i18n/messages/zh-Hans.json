@@ -474,11 +474,6 @@
       "save_translation": "保存 {loc}",
       "tab_core": "核心",
       "tab_translations": "翻译",
-      "tab_faq": "FAQ",
-      "label_faq_json": "FAQ JSON（{loc}）",
-      "hint_faq_json": "JSON 数组,每元素 { q, a }。建议 4 个 Q&A,空请填 []。",
-      "save_faq": "保存 FAQ",
-      "faq_intro": "FAQ 为文章底部的常见问题,4 个 locale 各自编辑。空 locale 留 [] 即可。",
       "label_author_email": "作者邮箱"
     },
     "posts_new": {
