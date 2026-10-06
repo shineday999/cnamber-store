@@ -661,7 +661,12 @@
       "saved": "✓ FAQ 已保存",
       "empty": "暂无问题,点「新增问题」开始填写。",
       "no_products": "暂无产品,请先在产品页新增。",
-      "hint": "保存后,前台产品页会显示对应语言的 FAQ 区块;某语言全部留空则该语言不显示。"
+      "hint": "保存后,前台产品页会显示对应语言的 FAQ 区块;某语言全部留空则该语言不显示。",
+      "label_type": "类型",
+      "type_products": "产品",
+      "type_posts": "文章",
+      "label_post": "选择文章",
+      "no_posts": "暂无文章,请先在博客页新增。"
     },
     "change_password": {
       "trigger_label": "改密碼",
