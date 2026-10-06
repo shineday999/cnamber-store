@@ -365,7 +365,8 @@
       "blog": "博客",
       "reviews": "评论",
       "banners": "横幅",
-      "settings": "网站设定"
+      "settings": "网站设定",
+      "faqs": "FAQ 维护"
     },
     "common": {
       "admin_badge": "后台",
@@ -540,12 +541,7 @@
       "no_image": "暂无封面图",
       "label_image": "更换封面图",
       "hint_image": "上传新图会替换当前封面",
-      "upload_image": "上传新图",
-      "tab_faq": "FAQ",
-      "label_faq_json": "FAQ JSON（{loc}）",
-      "hint_faq_json": "JSON 数组,每元素 { q, a }。建议 4 个 Q&A,空请填 []。",
-      "save_faq": "保存 FAQ",
-      "faq_intro": "FAQ 为产品页底部的常见问题,4 个 locale 各自编辑。空 locale 留 [] 即可。"
+      "upload_image": "上传新图"
     },
     "products_new": {
       "title": "新增产品",
@@ -657,6 +653,20 @@
         "hero_subtitle": "首页 hero 大标下的斜体小标"
       },
       "saved": "✓ 已储存"
+    },
+    "faqs": {
+      "title": "FAQ 维护",
+      "intro": "选择产品,以栏位方式维护各语言的常见问题。",
+      "label_product": "选择产品",
+      "question": "问题",
+      "answer": "答案",
+      "add": "新增问题",
+      "remove": "移除",
+      "save": "保存 FAQ",
+      "saved": "✓ FAQ 已保存",
+      "empty": "暂无问题,点「新增问题」开始填写。",
+      "no_products": "暂无产品,请先在产品页新增。",
+      "hint": "保存后,前台产品页会显示对应语言的 FAQ 区块;某语言全部留空则该语言不显示。"
     },
     "change_password": {
       "trigger_label": "改密碼",

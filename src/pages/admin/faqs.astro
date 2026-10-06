@@ -1,0 +1,275 @@
+---
+// /admin/faqs — 欄位式 FAQ 維護(從產品頁 FAQ 頁籤拉出,2026-10-06)
+// 選產品 → 4 locale 各自以「問題 + 答案」欄位維護,POST /api/admin/faqs 批次儲存
+import AdminLayout from "../../layouts/AdminLayout.astro";
+import { env } from "cloudflare:workers";
+import { createT } from "../../i18n/t";
+import { defaultLocale, type Locale } from "../../i18n/config";
+import zhHansMessages from "../../i18n/messages/zh-Hans.json";
+
+const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
+const messages = zhHansMessages as Record<string, unknown>;
+const t = createT(messages);
+void locale;
+
+const LOCALES = ["zh-Hans", "en", "ms-MY", "id-ID"] as const;
+
+const products = env?.DB
+  ? await env.DB.prepare(
+      "SELECT id, slug, status FROM products ORDER BY created_at DESC",
+    ).all<{ id: string; slug: string; status: string }>()
+  : { results: [] };
+
+const names = env?.DB
+  ? await env.DB.prepare(
+      "SELECT product_id, name FROM product_translations WHERE locale = 'zh-Hans'",
+    ).all<{ product_id: string; name: string }>()
+  : { results: [] };
+const nameById: Record<string, string> = {};
+for (const n of names.results) nameById[n.product_id] = n.name;
+
+const saved = Astro.url.searchParams.get("saved") === "1";
+const requestedId = Astro.url.searchParams.get("product");
+const selected =
+  products.results.find((p) => p.id === requestedId) ??
+  products.results[0] ??
+  null;
+
+const faqByLocale: Record<string, { q: string; a: string }[]> = {};
+if (selected && env?.DB) {
+  const row = await env.DB.prepare("SELECT faq FROM products WHERE id = ?")
+    .bind(selected.id)
+    .first<{ faq: string | null }>();
+  for (const loc of LOCALES) {
+    let arr: { q: string; a: string }[] = [];
+    if (row?.faq) {
+      try {
+        const parsed = JSON.parse(row.faq);
+        arr = Array.isArray(parsed?.[loc]) ? parsed[loc] : [];
+      } catch (_) {
+        arr = [];
+      }
+    }
+    faqByLocale[loc] = arr;
+  }
+}
+---
+
+<AdminLayout title={t("admin.faqs.title")} active="faqs">
+  <p class="text-sm text-text-secondary mb-6 max-w-2xl">
+    {t("admin.faqs.intro")}
+  </p>
+
+  {
+    saved && (
+      <div class="mb-6 px-4 py-3 rounded-md bg-accent-700/10 border border-accent-700/30 text-accent-700 text-sm">
+        {t("admin.faqs.saved")}
+      </div>
+    )
+  }
+
+  <form
+    method="GET"
+    class="mb-8 max-w-xl bg-bg-card border border-text-muted/20 rounded-card p-6"
+  >
+    <label class="block text-sm font-medium mb-1" for="product-select">
+      {t("admin.faqs.label_product")}
+    </label>
+    <select
+      id="product-select"
+      name="product"
+      class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
+      onchange="this.form.submit()"
+    >
+      {
+        products.results.map((p) => (
+          <option value={p.id} selected={selected?.id === p.id}>
+            {nameById[p.id] ?? p.slug}（{p.slug}）
+          </option>
+        ))
+      }
+    </select>
+  </form>
+
+  {
+    products.results.length === 0 && (
+      <p class="text-sm text-text-muted">{t("admin.faqs.no_products")}</p>
+    )
+  }
+
+  {
+    selected && (
+      <form method="POST" action="/api/admin/faqs" class="space-y-6 max-w-3xl">
+        <input type="hidden" name="product_id" value={selected.id} />
+        <div class="flex items-center justify-between gap-4">
+          <h2 class="font-serif text-xl">
+            {nameById[selected.id] ?? selected.slug}
+          </h2>
+          <a
+            href={`/products/${selected.slug}`}
+            class="text-sm text-accent-700 hover:underline shrink-0"
+          >
+            {t("admin.common.view_site")}
+          </a>
+        </div>
+        {LOCALES.map((loc) => {
+          const items = faqByLocale[loc] ?? [];
+          return (
+            <div class="bg-bg-card border border-text-muted/20 rounded-card p-6">
+              <h3 class="font-serif text-lg mb-4">{loc}</h3>
+              <div
+                data-faq-list={loc}
+                data-next-index={String(items.length)}
+                class="space-y-4"
+              >
+                {items.length === 0 && (
+                  <p data-faq-empty class="text-sm text-text-muted">
+                    {t("admin.faqs.empty")}
+                  </p>
+                )}
+                {items.map((item, i) => (
+                  <div class="faq-pair border border-text-muted/20 rounded-md p-4 space-y-3">
+                    <div class="flex items-center justify-between">
+                      <span class="text-xs text-text-muted">
+                        {t("admin.faqs.question")} {i + 1}
+                      </span>
+                      <button
+                        type="button"
+                        data-faq-remove
+                        class="px-3 py-1 text-sm border border-error/40 text-error rounded-md hover:bg-error/10 transition-colors"
+                      >
+                        {t("admin.faqs.remove")}
+                      </button>
+                    </div>
+                    <div>
+                      <label
+                        class="block text-sm font-medium mb-1"
+                        for={`faq-${loc}-q-${i}`}
+                      >
+                        {t("admin.faqs.question")}
+                      </label>
+                      <input
+                        id={`faq-${loc}-q-${i}`}
+                        type="text"
+                        name={`faq_${loc}_q_${i}`}
+                        value={item.q}
+                        class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
+                      />
+                    </div>
+                    <div>
+                      <label
+                        class="block text-sm font-medium mb-1"
+                        for={`faq-${loc}-a-${i}`}
+                      >
+                        {t("admin.faqs.answer")}
+                      </label>
+                      <textarea
+                        id={`faq-${loc}-a-${i}`}
+                        name={`faq_${loc}_a_${i}`}
+                        rows="3"
+                        class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
+                      >
+                        {item.a}
+                      </textarea>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <button
+                type="button"
+                data-faq-add={loc}
+                class="mt-4 px-4 py-2 text-sm border border-forest-700 text-forest-700 rounded-md hover:bg-forest-700/10 transition-colors"
+              >
+                + {t("admin.faqs.add")}
+              </button>
+            </div>
+          );
+        })}
+        <p class="text-xs text-text-muted">{t("admin.faqs.hint")}</p>
+        <button
+          type="submit"
+          class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900 transition-colors"
+        >
+          {t("admin.faqs.save")}
+        </button>
+      </form>
+    )
+  }
+
+  {
+    selected &&
+      LOCALES.map((loc) => (
+        <template data-faq-template={loc}>
+          <div class="faq-pair border border-text-muted/20 rounded-md p-4 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-text-muted">
+                {t("admin.faqs.question")}
+              </span>
+              <button
+                type="button"
+                data-faq-remove
+                class="px-3 py-1 text-sm border border-error/40 text-error rounded-md hover:bg-error/10 transition-colors"
+              >
+                {t("admin.faqs.remove")}
+              </button>
+            </div>
+            <div>
+              <label
+                class="block text-sm font-medium mb-1"
+                for={`faq-${loc}-q-__INDEX__`}
+              >
+                {t("admin.faqs.question")}
+              </label>
+              <input
+                id={`faq-${loc}-q-__INDEX__`}
+                type="text"
+                name={`faq_${loc}_q___INDEX__`}
+                class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
+              />
+            </div>
+            <div>
+              <label
+                class="block text-sm font-medium mb-1"
+                for={`faq-${loc}-a-__INDEX__`}
+              >
+                {t("admin.faqs.answer")}
+              </label>
+              <textarea
+                id={`faq-${loc}-a-__INDEX__`}
+                name={`faq_${loc}_a___INDEX__`}
+                rows="3"
+                class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
+              />
+            </div>
+          </div>
+        </template>
+      ))
+  }
+
+  <script is:inline>
+    (function () {
+      document.addEventListener("click", function (e) {
+        var target = e.target;
+        if (!(target instanceof Element)) return;
+        var removeBtn = target.closest("[data-faq-remove]");
+        if (removeBtn) {
+          var pair = removeBtn.closest(".faq-pair");
+          if (pair) pair.remove();
+          return;
+        }
+        var addBtn = target.closest("[data-faq-add]");
+        if (!addBtn) return;
+        var loc = addBtn.getAttribute("data-faq-add");
+        var list = document.querySelector('[data-faq-list="' + loc + '"]');
+        var tpl = document.querySelector('[data-faq-template="' + loc + '"]');
+        if (!list || !tpl) return;
+        var next = Number(list.getAttribute("data-next-index") || "0");
+        var html = tpl.innerHTML.replace(/__INDEX__/g, String(next));
+        list.insertAdjacentHTML("beforeend", html);
+        list.setAttribute("data-next-index", String(next + 1));
+        var empty = list.querySelector("[data-faq-empty]");
+        if (empty) empty.remove();
+      });
+    })();
+  </script>
+</AdminLayout>
