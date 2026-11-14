@@ -761,7 +761,8 @@
   },
   "product": {
     "faq_kicker": "常见问题",
-    "faq_heading": "问答"
+    "faq_heading": "问答",
+    "story_title": "它的故事"
   },
   "header": {
     "aria_main": "主导航",

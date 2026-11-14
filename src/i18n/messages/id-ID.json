@@ -731,7 +731,8 @@
   },
   "product": {
     "faq_kicker": "Pertanyaan Umum",
-    "faq_heading": "Q & A"
+    "faq_heading": "Q & A",
+    "story_title": "Ceritanya"
   },
   "header": {
     "aria_main": "Navigasi utama",

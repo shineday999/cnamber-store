@@ -731,7 +731,8 @@
   },
   "product": {
     "faq_kicker": "Soalan Lazim",
-    "faq_heading": "Q & A"
+    "faq_heading": "Q & A",
+    "story_title": "Kisahnya"
   },
   "header": {
     "aria_main": "Navigasi utama",
