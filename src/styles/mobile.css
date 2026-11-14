@@ -530,3 +530,66 @@
     padding-bottom: 14px;
   }
 }
+
+/* ===== app-shell 2.2：首頁「兩條手作路線」→ 2 欄磚塊 ===== */
+@media (max-width: 767.98px) {
+  main [data-home-paths] {
+    padding-top: 28px;
+    padding-bottom: 28px;
+  }
+
+  /* 區塊標題：縮小間距 */
+  main [data-home-paths] .mb-12 {
+    margin-bottom: 16px;
+  }
+  main [data-home-paths] .mb-12 > p {
+    font-size: 12px;
+  }
+
+  /* 5/7 不對稱格線 → 手機版 2 欄等寬（覆蓋 1.1b 的 display:block） */
+  main [data-home-paths] .grid[class*="grid-cols-12"] {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+    align-items: stretch;
+  }
+
+  /* 磚塊：3:4、16px 圓角 */
+  main [data-home-paths] .grid[class*="grid-cols-12"] a {
+    aspect-ratio: 3 / 4;
+    min-height: 0;
+    border-radius: 16px;
+  }
+
+  /* 磚塊內文字：只留小標 + 標題 + 了解更多，說明文字手機版隱藏 */
+  main [data-home-paths] .grid[class*="grid-cols-12"] a > .p-7 {
+    padding: 12px;
+  }
+  main
+    [data-home-paths]
+    .grid[class*="grid-cols-12"]
+    a
+    > .p-7
+    > p:first-of-type {
+    margin-bottom: 4px;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+  }
+  main [data-home-paths] .grid[class*="grid-cols-12"] a > .p-7 > h3 {
+    margin-bottom: 0;
+    line-height: 1.2;
+  }
+  main
+    [data-home-paths]
+    .grid[class*="grid-cols-12"]
+    a
+    > .p-7
+    > p:nth-of-type(2) {
+    display: none;
+  }
+  main [data-home-paths] .grid[class*="grid-cols-12"] a > .p-7 > span {
+    display: inline-block;
+    margin-top: 6px;
+    font-size: 12px;
+  }
+}

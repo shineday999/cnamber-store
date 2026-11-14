@@ -32,7 +32,7 @@
 | 步驟 | 內容                                                                           | 狀態 | 負責人           | 完成日     |
 | ---- | ------------------------------------------------------------------------------ | ---- | ---------------- | ---------- |
 | 2.1  | 首頁 Hero 壓縮至約 60% 螢幕、按鈕並排；修正圓點變大、SCROLL 出現、垂直置中消失 | ✅   | Claude Fable 5.1 | 2026-11-14 |
-| 2.2  | 首頁「兩條手作路線」改為 2 欄磚塊                                              | ⬜   |                  |            |
+| 2.2  | 首頁「兩條手作路線」改為 2 欄磚塊                                              | ✅   | Claude Fable 5.1 | 2026-11-14 |
 | 2.3  | 首頁商品／第三區塊改橫向滑動列（scroll-snap）                                  | ⬜   |                  |            |
 | 2.4  | 首頁問答入口橫幅卡；整頁高度驗收（≤ 2 螢幕）                                   | ⬜   |                  |            |
 | 2.5  | 產品列表：分類 chips（可橫滑）固定在頂部列下方                                 | ⬜   |                  |            |
@@ -72,3 +72,4 @@
 | 2026-11-14 | Claude Fable 5.1 | 1.6 購物車 Tab 角標：伺服器讀 cnamber_cart 渲染 + 瀏覽器 cookie 同步（pageshow）；超過 99 顯示 99+                                                                                                                                            |
 | 2026-11-14 | Claude Fable 5.1 | 1.7 手機版頁面轉場改用原生 View Transitions（@view-transition navigation:auto）。決策：不採用 Astro ClientRouter，因 Layout / HomeContent / Tabs / products/[slug] 有多段只執行一次的 script，需逐一改為 astro:page-load，風險高。階段 1 完成 |
 | 2026-11-14 | Claude Fable 5.1 | 2.1 首頁 Hero 手機版：高度 60dvh、內容垂直置中、CTA 並排；修正 1.1b 與通用按鈕／連結規則造成的圓點變大、SCROLL 出現（Hero <section> 加 data-home-hero）                                                                                       |
+| 2026-11-14 | Claude Fable 5.1 | 2.2 首頁路線卡手機版改 2 欄磚塊（3:4、16px 圓角，隱藏說明文字）；第二區塊 <section> 加 data-home-paths。「选一件」兩張問答卡留待 2.4                                                                                                          |
