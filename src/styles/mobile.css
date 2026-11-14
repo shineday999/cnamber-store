@@ -653,3 +653,77 @@
     transform: none !important;
   }
 }
+
+/* ===== app-shell 2.4：首頁「选一件」問答入口 → 橫幅卡 ===== */
+@media (max-width: 767.98px) {
+  /* 區塊間距 */
+  main [data-home-paths] .mt-20 {
+    margin-top: 24px;
+  }
+  main [data-home-paths] .pt-12 {
+    padding-top: 20px;
+  }
+
+  /* 標題：靠左、縮小、說明段落隱藏 */
+  main [data-home-paths] .mt-20 .text-center {
+    margin-inline: 0;
+    margin-bottom: 14px;
+    text-align: left;
+  }
+  main [data-home-paths] .mt-20 .text-center > p:first-of-type {
+    margin-bottom: 6px;
+    font-size: 12px;
+  }
+  main [data-home-paths] .mt-20 .text-center > h2 {
+    margin-bottom: 0;
+  }
+  main [data-home-paths] .mt-20 .text-center > p:nth-of-type(2) {
+    display: none;
+  }
+
+  /* 兩張卡直排、間距小；外層包裝不再疊一層白卡 */
+  main [data-home-paths] .grid[class*="md:grid-cols-2"] {
+    gap: 10px !important;
+  }
+  main [data-home-paths] .grid[class*="md:grid-cols-2"] > * {
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    overflow: visible;
+  }
+
+  /* 橫幅卡本體 */
+  main [data-home-paths] a[href*="/quiz/"] {
+    position: relative;
+    min-height: 72px;
+    padding: 14px 48px 14px 16px;
+    border-radius: 16px;
+  }
+  main [data-home-paths] a[href*="/quiz/"]::after {
+    content: "→";
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    transform: translateY(-50%);
+    font-size: 20px;
+    line-height: 1;
+    color: #a65f3d;
+  }
+  main [data-home-paths] a[href*="/quiz/"] > .flex {
+    margin-bottom: 6px;
+  }
+  main [data-home-paths] a[href*="/quiz/"] > h3 {
+    margin-bottom: 2px;
+    line-height: 1.25;
+  }
+  /* 說明段落與按鈕文字隱藏；保留一行補充說明 */
+  main [data-home-paths] a[href*="/quiz/"] > p:nth-of-type(1) {
+    display: none;
+  }
+  main [data-home-paths] a[href*="/quiz/"] > p:nth-of-type(2) {
+    margin-bottom: 0;
+  }
+  main [data-home-paths] a[href*="/quiz/"] > span {
+    display: none;
+  }
+}
