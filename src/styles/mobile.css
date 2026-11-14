@@ -336,3 +336,10 @@
     grid-column: auto !important;
   }
 }
+
+/* ===== app-shell 1.4：手機版不顯示頁尾（入口都在「更多」頁） ===== */
+@media (max-width: 767.98px) {
+  footer[data-site-footer] {
+    display: none !important;
+  }
+}
