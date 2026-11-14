@@ -24,7 +24,7 @@
 | 1.3  | Tab 第 5 個「故事」改為「更多」（4 語標籤）                                        | ✅   | Claude Fable 5.1 | 2026-11-14 |
 | 1.4  | 手機版移除頁尾（需先完成 1.2）                                                     | ✅   | Claude Fable 5.1 | 2026-11-14 |
 | 1.5  | 頂部列兩種狀態：根畫面 Logo / 子畫面 返回鍵 + 標題                                 | ✅   | Claude Fable 5.1 | 2026-11-14 |
-| 1.6  | 購物車 Tab 數量角標                                                                | ⬜   |                  |            |
+| 1.6  | 購物車 Tab 數量角標                                                                | ✅   | Claude Fable 5.1 | 2026-11-14 |
 | 1.7  | 頁面轉場（Astro `<ClientRouter />`），導覽列不重新載入                             | ⬜   |                  |            |
 
 ## 後續階段（尚未拆步驟）
@@ -56,3 +56,4 @@
 | 2026-11-14 | Claude Fable 5.1 | 1.3b /more 移除語言分組（頂部地球圖示已可切換語言）                                                                                            |
 | 2026-11-14 | Claude Fable 5.1 | 1.4 手機版隱藏頁尾（footer[data-site-footer]）；慢信訂閱與版權搬進 /more，訂閱成功提示顯示在 /more 頂部                                        |
 | 2026-11-14 | Claude Fable 5.1 | 1.5 頂部列雙狀態：根畫面（/、/products、/quiz、/cart、/more）顯示 Logo，其餘顯示返回鍵 + 標題；返回鍵優先 history.back()，直接開啟時退到上一層 |
+| 2026-11-14 | Claude Fable 5.1 | 1.6 購物車 Tab 角標：伺服器讀 cnamber_cart 渲染 + 瀏覽器 cookie 同步（pageshow）；超過 99 顯示 99+                                             |

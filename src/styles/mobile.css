@@ -381,3 +381,31 @@
     color: var(--m-ink);
   }
 }
+
+/* ===== app-shell 1.6：購物車 Tab 數量角標 ===== */
+@media (max-width: 767.98px) {
+  .m-ico {
+    position: relative;
+    display: inline-flex;
+  }
+  .m-badge {
+    position: absolute;
+    top: -6px;
+    right: -11px;
+    box-sizing: border-box;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: 999px;
+    background: #a65f3d;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 18px;
+    text-align: center;
+    box-shadow: 0 0 0 2px #fff;
+  }
+  .m-badge[hidden] {
+    display: none;
+  }
+}

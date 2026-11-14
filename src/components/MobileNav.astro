@@ -10,6 +10,7 @@ import {
   type Locale,
 } from "../i18n/config";
 import { createT } from "../i18n/t";
+import { readCart } from "../lib/cart";
 
 const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
 const t = createT(Astro.locals.messages ?? {});
@@ -23,6 +24,17 @@ const cleanPath = pathLocale
 const siteName =
   Astro.locals.siteSettings?.siteName?.[locale] ?? t("common.site_name");
 const p = (path: string) => localizedPath(locale, path);
+
+// 購物車角標：cookie 為 server-readable（見 src/lib/cart.ts）
+let cartCount = 0;
+try {
+  cartCount = readCart(Astro.request.headers.get("cookie")).reduce(
+    (n, i) => n + (Number(i.qty) || 0),
+    0,
+  );
+} catch {
+  cartCount = 0;
+}
 
 // ---- 頂部列狀態：根畫面 / 子畫面 ----
 const normalized =
@@ -174,20 +186,32 @@ const icons: Record<string, string> = {
       <a
         href={tab.href}
         class:list={["m-tab", { "is-active": tab.active }]}
+        data-tab={tab.key}
         aria-current={tab.active ? "page" : undefined}
       >
-        <svg
-          viewBox="0 0 24 24"
-          width="24"
-          height="24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.8"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
-          set:html={icons[tab.key]}
-        />
+        <span class="m-ico">
+          <svg
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            set:html={icons[tab.key]}
+          />
+          {tab.key === "cart" && (
+            <span
+              class="m-badge"
+              hidden={cartCount <= 0}
+              aria-label={String(cartCount)}
+            >
+              {cartCount > 99 ? "99+" : cartCount}
+            </span>
+          )}
+        </span>
         <span>{tab.label}</span>
       </a>
     ))
@@ -239,4 +263,33 @@ const icons: Record<string, string> = {
         // 否則走 <a href> 的預設行為：退到邏輯上一層
       });
   }
+
+  // 3) 購物車角標：伺服器已渲染；這裡再用 cookie 同步一次（涵蓋預先渲染頁面與返回/前進快取）
+  const syncCartBadge = () => {
+    const badge = document.querySelector<HTMLElement>(
+      '.m-tab[data-tab="cart"] .m-badge',
+    );
+    if (!badge) return;
+    const raw = document.cookie
+      .split(";")
+      .map((c) => c.trim())
+      .find((c) => c.startsWith("cnamber_cart="));
+    if (!raw) return; // 讀不到（沒有或 HttpOnly）就保留伺服器渲染的值
+    try {
+      const items = JSON.parse(
+        atob(decodeURIComponent(raw.slice("cnamber_cart=".length))),
+      ) as { qty?: number }[];
+      const n = Array.isArray(items)
+        ? items.reduce((sum, i) => sum + (Number(i.qty) || 0), 0)
+        : 0;
+      badge.textContent = n > 99 ? "99+" : String(n);
+      badge.hidden = n <= 0;
+    } catch {
+      /* 解析失敗就保留伺服器渲染的值 */
+    }
+  };
+  syncCartBadge();
+  window.addEventListener("pageshow", (e) => {
+    if ((e as PageTransitionEvent).persisted) syncCartBadge();
+  });
 </script>
