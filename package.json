@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "\u68ee\u6797\u7cfb\u624b\u4f5c\u54c1\u724c\u96fb\u5546\u2014\u2014\u7425\u73c0\u98fe\u54c1\u8207\u9999\u54c1,\u5927\u6771\u5357\u4e9e+\u4e2d\u6771\u5e02\u5834,\u516d\u8a9e\u5728\u5730\u5316",
+  "description": "森林系手作品牌電商——琥珀飾品與香品,大東南亞+中東市場,六語在地化",
   "engines": {
     "node": ">=20.0.0"
   },
@@ -20,13 +20,14 @@
     "format": "prettier --write \"**/*.{ts,tsx,astro,json,md,yml}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,astro,json,md,yml}\"",
     "prepare": "husky",
-    "postbuild": "node scripts/postbuild-fix-assets-binding.cjs"
+    "postbuild": "node scripts/postbuild-fix-assets-binding.cjs",
+    "preinstall": "npx only-allow pnpm"
   },
   "dependencies": {
-    "@astrojs/node": "^11.1.6",
-    "@astrojs/react": "^7.0.0",
+    "@astrojs/node": "^11.1.13",
+    "@astrojs/react": "^7.1.9",
     "@astrojs/tailwind": "^6.0.2",
-    "astro": "^7.3.5",
+    "astro": "^7.4.12",
     "autoprefixer": "^10.4.0",
     "bcryptjs": "^3.0.3",
     "hono": "^4.13.10",
@@ -38,8 +39,8 @@
     "tailwindcss": "^3.4.0"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.10",
-    "@astrojs/cloudflare": "^14.3.3",
+    "@astrojs/check": "^0.9.12",
+    "@astrojs/cloudflare": "^14.4.8",
     "@cloudflare/workers-types": "^4.20260702.1",
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
@@ -57,7 +58,7 @@
     "prettier-plugin-astro": "^0.14.0",
     "typescript": "^5.9.3",
     "vitest": "^2.1.9",
-    "wrangler": "^4.147.0"
+    "wrangler": "^4.161.0"
   },
   "lint-staged": {
     "*.{ts,tsx,astro}": [
@@ -68,13 +69,5 @@
       "prettier --write"
     ]
   },
-  "pnpm": {
-    "allowBuilds": {
-      "@bundled-es-modules/glob": true,
-      "esbuild": true,
-      "sharp": true,
-      "style-dictionary": true,
-      "workerd": true
-    }
-  }
+  "packageManager": "pnpm@11.14.0"
 }

@@ -1,4 +1,6 @@
 ---
+import MobileNav from "../components/MobileNav.astro";
+import "../styles/mobile.css";
 // AdminLayout — 後台共用 layout
 // 認證已由 middleware 處理(session JWT cookie,2026-10-01 取代 Cloudflare Access)
 // Wave 16: 加入 global.css import(補 :root CSS vars)+ t() i18n 整合
@@ -57,6 +59,7 @@ const navItems = [
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   </head>
   <body class="min-h-screen bg-cream-50 font-sans text-text-primary">
+    <MobileNav />
     <div
       class="h-[3px] w-full bg-gradient-to-r from-accent-700 via-accent-500 to-accent-300"
       aria-hidden="true"

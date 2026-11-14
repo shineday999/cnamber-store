@@ -22,13 +22,13 @@
 ## 開發
 
 ```bash
-npm install --ignore-scripts   # 安裝依賴
-npm run dev                    # 開發伺服器 (http://localhost:4321)
-npm run build                  # 建構 SSR
-npm run preview                # 預覽
-npm run deploy                 # 部署到 Cloudflare Pages
-npm run check                  # TypeScript / Astro check
-npm test                       # Vitest
+pnpm install   # 安裝依賴
+pnpm dev                    # 開發伺服器 (http://localhost:4321)
+pnpm build                  # 建構 SSR
+pnpm preview                # 預覽
+pnpm deploy                 # 部署到 Cloudflare Pages
+pnpm check                  # TypeScript / Astro check
+pnpm test                       # Vitest
 ```
 
 ## 路由結構
