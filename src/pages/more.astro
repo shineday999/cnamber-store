@@ -1,0 +1,250 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+// 語言：優先用站台已有的設定，抓不到就用簡體中文
+const raw = String((Astro.locals as any)?.lang ?? Astro.currentLocale ?? "zh");
+const lang: "zh" | "en" | "ms-MY" | "id-ID" = raw.startsWith("en")
+  ? "en"
+  : raw.startsWith("ms")
+    ? "ms-MY"
+    : raw.startsWith("id")
+      ? "id-ID"
+      : "zh";
+
+const T = {
+  zh: {
+    title: "更多",
+    explore: "探索",
+    about: "我们",
+    language: "语言",
+    follow: "同在",
+    products: "所有作品",
+    amber: "琥珀饰品",
+    incense: "东方香品",
+    quiz: "选一件",
+    story: "森林记事",
+    vision: "品牌愿景",
+    craft: "手的工",
+    materials: "材质来源",
+    blog: "慢信",
+    contact: "联络",
+    aboutPage: "关于",
+  },
+  en: {
+    title: "More",
+    explore: "Explore",
+    about: "About us",
+    language: "Language",
+    follow: "Follow",
+    products: "All pieces",
+    amber: "Amber jewelry",
+    incense: "Incense",
+    quiz: "Find your piece",
+    story: "Forest notes",
+    vision: "Our vision",
+    craft: "The craft",
+    materials: "Materials",
+    blog: "Letters",
+    contact: "Contact",
+    aboutPage: "About",
+  },
+  "ms-MY": {
+    title: "Lagi",
+    explore: "Terokai",
+    about: "Tentang kami",
+    language: "Bahasa",
+    follow: "Ikuti",
+    products: "Semua karya",
+    amber: "Perhiasan ambar",
+    incense: "Dupa",
+    quiz: "Cari yang sesuai",
+    story: "Catatan hutan",
+    vision: "Visi",
+    craft: "Kraf tangan",
+    materials: "Bahan",
+    blog: "Surat",
+    contact: "Hubungi",
+    aboutPage: "Tentang",
+  },
+  "id-ID": {
+    title: "Lainnya",
+    explore: "Jelajahi",
+    about: "Tentang kami",
+    language: "Bahasa",
+    follow: "Ikuti",
+    products: "Semua karya",
+    amber: "Perhiasan amber",
+    incense: "Dupa",
+    quiz: "Temukan karyamu",
+    story: "Catatan hutan",
+    vision: "Visi",
+    craft: "Kerajinan",
+    materials: "Bahan",
+    blog: "Surat",
+    contact: "Kontak",
+    aboutPage: "Tentang",
+  },
+}[lang];
+
+type Item = { label: string; href: string; ext?: boolean; current?: boolean };
+const groups: { title: string; items: Item[] }[] = [
+  {
+    title: T.explore,
+    items: [
+      { label: T.products, href: "/products" },
+      { label: T.amber, href: "/amber" },
+      { label: T.incense, href: "/incense" },
+      { label: T.quiz, href: "/quiz" },
+    ],
+  },
+  {
+    title: T.about,
+    items: [
+      { label: T.story, href: "/story" },
+      { label: T.vision, href: "/vision" },
+      { label: T.craft, href: "/craft" },
+      { label: T.materials, href: "/materials" },
+      { label: T.blog, href: "/blog" },
+      { label: T.contact, href: "/contact" },
+      { label: T.aboutPage, href: "/about" },
+    ],
+  },
+  {
+    title: T.language,
+    items: [
+      { label: "简体中文", href: "/", current: lang === "zh" },
+      { label: "English", href: "/en/", current: lang === "en" },
+      { label: "Bahasa Melayu", href: "/ms-MY/", current: lang === "ms-MY" },
+      { label: "Bahasa Indonesia", href: "/id-ID/", current: lang === "id-ID" },
+    ],
+  },
+  {
+    title: T.follow,
+    items: [
+      { label: "Instagram", href: "https://instagram.com/", ext: true },
+      { label: "Pinterest", href: "https://pinterest.com/", ext: true },
+      { label: "小红书", href: "https://xiaohongshu.com/", ext: true },
+    ],
+  },
+];
+---
+
+<Layout title={T.title}>
+  <div class="more">
+    <h1>{T.title}</h1>
+    {
+      groups.map((g) => (
+        <section class="grp">
+          <h2>{g.title}</h2>
+          <ul class="list">
+            {g.items.map((i) => (
+              <li>
+                <a
+                  href={i.href}
+                  aria-current={i.current ? "true" : undefined}
+                  target={i.ext ? "_blank" : undefined}
+                  rel={i.ext ? "noopener noreferrer" : undefined}
+                >
+                  <span>{i.label}</span>
+                  {i.current ? (
+                    <svg
+                      viewBox="0 0 24 24"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="M5 12.5l4.5 4.5L19 7.5" />
+                    </svg>
+                  ) : (
+                    <svg
+                      viewBox="0 0 24 24"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="M9 5l7 7-7 7" />
+                    </svg>
+                  )}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+  </div>
+</Layout>
+
+<style>
+  .more {
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 24px 16px 32px;
+  }
+  .more h1 {
+    margin: 8px 4px 20px;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+  .grp {
+    margin-bottom: 22px;
+  }
+  .grp h2 {
+    margin: 0 8px 8px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+  .list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow:
+      0 1px 3px rgba(0, 0, 0, 0.06),
+      0 4px 14px rgba(31, 42, 36, 0.05);
+  }
+  .list li + li {
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+  }
+  .list a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 52px;
+    padding: 0 16px;
+    font-size: 16px;
+    color: inherit;
+    text-decoration: none;
+  }
+  .list a:active {
+    background: rgba(0, 0, 0, 0.05);
+  }
+  .list a svg {
+    flex: none;
+    opacity: 0.4;
+  }
+  .list a[aria-current="true"] {
+    font-weight: 600;
+    color: #3f6b4f;
+  }
+  .list a[aria-current="true"] svg {
+    opacity: 1;
+  }
+</style>
