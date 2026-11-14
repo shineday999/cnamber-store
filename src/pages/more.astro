@@ -1,26 +1,13 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import {
-  defaultLocale,
-  localeFromPath,
-  localeNames,
-  localizedPath,
-  locales,
-  type Locale,
-} from "../i18n/config";
+import { defaultLocale, localizedPath, type Locale } from "../i18n/config";
 import { createT } from "../i18n/t";
 
 const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
 const t = createT(Astro.locals.messages ?? {});
-
-const pathname = Astro.url.pathname;
-const pathLocale = localeFromPath(pathname);
-const cleanPath = pathLocale
-  ? pathname.slice(pathLocale.length + 1) || "/"
-  : pathname;
 const p = (path: string) => localizedPath(locale, path);
 
-type Item = { label: string; href: string; ext?: boolean; locale?: Locale };
+type Item = { label: string; href: string; ext?: boolean };
 const groups: { title: string; items: Item[] }[] = [
   {
     title: t("footer.section_shop"),
@@ -44,14 +31,6 @@ const groups: { title: string; items: Item[] }[] = [
     ],
   },
   {
-    title: t("common.language"),
-    items: locales.map((l) => ({
-      label: localeNames[l],
-      href: localizedPath(l, "/more"),
-      locale: l,
-    })),
-  },
-  {
     title: t("footer.section_follow"),
     items: [
       {
@@ -72,7 +51,6 @@ const groups: { title: string; items: Item[] }[] = [
     ],
   },
 ];
-void cleanPath;
 ---
 
 <Layout title={t("nav.more")}>
@@ -87,41 +65,23 @@ void cleanPath;
               <li>
                 <a
                   href={i.href}
-                  data-locale={i.locale}
-                  aria-current={i.locale === locale ? "true" : undefined}
                   target={i.ext ? "_blank" : undefined}
                   rel={i.ext ? "noopener noreferrer" : undefined}
                 >
                   <span>{i.label}</span>
-                  {i.locale === locale ? (
-                    <svg
-                      viewBox="0 0 24 24"
-                      width="20"
-                      height="20"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2.2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      aria-hidden="true"
-                    >
-                      <path d="M5 12.5l4.5 4.5L19 7.5" />
-                    </svg>
-                  ) : (
-                    <svg
-                      viewBox="0 0 24 24"
-                      width="20"
-                      height="20"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      aria-hidden="true"
-                    >
-                      <path d="M9 5l7 7-7 7" />
-                    </svg>
-                  )}
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="20"
+                    height="20"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M9 5l7 7-7 7" />
+                  </svg>
                 </a>
               </li>
             ))}
@@ -186,12 +146,5 @@ void cleanPath;
   .list a svg {
     flex: none;
     opacity: 0.4;
-  }
-  .list a[aria-current="true"] {
-    font-weight: 600;
-    color: #3f6b4f;
-  }
-  .list a[aria-current="true"] svg {
-    opacity: 1;
   }
 </style>
