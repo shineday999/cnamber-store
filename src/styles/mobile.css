@@ -1068,3 +1068,61 @@
     padding-bottom: 96px;
   }
 }
+
+/* ===== app-shell 2.4b：首頁整頁高度再壓縮（實測 2.3 → 目標 ≤ 2.0） ===== */
+@media (max-width: 767.98px) {
+  /* 區塊上下留白 */
+  main [data-home-paths] {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  main [data-home-featured] {
+    padding-top: 16px;
+    padding-bottom: 20px;
+  }
+
+  /* 路線磚：3:4 → 方形 */
+  main [data-home-paths] .grid[class*="grid-cols-12"] a {
+    aspect-ratio: 1 / 1;
+  }
+
+  /* 問答區塊：間距、標題、橫幅卡內距 */
+  main [data-home-paths] .mt-20 {
+    margin-top: 16px;
+  }
+  main [data-home-paths] .pt-12 {
+    padding-top: 16px;
+  }
+  main [data-home-paths] .mt-20 .text-center {
+    margin-bottom: 10px;
+  }
+  main [data-home-paths] .mt-20 .text-center > h2 {
+    font-size: 22px;
+    line-height: 1.2;
+  }
+  main [data-home-paths] a[href*="/quiz/"] {
+    min-height: 0;
+    padding: 10px 44px 10px 14px;
+  }
+  main [data-home-paths] a[href*="/quiz/"] > .flex {
+    margin-bottom: 2px;
+  }
+  main [data-home-paths] a[href*="/quiz/"] > h3 {
+    margin-bottom: 0;
+  }
+
+  /* 精選橫滑卡：縮窄（約 2.1 張同屏）、方圖、內距縮小、隱藏說明 */
+  main [data-home-featured] .grid > * {
+    flex: 0 0 46vw;
+    max-width: 200px;
+  }
+  main [data-home-featured] .grid a > div:first-child {
+    aspect-ratio: 1 / 1;
+  }
+  main [data-home-featured] .grid a > div:last-child {
+    padding: 10px 12px;
+  }
+  main [data-home-featured] .grid a p.line-clamp-2 {
+    display: none;
+  }
+}

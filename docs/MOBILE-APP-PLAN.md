@@ -29,17 +29,18 @@
 
 ## 階段 2：首頁儀表板 + 產品列表
 
-| 步驟 | 內容                                                                                           | 狀態 | 負責人           | 完成日     |
-| ---- | ---------------------------------------------------------------------------------------------- | ---- | ---------------- | ---------- |
-| 2.1  | 首頁 Hero 壓縮至約 60% 螢幕、按鈕並排；修正圓點變大、SCROLL 出現、垂直置中消失                 | ✅   | Claude Fable 5.1 | 2026-11-14 |
-| 2.2  | 首頁「兩條手作路線」改為 2 欄磚塊                                                              | ✅   | Claude Fable 5.1 | 2026-11-14 |
-| 2.3  | 首頁商品／第三區塊改橫向滑動列（scroll-snap）                                                  | ✅   | Claude Fable 5.1 | 2026-11-14 |
-| 2.4  | 首頁問答入口橫幅卡；整頁高度驗收（≤ 2 螢幕）                                                   | 🟡   | Claude Fable 5.1 |            |
-| 2.5  | 產品列表：分類 chips（可橫滑）固定在頂部列下方                                                 | ✅   | Claude Fable 5.1 | 2026-11-15 |
-| 2.6  | 產品列表：2 欄緊湊商品卡（12px 內距、16px 標題、隱藏說明；永遠 2 欄）                          | ✅   | Claude Fable 5.1 | 2026-11-15 |
-| 2.7  | Hero 可左右滑動切換（touch swipe，不動既有輪播 script 的行為）                                 | ⬜   |                  |            |
-| 2.8  | 產品列表：排序底部彈出層（原生 dialog；sort 參數白名單；4 語 i18n）。分類篩選維持 2.5 的 chips | ✅   | Claude Fable 5.1 | 2026-11-15 |
-| 2.9  | （選用）圖片載入前 shimmer 占位。列表為 SSR 整頁載入，不做整頁骨架畫面                         | ⬜   |                  |            |
+| 步驟 | 內容                                                                                                                                                             | 狀態 | 負責人            | 完成日     |
+| ---- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---- | ----------------- | ---------- |
+| 2.1  | 首頁 Hero 壓縮至約 60% 螢幕、按鈕並排；修正圓點變大、SCROLL 出現、垂直置中消失                                                                                   | ✅   | Claude Fable 5.1  | 2026-11-14 |
+| 2.2  | 首頁「兩條手作路線」改為 2 欄磚塊                                                                                                                                | ✅   | Claude Fable 5.1  | 2026-11-14 |
+| 2.3  | 首頁商品／第三區塊改橫向滑動列（scroll-snap）                                                                                                                    | ✅   | Claude Fable 5.1  | 2026-11-14 |
+| 2.4  | 首頁問答入口橫幅卡；整頁高度驗收（≤ 2 螢幕）                                                                                                                     | 🟡   | Claude Fable 5.1  |            |
+| 2.4b | 首頁整頁高度再壓縮：精選橫滑卡縮窄（46vw、方圖、隱藏說明）、路線磚改方形、區塊留白與問答卡內距縮小（實測 2.3，目標 ≤ 2.0；部署後實測達標再把 2.4 與 2.4b 改 ✅） | 🟡   | Claude Sonnet 5.5 |            |
+| 2.5  | 產品列表：分類 chips（可橫滑）固定在頂部列下方                                                                                                                   | ✅   | Claude Fable 5.1  | 2026-11-15 |
+| 2.6  | 產品列表：2 欄緊湊商品卡（12px 內距、16px 標題、隱藏說明；永遠 2 欄）                                                                                            | ✅   | Claude Fable 5.1  | 2026-11-15 |
+| 2.7  | Hero 可左右滑動切換（touch swipe，不動既有輪播 script 的行為）                                                                                                   | ⬜   |                   |            |
+| 2.8  | 產品列表：排序底部彈出層（原生 dialog；sort 參數白名單；4 語 i18n）。分類篩選維持 2.5 的 chips                                                                   | ✅   | Claude Fable 5.1  | 2026-11-15 |
+| 2.9  | （選用）圖片載入前 shimmer 占位。列表為 SSR 整頁載入，不做整頁骨架畫面                                                                                           | ⬜   |                   |            |
 
 ## 階段 3：商品詳情 + 購物車
 
@@ -78,24 +79,25 @@
 
 ## 更新紀錄
 
-| 日期       | 人               | 內容                                                                                                                                                                                                                                          |
-| ---------- | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 2026-11-14 | Claude Fable 5.1 | 1.1 建立進度文件；修正首頁 Hero 白卡                                                                                                                                                                                                          |
-| 2026-11-14 | Claude Fable 5.1 | 1.1b 修正 Hero 白卡根因：排除 grid-cols-12 版面格線與 .hero-text                                                                                                                                                                              |
-| 2026-11-14 | Claude Fable 5.1 | 1.2 新增 /more 頁（探索 / 我們 / 語言 / 同在）                                                                                                                                                                                                |
-| 2026-11-14 | Claude Fable 5.1 | 1.2b MobileNav 與 /more 改用站台 i18n（locals.locale、createT、localizedPath），新增 nav.more，語言連結寫入 cnamber_locale                                                                                                                    |
-| 2026-11-14 | Claude Fable 5.1 | 1.3 底部 Tab 第 5 個改為「更多」(/more)，「更多」底下頁面皆高亮此 Tab                                                                                                                                                                         |
-| 2026-11-14 | Claude Fable 5.1 | 1.3b /more 移除語言分組（頂部地球圖示已可切換語言）                                                                                                                                                                                           |
-| 2026-11-14 | Claude Fable 5.1 | 1.4 手機版隱藏頁尾（footer[data-site-footer]）；慢信訂閱與版權搬進 /more，訂閱成功提示顯示在 /more 頂部                                                                                                                                       |
-| 2026-11-14 | Claude Fable 5.1 | 1.5 頂部列雙狀態：根畫面（/、/products、/quiz、/cart、/more）顯示 Logo，其餘顯示返回鍵 + 標題；返回鍵優先 history.back()，直接開啟時退到上一層                                                                                                |
-| 2026-11-14 | Claude Fable 5.1 | 1.6 購物車 Tab 角標：伺服器讀 cnamber_cart 渲染 + 瀏覽器 cookie 同步（pageshow）；超過 99 顯示 99+                                                                                                                                            |
-| 2026-11-14 | Claude Fable 5.1 | 1.7 手機版頁面轉場改用原生 View Transitions（@view-transition navigation:auto）。決策：不採用 Astro ClientRouter，因 Layout / HomeContent / Tabs / products/[slug] 有多段只執行一次的 script，需逐一改為 astro:page-load，風險高。階段 1 完成 |
-| 2026-11-14 | Claude Fable 5.1 | 2.1 首頁 Hero 手機版：高度 60dvh、內容垂直置中、CTA 並排；修正 1.1b 與通用按鈕／連結規則造成的圓點變大、SCROLL 出現（Hero <section> 加 data-home-hero）                                                                                       |
-| 2026-11-14 | Claude Fable 5.1 | 2.2 首頁路線卡手機版改 2 欄磚塊（3:4、16px 圓角，隱藏說明文字）；第二區塊 <section> 加 data-home-paths。「选一件」兩張問答卡留待 2.4                                                                                                          |
-| 2026-11-14 | Claude Fable 5.1 | 2.3 首頁最近亮點改橫向滑動列（scroll-snap，卡片寬 64vw、露出下一張）；標題列改左右排；第三區塊 <section> 加 data-home-featured。ProductCard 與資料查詢未動                                                                                    |
-| 2026-11-14 | Claude Fable 5.1 | 2.4 首頁「选一件」兩張問答卡手機版改橫幅卡（約 90px，隱藏說明與按鈕、右側箭頭）；區塊標題靠左並隱藏說明。實作完成，整頁高度待實測，狀態暫為 🟡                                                                                                |
-| 2026-11-15 | Claude Fable 5.1 | 2.5 產品列表：分類改 sticky 橫滑 chips（top = 頂部列高度、每顆 ≥44px）；標題區靠左並隱藏說明；<header>、<nav> 加 data-products-head / data-products-chips，分類連結補 aria-current                                                            |
-| 2026-11-15 | Claude Fable 5.1 | 2.6 產品列表手機版 2 欄緊湊卡（網格加 data-products-grid）。原 2.6 拆分：排序／篩選彈出層 → 2.8，圖片 shimmer → 2.9（選用；SSR 頁面不做整頁骨架）                                                                                             |
-| 2026-11-15 | Claude Fable 5.1 | 2.8 產品列表排序：?sort=new                                                                                                                                                                                                                   | price_asc | price_desc（白名單對應 SQL，無價格排最後）；手機版 chips 列右側「排序」按鈕開底部彈出層；products.sort_* 新增於 4 語翻譯檔；桌面版不顯示按鈕 |
-| 2026-11-15 | Claude Fable 5.1 | 3.1 商品詳情手機版：頭圖 42dvh、隱藏重複第二張圖與圖上英文「Back to all」（頂部列已有返回鍵）；[slug].astro 加 data-pd-hero / data-pd-back / data-pd-info / data-pd-gallery2。下單表單與 /api/cart/add 未動                                   |
-| 2026-11-15 | Claude Fable 5.1 | 3.2 + 3.3 商品詳情下單表單：規格 56px 大按鈕列（單選鈕縮回 22px，修正通用 input 規則誤傷）、數量 −／＋ 步進器（桌面隱藏）、價格 + 「预订」固定在 Tab 列上方（data-pd-bar）。表單與 /api/cart/add 未動                                         |
+| 日期       | 人                | 內容                                                                                                                                                                                                                                          |
+| ---------- | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-11-14 | Claude Fable 5.1  | 1.1 建立進度文件；修正首頁 Hero 白卡                                                                                                                                                                                                          |
+| 2026-11-14 | Claude Fable 5.1  | 1.1b 修正 Hero 白卡根因：排除 grid-cols-12 版面格線與 .hero-text                                                                                                                                                                              |
+| 2026-11-14 | Claude Fable 5.1  | 1.2 新增 /more 頁（探索 / 我們 / 語言 / 同在）                                                                                                                                                                                                |
+| 2026-11-14 | Claude Fable 5.1  | 1.2b MobileNav 與 /more 改用站台 i18n（locals.locale、createT、localizedPath），新增 nav.more，語言連結寫入 cnamber_locale                                                                                                                    |
+| 2026-11-14 | Claude Fable 5.1  | 1.3 底部 Tab 第 5 個改為「更多」(/more)，「更多」底下頁面皆高亮此 Tab                                                                                                                                                                         |
+| 2026-11-14 | Claude Fable 5.1  | 1.3b /more 移除語言分組（頂部地球圖示已可切換語言）                                                                                                                                                                                           |
+| 2026-11-14 | Claude Fable 5.1  | 1.4 手機版隱藏頁尾（footer[data-site-footer]）；慢信訂閱與版權搬進 /more，訂閱成功提示顯示在 /more 頂部                                                                                                                                       |
+| 2026-11-14 | Claude Fable 5.1  | 1.5 頂部列雙狀態：根畫面（/、/products、/quiz、/cart、/more）顯示 Logo，其餘顯示返回鍵 + 標題；返回鍵優先 history.back()，直接開啟時退到上一層                                                                                                |
+| 2026-11-14 | Claude Fable 5.1  | 1.6 購物車 Tab 角標：伺服器讀 cnamber_cart 渲染 + 瀏覽器 cookie 同步（pageshow）；超過 99 顯示 99+                                                                                                                                            |
+| 2026-11-14 | Claude Fable 5.1  | 1.7 手機版頁面轉場改用原生 View Transitions（@view-transition navigation:auto）。決策：不採用 Astro ClientRouter，因 Layout / HomeContent / Tabs / products/[slug] 有多段只執行一次的 script，需逐一改為 astro:page-load，風險高。階段 1 完成 |
+| 2026-11-14 | Claude Fable 5.1  | 2.1 首頁 Hero 手機版：高度 60dvh、內容垂直置中、CTA 並排；修正 1.1b 與通用按鈕／連結規則造成的圓點變大、SCROLL 出現（Hero <section> 加 data-home-hero）                                                                                       |
+| 2026-11-14 | Claude Fable 5.1  | 2.2 首頁路線卡手機版改 2 欄磚塊（3:4、16px 圓角，隱藏說明文字）；第二區塊 <section> 加 data-home-paths。「选一件」兩張問答卡留待 2.4                                                                                                          |
+| 2026-11-14 | Claude Fable 5.1  | 2.3 首頁最近亮點改橫向滑動列（scroll-snap，卡片寬 64vw、露出下一張）；標題列改左右排；第三區塊 <section> 加 data-home-featured。ProductCard 與資料查詢未動                                                                                    |
+| 2026-11-14 | Claude Fable 5.1  | 2.4 首頁「选一件」兩張問答卡手機版改橫幅卡（約 90px，隱藏說明與按鈕、右側箭頭）；區塊標題靠左並隱藏說明。實作完成，整頁高度待實測，狀態暫為 🟡                                                                                                |
+| 2026-11-15 | Claude Fable 5.1  | 2.5 產品列表：分類改 sticky 橫滑 chips（top = 頂部列高度、每顆 ≥44px）；標題區靠左並隱藏說明；<header>、<nav> 加 data-products-head / data-products-chips，分類連結補 aria-current                                                            |
+| 2026-11-15 | Claude Fable 5.1  | 2.6 產品列表手機版 2 欄緊湊卡（網格加 data-products-grid）。原 2.6 拆分：排序／篩選彈出層 → 2.8，圖片 shimmer → 2.9（選用；SSR 頁面不做整頁骨架）                                                                                             |
+| 2026-11-15 | Claude Fable 5.1  | 2.8 產品列表排序：?sort=new                                                                                                                                                                                                                   | price_asc | price_desc（白名單對應 SQL，無價格排最後）；手機版 chips 列右側「排序」按鈕開底部彈出層；products.sort_* 新增於 4 語翻譯檔；桌面版不顯示按鈕 |
+| 2026-11-15 | Claude Fable 5.1  | 3.1 商品詳情手機版：頭圖 42dvh、隱藏重複第二張圖與圖上英文「Back to all」（頂部列已有返回鍵）；[slug].astro 加 data-pd-hero / data-pd-back / data-pd-info / data-pd-gallery2。下單表單與 /api/cart/add 未動                                   |
+| 2026-11-15 | Claude Fable 5.1  | 3.2 + 3.3 商品詳情下單表單：規格 56px 大按鈕列（單選鈕縮回 22px，修正通用 input 規則誤傷）、數量 −／＋ 步進器（桌面隱藏）、價格 + 「预订」固定在 Tab 列上方（data-pd-bar）。表單與 /api/cart/add 未動                                         |
+| 2026-11-15 | Claude Sonnet 5.5 | 2.4b 首頁手機版高度壓縮：實測 2.3（scrollHeight 1862）；路線磚 3:4 改方形、問答區塊標題與橫幅卡內距縮小、精選橫滑卡改 46vw 方圖並隱藏說明、兩區塊上下留白縮小。只改 mobile.css 手機 media query，待部署後重測                                 |
