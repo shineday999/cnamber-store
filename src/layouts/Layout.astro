@@ -1,4 +1,6 @@
 ---
+import MobileNav from "../components/MobileNav.astro";
+import "../styles/mobile.css";
 // Layout — 全站共用 layout (2026-10-01: Awwwards-tier header with main nav)
 import "../styles/global.css";
 import LocaleSwitcher from "@components/LocaleSwitcher.astro";
@@ -161,6 +163,7 @@ const nav = [
     <title>{title}</title>
   </head>
   <body class="bg-white text-text-primary">
+    <MobileNav />
     <a
       href="#main-content"
       class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-accent-700 focus:text-bg-base focus:rounded"
