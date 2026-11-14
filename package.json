@@ -69,14 +69,5 @@
       "prettier --write"
     ]
   },
-  "pnpm": {
-    "allowBuilds": {
-      "@bundled-es-modules/glob": true,
-      "esbuild": true,
-      "sharp": true,
-      "style-dictionary": true,
-      "workerd": true
-    }
-  },
   "packageManager": "pnpm@11.14.0"
 }
