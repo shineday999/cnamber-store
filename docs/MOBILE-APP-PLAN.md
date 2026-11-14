@@ -22,7 +22,7 @@
 | 1.1  | 建立進度文件 + 修正首頁 Hero 白卡（白字白底）                                      | ✅   | Claude Fable 5.1 | 2026-11-14 |
 | 1.2  | 新增「更多」頁 `/more`（品牌故事、愿景、手的工、材质来源、慢信、联络、语言、社群） | ⬜   |                  |            |
 | 1.3  | Tab 第 5 個「故事」改為「更多」（4 語標籤）                                        | ✅   | Claude Fable 5.1 | 2026-11-14 |
-| 1.4  | 手機版移除頁尾（需先完成 1.2）                                                     | ⬜   |                  |            |
+| 1.4  | 手機版移除頁尾（需先完成 1.2）                                                     | ✅   | Claude Fable 5.1 | 2026-11-14 |
 | 1.5  | 頂部列兩種狀態：根畫面 Logo / 子畫面 返回鍵 + 標題                                 | ⬜   |                  |            |
 | 1.6  | 購物車 Tab 數量角標                                                                | ⬜   |                  |            |
 | 1.7  | 頁面轉場（Astro `<ClientRouter />`），導覽列不重新載入                             | ⬜   |                  |            |
@@ -54,3 +54,4 @@
 | 2026-11-14 | Claude Fable 5.1 | 1.2b MobileNav 與 /more 改用站台 i18n（locals.locale、createT、localizedPath），新增 nav.more，語言連結寫入 cnamber_locale |
 | 2026-11-14 | Claude Fable 5.1 | 1.3 底部 Tab 第 5 個改為「更多」(/more)，「更多」底下頁面皆高亮此 Tab                                                      |
 | 2026-11-14 | Claude Fable 5.1 | 1.3b /more 移除語言分組（頂部地球圖示已可切換語言）                                                                        |
+| 2026-11-14 | Claude Fable 5.1 | 1.4 手機版隱藏頁尾（footer[data-site-footer]）；慢信訂閱與版權搬進 /more，訂閱成功提示顯示在 /more 頂部                    |
