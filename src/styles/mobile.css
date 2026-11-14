@@ -593,3 +593,63 @@
     font-size: 12px;
   }
 }
+
+/* ===== app-shell 2.3：首頁「最近亮點」→ 橫向滑動列（scroll-snap） ===== */
+@media (max-width: 767.98px) {
+  main [data-home-featured] {
+    padding-top: 20px;
+    padding-bottom: 28px;
+  }
+
+  /* 標題列：左標題、右「查看全部 →」 */
+  main [data-home-featured] .mb-8 {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  main [data-home-featured] .mb-8 p {
+    font-size: 12px;
+  }
+  main [data-home-featured] .mb-8 > a {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-end;
+    min-height: 44px;
+    white-space: nowrap;
+  }
+
+  /* 商品列：橫向滑動，滿版（抵銷容器 24px 左右內距），右側露出下一張 */
+  main [data-home-featured] .grid {
+    display: flex !important;
+    gap: 12px !important;
+    margin-inline: -24px;
+    padding: 2px 24px 8px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 24px;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  main [data-home-featured] .grid::-webkit-scrollbar {
+    display: none;
+  }
+  main [data-home-featured] .grid > * {
+    flex: 0 0 64vw;
+    max-width: 260px;
+    scroll-snap-align: start;
+    /* 卡片本身已有樣式，外層包裝不再疊一層卡片 */
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    overflow: visible;
+  }
+  /* 橫向捲動容器內不依賴進場動畫，避免卡片停在透明狀態 */
+  main [data-home-featured] .grid .reveal-on-scroll,
+  main [data-home-featured] .grid .reveal-pending {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
