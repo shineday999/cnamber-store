@@ -1220,3 +1220,144 @@
     padding-bottom: 24px;
   }
 }
+
+/* ===== app-shell 3.5：購物車（± 數量、左滑移除、底部固定合計） ===== */
+/* 桌面版：新元素預設隱藏，版面不變 */
+[data-cart-stepper],
+[data-cart-del] {
+  display: none;
+}
+
+@media (max-width: 767.98px) {
+  main [data-cart-page] {
+    padding-top: 16px;
+    padding-bottom: 96px;
+  }
+  main [data-cart-page] h1 {
+    margin-bottom: 16px;
+  }
+
+  /* 列：橫向 scroll-snap，往左滑露出右側「移除」 */
+  main [data-cart-row] {
+    display: flex;
+    overflow-x: auto;
+    border-radius: 16px;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  main [data-cart-row]::-webkit-scrollbar {
+    display: none;
+  }
+  main [data-cart-card] {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    align-items: flex-start;
+  }
+  main [data-cart-del] {
+    display: flex;
+    flex: 0 0 88px;
+    margin: 0;
+    scroll-snap-align: end;
+  }
+  main [data-cart-del] button {
+    width: 100%;
+    min-height: 0;
+    border: 0;
+    border-radius: 0 16px 16px 0;
+    background: #c0392b;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  /* 桌面版的文字數量與行內移除，手機版改用步進器與左滑 */
+  main [data-cart-qtytext],
+  main [data-cart-remove-inline] {
+    display: none;
+  }
+
+  /* − n ＋ 步進器 */
+  main [data-cart-stepper] {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  main [data-cart-stepper] form {
+    margin: 0;
+  }
+  main [data-cart-stepper] button {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    min-height: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1.5px solid rgba(0, 0, 0, 0.15);
+    border-radius: 50%;
+    background: #fff;
+    color: var(--m-ink);
+    font-size: 22px;
+    line-height: 1;
+  }
+  main [data-cart-stepper] button:active:not(:disabled) {
+    background: rgba(0, 0, 0, 0.06);
+  }
+  main [data-cart-stepper] button:disabled {
+    opacity: 0.35;
+  }
+  main [data-cart-stepper] [data-cart-qty] {
+    min-width: 28px;
+    text-align: center;
+    font-weight: 600;
+  }
+
+  /* 底部固定：合計 + 結帳按鈕，疊在 Tab 列正上方（與 3.3 相同做法） */
+  main [data-cart-bar] {
+    position: fixed;
+    right: 0;
+    bottom: calc(var(--m-tab-h) + env(safe-area-inset-bottom, 0px));
+    left: 0;
+    z-index: 55;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 0 !important;
+    padding: 10px 16px;
+    border-top: 1px solid rgba(0, 0, 0, 0.07);
+    background: rgba(255, 255, 255, 0.96);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+  main [data-cart-bar] > :first-child {
+    flex: none;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    margin: 0 !important;
+    padding: 0;
+    border: 0;
+  }
+  main [data-cart-bar] > :first-child > :first-child {
+    font-size: 12px;
+    line-height: 1.2;
+  }
+  main [data-cart-bar] > :first-child > :last-child {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  main [data-cart-bar] > :last-child {
+    flex: 1;
+    justify-content: center;
+    width: auto;
+    min-height: 48px;
+    margin: 0 !important;
+    padding: 0 20px;
+    border-radius: 999px;
+    font-size: 16px;
+    font-weight: 600;
+  }
+}
