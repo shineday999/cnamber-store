@@ -53,3 +53,4 @@
 | 2026-11-14 | Claude Fable 5.1 | 1.2 新增 /more 頁（探索 / 我們 / 語言 / 同在）                                                                             |
 | 2026-11-14 | Claude Fable 5.1 | 1.2b MobileNav 與 /more 改用站台 i18n（locals.locale、createT、localizedPath），新增 nav.more，語言連結寫入 cnamber_locale |
 | 2026-11-14 | Claude Fable 5.1 | 1.3 底部 Tab 第 5 個改為「更多」(/more)，「更多」底下頁面皆高亮此 Tab                                                      |
+| 2026-11-14 | Claude Fable 5.1 | 1.3b /more 移除語言分組（頂部地球圖示已可切換語言）                                                                        |
