@@ -35,7 +35,7 @@
 | 2.2  | 首頁「兩條手作路線」改為 2 欄磚塊                                              | ✅   | Claude Fable 5.1 | 2026-11-14 |
 | 2.3  | 首頁商品／第三區塊改橫向滑動列（scroll-snap）                                  | ✅   | Claude Fable 5.1 | 2026-11-14 |
 | 2.4  | 首頁問答入口橫幅卡；整頁高度驗收（≤ 2 螢幕）                                   | 🟡   | Claude Fable 5.1 |            |
-| 2.5  | 產品列表：分類 chips（可橫滑）固定在頂部列下方                                 | ⬜   |                  |            |
+| 2.5  | 產品列表：分類 chips（可橫滑）固定在頂部列下方                                 | ✅   | Claude Fable 5.1 | 2026-11-15 |
 | 2.6  | 產品列表：排序／篩選底部彈出層、2 欄網格、骨架畫面                             | ⬜   |                  |            |
 | 2.7  | Hero 可左右滑動切換（touch swipe，不動既有輪播 script 的行為）                 | ⬜   |                  |            |
 
@@ -49,6 +49,8 @@
 | 6    | PWA（manifest、service worker）+ 骨架畫面 + Lighthouse                       | ⬜   |
 
 ## 已知問題
+
+- <body> 有 Tailwind 的 bg-white，蓋掉 mobile.css 的 body 淺灰背景（--m-bg），白色卡片與頁面背景分不出層次；2.5 的 chips 列因此暫用白色底。待單獨一步處理（改 body 背景並同步 chips 列顏色）
 
 - 整頁高度驗收方法（首頁，375×812 手機模式，部署後在 DevTools Console 執行）：
   `Math.round(document.documentElement.scrollHeight / innerHeight * 10) / 10`
@@ -79,3 +81,4 @@
 | 2026-11-14 | Claude Fable 5.1 | 2.2 首頁路線卡手機版改 2 欄磚塊（3:4、16px 圓角，隱藏說明文字）；第二區塊 <section> 加 data-home-paths。「选一件」兩張問答卡留待 2.4                                                                                                          |
 | 2026-11-14 | Claude Fable 5.1 | 2.3 首頁最近亮點改橫向滑動列（scroll-snap，卡片寬 64vw、露出下一張）；標題列改左右排；第三區塊 <section> 加 data-home-featured。ProductCard 與資料查詢未動                                                                                    |
 | 2026-11-14 | Claude Fable 5.1 | 2.4 首頁「选一件」兩張問答卡手機版改橫幅卡（約 90px，隱藏說明與按鈕、右側箭頭）；區塊標題靠左並隱藏說明。實作完成，整頁高度待實測，狀態暫為 🟡                                                                                                |
+| 2026-11-15 | Claude Fable 5.1 | 2.5 產品列表：分類改 sticky 橫滑 chips（top = 頂部列高度、每顆 ≥44px）；標題區靠左並隱藏說明；<header>、<nav> 加 data-products-head / data-products-chips，分類連結補 aria-current                                                            |

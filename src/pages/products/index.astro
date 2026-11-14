@@ -51,7 +51,7 @@ function firstImage(json: string | null | undefined): string | undefined {
 
 <Layout title={pageTitle} description={t("home.story_p1") ?? ""}>
   <div class="max-w-6xl mx-auto px-6 py-section">
-    <header class="mb-12 text-center">
+    <header data-products-head class="mb-12 text-center">
       <p
         class="text-sm uppercase tracking-[0.3em] text-accent-700 font-sans mb-3"
       >
@@ -65,7 +65,7 @@ function firstImage(json: string | null | undefined): string | undefined {
       <p class="text-text-secondary max-w-2xl mx-auto">{t("home.story_p1")}</p>
     </header>
 
-    <nav class="flex justify-center gap-2 mb-10">
+    <nav data-products-chips class="flex justify-center gap-2 mb-10">
       {
         (["all", "jewelry", "incense"] as const).map((cat) => {
           const isActive = filter === cat;
@@ -75,6 +75,7 @@ function firstImage(json: string | null | undefined): string | undefined {
           return (
             <a
               href={next.pathname + next.search}
+              aria-current={isActive ? "page" : undefined}
               class={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                 isActive
                   ? "bg-forest-700 text-bg-base"
