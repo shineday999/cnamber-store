@@ -409,3 +409,46 @@
     display: none;
   }
 }
+
+/* ===== app-shell 1.7：頁面轉場（原生 View Transitions，MPA） =====
+   支援：Chrome/Edge 126+、Safari 18.2+；不支援的瀏覽器維持一般換頁。 */
+@media (max-width: 767.98px) and (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+
+  /* 頂部列、底部 Tab 各自成為獨立圖層：換頁時立即顯示新狀態，不跟著內容淡出入 */
+  .m-header {
+    view-transition-name: m-header;
+  }
+  .m-tabbar {
+    view-transition-name: m-tabbar;
+  }
+  ::view-transition-old(m-header),
+  ::view-transition-old(m-tabbar) {
+    display: none;
+  }
+  ::view-transition-new(m-header),
+  ::view-transition-new(m-tabbar) {
+    animation: none;
+  }
+
+  /* 內容：舊頁快速淡出，新頁從右側輕輕滑入 */
+  @keyframes m-vt-out {
+    to {
+      opacity: 0;
+    }
+  }
+  @keyframes m-vt-in {
+    from {
+      opacity: 0;
+      transform: translateX(14px);
+    }
+  }
+  ::view-transition-old(root) {
+    animation: m-vt-out 140ms ease-in both;
+  }
+  ::view-transition-new(root) {
+    animation: m-vt-in 240ms ease-out both;
+  }
+}
