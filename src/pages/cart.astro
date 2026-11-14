@@ -21,7 +21,7 @@ const items = readCart(cookieHeader);
 const enriched =
   env?.DB && items.length > 0
     ? await env.DB.prepare(
-        `SELECT p.slug, pv.sku, pv.stock, MIN(pp.amount) AS amount, pp.currency
+        `SELECT p.slug, pt.name, pv.sku, pv.stock, MIN(pp.amount) AS amount, pp.currency
        FROM products p
        LEFT JOIN product_translations pt ON pt.product_id = p.id AND pt.locale = ?
        LEFT JOIN product_variants pv ON pv.product_id = p.id
@@ -64,7 +64,7 @@ void t;
   title={`${t("cart.page_title")} — ${t("common.site_name")}`}
   description={t("cart.page_description")}
 >
-  <div class="max-w-4xl mx-auto px-6 py-section">
+  <div data-cart-page class="max-w-4xl mx-auto px-6 py-section">
     <h1 class="text-display-sm font-serif text-text-primary mb-8">
       {t("cart.title")}
     </h1>
@@ -83,68 +83,142 @@ void t;
             const k = `${row.slug}::${row.sku ?? ""}`;
             const qty = keyMap.get(k)!.qty;
             const lineCents = (row.amount as number) ?? 0;
+            const stock =
+              typeof row.stock === "number"
+                ? row.stock
+                : Number.POSITIVE_INFINITY;
             return (
-              <div class="bg-bg-card border border-text-muted/20 rounded-card p-4 flex items-center justify-between">
-                <div>
-                  <div class="font-medium">
-                    {(row.name as string) ?? (row.slug as string)}
+              <div data-cart-row>
+                <div
+                  data-cart-card
+                  class="bg-bg-card border border-text-muted/20 rounded-card p-4 flex items-center justify-between"
+                >
+                  <div>
+                    <div class="font-medium">
+                      {(row.name as string) ?? (row.slug as string)}
+                    </div>
+                    <div class="text-xs text-text-muted mt-1">
+                      {(row.sku as string) ? (
+                        <span class="font-mono bg-bg-base px-2 py-0.5 rounded border border-text-muted/30 mr-2">
+                          {row.sku}
+                        </span>
+                      ) : null}
+                      <span data-cart-qtytext>qty {qty}</span>
+                    </div>
+                    <div data-cart-stepper>
+                      <form method="POST" action="/api/cart/update">
+                        <input
+                          type="hidden"
+                          name="slug"
+                          value={row.slug as string}
+                        />
+                        <input
+                          type="hidden"
+                          name="sku"
+                          value={(row.sku as string) ?? ""}
+                        />
+                        <input
+                          type="hidden"
+                          name="qty"
+                          value={String(qty - 1)}
+                        />
+                        <button
+                          type="submit"
+                          disabled={qty <= 1}
+                          aria-label={`${t("common.quantity")} −`}
+                        >
+                          −
+                        </button>
+                      </form>
+                      <span data-cart-qty>{qty}</span>
+                      <form method="POST" action="/api/cart/update">
+                        <input
+                          type="hidden"
+                          name="slug"
+                          value={row.slug as string}
+                        />
+                        <input
+                          type="hidden"
+                          name="sku"
+                          value={(row.sku as string) ?? ""}
+                        />
+                        <input
+                          type="hidden"
+                          name="qty"
+                          value={String(qty + 1)}
+                        />
+                        <button
+                          type="submit"
+                          disabled={qty >= stock}
+                          aria-label={`${t("common.quantity")} +`}
+                        >
+                          +
+                        </button>
+                      </form>
+                    </div>
                   </div>
-                  <div class="text-xs text-text-muted mt-1">
-                    {(row.sku as string) ? (
-                      <span class="font-mono bg-bg-base px-2 py-0.5 rounded border border-text-muted/30 mr-2">
-                        {row.sku}
-                      </span>
-                    ) : null}
-                    <span>qty {qty}</span>
-                  </div>
-                </div>
-                <div class="text-right">
-                  <div class="font-mono">
-                    {formatPrice(lineCents * qty, "USD", locale)}
-                  </div>
-                  <div class="flex gap-2 justify-end mt-1">
-                    <form
-                      method="POST"
-                      action="/api/cart/remove"
-                      class="inline"
+                  <div class="text-right">
+                    <div class="font-mono">
+                      {formatPrice(lineCents * qty, "USD", locale)}
+                    </div>
+                    <div
+                      data-cart-remove-inline
+                      class="flex gap-2 justify-end mt-1"
                     >
-                      <input
-                        type="hidden"
-                        name="slug"
-                        value={row.slug as string}
-                      />
-                      <input
-                        type="hidden"
-                        name="sku"
-                        value={(row.sku as string) ?? ""}
-                      />
-                      <button class="text-xs text-error hover:underline">
-                        {t("cart.remove")}
-                      </button>
-                    </form>
+                      <form
+                        method="POST"
+                        action="/api/cart/remove"
+                        class="inline"
+                      >
+                        <input
+                          type="hidden"
+                          name="slug"
+                          value={row.slug as string}
+                        />
+                        <input
+                          type="hidden"
+                          name="sku"
+                          value={(row.sku as string) ?? ""}
+                        />
+                        <button class="text-xs text-error hover:underline">
+                          {t("cart.remove")}
+                        </button>
+                      </form>
+                    </div>
                   </div>
                 </div>
+                <form data-cart-del method="POST" action="/api/cart/remove">
+                  <input type="hidden" name="slug" value={row.slug as string} />
+                  <input
+                    type="hidden"
+                    name="sku"
+                    value={(row.sku as string) ?? ""}
+                  />
+                  <button type="submit">{t("cart.remove")}</button>
+                </form>
               </div>
             );
           })}
 
-          <div class="border-t border-text-muted/20 pt-4 mt-4 flex justify-between items-center">
-            <div class="text-lg font-serif">
-              {t("cart.subtotal") ?? "Subtotal"}:
+          <div data-cart-bar class="space-y-4">
+            <div class="border-t border-text-muted/20 pt-4 flex justify-between items-center">
+              <div class="text-lg font-serif">
+                {t("cart.subtotal") ?? "Subtotal"}:
+              </div>
+              <div class="text-2xl font-mono font-medium">
+                {formatPrice(subtotalCents, "USD", locale)}
+              </div>
             </div>
-            <div class="text-2xl font-mono font-medium">
-              {formatPrice(subtotalCents, "USD", locale)}
-            </div>
-          </div>
 
-          <Button
-            href={localizedPath(locale, "/checkout")}
-            variant="primary"
-            size="lg"
-            class="w-full"
-          >
-            {t("cart.checkout") ?? "Proceed to checkout"}
-          </Button>
+            <Button
+              href={localizedPath(locale, "/checkout")}
+              variant="primary"
+              size="lg"
+              class="w-full"
+            >
+              {t("cart.checkout") ?? "Proceed to checkout"}
+            </Button>
+          </div>
 
           <form method="POST" action="/api/cart/clear" class="text-center">
             <button class="text-xs text-text-muted hover:text-error hover:underline">
