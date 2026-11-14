@@ -746,6 +746,10 @@
     "filter_jewelry": "Amber",
     "filter_incense": "Incense",
     "empty_title": "No pieces yet",
-    "empty_desc": "Our first batch is being prepared — please check back soon."
+    "empty_desc": "Our first batch is being prepared — please check back soon.",
+    "sort_label": "Sort",
+    "sort_new": "Newest",
+    "sort_price_asc": "Price: low to high",
+    "sort_price_desc": "Price: high to low"
   }
 }

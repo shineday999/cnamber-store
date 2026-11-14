@@ -746,6 +746,10 @@
     "filter_jewelry": "Amber",
     "filter_incense": "Kemenyan",
     "empty_title": "Belum ada karya",
-    "empty_desc": "Kumpulan pertama sedang dibentuk perlahan — sila hubungi kami untuk tempahan."
+    "empty_desc": "Kumpulan pertama sedang dibentuk perlahan — sila hubungi kami untuk tempahan.",
+    "sort_label": "Susun",
+    "sort_new": "Terbaru",
+    "sort_price_asc": "Harga: rendah ke tinggi",
+    "sort_price_desc": "Harga: tinggi ke rendah"
   }
 }

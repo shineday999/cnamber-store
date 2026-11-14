@@ -746,6 +746,10 @@
     "filter_jewelry": "Amber",
     "filter_incense": "Dupa",
     "empty_title": "Belum ada karya",
-    "empty_desc": "Kumpulan pertama sedang dibentuk perlahan — hubungi kami untuk tempahan."
+    "empty_desc": "Kumpulan pertama sedang dibentuk perlahan — hubungi kami untuk tempahan.",
+    "sort_label": "Urutkan",
+    "sort_new": "Terbaru",
+    "sort_price_asc": "Harga: rendah ke tinggi",
+    "sort_price_desc": "Harga: tinggi ke rendah"
   }
 }
