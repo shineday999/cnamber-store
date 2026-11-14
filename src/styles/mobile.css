@@ -727,3 +727,57 @@
     display: none;
   }
 }
+
+/* ===== app-shell 2.5：產品列表 分類 chips（橫滑、固定在頂部列下方） ===== */
+@media (max-width: 767.98px) {
+  /* 標題區：縮小、靠左、說明段落隱藏 */
+  main div:has(> [data-products-head]) {
+    padding-top: 12px;
+    padding-bottom: 24px;
+  }
+  main [data-products-head] {
+    margin-bottom: 8px;
+    text-align: left;
+  }
+  main [data-products-head] > p:first-child {
+    margin-bottom: 4px;
+    font-size: 12px !important;
+  }
+  main [data-products-head] > h1 {
+    margin-bottom: 0;
+  }
+  main [data-products-head] > p:nth-of-type(2) {
+    display: none;
+  }
+
+  /* chips 列：橫向可滑、黏在頂部列下方、滿版 */
+  main [data-products-chips] {
+    position: sticky;
+    top: calc(var(--m-header-h) + env(safe-area-inset-top, 0px));
+    z-index: 40;
+    display: flex;
+    justify-content: flex-start;
+    gap: 8px;
+    margin: 0 -24px 14px;
+    padding: 10px 24px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    background: rgba(255, 255, 255, 0.92);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+  main [data-products-chips]::-webkit-scrollbar {
+    display: none;
+  }
+  main [data-products-chips] > a {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 18px;
+    white-space: nowrap;
+  }
+}
