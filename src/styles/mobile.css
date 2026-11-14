@@ -955,3 +955,116 @@
     padding-bottom: 24px;
   }
 }
+
+/* ===== app-shell 3.2 / 3.3：商品詳情 規格、數量步進器、底部固定操作列 ===== */
+/* 桌面版：新元素預設隱藏，版面不變 */
+.pd-qty-btn,
+.pd-bar-price {
+  display: none;
+}
+
+@media (max-width: 767.98px) {
+  /* ---- 3.2 規格：大按鈕列 ---- */
+  main [data-pd-form] fieldset label {
+    min-height: 56px;
+    padding: 0 14px;
+    border-width: 1.5px;
+    border-radius: 14px;
+  }
+  /* 通用規則曾讓所有 input ≥48px 高；單選鈕縮回正常大小 */
+  main [data-pd-form] input[type="radio"] {
+    flex: none;
+    width: 22px;
+    height: 22px;
+    min-height: 0;
+    margin: 0;
+    border-radius: 50%;
+  }
+  main [data-pd-form] fieldset label .font-mono {
+    font-size: 14px;
+  }
+
+  /* ---- 3.2 數量：label 靠左，− [n] ＋ 靠右 ---- */
+  main [data-pd-qty] {
+    display: grid;
+    grid-template-columns: 1fr auto auto auto;
+    align-items: center;
+    gap: 8px;
+  }
+  main [data-pd-qty] .pd-qty-btn {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    min-height: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1.5px solid rgba(0, 0, 0, 0.15);
+    border-radius: 50%;
+    background: #fff;
+    color: var(--m-ink);
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 1;
+  }
+  main [data-pd-qty] .pd-qty-btn:active {
+    background: rgba(0, 0, 0, 0.06);
+  }
+  main [data-pd-qty] #qty-input {
+    width: 56px;
+    min-height: 44px;
+    padding: 0;
+    text-align: center;
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+  main [data-pd-qty] #qty-input::-webkit-outer-spin-button,
+  main [data-pd-qty] #qty-input::-webkit-inner-spin-button {
+    margin: 0;
+    -webkit-appearance: none;
+  }
+
+  /* 「聯絡」連結：點擊範圍 ≥44px */
+  main [data-pd-form] > a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+  }
+
+  /* ---- 3.3 底部固定操作列：疊在 Tab 列正上方 ---- */
+  main [data-pd-bar] {
+    position: fixed;
+    right: 0;
+    bottom: calc(var(--m-tab-h) + env(safe-area-inset-bottom, 0px));
+    left: 0;
+    z-index: 55;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 16px;
+    border-top: 1px solid rgba(0, 0, 0, 0.07);
+    background: rgba(255, 255, 255, 0.96);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+  main [data-pd-bar] .pd-bar-price {
+    display: block;
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+  main [data-pd-bar] button[type="submit"] {
+    flex: 1;
+    min-height: 48px;
+    padding: 0 20px;
+    border-radius: 999px;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  /* 頁面底部多留操作列的高度，內容不被遮住 */
+  main [data-pd-info] {
+    padding-bottom: 96px;
+  }
+}
