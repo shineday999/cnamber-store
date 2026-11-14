@@ -1,4 +1,25 @@
 {
+  "404": {
+    "kicker": "tanpa jalan",
+    "title": "Hilang di dalam hutan",
+    "subtitle": "Jalur yang Anda ikuti hilang ke dalam kabut pagi.",
+    "cta_primary": "Kembali ke awal",
+    "cta_secondary": "Jelajahi koleksi",
+    "svg_aria": "Hutan berkabut dengan satu ranting cemara dan satu daun amber yang jatuh",
+    "suggested_heading": "Anda mungkin juga tertarik",
+    "search_label": "Cari produk",
+    "search_placeholder": "Cari mengikut nama atau kata kunci..."
+  },
+  "500": {
+    "kicker": "sedikit chaos",
+    "title": "Hutan juga punya badai",
+    "subtitle": "Hutan terdalam pun punya badai. Tarik napas, coba lagi.",
+    "cta_primary": "Kembali ke awal",
+    "cta_secondary": "Jelajahi koleksi",
+    "suggested_heading": "Anda mungkin juga tertarik",
+    "search_label": "Cari produk",
+    "search_placeholder": "Cari mengikut nama atau kata kunci..."
+  },
   "common": {
     "site_name": "OxHorseCraft",
     "tagline": "Kenakan hutan di tubuh Anda",
@@ -32,7 +53,8 @@
     "products": "Produk",
     "about": "Tentang",
     "craft": "Kerajinan",
-    "materials": "Bahan"
+    "materials": "Bahan",
+    "more": "Lainnya"
   },
   "home": {
     "hero_kicker": "Perlahan · 2026",
@@ -331,17 +353,6 @@
     "amber_sicily_desc": "Kaya akan serpihan tumbuhan, warna merah gelap, karakter Italia Mediterania.",
     "agarwood_title": "Gaharu alami",
     "agarwood_desc": "Yunnan, Hainan, Vietnam, Malaysia, Laos — aroma setiap kawasan berbeda. Dipilih berdasarkan kejernihan dan kedalaman."
-  },
-  "404": {
-    "kicker": "tanpa jalan",
-    "title": "Hilang di dalam hutan",
-    "subtitle": "Jalur yang Anda ikuti hilang ke dalam kabut pagi.",
-    "cta_primary": "Kembali ke awal",
-    "cta_secondary": "Jelajahi koleksi",
-    "svg_aria": "Hutan berkabut dengan satu ranting cemara dan satu daun amber yang jatuh",
-    "suggested_heading": "Anda mungkin juga tertarik",
-    "search_label": "Cari produk",
-    "search_placeholder": "Cari mengikut nama atau kata kunci..."
   },
   "admin": {
     "nav": {
@@ -728,16 +739,6 @@
     "aria_open_menu": "Buka menu",
     "aria_close_menu": "Tutup menu",
     "aria_main_menu": "Menu utama"
-  },
-  "500": {
-    "kicker": "sedikit chaos",
-    "title": "Hutan juga punya badai",
-    "subtitle": "Hutan terdalam pun punya badai. Tarik napas, coba lagi.",
-    "cta_primary": "Kembali ke awal",
-    "cta_secondary": "Jelajahi koleksi",
-    "suggested_heading": "Anda mungkin juga tertarik",
-    "search_label": "Cari produk",
-    "search_placeholder": "Cari mengikut nama atau kata kunci..."
   },
   "products": {
     "kicker": "Toko",

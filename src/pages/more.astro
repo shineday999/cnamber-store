@@ -1,137 +1,83 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import {
+  defaultLocale,
+  localeFromPath,
+  localeNames,
+  localizedPath,
+  locales,
+  type Locale,
+} from "../i18n/config";
+import { createT } from "../i18n/t";
 
-// 語言：優先用站台已有的設定，抓不到就用簡體中文
-const raw = String((Astro.locals as any)?.lang ?? Astro.currentLocale ?? "zh");
-const lang: "zh" | "en" | "ms-MY" | "id-ID" = raw.startsWith("en")
-  ? "en"
-  : raw.startsWith("ms")
-    ? "ms-MY"
-    : raw.startsWith("id")
-      ? "id-ID"
-      : "zh";
+const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
+const t = createT(Astro.locals.messages ?? {});
 
-const T = {
-  zh: {
-    title: "更多",
-    explore: "探索",
-    about: "我们",
-    language: "语言",
-    follow: "同在",
-    products: "所有作品",
-    amber: "琥珀饰品",
-    incense: "东方香品",
-    quiz: "选一件",
-    story: "森林记事",
-    vision: "品牌愿景",
-    craft: "手的工",
-    materials: "材质来源",
-    blog: "慢信",
-    contact: "联络",
-    aboutPage: "关于",
-  },
-  en: {
-    title: "More",
-    explore: "Explore",
-    about: "About us",
-    language: "Language",
-    follow: "Follow",
-    products: "All pieces",
-    amber: "Amber jewelry",
-    incense: "Incense",
-    quiz: "Find your piece",
-    story: "Forest notes",
-    vision: "Our vision",
-    craft: "The craft",
-    materials: "Materials",
-    blog: "Letters",
-    contact: "Contact",
-    aboutPage: "About",
-  },
-  "ms-MY": {
-    title: "Lagi",
-    explore: "Terokai",
-    about: "Tentang kami",
-    language: "Bahasa",
-    follow: "Ikuti",
-    products: "Semua karya",
-    amber: "Perhiasan ambar",
-    incense: "Dupa",
-    quiz: "Cari yang sesuai",
-    story: "Catatan hutan",
-    vision: "Visi",
-    craft: "Kraf tangan",
-    materials: "Bahan",
-    blog: "Surat",
-    contact: "Hubungi",
-    aboutPage: "Tentang",
-  },
-  "id-ID": {
-    title: "Lainnya",
-    explore: "Jelajahi",
-    about: "Tentang kami",
-    language: "Bahasa",
-    follow: "Ikuti",
-    products: "Semua karya",
-    amber: "Perhiasan amber",
-    incense: "Dupa",
-    quiz: "Temukan karyamu",
-    story: "Catatan hutan",
-    vision: "Visi",
-    craft: "Kerajinan",
-    materials: "Bahan",
-    blog: "Surat",
-    contact: "Kontak",
-    aboutPage: "Tentang",
-  },
-}[lang];
+const pathname = Astro.url.pathname;
+const pathLocale = localeFromPath(pathname);
+const cleanPath = pathLocale
+  ? pathname.slice(pathLocale.length + 1) || "/"
+  : pathname;
+const p = (path: string) => localizedPath(locale, path);
 
-type Item = { label: string; href: string; ext?: boolean; current?: boolean };
+type Item = { label: string; href: string; ext?: boolean; locale?: Locale };
 const groups: { title: string; items: Item[] }[] = [
   {
-    title: T.explore,
+    title: t("footer.section_shop"),
     items: [
-      { label: T.products, href: "/products" },
-      { label: T.amber, href: "/amber" },
-      { label: T.incense, href: "/incense" },
-      { label: T.quiz, href: "/quiz" },
+      { label: t("footer.link_all"), href: p("/products") },
+      { label: t("footer.link_amber"), href: p("/amber") },
+      { label: t("footer.link_incense"), href: p("/incense") },
+      { label: t("footer.link_quiz"), href: p("/quiz") },
     ],
   },
   {
-    title: T.about,
+    title: t("footer.section_brand"),
     items: [
-      { label: T.story, href: "/story" },
-      { label: T.vision, href: "/vision" },
-      { label: T.craft, href: "/craft" },
-      { label: T.materials, href: "/materials" },
-      { label: T.blog, href: "/blog" },
-      { label: T.contact, href: "/contact" },
-      { label: T.aboutPage, href: "/about" },
+      { label: t("footer.link_story"), href: p("/story") },
+      { label: t("footer.link_vision"), href: p("/vision") },
+      { label: t("footer.link_craft"), href: p("/craft") },
+      { label: t("footer.link_materials"), href: p("/materials") },
+      { label: t("footer.link_blog"), href: p("/blog") },
+      { label: t("footer.link_contact"), href: p("/contact") },
+      { label: t("nav.about"), href: p("/about") },
     ],
   },
   {
-    title: T.language,
-    items: [
-      { label: "简体中文", href: "/", current: lang === "zh" },
-      { label: "English", href: "/en/", current: lang === "en" },
-      { label: "Bahasa Melayu", href: "/ms-MY/", current: lang === "ms-MY" },
-      { label: "Bahasa Indonesia", href: "/id-ID/", current: lang === "id-ID" },
-    ],
+    title: t("common.language"),
+    items: locales.map((l) => ({
+      label: localeNames[l],
+      href: localizedPath(l, "/more"),
+      locale: l,
+    })),
   },
   {
-    title: T.follow,
+    title: t("footer.section_follow"),
     items: [
-      { label: "Instagram", href: "https://instagram.com/", ext: true },
-      { label: "Pinterest", href: "https://pinterest.com/", ext: true },
-      { label: "小红书", href: "https://xiaohongshu.com/", ext: true },
+      {
+        label: t("footer.social_instagram"),
+        href: "https://instagram.com/",
+        ext: true,
+      },
+      {
+        label: t("footer.social_pinterest"),
+        href: "https://pinterest.com/",
+        ext: true,
+      },
+      {
+        label: t("footer.social_xiaohongshu"),
+        href: "https://xiaohongshu.com/",
+        ext: true,
+      },
     ],
   },
 ];
+void cleanPath;
 ---
 
-<Layout title={T.title}>
+<Layout title={t("nav.more")}>
   <div class="more">
-    <h1>{T.title}</h1>
+    <h1>{t("nav.more")}</h1>
     {
       groups.map((g) => (
         <section class="grp">
@@ -141,12 +87,13 @@ const groups: { title: string; items: Item[] }[] = [
               <li>
                 <a
                   href={i.href}
-                  aria-current={i.current ? "true" : undefined}
+                  data-locale={i.locale}
+                  aria-current={i.locale === locale ? "true" : undefined}
                   target={i.ext ? "_blank" : undefined}
                   rel={i.ext ? "noopener noreferrer" : undefined}
                 >
                   <span>{i.label}</span>
-                  {i.current ? (
+                  {i.locale === locale ? (
                     <svg
                       viewBox="0 0 24 24"
                       width="20"

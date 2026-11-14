@@ -1,4 +1,25 @@
 {
+  "404": {
+    "kicker": "tiada laluan",
+    "title": "Hilang di dalam hutan",
+    "subtitle": "Laluan yang anda ikuti hilang ke dalam kabus pagi.",
+    "cta_primary": "Kembali ke permulaan",
+    "cta_secondary": "Jelajah koleksi",
+    "svg_aria": "Hutan pagi yang berkabus dengan satu dahan pain dan satu daun amber yang jatuh",
+    "suggested_heading": "Anda mungkin juga suka",
+    "search_label": "Cari produk",
+    "search_placeholder": "Cari mengikut nama atau kata kunci..."
+  },
+  "500": {
+    "kicker": "huru-hara sebentar",
+    "title": "Hutan juga ada ribut",
+    "subtitle": "Hutan yang paling dalam pun ada ribut. Tarik nafas, cuba lagi.",
+    "cta_primary": "Kembali ke permulaan",
+    "cta_secondary": "Jelajah koleksi",
+    "suggested_heading": "Anda mungkin juga suka",
+    "search_label": "Cari produk",
+    "search_placeholder": "Cari mengikut nama atau kata kunci..."
+  },
   "common": {
     "site_name": "OxHorseCraft",
     "tagline": "Pakai hutan di badan anda",
@@ -32,7 +53,8 @@
     "products": "Produk",
     "about": "Tentang",
     "craft": "Kraftangan",
-    "materials": "Bahan"
+    "materials": "Bahan",
+    "more": "Lagi"
   },
   "home": {
     "hero_kicker": "Perlahan · 2026",
@@ -331,17 +353,6 @@
     "amber_sicily_desc": "Kaya dengan serpihan tumbuh-tumbuhan, warna merah gelap, watak Itali Mediterranean.",
     "agarwood_title": "Gaharu asli",
     "agarwood_desc": "Yunnan, Hainan, Vietnam, Malaysia, Laos — wangian setiap kawasan berbeza. Dipilih mengikut kejernihan dan kedalaman."
-  },
-  "404": {
-    "kicker": "tiada laluan",
-    "title": "Hilang di dalam hutan",
-    "subtitle": "Laluan yang anda ikuti hilang ke dalam kabus pagi.",
-    "cta_primary": "Kembali ke permulaan",
-    "cta_secondary": "Jelajah koleksi",
-    "svg_aria": "Hutan pagi yang berkabus dengan satu dahan pain dan satu daun amber yang jatuh",
-    "suggested_heading": "Anda mungkin juga suka",
-    "search_label": "Cari produk",
-    "search_placeholder": "Cari mengikut nama atau kata kunci..."
   },
   "admin": {
     "nav": {
@@ -728,16 +739,6 @@
     "aria_open_menu": "Buka menu",
     "aria_close_menu": "Tutup menu",
     "aria_main_menu": "Menu utama"
-  },
-  "500": {
-    "kicker": "huru-hara sebentar",
-    "title": "Hutan juga ada ribut",
-    "subtitle": "Hutan yang paling dalam pun ada ribut. Tarik nafas, cuba lagi.",
-    "cta_primary": "Kembali ke permulaan",
-    "cta_secondary": "Jelajah koleksi",
-    "suggested_heading": "Anda mungkin juga suka",
-    "search_label": "Cari produk",
-    "search_placeholder": "Cari mengikut nama atau kata kunci..."
   },
   "products": {
     "kicker": "Kedai",

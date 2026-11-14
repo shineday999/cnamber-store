@@ -1,4 +1,25 @@
 {
+  "404": {
+    "kicker": "此处无路",
+    "title": "林深不知处",
+    "subtitle": "你追随的小径,已消失在晨雾之中。",
+    "cta_primary": "返回起点",
+    "cta_secondary": "探寻藏品",
+    "svg_aria": "一片晨雾弥漫的森林,一枝松,一片飘落的琥珀叶",
+    "suggested_heading": "您或许想看",
+    "search_label": "搜索产品",
+    "search_placeholder": "按名称或关键词..."
+  },
+  "500": {
+    "kicker": "片刻失序",
+    "title": "林深亦有风浪",
+    "subtitle": "森林偶有风浪。请稍候,再走一次。",
+    "cta_primary": "返回起点",
+    "cta_secondary": "探寻藏品",
+    "suggested_heading": "您或许想看",
+    "search_label": "搜索产品",
+    "search_placeholder": "按名称或关键词..."
+  },
   "common": {
     "site_name": "牛马得饰",
     "tagline": "把森林穿戴在身上",
@@ -32,7 +53,8 @@
     "cart": "购物车",
     "quiz": "选一件",
     "products": "产品",
-    "about": "关于"
+    "about": "关于",
+    "more": "更多"
   },
   "home": {
     "hero_kicker": "慢慢来 · 2026",
@@ -345,17 +367,6 @@
     "blog": {
       "faq_heading": "读者常问的"
     }
-  },
-  "404": {
-    "kicker": "此处无路",
-    "title": "林深不知处",
-    "subtitle": "你追随的小径,已消失在晨雾之中。",
-    "cta_primary": "返回起点",
-    "cta_secondary": "探寻藏品",
-    "svg_aria": "一片晨雾弥漫的森林,一枝松,一片飘落的琥珀叶",
-    "suggested_heading": "您或许想看",
-    "search_label": "搜索产品",
-    "search_placeholder": "按名称或关键词..."
   },
   "admin": {
     "nav": {
@@ -758,16 +769,6 @@
     "aria_open_menu": "打开菜单",
     "aria_close_menu": "关闭菜单",
     "aria_main_menu": "主菜单"
-  },
-  "500": {
-    "kicker": "片刻失序",
-    "title": "林深亦有风浪",
-    "subtitle": "森林偶有风浪。请稍候,再走一次。",
-    "cta_primary": "返回起点",
-    "cta_secondary": "探寻藏品",
-    "suggested_heading": "您或许想看",
-    "search_label": "搜索产品",
-    "search_placeholder": "按名称或关键词..."
   },
   "products": {
     "kicker": "慢慢看",
