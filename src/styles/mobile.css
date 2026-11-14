@@ -343,3 +343,41 @@
     display: none !important;
   }
 }
+
+/* ===== app-shell 1.5：頂部列雙狀態（root = Logo；sub = 返回鍵 + 標題） ===== */
+@media (max-width: 767.98px) {
+  .m-back,
+  .m-title {
+    display: none;
+  }
+  .m-header[data-state="sub"] .m-brand {
+    display: none;
+  }
+  .m-header[data-state="sub"] .m-back {
+    display: inline-grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    margin-left: -10px;
+    border-radius: 999px;
+    color: var(--m-ink);
+    text-decoration: none;
+  }
+  .m-header[data-state="sub"] .m-back:active {
+    background: rgba(0, 0, 0, 0.06);
+  }
+  .m-header[data-state="sub"] .m-title {
+    display: block;
+    flex: 1;
+    min-width: 0;
+    margin: 0 4px;
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--m-ink);
+  }
+}
