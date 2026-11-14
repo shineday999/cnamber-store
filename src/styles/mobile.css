@@ -131,3 +131,20 @@
   }
   main > section:first-child .grid { display: block; }
 }
+
+/* ===== app-shell 1.1b：版面用格線（grid-cols-12）不是卡片列表，不套卡片樣式 ===== */
+@media (max-width: 767.98px) {
+  main .grid[class*="grid-cols-12"] {
+    display: block !important;
+    grid-template-columns: none !important;
+  }
+  main .grid[class*="grid-cols-12"] > *,
+  main .hero-text {
+    background: transparent !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    overflow: visible !important;
+    min-height: 0;
+    grid-column: auto !important;
+  }
+}
