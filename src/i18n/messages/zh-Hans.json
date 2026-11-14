@@ -776,6 +776,10 @@
     "filter_jewelry": "琥珀",
     "filter_incense": "香品",
     "empty_title": "还没有作品",
-    "empty_desc": "第一批作品正在慢慢成形,先来一封信预约。"
+    "empty_desc": "第一批作品正在慢慢成形,先来一封信预约。",
+    "sort_label": "排序",
+    "sort_new": "最新上架",
+    "sort_price_asc": "价格由低到高",
+    "sort_price_desc": "价格由高到低"
   }
 }
