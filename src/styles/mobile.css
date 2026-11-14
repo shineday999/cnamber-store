@@ -118,3 +118,16 @@
 
 /* 平板以上完全不影響 */
 @media (min-width: 768px) { .m-header, .m-tabbar { display: none !important; } }
+
+/* ===== app-shell 1.1：Hero 首屏不套用卡片樣式（避免白字白底） ===== */
+@media (max-width: 767.98px) {
+  main > section:first-child .grid > *,
+  main > section:first-child .grid > *:last-child:nth-child(odd) {
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    overflow: visible;
+    min-height: 0;
+  }
+  main > section:first-child .grid { display: block; }
+}
