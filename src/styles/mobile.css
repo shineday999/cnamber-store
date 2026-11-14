@@ -1126,3 +1126,97 @@
     display: none;
   }
 }
+
+/* ===== app-shell 3.4：商品詳情 故事／常見問題 → 可展開（accordion） ===== */
+/* 桌面版：永遠展開、外觀不變（JS 於桌面版也會阻止收合） */
+[data-acc] > summary {
+  list-style: none;
+  cursor: default;
+}
+[data-acc] > summary::-webkit-details-marker {
+  display: none;
+}
+/* 故事的標題列：桌面版只給螢幕閱讀器，畫面與改版前相同 */
+[data-acc-story] > summary {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (max-width: 767.98px) {
+  /* 標題列：整列可點、右側 +／− */
+  main [data-acc] > summary {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: auto;
+    height: auto;
+    min-height: 52px;
+    margin: 0;
+    padding-right: 32px;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  main [data-acc] > summary::after {
+    content: "+";
+    position: absolute;
+    top: 50%;
+    right: 4px;
+    transform: translateY(-50%);
+    font-size: 22px;
+    line-height: 1;
+    color: #a65f3d;
+  }
+  main [data-acc][open] > summary::after {
+    content: "−";
+  }
+  main [data-acc] > p {
+    margin-bottom: 16px;
+  }
+
+  /* 故事：上下細線分隔 */
+  main [data-acc-story] {
+    margin-top: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  }
+  main [data-acc-story] > summary {
+    font-size: 12px;
+  }
+
+  /* 常見問題：每題一列、細線分隔 */
+  main [data-pd-faq-list] > * {
+    margin-top: 0 !important;
+  }
+  main [data-pd-faq-list] > details {
+    padding-left: 0;
+    border-left: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  }
+  main [data-pd-faq-list] summary h3 {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.4;
+  }
+
+  /* FAQ 區塊：縮小留白；底部留給固定操作列（3.3）與 Tab */
+  main [data-pd-faq] {
+    padding: 8px 24px 96px;
+  }
+  main [data-pd-faq] h2 {
+    margin-bottom: 8px;
+    font-size: 22px;
+    line-height: 1.2;
+  }
+  /* 3.3 的底部留白改由 FAQ 區塊負責 */
+  main [data-pd-info] {
+    padding-bottom: 24px;
+  }
+}

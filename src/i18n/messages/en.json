@@ -731,7 +731,8 @@
   },
   "product": {
     "faq_kicker": "Common Questions",
-    "faq_heading": "Q & A"
+    "faq_heading": "Q & A",
+    "story_title": "The story"
   },
   "header": {
     "aria_main": "Main",
