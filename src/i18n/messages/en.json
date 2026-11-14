@@ -1,4 +1,25 @@
 {
+  "404": {
+    "kicker": "no path",
+    "title": "Lost in the wood",
+    "subtitle": "The path you followed fades into the morning mist.",
+    "cta_primary": "Return to the trailhead",
+    "cta_secondary": "Browse the collection",
+    "svg_aria": "A misty morning forest with a single pine branch and one falling amber leaf",
+    "suggested_heading": "You might also like",
+    "search_label": "Search products",
+    "search_placeholder": "Search by name or keyword..."
+  },
+  "500": {
+    "kicker": "moment lost",
+    "title": "Even forests have storms",
+    "subtitle": "Even the deepest forest has its storms. Take a breath, then try again.",
+    "cta_primary": "Return to the trailhead",
+    "cta_secondary": "Browse the collection",
+    "suggested_heading": "You might also like",
+    "search_label": "Search products",
+    "search_placeholder": "Search by name or keyword..."
+  },
   "common": {
     "site_name": "OxHorseCraft",
     "tagline": "Wear the forest on you",
@@ -32,7 +53,8 @@
     "products": "Products",
     "about": "About",
     "craft": "Craft",
-    "materials": "Materials"
+    "materials": "Materials",
+    "more": "More"
   },
   "home": {
     "hero_kicker": "Slowly · 2026",
@@ -331,17 +353,6 @@
     "amber_sicily_desc": "Rich in plant debris, dark red tones, Mediterranean Italian character.",
     "agarwood_title": "Natural agarwood",
     "agarwood_desc": "Yunnan, Hainan, Vietnam, Malaysia, Laos — each region's fragrance differs. Selected by translucence and depth."
-  },
-  "404": {
-    "kicker": "no path",
-    "title": "Lost in the wood",
-    "subtitle": "The path you followed fades into the morning mist.",
-    "cta_primary": "Return to the trailhead",
-    "cta_secondary": "Browse the collection",
-    "svg_aria": "A misty morning forest with a single pine branch and one falling amber leaf",
-    "suggested_heading": "You might also like",
-    "search_label": "Search products",
-    "search_placeholder": "Search by name or keyword..."
   },
   "admin": {
     "nav": {
@@ -728,16 +739,6 @@
     "aria_open_menu": "Open menu",
     "aria_close_menu": "Close menu",
     "aria_main_menu": "Main menu"
-  },
-  "500": {
-    "kicker": "moment lost",
-    "title": "Even forests have storms",
-    "subtitle": "Even the deepest forest has its storms. Take a breath, then try again.",
-    "cta_primary": "Return to the trailhead",
-    "cta_secondary": "Browse the collection",
-    "suggested_heading": "You might also like",
-    "search_label": "Search products",
-    "search_placeholder": "Search by name or keyword..."
   },
   "products": {
     "kicker": "Shop",

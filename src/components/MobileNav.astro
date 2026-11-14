@@ -1,54 +1,58 @@
 ---
-// 手機版專用導覽 (<768px 才顯示，桌面版 CSS 會隱藏)
-const path = Astro.url.pathname;
-const m = path.match(/^\/(en|ms-MY|id-ID)(?=\/|$)/);
-const lang = (m ? m[1] : "zh") as "zh" | "en" | "ms-MY" | "id-ID";
-const prefix = m ? `/${m[1]}` : "";
-const rest = m ? path.slice(m[0].length) || "/" : path;
+// 手機版專用導覽 (<768px 才顯示；桌面版 CSS 會隱藏)
+// 語言完全沿用站台機制：Astro.locals.locale / createT / localizedPath
+import {
+  defaultLocale,
+  localeFromPath,
+  localeNames,
+  localizedPath,
+  locales,
+  type Locale,
+} from "../i18n/config";
+import { createT } from "../i18n/t";
 
-const labels = {
-  zh: {
-    home: "首页",
-    products: "产品",
-    quiz: "选一件",
-    cart: "购物车",
-    story: "故事",
-  },
-  en: {
-    home: "Home",
-    products: "Shop",
-    quiz: "Quiz",
-    cart: "Cart",
-    story: "Story",
-  },
-  "ms-MY": {
-    home: "Utama",
-    products: "Produk",
-    quiz: "Kuiz",
-    cart: "Troli",
-    story: "Kisah",
-  },
-  "id-ID": {
-    home: "Beranda",
-    products: "Produk",
-    quiz: "Kuis",
-    cart: "Keranjang",
-    story: "Kisah",
-  },
-}[lang];
+const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
+const t = createT(Astro.locals.messages ?? {});
+
+const pathname = Astro.url.pathname;
+const pathLocale = localeFromPath(pathname);
+const cleanPath = pathLocale
+  ? pathname.slice(pathLocale.length + 1) || "/"
+  : pathname;
+
+const siteName =
+  Astro.locals.siteSettings?.siteName?.[locale] ?? t("common.site_name");
+const p = (path: string) => localizedPath(locale, path);
 
 const tabs = [
-  { key: "home", href: prefix || "/", active: rest === "/" },
-  { key: "products", href: "/products", active: rest.startsWith("/products") },
-  { key: "quiz", href: "/quiz", active: rest.startsWith("/quiz") },
+  {
+    key: "home",
+    label: t("nav.home"),
+    href: p("/"),
+    active: cleanPath === "/",
+  },
+  {
+    key: "products",
+    label: t("nav.products"),
+    href: p("/products"),
+    active: cleanPath.startsWith("/products"),
+  },
+  {
+    key: "quiz",
+    label: t("nav.quiz"),
+    href: p("/quiz"),
+    active: cleanPath.startsWith("/quiz"),
+  },
   {
     key: "cart",
-    href: "/cart",
-    active: rest.startsWith("/cart") || rest.startsWith("/checkout"),
+    label: t("nav.cart"),
+    href: p("/cart"),
+    active: cleanPath.startsWith("/cart") || cleanPath.startsWith("/checkout"),
   },
   {
     key: "story",
-    href: "/story",
+    label: t("nav.story"),
+    href: p("/story"),
     active: [
       "/story",
       "/vision",
@@ -56,9 +60,10 @@ const tabs = [
       "/materials",
       "/about",
       "/blog",
-    ].some((p) => rest.startsWith(p)),
+      "/more",
+    ].some((x) => cleanPath.startsWith(x)),
   },
-] as const;
+];
 
 const icons: Record<string, string> = {
   home: '<path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
@@ -69,17 +74,10 @@ const icons: Record<string, string> = {
   story:
     '<path d="M5 19c0-8 5-14 15-14 0 10-6 15-14 15"/><path d="M5 19c3-5 6-8 10-10"/>',
 };
-
-const langs = [
-  { code: "zh", label: "简体中文", href: "/" },
-  { code: "en", label: "English", href: "/en/" },
-  { code: "ms-MY", label: "Bahasa Melayu", href: "/ms-MY/" },
-  { code: "id-ID", label: "Bahasa Indonesia", href: "/id-ID/" },
-];
 ---
 
 <header class="m-header" role="banner">
-  <a class="m-brand" href={prefix || "/"} aria-label="牛马得饰">
+  <a class="m-brand" href={p("/")} aria-label={siteName}>
     <svg
       viewBox="0 0 24 24"
       width="26"
@@ -92,10 +90,10 @@ const langs = [
       aria-hidden="true"
       set:html={icons.story}
     />
-    <span class="m-brand-text">牛马得饰</span>
+    <span class="m-brand-text">{siteName}</span>
   </a>
   <details class="m-lang">
-    <summary aria-label="Language">
+    <summary aria-label={t("common.language")}>
       <svg
         viewBox="0 0 24 24"
         width="22"
@@ -105,19 +103,22 @@ const langs = [
         stroke-width="1.8"
         stroke-linecap="round"
         aria-hidden="true"
-        ><circle cx="12" cy="12" r="9"></circle><path
-          d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"></path></svg
       >
+        <circle cx="12" cy="12" r="9"></circle>
+        <path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"></path>
+      </svg>
     </summary>
     <ul>
       {
-        langs.map((l) => (
+        locales.map((l) => (
           <li>
             <a
-              href={l.href}
-              aria-current={l.code === lang ? "true" : undefined}
+              href={localizedPath(l, cleanPath)}
+              hreflang={l}
+              data-locale={l}
+              aria-current={l === locale ? "true" : undefined}
             >
-              {l.label}
+              {localeNames[l]}
             </a>
           </li>
         ))
@@ -128,11 +129,11 @@ const langs = [
 
 <nav class="m-tabbar" aria-label="Primary">
   {
-    tabs.map((t) => (
+    tabs.map((tab) => (
       <a
-        href={t.href}
-        class:list={["m-tab", { "is-active": t.active }]}
-        aria-current={t.active ? "page" : undefined}
+        href={tab.href}
+        class:list={["m-tab", { "is-active": tab.active }]}
+        aria-current={tab.active ? "page" : undefined}
       >
         <svg
           viewBox="0 0 24 24"
@@ -144,10 +145,22 @@ const langs = [
           stroke-linecap="round"
           stroke-linejoin="round"
           aria-hidden="true"
-          set:html={icons[t.key]}
+          set:html={icons[tab.key]}
         />
-        <span>{labels[t.key]}</span>
+        <span>{tab.label}</span>
       </a>
     ))
   }
 </nav>
+
+<script>
+  // 點語言連結時寫入 cnamber_locale，否則回到「簡體中文（無前綴）」時 middleware 會讀到舊 cookie
+  document.addEventListener("click", (e) => {
+    const a = (e.target as HTMLElement | null)?.closest<HTMLAnchorElement>(
+      "a[data-locale]",
+    );
+    if (!a) return;
+    const secure = location.protocol === "https:" ? "; secure" : "";
+    document.cookie = `cnamber_locale=${a.dataset.locale}; path=/; max-age=2592000; samesite=lax${secure}`;
+  });
+</script>
