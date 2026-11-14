@@ -50,22 +50,25 @@ const tabs = [
     active: cleanPath.startsWith("/cart") || cleanPath.startsWith("/checkout"),
   },
   {
-    key: "story",
-    label: t("nav.story"),
-    href: p("/story"),
+    key: "more",
+    label: t("nav.more"),
+    href: p("/more"),
+    // 「更多」底下的頁面都算在這個 Tab 內
     active: [
+      "/more",
       "/story",
       "/vision",
       "/craft",
       "/materials",
-      "/about",
       "/blog",
-      "/more",
-    ].some((x) => cleanPath.startsWith(x)),
+      "/contact",
+      "/about",
+    ].some((x) => cleanPath === x || cleanPath.startsWith(x + "/")),
   },
 ];
 
 const icons: Record<string, string> = {
+  more: '<circle cx="5" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="19" cy="12" r="1.4"/>',
   home: '<path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
   products:
     '<rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/>',
