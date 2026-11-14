@@ -452,3 +452,81 @@
     animation: m-vt-in 240ms ease-out both;
   }
 }
+
+/* ===== app-shell 2.1：首頁 Hero（手機版壓縮 + 修正通用規則造成的回歸） ===== */
+@media (max-width: 767.98px) {
+  /* 高度：約 60% 螢幕，底部圓角，下方露出下一區塊提示可往下 */
+  main [data-home-hero] {
+    height: 60vh;
+    height: 60dvh;
+    min-height: 420px;
+    max-height: 560px;
+    border-radius: 0 0 24px 24px;
+  }
+
+  /* 1.1b 把 grid-cols-12 改成區塊後內容貼頂：Hero 內容區改用 flex 垂直置中 */
+  main [data-home-hero] > .z-10.grid {
+    display: flex !important;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+  main [data-home-hero] .hero-text {
+    width: 100%;
+  }
+
+  /* 文字階層 */
+  main [data-home-hero] .hero-text > p:first-child {
+    margin-bottom: 12px;
+    font-size: 12px;
+    letter-spacing: 0.35em;
+  }
+  main [data-home-hero] h1 {
+    margin-bottom: 10px;
+    font-size: 32px !important;
+    line-height: 1.15 !important;
+  }
+  main [data-home-hero] .hero-text > p:nth-of-type(2) {
+    margin-bottom: 20px;
+    font-size: 17px;
+    line-height: 1.45;
+  }
+
+  /* 兩個 CTA 並排、同寬、48px 高 */
+  main [data-home-hero] .hero-text > div {
+    flex-direction: row;
+    gap: 10px;
+  }
+  main [data-home-hero] .hero-text > div > a {
+    flex: 1 1 0;
+    min-width: 0;
+    min-height: 48px;
+    padding: 8px 12px;
+    font-size: 15px;
+    line-height: 1.2;
+    text-align: center;
+  }
+
+  /* 回歸修正：SCROLL 連結在手機版不顯示（通用連結規則曾蓋掉 hidden） */
+  main [data-home-hero] a[href="#below-hero"] {
+    display: none !important;
+  }
+
+  /* 回歸修正：輪播圓點恢復小圓點，但保留 44px 以上的觸控範圍 */
+  main [data-home-hero] .hero-dot {
+    position: relative;
+    display: block;
+    min-width: 0;
+    min-height: 0;
+    padding: 0;
+    font-size: 0;
+  }
+  main [data-home-hero] .hero-dot::after {
+    content: "";
+    position: absolute;
+    inset: -18px -8px;
+  }
+  main [data-home-hero] > .bottom-0 {
+    padding-bottom: 14px;
+  }
+}
