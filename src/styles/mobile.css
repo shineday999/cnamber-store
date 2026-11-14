@@ -930,3 +930,28 @@
     font-weight: 600;
   }
 }
+
+/* ===== app-shell 3.1：商品詳情 頭圖壓縮 ===== */
+@media (max-width: 767.98px) {
+  /* 頭圖：約 42% 螢幕高，底部圓角 */
+  main [data-pd-hero] {
+    height: 42vh;
+    height: 42dvh;
+    min-height: 260px;
+    max-height: 400px;
+    border-radius: 0 0 24px 24px;
+  }
+  /* 頂部列已有返回鍵（1.5），不再顯示圖上寫死英文的「Back to all」 */
+  main [data-pd-back] {
+    display: none;
+  }
+  /* 下方重複的第二張圖手機版不顯示 */
+  main [data-pd-gallery2] {
+    display: none;
+  }
+  /* 資訊區上下間距 */
+  main [data-pd-info] {
+    padding-top: 20px;
+    padding-bottom: 24px;
+  }
+}
