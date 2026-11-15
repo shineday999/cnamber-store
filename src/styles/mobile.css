@@ -2131,3 +2131,15 @@
     -webkit-box-orient: vertical;
   }
 }
+
+/* ===== app-shell 6.1：body 背景層次 ===== */
+@media (max-width: 767.98px) {
+  /* <body class="bg-white">（單一 class）權重高於 body 選擇器，這裡以更高權重改回淺灰 */
+  html body.bg-white {
+    background-color: var(--m-bg);
+  }
+  /* 2.5 的 chips 列原本因 body 是白色而暫用白底，改為同色 */
+  html body main [data-products-chips] {
+    background: var(--m-bg);
+  }
+}
