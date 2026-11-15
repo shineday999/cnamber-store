@@ -98,6 +98,7 @@
   },
   "quiz": {
     "intro": "A few small questions — let me find one for you, slowly.",
+    "kicker": "Find your match",
     "start": "Start",
     "recommend": "Pick one for you",
     "retake": "Ask again",

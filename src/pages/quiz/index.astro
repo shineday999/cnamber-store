@@ -13,12 +13,12 @@ void locale;
 ---
 
 <Layout title={pageTitle} description={t("quiz.intro")}>
-  <div class="max-w-4xl mx-auto px-6 py-section">
-    <header class="text-center mb-12">
+  <div data-qz-page class="max-w-4xl mx-auto px-6 py-section">
+    <header data-qz-header class="text-center mb-12">
       <p
         class="text-sm uppercase tracking-[0.3em] text-accent-700 font-sans mb-3"
       >
-        Find your match
+        {t("quiz.kicker")}
       </p>
       <h1
         class="text-display-sm md:text-display-md font-serif text-text-primary mb-4"
@@ -33,9 +33,9 @@ void locale;
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <Card
         href={localizedPath(locale, "/quiz/jewelry")}
-        class="hover:border-accent-500 transition-colors p-8"
+        class="qz-card hover:border-accent-500 transition-colors p-8"
       >
-        <div class="text-accent-700 mb-3">
+        <div data-qz-icon class="text-accent-700 mb-3">
           <svg
             class="w-12 h-12"
             fill="none"
@@ -49,16 +49,23 @@ void locale;
               d="M12 6.5a2 2 0 100-4 2 2 0 000 4zM12 8v8m-3 0h6m-6 4h6"></path>
           </svg>
         </div>
-        <h2 class="font-serif text-2xl mb-2">{t("quiz.jewelry.title")}</h2>
-        <p class="text-text-secondary mb-4">{t("quiz.jewelry.desc")}</p>
-        <p class="text-sm text-accent-700 font-medium">→ {t("quiz.start")} →</p>
+        <div data-qz-body>
+          <h2 class="font-serif text-2xl mb-2">{t("quiz.jewelry.title")}</h2>
+          <p class="text-text-secondary mb-4">{t("quiz.jewelry.desc")}</p>
+          <div data-qz-foot>
+            <p data-qz-meta>{t("home.cta_meta")}</p>
+            <p class="text-sm text-accent-700 font-medium">
+              <span data-qz-lead>→ </span>{t("quiz.start")} →
+            </p>
+          </div>
+        </div>
       </Card>
 
       <Card
         href={localizedPath(locale, "/quiz/incense")}
-        class="hover:border-accent-500 transition-colors p-8"
+        class="qz-card hover:border-accent-500 transition-colors p-8"
       >
-        <div class="text-accent-700 mb-3">
+        <div data-qz-icon class="text-accent-700 mb-3">
           <svg
             class="w-12 h-12"
             fill="none"
@@ -73,9 +80,16 @@ void locale;
             ></path>
           </svg>
         </div>
-        <h2 class="font-serif text-2xl mb-2">{t("quiz.incense.title")}</h2>
-        <p class="text-text-secondary mb-4">{t("quiz.incense.desc")}</p>
-        <p class="text-sm text-accent-700 font-medium">→ {t("quiz.start")} →</p>
+        <div data-qz-body>
+          <h2 class="font-serif text-2xl mb-2">{t("quiz.incense.title")}</h2>
+          <p class="text-text-secondary mb-4">{t("quiz.incense.desc")}</p>
+          <div data-qz-foot>
+            <p data-qz-meta>{t("home.cta_meta")}</p>
+            <p class="text-sm text-accent-700 font-medium">
+              <span data-qz-lead>→ </span>{t("quiz.start")} →
+            </p>
+          </div>
+        </div>
       </Card>
     </div>
   </div>

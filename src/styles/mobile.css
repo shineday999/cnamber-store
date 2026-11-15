@@ -1995,3 +1995,139 @@
     line-height: 1.7;
   }
 }
+
+/* ===== app-shell 5.4：「選一件」頁（/quiz）重新設計 + 繼續閱讀卡片壓縮 ===== */
+/* 桌面版：時長說明預設隱藏，版面不變 */
+[data-qz-meta] {
+  display: none;
+}
+
+@media (max-width: 767.98px) {
+  /* ---- 選一件頁：標題區 ---- */
+  main [data-qz-page] {
+    padding-top: 20px;
+    padding-bottom: 24px;
+  }
+  main [data-qz-header] {
+    margin-bottom: 20px;
+    text-align: left;
+  }
+  main [data-qz-header] > p:first-child {
+    margin-bottom: 8px;
+    font-size: 12px;
+    letter-spacing: 0.3em;
+  }
+  main [data-qz-header] h1 {
+    margin-bottom: 8px;
+    font-size: 30px;
+    line-height: 1.15;
+  }
+  main [data-qz-header] > p:last-child {
+    margin-inline: 0;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  main [data-qz-page] .grid {
+    gap: 14px;
+  }
+
+  /* ---- 選一件頁：卡片 ---- */
+  main .qz-card {
+    display: flex !important;
+    flex-direction: column;
+    padding: 18px !important;
+    border: 0 !important;
+    border-radius: 20px !important;
+    background: #fff;
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.05),
+      0 8px 24px rgba(31, 42, 36, 0.08) !important;
+    transition: transform 0.15s ease;
+  }
+  main .qz-card:active {
+    transform: scale(0.985);
+  }
+  main [data-qz-icon] {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    margin: 0 0 12px;
+    border-radius: 50%;
+    background: rgba(166, 95, 61, 0.1);
+    color: #a65f3d;
+  }
+  main [data-qz-icon] svg {
+    width: 24px;
+    height: 24px;
+  }
+  main .qz-card h2 {
+    margin: 0 0 6px;
+    font-size: 22px;
+    line-height: 1.2;
+  }
+  main [data-qz-body] > p {
+    display: -webkit-box;
+    margin: 0;
+    overflow: hidden;
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+  main [data-qz-foot] {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 14px;
+  }
+  main [data-qz-meta] {
+    display: block;
+    margin: 0;
+    font-size: 12px;
+    opacity: 0.6;
+  }
+  main [data-qz-foot] > p:last-child {
+    margin: 0;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: #a65f3d;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+  /* 手機版只留一個箭頭（桌面版維持原樣） */
+  main [data-qz-lead] {
+    display: none;
+  }
+
+  /* ---- 頁尾「繼續閱讀」卡片 ---- */
+  main [data-continue] > p {
+    margin-bottom: 12px;
+    font-size: 12px;
+    text-align: left;
+  }
+  main [data-continue] > .grid {
+    gap: 10px;
+  }
+  main [data-continue] a {
+    padding: 14px 16px;
+    border-radius: 16px;
+  }
+  main [data-continue] a h3 {
+    margin-bottom: 4px;
+    font-size: 18px;
+    line-height: 1.3;
+  }
+  main [data-continue] a p {
+    display: -webkit-box;
+    overflow: hidden;
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+}

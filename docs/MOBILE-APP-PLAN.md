@@ -71,7 +71,7 @@
 | 5.1  | 品牌內容頁共通手機版排版：標題靠左、字級與段距壓縮、引言區塊縮小（story / vision / craft / about / amber / incense / materials；純 CSS） | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
 | 5.2  | About、Contact 的常見問題改可展開（沿用 3.4 做法；新增共用 AccordionInit 元件）                                                          | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
 | 5.3  | Materials 六張材質卡改可展開（桌面版外觀不變）                                                                                           | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
-| 5.4  | 頁尾「繼續閱讀」卡片手機版壓縮（待確認 ContinueReading 元件結構）                                                                        | ⬜   |                   |            |
+| 5.4  | 「選一件」頁（/quiz）手機版重新設計 + 頁尾「繼續閱讀」卡片壓縮                                                                           | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
 
 ## 後續階段（尚未拆步驟）
 
@@ -134,3 +134,4 @@
 | 2026-11-15 | Claude Sonnet 5.5 | 5.1 品牌內容頁手機版共通排版（純 CSS，以 main article.py-section 為範圍）；階段 5 拆為 5.1 ~ 5.4                                                                                                                                                                        |
 | 2026-11-15 | Claude Sonnet 5.5 | 5.2 About、Contact 常見問題改原生 details 可展開（預設收合，桌面版永遠展開、外觀不變）；新增共用 AccordionInit 元件（與 3.4 相同邏輯）。商品詳情頁仍用自己的 inline script，後續可改用此元件                                                                            |
 | 2026-11-15 | Claude Sonnet 5.5 | 5.3 Materials 六張材質卡手機版改可展開（預設收合，桌面版永遠展開、外觀不變），使用 5.2 的 AccordionInit                                                                                                                                                                 |
+| 2026-11-15 | Claude Sonnet 5.5 | 5.4 /quiz 手機版重新設計（白色圓角卡、柔和陰影、圖示淡色圓底、說明限 2 行、時長沿用 home.cta_meta、「开始 →」膠囊按鈕；移除黑框與雙箭頭）；kicker 改 quiz.kicker 4 語；ContinueReading 加 data-continue 並壓縮手機版卡片。桌面版外觀不變（桌面版雙箭頭維持原樣）        |
