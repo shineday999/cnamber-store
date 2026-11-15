@@ -2201,3 +2201,24 @@
     font-size: 13px;
   }
 }
+
+/* ===== app-shell 2.10：首頁 Hero 再縮小 + 只留一顆 CTA ===== */
+@media (max-width: 767.98px) {
+  /* 約 50% 螢幕，讓「兩條手作路線」標題在第一屏就露出，提示可往下滑 */
+  main [data-home-hero] {
+    height: 50vh;
+    height: 50dvh;
+    min-height: 360px;
+    max-height: 460px;
+  }
+
+  /* 「慢慢看」與底部分頁「产品」重複，手機版隱藏 */
+  main [data-home-hero] .hero-text > div > a[href*="products"] {
+    display: none;
+  }
+
+  /* 只剩一顆按鈕時不要撐滿整列 */
+  main [data-home-hero] .hero-text > div > a {
+    flex: 0 1 240px;
+  }
+}
