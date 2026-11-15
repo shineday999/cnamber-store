@@ -55,7 +55,7 @@ void locale;
 ---
 
 <Layout title={pageTitle} description={t("quiz.result.intro")}>
-  <div class="max-w-5xl mx-auto px-6 py-section">
+  <div data-quiz-result-page class="max-w-5xl mx-auto px-6 py-section">
     <header class="text-center mb-12">
       <p
         class="text-sm uppercase tracking-[0.3em] text-accent-700 font-sans mb-3"
@@ -85,7 +85,10 @@ void locale;
           </a>
         </div>
       ) : (
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        <div
+          data-quiz-results
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12"
+        >
           {products.results.map((p) => {
             const sc = scoreMap[p.id];
             const isFallback = sc === 0;
@@ -131,13 +134,21 @@ void locale;
       )
     }
 
-    <div class="text-center">
+    <div data-quiz-old-retake class="text-center">
       <a
         href={localizedPath(locale, "/quiz")}
         class="text-text-secondary hover:text-text-primary text-sm"
       >
         ← {t("quiz.retake")}
       </a>
+    </div>
+    <div class="qr-bar" data-quiz-bar>
+      <a class="qr-retake" href={localizedPath(locale, "/quiz")}
+        >{t("quiz.retake")}</a
+      >
+      <a class="qr-more" href={localizedPath(locale, "/products")}
+        >{t("common.view_more")} →</a
+      >
     </div>
   </div>
 </Layout>
