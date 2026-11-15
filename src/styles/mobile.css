@@ -1616,3 +1616,162 @@
     color: #fff;
   }
 }
+
+/* ===== app-shell 4.3 / 4.4 / 4.5：預訂（結帳）3 步精靈 ===== */
+.co-progress,
+.co-count,
+.co-bar {
+  display: none;
+}
+
+@media (max-width: 767.98px) {
+  [data-co-page] {
+    padding-top: 16px;
+    padding-bottom: 112px;
+  }
+  /* 頂部列已有標題；說明文字縮小，只在第 1 步顯示 */
+  [data-co-page] > h1 {
+    display: none;
+  }
+  [data-co-page]:has(form[data-checkout]) > p {
+    margin-bottom: 12px;
+    font-size: 14px;
+  }
+  [data-co-page]:has(form[data-co-step]:not([data-co-step="1"])) > p {
+    display: none;
+  }
+
+  /* 表單：取消外層卡片，欄位列不再各自變白卡 */
+  main form[data-checkout] {
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+  main form[data-checkout] .grid {
+    gap: 16px !important;
+  }
+  main form[data-checkout] .grid > * {
+    min-height: 0;
+    overflow: visible;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+  main form[data-checkout] label {
+    margin-bottom: 6px;
+    font-size: 14px;
+  }
+
+  /* 啟動前先只顯示第 1 步的欄位，避免整份表單閃一下 */
+  form[data-co-pending]
+    > *:not(:has(#name, #email, #phone)):not(.co-progress):not(.co-count):not(
+      .co-bar
+    ) {
+    display: none;
+  }
+  form[data-co-on] > .co-off {
+    display: none;
+  }
+  form[data-co-on] > button[type="submit"] {
+    display: none;
+  }
+
+  /* 進度條與「1 / 3 · 聯絡資料」 */
+  form[data-co-on] .co-progress {
+    position: fixed;
+    top: calc(var(--m-header-h) + env(safe-area-inset-top, 0px));
+    right: 0;
+    left: 0;
+    z-index: 55;
+    display: block;
+    height: 4px;
+    background: rgba(0, 0, 0, 0.08);
+  }
+  .co-fill {
+    width: 0;
+    height: 100%;
+    border-radius: 0 4px 4px 0;
+    background: var(--m-accent);
+    transition: width 0.25s ease;
+  }
+  form[data-co-on] .co-count {
+    display: block;
+    margin: 0 0 14px;
+    color: var(--m-muted);
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  /* 第 3 步：資料回顧 */
+  .co-recap {
+    margin: 0 0 16px;
+    padding: 14px 16px;
+    border-radius: 16px;
+    background: #fff;
+    box-shadow:
+      0 1px 3px rgba(0, 0, 0, 0.06),
+      0 4px 14px rgba(31, 42, 36, 0.05);
+  }
+  .co-recap[hidden] {
+    display: none;
+  }
+  .co-recap dt {
+    color: var(--m-muted);
+    font-size: 13px;
+  }
+  .co-recap dd {
+    margin: 0 0 10px;
+    font-size: 16px;
+    overflow-wrap: anywhere;
+  }
+  .co-recap dd:last-child {
+    margin-bottom: 0;
+  }
+
+  /* 底部固定操作列：‹ 上一步 ｜ 合計（第 3 步） ｜ 下一步／送出預訂 */
+  form[data-co-on] .co-bar {
+    position: fixed;
+    right: 0;
+    bottom: calc(var(--m-tab-h) + env(safe-area-inset-bottom, 0px));
+    left: 0;
+    z-index: 55;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    border-top: 1px solid rgba(0, 0, 0, 0.07);
+    background: rgba(255, 255, 255, 0.96);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+  main form .co-prev {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    min-height: 48px;
+    padding: 0;
+    border: 1.5px solid rgba(0, 0, 0, 0.15);
+    border-radius: 50%;
+    background: #fff;
+    color: var(--m-ink);
+  }
+  main form .co-prev[hidden],
+  .co-total[hidden] {
+    display: none;
+  }
+  .co-total {
+    font-size: 18px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  main form .co-next {
+    flex: 1;
+    min-height: 48px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--m-accent);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+  }
+}

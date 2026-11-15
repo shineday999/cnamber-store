@@ -1,5 +1,6 @@
 ---
 import Layout from "@layouts/Layout.astro";
+import CheckoutWizard from "@components/CheckoutWizard.astro";
 import { env } from "cloudflare:workers";
 import { createT } from "../i18n/t";
 import { defaultLocale, localizedPath, type Locale } from "../i18n/config";
@@ -54,7 +55,7 @@ const totalDisplay = formatPrice(subtotalCents, "USD", locale);
 <Layout
   title={`${t("checkout.title") ?? "Checkout"} — ${t("common.site_name")}`}
 >
-  <div class="max-w-2xl mx-auto px-6 py-section">
+  <div data-co-page class="max-w-2xl mx-auto px-6 py-section">
     <h1 class="text-display-sm font-serif text-text-primary mb-4">
       {t("checkout.title") ?? "Checkout"}
     </h1>
@@ -76,10 +77,13 @@ const totalDisplay = formatPrice(subtotalCents, "USD", locale);
         </p>
       ) : (
         <form
+          data-checkout
+          data-co-pending
           method="POST"
           action="/api/orders/create"
           class="bg-bg-card border border-text-muted/20 rounded-card p-6 space-y-4"
         >
+          <CheckoutWizard />
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label class="block text-sm font-medium mb-1" for="name">
@@ -87,6 +91,7 @@ const totalDisplay = formatPrice(subtotalCents, "USD", locale);
               </label>
               <input
                 id="name"
+                autocomplete="name"
                 name="customer_name"
                 required
                 class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
@@ -98,6 +103,8 @@ const totalDisplay = formatPrice(subtotalCents, "USD", locale);
               </label>
               <input
                 id="email"
+                autocomplete="email"
+                inputmode="email"
                 name="customer_email"
                 type="email"
                 required
@@ -111,6 +118,8 @@ const totalDisplay = formatPrice(subtotalCents, "USD", locale);
             </label>
             <input
               id="phone"
+              autocomplete="tel"
+              inputmode="tel"
               name="customer_phone"
               class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
             />
@@ -122,6 +131,7 @@ const totalDisplay = formatPrice(subtotalCents, "USD", locale);
               </label>
               <input
                 id="country"
+                autocomplete="country-name"
                 name="country"
                 required
                 class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
@@ -133,6 +143,7 @@ const totalDisplay = formatPrice(subtotalCents, "USD", locale);
               </label>
               <input
                 id="city"
+                autocomplete="address-level2"
                 name="city"
                 required
                 class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
@@ -145,6 +156,7 @@ const totalDisplay = formatPrice(subtotalCents, "USD", locale);
             </label>
             <input
               id="address"
+              autocomplete="street-address"
               name="address"
               required
               class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
@@ -156,6 +168,8 @@ const totalDisplay = formatPrice(subtotalCents, "USD", locale);
             </label>
             <input
               id="postal"
+              autocomplete="postal-code"
+              inputmode="text"
               name="postal"
               class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
             />

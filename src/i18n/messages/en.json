@@ -218,7 +218,10 @@
     "shipping_note": "Shipping calculated upon confirmation",
     "cart_empty": "Your cart is empty.",
     "browse_products": "Browse products",
-    "success_order_id": "Order ID"
+    "success_order_id": "Order ID",
+    "step_contact": "Contact",
+    "step_shipping": "Shipping",
+    "step_confirm": "Review"
   },
   "story": {
     "kicker": "About",

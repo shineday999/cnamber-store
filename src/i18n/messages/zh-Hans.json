@@ -229,7 +229,10 @@
     "shipping_note": "运费将于确认信中提供",
     "cart_empty": "购物车空着。",
     "browse_products": "看看产品",
-    "success_order_id": "订单编号"
+    "success_order_id": "订单编号",
+    "step_contact": "联系资料",
+    "step_shipping": "配送地址",
+    "step_confirm": "确认预订"
   },
   "contact": {
     "title": "给我们写一封信",

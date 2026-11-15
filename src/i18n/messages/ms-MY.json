@@ -218,7 +218,10 @@
     "shipping_note": "Pengiraan penghantaran selepas pengesahan",
     "cart_empty": "Troli anda kosong.",
     "browse_products": "Layari produk",
-    "success_order_id": "ID Pesanan"
+    "success_order_id": "ID Pesanan",
+    "step_contact": "Hubungan",
+    "step_shipping": "Penghantaran",
+    "step_confirm": "Semak"
   },
   "story": {
     "kicker": "Tentang",
