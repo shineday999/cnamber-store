@@ -1,5 +1,6 @@
 ---
 import Layout from "@layouts/Layout.astro";
+import QuizWizard from "@components/QuizWizard.astro";
 import { createT } from "../../i18n/t";
 import { defaultLocale, localizedPath, type Locale } from "../../i18n/config";
 import { JEWELRY_STEPS } from "../../lib/quiz";
@@ -13,7 +14,7 @@ void locale;
 ---
 
 <Layout title={pageTitle} description={t("quiz.jewelry.desc")}>
-  <div class="max-w-2xl mx-auto px-6 py-section">
+  <div data-quiz-page class="max-w-2xl mx-auto px-6 py-section">
     <a
       href={localizedPath(locale, "/quiz")}
       class="text-sm text-text-secondary hover:text-text-primary mb-6 inline-block"
@@ -28,8 +29,15 @@ void locale;
       <p class="text-text-secondary">{t("quiz.jewelry.desc")}</p>
     </header>
 
-    <form method="POST" action="/api/quiz/recommend" class="space-y-8">
+    <form
+      data-quiz
+      data-qw-pending
+      method="POST"
+      action="/api/quiz/recommend"
+      class="space-y-8"
+    >
       <input type="hidden" name="type" value="jewelry" />
+      <QuizWizard />
 
       {
         JEWELRY_STEPS.map((step, idx) => (
