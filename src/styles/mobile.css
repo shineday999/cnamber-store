@@ -2237,3 +2237,42 @@
     border-color: #5f3220 !important;
   }
 }
+
+/* ===== app-shell 6.8：懸浮膠囊分頁列 =====
+   --m-tab-h 代表「底部固定列要避開的高度」：膠囊 60 + 離底 12 + 與上方固定列的間距 4。
+   其他固定操作列（商品詳情、購物車、問答、預訂）都用它定位，改這個值它們會一起跟著抬高。 */
+@media (max-width: 767.98px) {
+  :root {
+    --m-tab-h: 76px;
+  }
+
+  nav.m-tabbar {
+    left: 16px;
+    right: 16px;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    height: 60px;
+    padding-bottom: 0;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.78);
+    -webkit-backdrop-filter: blur(18px) saturate(1.4);
+    backdrop-filter: blur(18px) saturate(1.4);
+    box-shadow:
+      0 10px 28px rgba(31, 42, 36, 0.18),
+      0 2px 6px rgba(31, 42, 36, 0.08);
+  }
+
+  /* 選中項：圖示後方一顆淡綠色膠囊 */
+  nav.m-tabbar .m-ico {
+    position: relative;
+    isolation: isolate;
+  }
+  nav.m-tabbar .m-tab.is-active .m-ico::before {
+    content: "";
+    position: absolute;
+    inset: -5px -16px;
+    z-index: -1;
+    border-radius: 999px;
+    background: rgba(63, 107, 79, 0.14);
+  }
+}
