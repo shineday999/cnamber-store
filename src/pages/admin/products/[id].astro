@@ -5,7 +5,7 @@ import Tabs from "../../../components/Tabs.astro";
 import { createT, tEnum } from "../../../i18n/t";
 import { defaultLocale, type Locale } from "../../../i18n/config";
 import zhHansMessages from "../../../i18n/messages/zh-Hans.json";
-import { formatPrice } from "../../../lib/format";
+import { formatPrice, RATES_FROM_USD } from "../../../lib/format";
 import {
   CATEGORIES,
   SUBCATEGORIES,
@@ -107,6 +107,15 @@ if (variantImages.length === 0 && product.image_url) {
   variantImages = [product.image_url];
 }
 const usdCents = priceRow?.amount ?? null;
+// 後台以人民幣顯示（資料庫存美元，前台再依語系換算）
+const cnyRaw =
+  usdCents !== null ? (usdCents / 100) * (RATES_FROM_USD["CNY"] ?? 1) : null;
+const priceValue =
+  cnyRaw === null
+    ? ""
+    : Math.abs(cnyRaw - Math.round(cnyRaw)) < 0.05
+      ? String(Math.round(cnyRaw))
+      : cnyRaw.toFixed(2);
 const missing = env?.DB ? await checkReadiness(env.DB, product.id) : [];
 const notice = {
   created: Astro.url.searchParams.get("created"),
@@ -496,7 +505,7 @@ const inputField =
                 type="text"
                 inputmode="decimal"
                 required
-                value={usdCents !== null ? (usdCents / 100).toFixed(2) : ""}
+                value={priceValue}
                 class={inputField}
               />
             </div>
@@ -505,19 +514,16 @@ const inputField =
                 >币别</label
               >
               <select id="v-currency" name="currency" class={inputField}>
-                <option value="USD" selected={usdCents !== null}>美元 $</option>
-                <option value="CNY" selected={usdCents === null}
-                  >人民币 ¥</option
-                >
+                <option value="USD">美元 $</option>
+                <option value="CNY" selected>人民币 ¥</option>
               </select>
             </div>
           </div>
           {
             usdCents !== null && (
               <p class="text-xs text-text-muted -mt-2">
-                价格以美元储存，目前前台简体站显示{" "}
-                {formatPrice(usdCents, "USD", "zh-Hans")}。
-                想用人民币改价：先把币别切到「人民币」再填新金额。
+                前台简体站显示 {formatPrice(usdCents, "USD", "zh-Hans")}
+                （系统以美元储存，依汇率换算）。上方金额以所选币别为准。
               </p>
             )
           }
