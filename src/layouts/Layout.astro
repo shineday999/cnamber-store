@@ -187,6 +187,20 @@ const nav = [
       });
     </script>
 
+    <!-- 6.6: PWA service worker（僅 https / localhost；失敗不影響頁面） -->
+    <script is:inline>
+      if (
+        "serviceWorker" in navigator &&
+        (location.protocol === "https:" || location.hostname === "localhost")
+      ) {
+        window.addEventListener("load", function () {
+          navigator.serviceWorker
+            .register("/sw.js", { scope: "/" })
+            .catch(function () {});
+        });
+      }
+    </script>
+
     <title>{title}</title>
   </head>
   <body class="bg-white text-text-primary">
