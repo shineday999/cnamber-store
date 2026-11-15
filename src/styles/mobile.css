@@ -1973,3 +1973,25 @@
     line-height: 1.4;
   }
 }
+
+/* ===== app-shell 5.3：Materials 材質卡 → 可展開列 ===== */
+@media (max-width: 767.98px) {
+  /* 卡片之間縮小間距 */
+  main article.py-section .grid[class*="lg:grid-cols-3"] {
+    gap: 10px;
+  }
+  /* 卡片：只留左右內距，標題列自己撐高 */
+  main [data-mat-card] {
+    padding: 0 16px;
+    border-radius: 16px;
+  }
+  main [data-mat-card] summary h3 {
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.3;
+  }
+  main [data-mat-card] > details > p {
+    font-size: 15px;
+    line-height: 1.7;
+  }
+}

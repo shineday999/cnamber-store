@@ -70,7 +70,7 @@
 | ---- | ---------------------------------------------------------------------------------------------------------------------------------------- | ---- | ----------------- | ---------- |
 | 5.1  | 品牌內容頁共通手機版排版：標題靠左、字級與段距壓縮、引言區塊縮小（story / vision / craft / about / amber / incense / materials；純 CSS） | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
 | 5.2  | About、Contact 的常見問題改可展開（沿用 3.4 做法；新增共用 AccordionInit 元件）                                                          | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
-| 5.3  | Materials 六張材質卡改可展開（桌面版外觀不變）                                                                                           | ⬜   |                   |            |
+| 5.3  | Materials 六張材質卡改可展開（桌面版外觀不變）                                                                                           | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
 | 5.4  | 頁尾「繼續閱讀」卡片手機版壓縮（待確認 ContinueReading 元件結構）                                                                        | ⬜   |                   |            |
 
 ## 後續階段（尚未拆步驟）
@@ -133,3 +133,4 @@
 | 2026-11-15 | Claude Sonnet 5.5 | 2.9 圖片載入前 shimmer：純 CSS，套在商品卡圖片容器與首頁路線磚的背景，圖片載入後自然蓋住；只在手機版且 prefers-reduced-motion: no-preference 啟用，動畫跑 4 圈後停止。未改 ProductCard.astro                                                                            |
 | 2026-11-15 | Claude Sonnet 5.5 | 5.1 品牌內容頁手機版共通排版（純 CSS，以 main article.py-section 為範圍）；階段 5 拆為 5.1 ~ 5.4                                                                                                                                                                        |
 | 2026-11-15 | Claude Sonnet 5.5 | 5.2 About、Contact 常見問題改原生 details 可展開（預設收合，桌面版永遠展開、外觀不變）；新增共用 AccordionInit 元件（與 3.4 相同邏輯）。商品詳情頁仍用自己的 inline script，後續可改用此元件                                                                            |
+| 2026-11-15 | Claude Sonnet 5.5 | 5.3 Materials 六張材質卡手機版改可展開（預設收合，桌面版永遠展開、外觀不變），使用 5.2 的 AccordionInit                                                                                                                                                                 |

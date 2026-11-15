@@ -1,6 +1,7 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import RevealOnScroll from "@components/RevealOnScroll.astro";
+import AccordionInit from "@components/AccordionInit.astro";
 import ContinueReading from "@components/ContinueReading.astro";
 import BreadcrumbSchema from "@components/BreadcrumbSchema.astro";
 import { createT } from "../i18n/t";
@@ -56,13 +57,20 @@ const breadcrumbItems = [
       {
         items.map(([titleKey, descKey], i) => (
           <RevealOnScroll delay={i * 60} class="h-full">
-            <article class="h-full p-6 md:p-7 bg-bg-card border border-forest-100 hover:border-forest-300 rounded-card transition-all duration-500 hover:shadow-soft">
-              <h3 class="font-serif text-xl md:text-2xl font-light text-forest-800 mb-3 leading-tight">
-                {t(titleKey)}
-              </h3>
-              <p class="text-sm text-text-secondary leading-relaxed font-sans">
-                {t(descKey)}
-              </p>
+            <article
+              data-mat-card
+              class="h-full p-6 md:p-7 bg-bg-card border border-forest-100 hover:border-forest-300 rounded-card transition-all duration-500 hover:shadow-soft"
+            >
+              <details data-acc open>
+                <summary>
+                  <h3 class="font-serif text-xl md:text-2xl font-light text-forest-800 mb-3 leading-tight">
+                    {t(titleKey)}
+                  </h3>
+                </summary>
+                <p class="text-sm text-text-secondary leading-relaxed font-sans">
+                  {t(descKey)}
+                </p>
+              </details>
             </article>
           </RevealOnScroll>
         ))
@@ -91,4 +99,5 @@ const breadcrumbItems = [
       ]}
     />
   </div>
+  <AccordionInit />
 </Layout>
