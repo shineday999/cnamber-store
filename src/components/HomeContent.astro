@@ -82,10 +82,17 @@ const bannerRows = env?.DB
       }>,
     };
 
+// 6.4: 本機橫幅(/images/banners/xxx.jpg)有對應的 xxx-768.jpg 手機版
+function localMobileVariant(src: string): string {
+  return /^\/images\/banners\/[^/]+\.jpg$/.test(src)
+    ? src.replace(/\.jpg$/, "-768.jpg")
+    : src;
+}
+
 const slides = bannerRows.results.map((b) => ({
   src: b.image_url,
   // Wave 65: 真實 mobile variant (real responsive LCP 縮小);fallback desktop src
-  mobileSrc: b.mobile_image_url ?? b.image_url,
+  mobileSrc: b.mobile_image_url ?? localMobileVariant(b.image_url),
   alt: b.alt_text ?? "",
 }));
 ---
@@ -278,7 +285,7 @@ const slides = bannerRows.results.map((b) => ({
   >
     <div
       class="flex items-center gap-2.5"
-      role="tablist"
+      role="group"
       aria-label="Hero slides"
     >
       {
