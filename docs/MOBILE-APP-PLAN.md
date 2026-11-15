@@ -44,13 +44,14 @@
 
 ## 階段 3：商品詳情 + 購物車
 
-| 步驟 | 內容                                                                     | 狀態 | 負責人            | 完成日     |
-| ---- | ------------------------------------------------------------------------ | ---- | ----------------- | ---------- |
-| 3.1  | 商品詳情：頭圖壓縮至約 42% 螢幕、隱藏重複的第二張圖與圖上「Back to all」 | ✅   | Claude Fable 5.1  | 2026-11-15 |
-| 3.2  | 商品詳情：規格改大按鈕選項、數量改 −／＋ 步進器                          | ✅   | Claude Fable 5.1  | 2026-11-15 |
-| 3.3  | 商品詳情：底部固定操作列（價格 + 「预订」按鈕，疊在 Tab 上方）           | ✅   | Claude Fable 5.1  | 2026-11-15 |
-| 3.4  | 商品詳情：故事、常見問題改可展開（accordion）                            | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
-| 3.5  | 購物車：左滑刪除、± 數量、底部固定合計與「预订」按鈕                     | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
+| 步驟 | 內容                                                                         | 狀態 | 負責人            | 完成日     |
+| ---- | ---------------------------------------------------------------------------- | ---- | ----------------- | ---------- |
+| 3.1  | 商品詳情：頭圖壓縮至約 42% 螢幕、隱藏重複的第二張圖與圖上「Back to all」     | ✅   | Claude Fable 5.1  | 2026-11-15 |
+| 3.2  | 商品詳情：規格改大按鈕選項、數量改 −／＋ 步進器                              | ✅   | Claude Fable 5.1  | 2026-11-15 |
+| 3.3  | 商品詳情：底部固定操作列（價格 + 「预订」按鈕，疊在 Tab 上方）               | ✅   | Claude Fable 5.1  | 2026-11-15 |
+| 3.4  | 商品詳情：故事、常見問題改可展開（accordion）                                | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
+| 3.5  | 購物車：左滑刪除、± 數量、底部固定合計與「预订」按鈕                         | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
+| 3.6  | 購物車每列加商品縮圖（手機 64px、桌面 80px，點圖進商品頁；無圖顯示灰底占位） | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
 
 ## 階段 4：問答 + 预订流程
 
@@ -158,3 +159,4 @@
 | 2026-11-15 | Claude Sonnet 5.5 | 6.6 PWA service worker：public/sw.js（導覽 network-first，斷線回 /offline.html；/_astro、/api/images 為 cache-first；/images 與圖示為 stale-while-revalidate；不快取 HTML、購物車、/api、/admin、跨網域）、四語 public/offline.html、_headers（sw.js no-cache）、Layout 載入後註冊。快取名 cnamber-static-v1，改行為時遞增 VERSION。整頁骨架畫面不做（SSR）。階段 6 待 6.4 實測達標後標完成                      |
 | 2026-11-15 | Claude Sonnet 5.5 | 6.4d 減少首屏資源競爭 LCP 圖：輪播第 2、3 張改 data-src / data-srcset，頁面載完並閒置後才啟用（show() 也會先啟用）；cat-jewelry / cat-incense 重壓縮並新增 480px 版（srcset）；ProductCard 的 Unsplash 圖 w/h 800 → 640。實測 6.4c 後：傳輸量 1,393 KiB、LCP 4.9s、效能 0.67、CLS 0.151（來源待查）。6.4 仍待達標                                                                                                |
 | 2026-11-15 | Claude Sonnet 5.5 | 6.4e 修正 CLS 0.151（元兇 nav.m-tabbar）：Lighthouse trace 顯示首次繪製 0.86s 後、0.92s 時導覽元素從文件流 (y=40, 高 124) 消失，代表手機版導覽規則晚於首繪才套用。Layout head 內嵌最小關鍵 CSS（data-critical-shell）：手機版 m-header / m-tabbar 一開始就 position: fixed 並隱藏桌面導覽，桌面版隱藏手機導覽。mobile.css 未改。部署後用 trace 腳本重測 LayoutShift，CLS 仍 > 0.1 再追其他元素；6.4 仍待實測達標 |
+| 2026-11-15 | Claude Sonnet 5.5 | 3.6 購物車縮圖：cart.astro 的 SQL 補 image_urls（規格圖優先，退回該商品第一個規格的圖）、加 firstImage()；每列左側加縮圖（手機 64px、桌面 80px，點圖進商品頁，無圖灰底占位；加 data-cart-thumb）。步進器、左滑移除、底部合計與 mobile.css 未動                                                                                                                                                                   |
