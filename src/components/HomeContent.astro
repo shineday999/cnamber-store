@@ -89,6 +89,10 @@ function localMobileVariant(src: string): string {
     : src;
 }
 
+// 6.4d: 輪播第 2 張起先不載入，改放 data-src / data-srcset，頁面載完並閒置後由 script 啟用
+const lazyAttr = (name: string, value: string, eager: boolean) =>
+  eager ? { [name]: value } : { [`data-${name}`]: value };
+
 const slides = bannerRows.results.map((b) => ({
   src: b.image_url,
   // Wave 65: 真實 mobile variant (real responsive LCP 縮小);fallback desktop src
@@ -116,13 +120,17 @@ const slides = bannerRows.results.map((b) => ({
           */}
           <source
             media="(max-width: 768px)"
-            srcset={`${slide.mobileSrc} ${slide.mobileSrc === slide.src ? "1920w" : "768w"}`}
+            {...lazyAttr(
+              "srcset",
+              `${slide.mobileSrc} ${slide.mobileSrc === slide.src ? "1920w" : "768w"}`,
+              i === 0,
+            )}
             sizes="100vw"
             type="image/jpeg"
           />
           <source
             media="(min-width: 769px)"
-            srcset={`${slide.src} 1920w`}
+            {...lazyAttr("srcset", `${slide.src} 1920w`, i === 0)}
             sizes="100vw"
             type="image/jpeg"
           />
@@ -130,7 +138,7 @@ const slides = bannerRows.results.map((b) => ({
             decoding="async"
             data-hero-slide
             data-slide-index={i}
-            src={slide.src}
+            {...lazyAttr("src", slide.src, i === 0)}
             alt={slide.alt}
             class={`hero-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-[1800ms] ease-out ${i === 0 ? "opacity-85 hero-slide-active" : "opacity-0"}`}
             loading={i === 0 ? "eager" : "lazy"}
@@ -155,12 +163,36 @@ const slides = bannerRows.results.map((b) => ({
       if (slides.length <= 1) return;
       const dots = document.querySelectorAll("[data-hero-dot]");
       let i = 0;
+      // 6.4d: 啟用延後載入的輪播圖（可重複呼叫）
+      function hydrate() {
+        document.querySelectorAll("[data-hero-slide]").forEach((img) => {
+          const pic = img.parentNode;
+          if (pic)
+            pic.querySelectorAll("source[data-srcset]").forEach((s) => {
+              s.setAttribute("srcset", s.getAttribute("data-srcset"));
+              s.removeAttribute("data-srcset");
+            });
+          const d = img.getAttribute("data-src");
+          if (d) {
+            img.setAttribute("src", d);
+            img.removeAttribute("data-src");
+          }
+        });
+      }
+      const kick = () => {
+        if ("requestIdleCallback" in window)
+          requestIdleCallback(hydrate, { timeout: 4000 });
+        else setTimeout(hydrate, 2000);
+      };
+      if (document.readyState === "complete") kick();
+      else window.addEventListener("load", kick);
       // 2.7：給觸控滑動呼叫（dir = 1 下一張、-1 上一張），沿用同一個 i 與 show()
       window.__heroGo = function (dir) {
         i = (i + dir + slides.length) % slides.length;
         show(i);
       };
       function show(n) {
+        hydrate();
         slides.forEach((s, idx) => {
           s.style.opacity = idx === n ? "0.85" : "0";
           s.classList.toggle("hero-slide-active", idx === n);
@@ -353,6 +385,8 @@ const slides = bannerRows.results.map((b) => ({
           <img
             decoding="async"
             src="/images/banners/cat-jewelry.jpg"
+            srcset="/images/banners/cat-jewelry-480.jpg 480w, /images/banners/cat-jewelry.jpg 800w"
+            sizes="(max-width: 767px) 50vw, 700px"
             alt={t("home.cat_amber_alt")}
             class="w-full h-full object-cover cinematic group-hover:scale-[1.06] transition-transform duration-[1400ms] ease-out"
             loading="lazy"
@@ -394,6 +428,8 @@ const slides = bannerRows.results.map((b) => ({
           <img
             decoding="async"
             src="/images/banners/cat-incense.jpg"
+            srcset="/images/banners/cat-incense-480.jpg 480w, /images/banners/cat-incense.jpg 800w"
+            sizes="(max-width: 767px) 50vw, 700px"
             alt={t("home.cat_incense_alt")}
             class="w-full h-full object-cover cinematic group-hover:scale-[1.06] transition-transform duration-[1400ms] ease-out"
             loading="lazy"
