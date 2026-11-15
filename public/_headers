@@ -13,3 +13,10 @@
 /api/*
   X-Content-Type-Options: nosniff
   Cache-Control: no-store
+
+/sw.js
+  Cache-Control: no-cache
+  Service-Worker-Allowed: /
+
+/offline.html
+  X-Robots-Tag: noindex
