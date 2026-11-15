@@ -64,10 +64,10 @@
 | ---- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---- | ----------------- | ---------- |
 | 1.1  | migration `0014`：新增 `product_categories`（預設 jewelry、incense）；`products.category` 維持文字代碼，不加外鍵；需先完成 0.2                                                                                       | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
 | 1.2  | migration `0015`：價格表整理（例如 `variant_id + currency` 唯一鍵，依 0.1、0.2 結果決定）；既有重複資料直接清掉即可；**不含** `DROP COLUMN`；需先完成 0.2                                                            | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
-| 1.3  | `lib/repo/products.ts` 讀取：`listProducts`（含搜尋、篩選、分頁、封面圖）、`getProduct`（含翻譯、變體、價格）；需先完成 0.4                                                                                          | ⬜   |                   |            |
-| 1.4  | repository 寫入：`createProduct` 用 D1 `batch()` 一次寫入商品、翻譯、變體、價格；`updateProduct`；需先完成 1.3                                                                                                       | ⬜   |                   |            |
-| 1.5  | repository 變體與價格：新增、更新、刪除變體、批次寫入價格；需先完成 1.3                                                                                                                                              | ⬜   |                   |            |
-| 1.6  | `__tests__`：1.3 ~ 1.5 的單元測試（建立、更新、刪除、重複 slug、缺少翻譯等邊界情況）                                                                                                                                 | ⬜   |                   |            |
+| 1.3  | `lib/repo/products.ts` 讀取：`listProducts`（含搜尋、篩選、分頁、封面圖）、`getProduct`（含翻譯、變體、價格）；需先完成 0.4                                                                                          | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
+| 1.4  | repository 寫入：`createProduct` 用 D1 `batch()` 一次寫入商品、翻譯、變體、價格；`updateProduct`；需先完成 1.3                                                                                                       | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
+| 1.5  | repository 變體與價格：新增、更新、刪除變體、批次寫入價格；需先完成 1.3                                                                                                                                              | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
+| 1.6  | `__tests__`：1.3 ~ 1.5 的單元測試（建立、更新、刪除、重複 slug、缺少翻譯等邊界情況）                                                                                                                                 | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
 | 1.7  | 資料重置與示範資料：新增 `scripts/reset-products.sql`（依外鍵順序清空商品相關表）、重寫 `scripts/seed-products.sql` 為新結構的 2 ~ 3 個乾淨示範商品；舊的 `scripts/seed.sql` 中的商品部分一併移除；需先完成 1.1、1.2 | 🟡   | Claude Sonnet 5.5 |            |
 | 1.8  | 前台查詢調整：`src/pages/products/[slug].astro` 的 `SELECT ... price_base` 與 interface 移除 `price_base`（掃描顯示該頁沒有其他使用處）；合併前先確認沒有 `SELECT *` 或 `pv.*` 讀到此欄位；需先完成 1.2              | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
 
@@ -126,7 +126,7 @@
 | 6.2  | 前台回歸：商品列表、商品詳情、購物車、推薦測驗結果、預訂流程都正常                                                                                           | ⬜   |        |        |
 | 6.3  | 整合分支合併進 main；部署前先確認 `pnpm check && pnpm build` 通過                                                                                            | ⬜   |        |        |
 | 6.4  | 正式環境：套用 migration `0014`、`0015`，執行重置腳本並載入新示範資料；**重置前先確認訂單與評論是否也是測試資料**，若不是，腳本只清商品相關表並改為先備份 D1 | ⬜   |        |        |
-| 6.5  | migration `0016`：移除 `product_variants.price_base`（僅在決策為「移除」且 1.8 已部署、前台確認不再使用後才做）                                              | ⬜   |        |        |
+| 6.5  | migration `0017`：移除 `product_variants.price_base`（僅在決策為「移除」且 1.8 已部署、前台確認不再使用後才做）                                              | ⬜   |        |        |
 | 6.6  | 清理：移除 `_demo` 展示頁、舊的 `admin.products_*` 文案、不再使用的舊 seed 檔；文件標示完成                                                                  | ⬜   |        |        |
 
 ## 後續階段（尚未拆步驟）
@@ -154,6 +154,10 @@
 - `price_base`：前台只出現在 `products/[slug].astro` 的 SELECT 與 interface；後台在 `admin/products/[id].astro:342`（階段 4 重寫時一併移除）；`db.ts` 型別於 6.5 移除欄位時一併處理
 - FAQ 已有 `/admin/faqs`，格式 `{locale:[{q,a}]}` 與 zod `FaqSchema` 一致；原計畫的 FaqEditor（3.6、4.9）改為略過／連結
 - 現有商品 API 為 form POST 且新增時固定 `status=draft`（`api/admin/products/index.ts`），新 API 要維持 form 或改 JSON，需在 0.6 規格定案
+- `products.slug` 原本沒有唯一限制（schema dump 確認），已由 migration 0016 補上唯一索引；`product_prices` 本來就以 (variant_id, currency) 為主鍵，0015 的唯一索引是重複的（無害）
+- 資料庫原本就有 `categories`（含 parent_id）與 `category_translations`，與 1.1 新增的 `product_categories` 概念重疊；需確認 `categories` 是否被使用，再決定合併或刪除其一（見決策紀錄「分類」）
+- `product_variants.price_base` 仍是 NOT NULL，repository 會依價格寫入（`derivePriceBase`），6.5 移除欄位時一併拿掉
+- 專案實際安裝的是 zod 4；測試用 `process.getBuiltinModule` 載入 node:sqlite（vitest 2.x 的 vite-node 不認得該模組）；tsconfig 開了 noUncheckedIndexedAccess，新測試要用 `!` 或 `?.` 取陣列元素
 
 ## 更新紀錄
 
@@ -165,3 +169,4 @@
 | 2026-11-15 | Claude Sonnet 5.5 | 0.1 0.3 0.4 0.7 1.1 1.2 本機驗證通過（migration、`pnpm check && pnpm build`），標為 ✅；1.7 待移除舊 seed.sql 的商品部分                                                                                                                                                                                                |
 | 2026-11-15 | Claude Sonnet 5.5 | 0.1 盤點完成：前台只有 products/[slug].astro 用 `price_base`；商品圖前台只讀變體 `image_urls`；FAQ 已有 /admin/faqs；圖片為 R2。更新決策紀錄與 1.8、2.4、3.6（略過）、4.8、4.9                                                                                                                                          |
 | 2026-11-15 | Claude Sonnet 5.5 | 1.8 前台 products/[slug].astro 移除 price_base（SELECT 與 interface）；全專案另一處 `SELECT * FROM product_variants` 在 admin/products/[id].astro，由 4.4 重寫處理，6.5 須在 4.4 合併後才做                                                                                                                             |
+| 2026-11-15 | Claude Sonnet 5.5 | 1.3 ~ 1.6 完成：`lib/repo/products.ts`（list/get/create/update/delete、變體與價格、RepoError）、18 個測試（以 node:sqlite 套用 migrations 後執行，zod 3 與 4 皆驗證）、`ProductUpdateSchema` 改為不帶 default（避免 PATCH 誤重設欄位）、新增 migration 0016（slug 唯一）；原 6.5 的 DROP COLUMN 改用 0017               |

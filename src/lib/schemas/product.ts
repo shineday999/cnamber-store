@@ -55,31 +55,48 @@ export const VariantInputSchema = z.object({
   prices: PricesSchema.default({}),
 });
 
-// faq 形狀待 0.1 盤點後確認；目前先用「語言 → 問答陣列」
+// faq 格式與 api/admin/faqs.ts 一致：{ locale: [{ q, a }] }
 export const FaqSchema = z.record(
   z.string(),
   z.array(z.object({ q: z.string(), a: z.string() })),
 );
 
-export const ProductCreateSchema = z.object({
+export const TranslationsSchema = z
+  .array(TranslationSchema)
+  .min(1)
+  .refine(
+    (ts) => ts.some((t) => t.locale === "zh-Hans"),
+    "必須包含 zh-Hans 翻譯",
+  )
+  .refine(
+    (ts) => new Set(ts.map((t) => t.locale)).size === ts.length,
+    "同一語言不可重複",
+  );
+
+// 各欄位（不含 default），建立與更新共用
+const fields = {
   category: z.string().trim().min(1).max(50),
-  subcategory: z.string().trim().max(50).nullable().default(null),
+  subcategory: z.string().trim().max(50).nullable(),
   slug: SlugSchema,
-  status: ProductStatusSchema.default("draft"),
-  tags: z.array(z.string().trim().min(1)).default([]),
-  image_url: z.string().nullable().default(null),
-  faq: FaqSchema.default({}),
-  translations: z
-    .array(TranslationSchema)
-    .min(1)
-    .refine(
-      (ts) => ts.some((t) => t.locale === "zh-Hans"),
-      "必須包含 zh-Hans 翻譯",
-    ),
+  status: ProductStatusSchema,
+  tags: z.array(z.string().trim().min(1)),
+  image_url: z.string().nullable(),
+  faq: FaqSchema,
+  translations: TranslationsSchema,
   variants: z.array(VariantInputSchema).min(1),
+};
+
+export const ProductCreateSchema = z.object({
+  ...fields,
+  subcategory: fields.subcategory.default(null),
+  status: fields.status.default("draft"),
+  tags: fields.tags.default([]),
+  image_url: fields.image_url.default(null),
+  faq: fields.faq.default({}),
 });
 
-export const ProductUpdateSchema = ProductCreateSchema.partial();
+// 更新：所有欄位皆選填，且不套用 default（沒帶的欄位維持原值）
+export const ProductUpdateSchema = z.object(fields).partial();
 
 export type ProductCreateInput = z.infer<typeof ProductCreateSchema>;
 export type ProductUpdateInput = z.infer<typeof ProductUpdateSchema>;
