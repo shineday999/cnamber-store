@@ -202,6 +202,34 @@ const nav = [
     </script>
 
     <title>{title}</title>
+    <style is:inline data-critical-shell>
+      /* app-shell 6.4e：導覽列在 mobile.css 載入前也不佔文件流，避免樣式到達時整頁位移 */
+      @media (max-width: 767.98px) {
+        .m-header,
+        .m-tabbar {
+          position: fixed;
+          left: 0;
+          right: 0;
+        }
+        .m-header {
+          top: 0;
+        }
+        .m-tabbar {
+          bottom: 0;
+        }
+        body > nav:not(.m-tabbar),
+        #mobile-menu,
+        [data-mobile-menu] {
+          display: none !important;
+        }
+      }
+      @media (min-width: 768px) {
+        .m-header,
+        .m-tabbar {
+          display: none !important;
+        }
+      }
+    </style>
   </head>
   <body class="bg-white text-text-primary">
     <MobileNav title={title} />
