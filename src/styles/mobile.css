@@ -2222,3 +2222,18 @@
     flex: 0 1 240px;
   }
 }
+
+/* ===== app-shell 2.11：Hero 唯一的 CTA 改實心陶土色（terra-500 / 700） ===== */
+@media (max-width: 767.98px) {
+  main [data-home-hero] .hero-text > div > a[href*="quiz"] {
+    background-color: #a45e3d !important;
+    border-color: #a45e3d !important;
+    color: #fffdf8 !important;
+    font-weight: 600;
+  }
+
+  main [data-home-hero] .hero-text > div > a[href*="quiz"]:active {
+    background-color: #5f3220 !important;
+    border-color: #5f3220 !important;
+  }
+}
