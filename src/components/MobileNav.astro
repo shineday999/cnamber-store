@@ -39,7 +39,14 @@ try {
 // ---- 頂部列狀態：根畫面 / 子畫面 ----
 const normalized =
   cleanPath.length > 1 ? cleanPath.replace(/\/$/, "") : cleanPath;
-const ROOTS = ["/", "/products", "/quiz", "/cart", "/more"];
+const ROOTS = [
+  "/",
+  "/products",
+  "/quiz",
+  "/cart",
+  "/more",
+  "/checkout/success",
+];
 const isRoot = ROOTS.includes(normalized);
 
 // 直接開啟子畫面（沒有站內上一頁）時，返回鍵退到的「上一層」

@@ -62,7 +62,7 @@
 | 4.3  | 预订流程第 1 步：聯絡資料（checkout 分步）                                                 | ✅   | Claude Fable 5.1 | 2026-11-15 |
 | 4.4  | 预订流程第 2 步：配送                                                                      | ✅   | Claude Fable 5.1 | 2026-11-15 |
 | 4.5  | 预订流程第 3 步：確認並送出（底部固定「预订」）                                            | ✅   | Claude Fable 5.1 | 2026-11-15 |
-| 4.6  | 預訂成功頁手機版                                                                           | ⬜   |                  |            |
+| 4.6  | 預訂成功頁手機版                                                                           | ✅   | Claude Fable 5.1 | 2026-11-15 |
 
 ## 後續階段（尚未拆步驟）
 
@@ -119,3 +119,4 @@
 | 2026-11-15 | Claude Fable 5.1  | 4.2 問答結果頁手機版：結果改單欄橫向列表（104px 圖 + 文字），標題區壓縮，底部固定「重新測驗／再看看 →」；result.astro 加 data-quiz-result-page / data-quiz-results / data-quiz-old-retake；無新增翻譯 key，資料查詢未動                                                 |
 | 2026-11-15 | Claude Fable 5.1  | 4.2b 問答結果頁補 image_urls 子查詢（同 products/index.astro）並加 firstImage()，ProductCard 改傳 firstImage(p.image_urls)；移除「結果卡沒有商品圖」已知問題。資料範圍與排序未動                                                                                        |
 | 2026-11-15 | Claude Fable 5.1  | 4.3 + 4.4 + 4.5 預訂（結帳）3 步精靈：CheckoutWizard.astro（漸進增強；聯絡資料 → 配送地址 → 確認：資料回顧 + 明細 + 底部固定合計與送出）；每步以 checkValidity 驗證必填；欄位補 autocomplete / inputmode；新增 checkout.step_* 4 語。欄位名稱與 /api/orders/create 未動 |
+| 2026-11-15 | Claude Fable 5.1  | 4.6 預訂成功頁手機版：置中完成畫面 + 勾勾彈出動畫（尊重 reduced-motion）、訂單編號膠囊、底部固定「首页／再看看 →」；MobileNav 的 ROOTS 加入 /checkout/success（頂部列顯示 Logo，避免返回鍵退回已清空的結帳頁）。階段 4 完成                                             |
