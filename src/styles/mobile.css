@@ -1895,3 +1895,55 @@
     animation: m-shimmer 1.6s linear 4 forwards;
   }
 }
+
+/* ===== app-shell 5.1：品牌內容頁共通排版（story / vision / craft / about / amber / incense / materials） ===== */
+@media (max-width: 767.98px) {
+  main article.py-section {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  /* 標題區：靠左、壓縮 */
+  main article.py-section header {
+    margin-bottom: 20px;
+    text-align: left;
+  }
+  main article.py-section header > p:first-child {
+    margin-bottom: 8px;
+    font-size: 12px;
+  }
+  main article.py-section header h1 {
+    margin-bottom: 8px;
+    font-size: 30px;
+    line-height: 1.15;
+  }
+  main article.py-section header p.italic {
+    margin-inline: 0;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  /* 內文：段距統一（prose 的上下邊距一併歸零，改由相鄰段落間距控制） */
+  main article.py-section [class*="space-y-6"] > p {
+    margin-block: 0 !important;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+  main
+    article.py-section
+    [class*="space-y-6"]
+    > :not([hidden])
+    ~ :not([hidden]) {
+    margin-top: 14px !important;
+  }
+
+  /* 引言：縮小上下留白 */
+  main article.py-section blockquote {
+    margin-bottom: 18px !important;
+    padding-block: 12px;
+  }
+  main article.py-section blockquote > p {
+    font-size: 20px;
+    line-height: 1.4;
+  }
+}
