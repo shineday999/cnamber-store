@@ -1947,3 +1947,29 @@
     line-height: 1.4;
   }
 }
+
+/* ===== app-shell 5.2：About／Contact 常見問題 → 可展開（沿用 3.4 的 [data-acc] 規則） ===== */
+@media (max-width: 767.98px) {
+  main [data-faq-section] {
+    margin-top: 20px;
+    padding-top: 16px;
+  }
+  main [data-faq-section] h2 {
+    margin-bottom: 8px;
+    font-size: 22px;
+    line-height: 1.2;
+  }
+  main [data-faq-list] > * {
+    margin-top: 0 !important;
+  }
+  main [data-faq-list] > details {
+    padding-left: 0;
+    border-left: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  }
+  main [data-faq-list] summary h3 {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.4;
+  }
+}
