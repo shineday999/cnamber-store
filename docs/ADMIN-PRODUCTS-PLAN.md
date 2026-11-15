@@ -69,7 +69,7 @@
 | 1.5  | repository 變體與價格：新增、更新、刪除變體、批次寫入價格；需先完成 1.3                                                                                                                                              | ⬜   |                   |            |
 | 1.6  | `__tests__`：1.3 ~ 1.5 的單元測試（建立、更新、刪除、重複 slug、缺少翻譯等邊界情況）                                                                                                                                 | ⬜   |                   |            |
 | 1.7  | 資料重置與示範資料：新增 `scripts/reset-products.sql`（依外鍵順序清空商品相關表）、重寫 `scripts/seed-products.sql` 為新結構的 2 ~ 3 個乾淨示範商品；舊的 `scripts/seed.sql` 中的商品部分一併移除；需先完成 1.1、1.2 | 🟡   | Claude Sonnet 5.5 |            |
-| 1.8  | 前台查詢調整：`src/pages/products/[slug].astro` 的 `SELECT ... price_base` 與 interface 移除 `price_base`（掃描顯示該頁沒有其他使用處）；合併前先確認沒有 `SELECT *` 或 `pv.*` 讀到此欄位；需先完成 1.2              | ⬜   |                   |            |
+| 1.8  | 前台查詢調整：`src/pages/products/[slug].astro` 的 `SELECT ... price_base` 與 interface 移除 `price_base`（掃描顯示該頁沒有其他使用處）；合併前先確認沒有 `SELECT *` 或 `pv.*` 讀到此欄位；需先完成 1.2              | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
 
 ## 階段 2：API
 
@@ -164,3 +164,4 @@
 | 2026-11-15 | Claude Sonnet 5.5 | 認領並以 admin-products-bootstrap.sh 實作 0.1（使用處盤點輸出）、0.3（db.ts 型別）、0.4（zod 契約）、0.7（整合分支）、1.1（migration 0014）、1.2（migration 0015，不含 DROP）、1.7 的重置與示範資料腳本；狀態暫為 🟡，本機執行並通過 `pnpm check && pnpm build` 後改 ✅。1.7 尚餘「移除舊 scripts/seed.sql 的商品部分」 |
 | 2026-11-15 | Claude Sonnet 5.5 | 0.1 0.3 0.4 0.7 1.1 1.2 本機驗證通過（migration、`pnpm check && pnpm build`），標為 ✅；1.7 待移除舊 seed.sql 的商品部分                                                                                                                                                                                                |
 | 2026-11-15 | Claude Sonnet 5.5 | 0.1 盤點完成：前台只有 products/[slug].astro 用 `price_base`；商品圖前台只讀變體 `image_urls`；FAQ 已有 /admin/faqs；圖片為 R2。更新決策紀錄與 1.8、2.4、3.6（略過）、4.8、4.9                                                                                                                                          |
+| 2026-11-15 | Claude Sonnet 5.5 | 1.8 前台 products/[slug].astro 移除 price_base（SELECT 與 interface）；全專案另一處 `SELECT * FROM product_variants` 在 admin/products/[id].astro，由 4.4 重寫處理，6.5 須在 4.4 合併後才做                                                                                                                             |

@@ -37,7 +37,6 @@ interface Variant {
   sku: string;
   attributes: string;
   stock: number;
-  price_base: string;
 }
 
 interface Price {
@@ -84,7 +83,7 @@ const tr = translation ??
 
 const variants = env?.DB
   ? await env.DB.prepare(
-      "SELECT id, sku, attributes, stock, price_base FROM product_variants WHERE product_id = ? ORDER BY sku",
+      "SELECT id, sku, attributes, stock FROM product_variants WHERE product_id = ? ORDER BY sku",
     )
       .bind(product.id)
       .all<Variant>()
