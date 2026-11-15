@@ -131,5 +131,6 @@ self.addEventListener("fetch", (event) => {
   if (p.startsWith("/api/") && !p.startsWith("/api/images/")) return;
 
   if (isImmutable(p)) event.respondWith(cacheFirst(req));
-  else if (isRevalidated(p)) event.respondWith(staleWhileRevalidate(event, req));
+  else if (isRevalidated(p))
+    event.respondWith(staleWhileRevalidate(event, req));
 });
