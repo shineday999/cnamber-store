@@ -58,6 +58,7 @@
 | ---- | ------------------------------------------------------------------------------------------ | ---- | ---------------- | ---------- |
 | 4.1  | 問答一題一畫面（進度條、點選自動下一題、底部固定操作列）；新增 QuizWizard 元件與 quiz.next | ✅   | Claude Fable 5.1 | 2026-11-15 |
 | 4.2  | 問答結果頁手機版（結果卡 + 底部固定「看推薦商品」）                                        | ✅   | Claude Fable 5.1 | 2026-11-15 |
+| 4.2b | 問答結果頁顯示商品圖（SQL 補 image_urls 子查詢，傳給 ProductCard；桌面版同步受惠）         | ✅   | Claude Fable 5.1 | 2026-11-15 |
 | 4.3  | 预订流程第 1 步：聯絡資料（checkout 分步）                                                 | ⬜   |                  |            |
 | 4.4  | 预订流程第 2 步：配送                                                                      | ⬜   |                  |            |
 | 4.5  | 预订流程第 3 步：確認並送出（底部固定「预订」）                                            | ⬜   |                  |            |
@@ -71,8 +72,6 @@
 | 6    | PWA（manifest、service worker）+ 骨架畫面 + Lighthouse | ⬜   |
 
 ## 已知問題
-
-- 問答結果頁 ProductCard 的 imageUrl 固定傳 undefined（SQL 也沒查 image_urls），結果卡只會顯示灰底占位圖示。若要顯示商品圖需補 SQL 子查詢（可參考 products/index.astro 的 image_urls）；待確認是否刻意，列為 4.2b
 
 - 商品詳情頁只讀每個商品第一張圖（variants[0] 的 image_urls[0]），原本還重複顯示一次；因此「圖片可左右滑」暫不做，待確認資料有多張圖再評估
 
@@ -118,3 +117,4 @@
 | 2026-11-15 | Claude Sonnet 5.5 | 3.5 購物車手機版：± 數量（新增 /api/cart/update，含庫存檢查，按鈕為 POST form 無 JS）、左滑顯示移除（CSS scroll-snap）、底部固定合計與結帳按鈕（疊在 Tab 上方）；修正購物車列原本顯示 slug，改顯示商品名稱。桌面版版面不變                    |
 | 2026-11-15 | Claude Fable 5.1  | 4.1 問答手機版一題一畫面：QuizWizard.astro（漸進增強：JS 啟動後才分步；無 JS／桌面維持原表單）；jewelry（及 incense，若錨點相符）加 data-quiz / data-qw-pending / data-quiz-page；新增 quiz.next 4 語。表單與 /api/quiz/recommend 未動        |
 | 2026-11-15 | Claude Fable 5.1  | 4.2 問答結果頁手機版：結果改單欄橫向列表（104px 圖 + 文字），標題區壓縮，底部固定「重新測驗／再看看 →」；result.astro 加 data-quiz-result-page / data-quiz-results / data-quiz-old-retake；無新增翻譯 key，資料查詢未動                       |
+| 2026-11-15 | Claude Fable 5.1  | 4.2b 問答結果頁補 image_urls 子查詢（同 products/index.astro）並加 firstImage()，ProductCard 改傳 firstImage(p.image_urls)；移除「結果卡沒有商品圖」已知問題。資料範圍與排序未動                                                              |
