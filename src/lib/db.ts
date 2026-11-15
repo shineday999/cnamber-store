@@ -12,6 +12,9 @@ export interface Product {
   subcategory: string | null;
   slug: string;
   status: "draft" | "active" | "archived";
+  image_url: string | null;
+  tags: string; // 逗號分隔 token
+  faq: string | null; // JSON
   created_at: number;
   updated_at: number;
 }
@@ -36,6 +39,13 @@ export interface ProductVariant {
   weight_grams: number | null;
   price_base: string;
   image_urls: string; // JSON
+}
+
+export interface ProductPrice {
+  variant_id: string;
+  currency: string;
+  amount: number; // 最小單位（分）
+  tax_included: number; // 0 | 1
 }
 
 export interface Order {
