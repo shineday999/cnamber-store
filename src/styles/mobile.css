@@ -1870,3 +1870,28 @@
     touch-action: pan-y;
   }
 }
+
+/* ===== app-shell 2.9：圖片載入前 shimmer 占位（純 CSS） ===== */
+@media (max-width: 767.98px) and (prefers-reduced-motion: no-preference) {
+  @keyframes m-shimmer {
+    from {
+      background-position: 200% 0;
+    }
+    to {
+      background-position: -200% 0;
+    }
+  }
+
+  /* 商品卡圖片容器（排除沒有圖片的 .flex 占位）、首頁路線磚 */
+  main a.group > div.bg-forest-100:not(.flex):first-child,
+  main [data-home-paths] .grid[class*="grid-cols-12"] a.bg-forest-100 {
+    background-image: linear-gradient(
+      100deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.55) 50%,
+      transparent 70%
+    );
+    background-size: 200% 100%;
+    animation: m-shimmer 1.6s linear 4 forwards;
+  }
+}
