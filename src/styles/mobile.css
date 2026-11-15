@@ -1775,3 +1775,90 @@
     font-weight: 600;
   }
 }
+
+/* ===== app-shell 4.6：預訂成功頁 ===== */
+.cs-bar {
+  display: none;
+}
+
+@media (max-width: 767.98px) {
+  /* 置中的完成畫面 */
+  [data-co-success] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100dvh - var(--m-header-h) - var(--m-tab-h) - 120px);
+    padding-top: 24px;
+    padding-bottom: 112px;
+  }
+  /* 原本的「← 返回」連結由底部操作列取代 */
+  [data-co-success] > a {
+    display: none;
+  }
+  [data-co-success] svg {
+    width: 96px;
+    height: 96px;
+  }
+  [data-co-success] > p.font-mono,
+  [data-co-success] > p.text-xs {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    font-size: 14px !important;
+    overflow-wrap: anywhere;
+  }
+
+  /* 底部固定操作列 */
+  .cs-bar {
+    position: fixed;
+    right: 0;
+    bottom: calc(var(--m-tab-h) + env(safe-area-inset-bottom, 0px));
+    left: 0;
+    z-index: 55;
+    display: flex;
+    gap: 10px;
+    padding: 10px 16px;
+    border-top: 1px solid rgba(0, 0, 0, 0.07);
+    background: rgba(255, 255, 255, 0.96);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+  main .cs-bar a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    border-radius: 999px;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  main .cs-bar .cs-home {
+    padding: 0 22px;
+    border: 1.5px solid rgba(0, 0, 0, 0.15);
+    background: #fff;
+    color: var(--m-ink);
+  }
+  main .cs-bar .cs-more {
+    flex: 1;
+    background: var(--m-accent);
+    color: #fff;
+  }
+}
+
+/* 勾勾彈出動畫（系統開「減少動態效果」時不播放） */
+@media (max-width: 767.98px) and (prefers-reduced-motion: no-preference) {
+  [data-co-success] svg {
+    animation: cs-pop 0.5s cubic-bezier(0.2, 1.4, 0.4, 1) both;
+  }
+  @keyframes cs-pop {
+    from {
+      opacity: 0;
+      transform: scale(0.4);
+    }
+  }
+}
