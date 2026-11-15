@@ -42,6 +42,7 @@
 | 2.8  | 產品列表：排序底部彈出層（原生 dialog；sort 參數白名單；4 語 i18n）。分類篩選維持 2.5 的 chips                                                                                                            | ✅   | Claude Fable 5.1  | 2026-11-15 |
 | 2.9  | （選用）圖片載入前 shimmer 占位。列表為 SSR 整頁載入，不做整頁骨架畫面                                                                                                                                    | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
 | 2.10 | 首頁 Hero 再縮小：手機版高度 60dvh → 50dvh（min 360 / max 460）、隱藏「慢慢看」只留「为你慢慢问」（產品已有底部分頁），按鈕不撐滿寬；純 CSS（mobile.css 末尾 2.10 區塊，覆蓋 2.1 的規則），桌面版不受影響 | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
+| 2.11 | 首頁 Hero 手機版：唯一的 CTA「为你慢慢问」由描邊改實心陶土色（#A45E3D，按下 #5F3220），補回 2.10 隱藏主按鈕後缺少的視覺重點；純 CSS                                                                       | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
 
 ## 階段 3：商品詳情 + 購物車
 
@@ -164,3 +165,4 @@
 | 2026-11-15 | Claude Sonnet 5.5 | 3.6 購物車縮圖：cart.astro 的 SQL 補 image_urls（規格圖優先，退回該商品第一個規格的圖）、加 firstImage()；每列左側加縮圖（手機 64px、桌面 80px，點圖進商品頁，無圖灰底占位；加 data-cart-thumb）。步進器、左滑移除、底部合計與 mobile.css 未動                                                                                                                                                                   |
 | 2026-11-15 | Claude Sonnet 5.5 | 5.5 /quiz 手機版壓縮到一個螢幕：卡片改橫向（圖示 float 在左、文字在右，不依賴 Card 內部結構），標題區與卡片內距縮小，預估內容約 450px（含頂部列與 Tab 約 590px，< 667px 螢幕）。純 CSS（mobile.css 末尾 5.5 區塊），頁面與翻譯未動。驗收：部署後 DevTools Console 執行 document.documentElement.scrollHeight <= innerHeight                                                                                      |
 | 2026-11-15 | Claude Sonnet 5.5 | 2.10 首頁 Hero 手機版再縮小：50dvh（min 360 / max 460）、隱藏「慢慢看」只留「为你慢慢问」；純 CSS，覆蓋 2.1 的高度與 CTA 規則。部署後肉眼確認第一屏已露出「两条手作路线」標題                                                                                                                                                                                                                                    |
+| 2026-11-15 | Claude Sonnet 5.5 | 2.11 Hero 唯一 CTA 改實心陶土色（沿用 tailwind terra-500 / 700 的色值）；純 CSS，附加在 mobile.css 末尾，桌面版不受影響                                                                                                                                                                                                                                                                                          |
