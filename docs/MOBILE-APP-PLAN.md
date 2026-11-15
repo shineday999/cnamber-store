@@ -73,12 +73,23 @@
 | 5.3  | Materials 六張材質卡改可展開（桌面版外觀不變）                                                                                           | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
 | 5.4  | 「選一件」頁（/quiz）手機版重新設計 + 頁尾「繼續閱讀」卡片壓縮                                                                           | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
 
+## 階段 6：品質與 PWA
+
+| 步驟 | 內容                                                                                                  | 狀態 | 負責人 | 完成日 |
+| ---- | ----------------------------------------------------------------------------------------------------- | ---- | ------ | ------ |
+| 6.1  | body 背景層次：改 body 背景為手機版淺灰（--m-bg），白色卡片與頁面分出層次；同步 2.5 chips 列顏色      | ⬜   |        |        |
+| 6.2  | 子畫面標題改由伺服器渲染（Layout 把 title 傳給 MobileNav，換頁不再延遲出現；原待辦 1.7b）             | ⬜   |        |        |
+| 6.3  | Lighthouse 無障礙 0.91 → ≥ 0.95（依實測失敗項目逐項修正）                                             | ⬜   |        |        |
+| 6.4  | Lighthouse 效能 0.66 → ≥ 0.9（依實測失敗項目逐項修正）                                                | ⬜   |        |        |
+| 6.5  | PWA：manifest、圖示、theme-color、apple-touch-icon（可加入主畫面）                                    | ⬜   |        |        |
+| 6.6  | PWA：service worker（靜態資源快取 + 離線提示頁）；整頁骨架畫面不做（SSR 整頁載入，與 2.9 的決定一致） | ⬜   |        |        |
+
 ## 後續階段（尚未拆步驟）
 
 | 階段 | 內容                                                   | 狀態 |
 | ---- | ------------------------------------------------------ | ---- |
-| 5    | 品牌內容頁 accordion / 章節卡                          | 🟡   |
-| 6    | PWA（manifest、service worker）+ 骨架畫面 + Lighthouse | ⬜   |
+| 5    | 品牌內容頁 accordion / 章節卡                          | ✅   |
+| 6    | PWA（manifest、service worker）+ 骨架畫面 + Lighthouse | 🟡   |
 
 ## 已知問題
 
@@ -135,3 +146,4 @@
 | 2026-11-15 | Claude Sonnet 5.5 | 5.2 About、Contact 常見問題改原生 details 可展開（預設收合，桌面版永遠展開、外觀不變）；新增共用 AccordionInit 元件（與 3.4 相同邏輯）。商品詳情頁仍用自己的 inline script，後續可改用此元件                                                                            |
 | 2026-11-15 | Claude Sonnet 5.5 | 5.3 Materials 六張材質卡手機版改可展開（預設收合，桌面版永遠展開、外觀不變），使用 5.2 的 AccordionInit                                                                                                                                                                 |
 | 2026-11-15 | Claude Sonnet 5.5 | 5.4 /quiz 手機版重新設計（白色圓角卡、柔和陰影、圖示淡色圓底、說明限 2 行、時長沿用 home.cta_meta、「开始 →」膠囊按鈕；移除黑框與雙箭頭）；kicker 改 quiz.kicker 4 語；ContinueReading 加 data-continue 並壓縮手機版卡片。桌面版外觀不變（桌面版雙箭頭維持原樣）        |
+| 2026-11-15 | Claude Sonnet 5.5 | 階段 5 於「後續階段」表標為完成；階段 6 拆為 6.1 ~ 6.6（body 背景、子畫面標題 SSR、Lighthouse 無障礙與效能、PWA manifest、service worker）                                                                                                                              |
