@@ -12,7 +12,7 @@
  * Falls back to raw "CUR amount" if Intl.NumberFormat rejects the locale.
  */
 
-const RATES_FROM_USD: Record<string, number> = {
+export const RATES_FROM_USD: Record<string, number> = {
   USD: 1,
   CNY: 7.2,
   MYR: 4.6,
