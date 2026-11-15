@@ -5,6 +5,17 @@ import Tabs from "../../../components/Tabs.astro";
 import { createT, tEnum } from "../../../i18n/t";
 import { defaultLocale, type Locale } from "../../../i18n/config";
 import zhHansMessages from "../../../i18n/messages/zh-Hans.json";
+import { formatPrice } from "../../../lib/format";
+import {
+  CATEGORIES,
+  SUBCATEGORIES,
+  TAG_GROUPS,
+  MAX_IMAGES,
+  allowedTags,
+  checkReadiness,
+  isCategory,
+  splitTags,
+} from "../../../lib/admin-products";
 
 const id = Astro.params.id;
 const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
@@ -59,12 +70,128 @@ if (!product) {
 
 const trByLocale = (locale: string) =>
   translations.results.find((t) => t.locale === locale);
+
+// ---- 規格、圖片、上架檢查、標籤 ----
+const variantRow = env?.DB
+  ? await env.DB.prepare(
+      "SELECT id, sku, stock, weight_grams, image_urls FROM product_variants WHERE product_id = ? ORDER BY sku LIMIT 1",
+    )
+      .bind(product.id)
+      .first<{
+        id: string;
+        sku: string;
+        stock: number;
+        weight_grams: number | null;
+        image_urls: string;
+      }>()
+  : null;
+const priceRow =
+  variantRow && env?.DB
+    ? await env.DB.prepare(
+        "SELECT amount FROM product_prices WHERE variant_id = ? AND currency = 'USD'",
+      )
+        .bind(variantRow.id)
+        .first<{ amount: number }>()
+    : null;
+let variantImages: string[] = [];
+try {
+  const parsed: unknown = variantRow ? JSON.parse(variantRow.image_urls) : [];
+  if (Array.isArray(parsed)) {
+    variantImages = parsed.filter((u): u is string => typeof u === "string");
+  }
+} catch {
+  variantImages = [];
+}
+// 舊資料：只有 products.image_url 的，先當作目前圖片，儲存規格時會一併帶入規格
+if (variantImages.length === 0 && product.image_url) {
+  variantImages = [product.image_url];
+}
+const usdCents = priceRow?.amount ?? null;
+const missing = env?.DB ? await checkReadiness(env.DB, product.id) : [];
+const notice = {
+  created: Astro.url.searchParams.get("created"),
+  blocked: Astro.url.searchParams.get("blocked"),
+  saved: Astro.url.searchParams.get("saved"),
+  error: Astro.url.searchParams.get("error"),
+};
+const productCategory = isCategory(product.category)
+  ? product.category
+  : "jewelry";
+const currentTags = splitTags(product.tags ?? "");
+const presetTags = new Set(CATEGORIES.flatMap((c) => [...allowedTags(c)]));
+const extraTags = currentTags.filter((tk) => !presetTags.has(tk));
+const knownSub = CATEGORIES.some((c) =>
+  SUBCATEGORIES[c].includes(product.subcategory ?? ""),
+);
+const inputField =
+  "w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base";
 ---
 
 <AdminLayout
   title={`${t("admin.products_detail.title_prefix")}${product.slug}`}
   active="products"
 >
+  {
+    notice.created && (
+      <div class="mb-4 max-w-3xl rounded-card border border-forest-700/30 bg-forest-50 p-4 text-sm">
+        {notice.created === "active" ? "已创建并上架。" : "已创建为草稿。"}
+        {notice.blocked
+          ? `想上架但还缺：${notice.blocked}，请到「变体」页签补齐。`
+          : ""}
+      </div>
+    )
+  }
+  {
+    notice.saved && !notice.created && (
+      <div class="mb-4 max-w-3xl rounded-card border border-forest-700/30 bg-forest-50 p-4 text-sm">
+        已保存。
+      </div>
+    )
+  }
+  {
+    notice.error && (
+      <div
+        role="alert"
+        class="mb-4 max-w-3xl rounded-card border border-error/40 bg-error/10 p-4 text-sm text-error"
+      >
+        {notice.error}
+      </div>
+    )
+  }
+  {
+    product.status === "draft" && (
+      <div class="mb-4 max-w-3xl rounded-card border border-text-muted/20 bg-bg-card p-4">
+        <p class="font-medium mb-2">上架前检查</p>
+        {missing.length === 0 ? (
+          <>
+            <p class="text-sm text-forest-700 mb-3">✓ 资料都齐了，可以上架。</p>
+            <form method="POST" action={`/api/admin/products/${id}/status`}>
+              <button
+                type="submit"
+                class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900 transition-colors"
+              >
+                立即上架
+              </button>
+            </form>
+          </>
+        ) : (
+          <>
+            <ul class="mb-3 space-y-1 text-sm">
+              {missing.map((m) => (
+                <li class="text-error">✗ 还缺：{m}</li>
+              ))}
+            </ul>
+            <a
+              href={`/admin/products/${id}?tab=variants`}
+              class="text-sm underline text-accent-700"
+            >
+              去补齐 →
+            </a>
+          </>
+        )}
+      </div>
+    )
+  }
   <Tabs
     tabs={[
       { id: "core", label: t("admin.products_detail.tab_core") },
@@ -77,54 +204,9 @@ const trByLocale = (locale: string) =>
     defaultTab="core"
   >
     <div slot="core">
-      <div
-        class="bg-bg-card border border-text-muted/20 rounded-card p-6 mb-4 max-w-2xl"
-      >
-        <h3 class="text-sm font-medium mb-3">
-          {t("admin.products_detail.current_image")}
-        </h3>
-        {
-          product.image_url ? (
-            <img
-              loading="lazy"
-              decoding="async"
-              src={product.image_url}
-              alt={product.slug}
-              class="w-48 h-48 object-cover rounded border border-text-muted/20"
-            />
-          ) : (
-            <p class="text-sm text-text-muted">
-              {t("admin.products_detail.no_image")}
-            </p>
-          )
-        }
-        <form
-          method="POST"
-          action={`/api/admin/products/${id}/image`}
-          enctype="multipart/form-data"
-          class="mt-4 space-y-2"
-        >
-          <label class="block text-sm font-medium" for="image-upl"
-            >{t("admin.products_detail.label_image")}</label
-          >
-          <input
-            id="image-upl"
-            name="image"
-            type="file"
-            accept="image/jpeg,image/png,image/webp,image/gif"
-            class="w-full text-sm file:mr-2 file:py-1 file:px-3 file:border-0 file:bg-forest-700 file:text-bg-base file:rounded file:cursor-pointer"
-          />
-          <p class="text-xs text-text-muted">
-            {t("admin.products_detail.hint_image")}
-          </p>
-          <button
-            type="submit"
-            class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900 transition-colors text-sm"
-          >
-            {t("admin.products_detail.upload_image")}
-          </button>
-        </form>
-      </div>
+      <p class="mb-4 max-w-2xl text-sm text-text-muted">
+        图片、售价、库存都在「变体」页签里管理。
+      </p>
       <form
         method="POST"
         action={`/api/admin/products/${id}`}
@@ -171,12 +253,29 @@ const trByLocale = (locale: string) =>
           <label class="block text-sm font-medium mb-1" for="subcategory"
             >{t("admin.products_detail.label_subcategory")}</label
           >
-          <input
-            id="subcategory"
-            name="subcategory"
-            value={product.subcategory ?? ""}
-            class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
-          />
+          <select id="subcategory" name="subcategory" class={inputField}>
+            <option value="">—</option>
+            {
+              CATEGORIES.map((c) =>
+                SUBCATEGORIES[c].map((s) => (
+                  <option
+                    value={s}
+                    data-cat={c}
+                    selected={product.subcategory === s}
+                  >
+                    {tEnum(t, "subcategory", s)}
+                  </option>
+                )),
+              )
+            }
+            {
+              product.subcategory && !knownSub && (
+                <option value={product.subcategory} selected>
+                  {product.subcategory}
+                </option>
+              )
+            }
+          </select>
         </div>
         <div>
           <label class="block text-sm font-medium mb-1" for="slug"
@@ -186,25 +285,60 @@ const trByLocale = (locale: string) =>
             id="slug"
             name="slug"
             value={product.slug}
-            required
-            class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base font-mono"
-          />
-        </div>
-        <div>
-          <label class="block text-sm font-medium mb-1" for="tags"
-            >{t("admin.products_form.tags")}</label
-          >
-          <input
-            id="tags"
-            name="tags"
-            type="text"
-            value={product.tags ?? ""}
-            placeholder={t("admin.products_form.tags_placeholder")}
-            class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base font-mono"
+            readonly
+            class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base font-mono text-text-secondary"
           />
           <p class="text-xs text-text-muted mt-1">
-            {t("admin.products_form.tags_hint")}
+            编号由系统自动生成，前台网址会用到它，所以不能修改。
           </p>
+        </div>
+        <div>
+          <p class="block text-sm font-medium mb-1">
+            {t("admin.products_form.tags")}
+          </p>
+          <p class="text-xs text-text-muted mb-3">
+            「为我推荐」测验会拿客人的答案来比对这些标签。
+          </p>
+          <input type="hidden" name="tags_extra" value={extraTags.join(",")} />
+          {
+            CATEGORIES.map((c) => (
+              <div
+                data-tag-cat={c}
+                hidden={productCategory !== c}
+                class="space-y-4"
+              >
+                {TAG_GROUPS[c].map((g) => (
+                  <fieldset>
+                    <legend class="text-sm font-medium mb-2">
+                      {t(g.titleKey)}
+                    </legend>
+                    <div class="flex flex-wrap gap-2">
+                      {g.options.map((o) => (
+                        <label class="cursor-pointer rounded-full border border-text-muted/30 px-3 py-1.5 text-sm transition-colors has-[:checked]:border-forest-700 has-[:checked]:bg-forest-700 has-[:checked]:text-bg-base has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent-500/40">
+                          <input
+                            type="checkbox"
+                            name="tag"
+                            value={o.value}
+                            checked={currentTags.includes(o.value)}
+                            disabled={productCategory !== c}
+                            class="sr-only"
+                          />
+                          {t(o.labelKey)}
+                        </label>
+                      ))}
+                    </div>
+                  </fieldset>
+                ))}
+              </div>
+            ))
+          }
+          {
+            extraTags.length > 0 && (
+              <p class="text-xs text-text-muted mt-3">
+                其他沿用的标签：{extraTags.join("、")}（保存时保留）
+              </p>
+            )
+          }
         </div>
         <div class="flex gap-2">
           <button
@@ -327,25 +461,201 @@ const trByLocale = (locale: string) =>
     <div slot="variants">
       <div class="space-y-4 max-w-3xl">
         {
-          variants.results.length === 0 && (
-            <p class="text-text-muted text-sm">
-              {t("admin.products_detail.no_variants")}
+          !variantRow && (
+            <p class="rounded-card border border-accent-500/40 bg-accent-500/10 p-4 text-sm">
+              这个商品还没有规格（售价、库存、图片）。填写下面的表单并保存后，才能上架。
             </p>
           )
         }
-        <ul class="space-y-2">
+        <form
+          method="POST"
+          action={`/api/admin/products/${id}/variant`}
+          enctype="multipart/form-data"
+          class="bg-bg-card border border-text-muted/20 rounded-card p-5 sm:p-6 space-y-4"
+        >
+          <input type="hidden" name="variant_id" value={variantRow?.id ?? ""} />
           {
-            variants.results.map((v) => (
-              <li class="bg-bg-card border border-text-muted/20 rounded-md px-4 py-2 font-mono text-sm flex justify-between">
-                <span>{v.sku}</span>
-                <span class="text-text-secondary">
-                  stock {v.stock} · ${v.price_base}
+            variantRow && (
+              <p class="text-sm text-text-muted">
+                规格编号：
+                <span class="font-mono text-text-secondary">
+                  {variantRow.sku}
                 </span>
-              </li>
-            ))
+              </p>
+            )
           }
-        </ul>
+
+          <div class="grid grid-cols-3 gap-3">
+            <div class="col-span-2">
+              <label class="block text-sm font-medium mb-1" for="v-price"
+                >售价 <span class="text-error">*</span></label
+              >
+              <input
+                id="v-price"
+                name="price"
+                type="text"
+                inputmode="decimal"
+                required
+                value={usdCents !== null ? (usdCents / 100).toFixed(2) : ""}
+                class={inputField}
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1" for="v-currency"
+                >币别</label
+              >
+              <select id="v-currency" name="currency" class={inputField}>
+                <option value="USD" selected={usdCents !== null}>美元 $</option>
+                <option value="CNY" selected={usdCents === null}
+                  >人民币 ¥</option
+                >
+              </select>
+            </div>
+          </div>
+          {
+            usdCents !== null && (
+              <p class="text-xs text-text-muted -mt-2">
+                价格以美元储存，目前前台简体站显示{" "}
+                {formatPrice(usdCents, "USD", "zh-Hans")}。
+                想用人民币改价：先把币别切到「人民币」再填新金额。
+              </p>
+            )
+          }
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-sm font-medium mb-1" for="v-stock"
+                >库存 <span class="text-error">*</span></label
+              >
+              <input
+                id="v-stock"
+                name="stock"
+                type="number"
+                min="0"
+                step="1"
+                required
+                value={variantRow?.stock ?? 1}
+                class={inputField}
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1" for="v-weight"
+                >重量（克，选填）</label
+              >
+              <input
+                id="v-weight"
+                name="weight"
+                type="number"
+                min="0"
+                step="1"
+                value={variantRow?.weight_grams ?? ""}
+                class={inputField}
+              />
+            </div>
+          </div>
+
+          <div>
+            <p class="block text-sm font-medium mb-2">图片（第一张是封面）</p>
+            {
+              variantImages.length > 0 ? (
+                <div class="grid grid-cols-3 sm:grid-cols-4 gap-3">
+                  {variantImages.map((u, i) => (
+                    <div class="space-y-1">
+                      <img
+                        loading="lazy"
+                        decoding="async"
+                        src={u}
+                        alt=""
+                        class="w-full aspect-square object-cover rounded border border-text-muted/20"
+                      />
+                      <label class="flex items-center gap-1 text-xs">
+                        <input
+                          type="radio"
+                          name="cover"
+                          value={u}
+                          checked={i === 0}
+                          class="accent-forest-700"
+                        />
+                        封面
+                      </label>
+                      <label class="flex items-center gap-1 text-xs text-error">
+                        <input type="checkbox" name="remove" value={u} />
+                        删除
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p class="text-sm text-text-muted">还没有图片。</p>
+              )
+            }
+            <div class="mt-3">
+              <label class="block text-sm font-medium mb-1" for="v-images"
+                >新增图片（可多选）</label
+              >
+              <input
+                id="v-images"
+                name="images"
+                type="file"
+                multiple
+                accept="image/jpeg,image/png,image/webp,image/gif"
+                class="w-full text-sm file:mr-2 file:py-1 file:px-3 file:border-0 file:bg-forest-700 file:text-bg-base file:rounded file:cursor-pointer"
+              />
+              <p class="text-xs text-text-muted mt-1">
+                最多 {MAX_IMAGES} 张（含已有的），每张 5MB 以内。
+              </p>
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900 transition-colors"
+          >
+            保存规格
+          </button>
+        </form>
       </div>
     </div>
   </Tabs>
+  <script is:inline>
+    (function () {
+      var cat = document.getElementById("category");
+      var sub = document.getElementById("subcategory");
+      if (!cat || !sub) return;
+      function apply() {
+        var c = cat.value;
+        Array.prototype.forEach.call(
+          sub.querySelectorAll("option[data-cat]"),
+          function (o) {
+            var show = o.getAttribute("data-cat") === c;
+            o.hidden = !show;
+            o.disabled = !show;
+          },
+        );
+        var sel = sub.options[sub.selectedIndex];
+        if (
+          sel &&
+          sel.getAttribute("data-cat") &&
+          sel.getAttribute("data-cat") !== c
+        ) {
+          sub.value = "";
+        }
+        Array.prototype.forEach.call(
+          document.querySelectorAll("[data-tag-cat]"),
+          function (g) {
+            var show = g.getAttribute("data-tag-cat") === c;
+            g.hidden = !show;
+            Array.prototype.forEach.call(
+              g.querySelectorAll("input"),
+              function (i) {
+                i.disabled = !show;
+              },
+            );
+          },
+        );
+      }
+      cat.addEventListener("change", apply);
+      apply();
+    })();
+  </script>
 </AdminLayout>
