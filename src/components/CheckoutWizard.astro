@@ -97,9 +97,12 @@ const titles = [
         "";
 
       // 第 3 步的資料回顧（只用 textContent，不用 innerHTML）
+      // 注意：workers-types 在 Element 上直接宣告 before/append（HTMLRewriter 簽章），
+      // 會蓋掉 DOM lib 的 ChildNode.before / ParentNode.append，所以這裡用
+      // insertAdjacentElement / appendChild 這類沒被遮蔽的 DOM API。
       const recap = document.createElement("dl");
       recap.className = "co-recap";
-      summary.before(recap);
+      summary.insertAdjacentElement("beforebegin", recap);
       const fieldIds = [
         "name",
         "email",
@@ -126,7 +129,8 @@ const titles = [
           dt.textContent = label;
           const dd = document.createElement("dd");
           dd.textContent = value;
-          recap.append(dt, dd);
+          recap.appendChild(dt);
+          recap.appendChild(dd);
         }
       };
 
