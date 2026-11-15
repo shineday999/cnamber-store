@@ -75,7 +75,7 @@
 | 5.2  | About、Contact 的常見問題改可展開（沿用 3.4 做法；新增共用 AccordionInit 元件）                                                          | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
 | 5.3  | Materials 六張材質卡改可展開（桌面版外觀不變）                                                                                           | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
 | 5.4  | 「選一件」頁（/quiz）手機版重新設計 + 頁尾「繼續閱讀」卡片壓縮                                                                           | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
-| 5.5  | 「選一件」頁（/quiz）手機版壓縮到一個螢幕內（卡片橫向、標題區縮小；部署後實測 scrollHeight ≤ innerHeight 再改 ✅）                       | 🟡   | Claude Sonnet 5.5 | 2026-11-15 |
+| 5.5  | 「選一件」頁（/quiz）手機版壓縮到一個螢幕內（卡片橫向、標題區縮小；部署後實測 scrollHeight ≤ innerHeight 再改 ✅）                       | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
 
 ## 階段 6：品質與 PWA
 
@@ -166,3 +166,4 @@
 | 2026-11-15 | Claude Sonnet 5.5 | 5.5 /quiz 手機版壓縮到一個螢幕：卡片改橫向（圖示 float 在左、文字在右，不依賴 Card 內部結構），標題區與卡片內距縮小，預估內容約 450px（含頂部列與 Tab 約 590px，< 667px 螢幕）。純 CSS（mobile.css 末尾 5.5 區塊），頁面與翻譯未動。驗收：部署後 DevTools Console 執行 document.documentElement.scrollHeight <= innerHeight                                                                                      |
 | 2026-11-15 | Claude Sonnet 5.5 | 2.10 首頁 Hero 手機版再縮小：50dvh（min 360 / max 460）、隱藏「慢慢看」只留「为你慢慢问」；純 CSS，覆蓋 2.1 的高度與 CTA 規則。部署後肉眼確認第一屏已露出「两条手作路线」標題                                                                                                                                                                                                                                    |
 | 2026-11-15 | Claude Sonnet 5.5 | 2.11 Hero 唯一 CTA 改實心陶土色（沿用 tailwind terra-500 / 700 的色值）；純 CSS，附加在 mobile.css 末尾，桌面版不受影響                                                                                                                                                                                                                                                                                          |
+| 2026-11-15 | Claude Sonnet 5.5 | 5.5 驗收通過：線上 /quiz 在 iPhone SE（375×667）實測 scrollHeight 667 ≤ innerHeight 667，整頁一個螢幕內，標為完成                                                                                                                                                                                                                                                                                                |
