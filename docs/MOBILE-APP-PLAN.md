@@ -38,7 +38,7 @@
 | 2.4b | 首頁整頁高度再壓縮：精選橫滑卡縮窄（46vw、方圖、隱藏說明）、路線磚改方形、區塊留白與問答卡內距縮小（實測 2.3，目標 ≤ 2.0；部署後實測達標再把 2.4 與 2.4b 改 ✅） | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
 | 2.5  | 產品列表：分類 chips（可橫滑）固定在頂部列下方                                                                                                                   | ✅   | Claude Fable 5.1  | 2026-11-15 |
 | 2.6  | 產品列表：2 欄緊湊商品卡（12px 內距、16px 標題、隱藏說明；永遠 2 欄）                                                                                            | ✅   | Claude Fable 5.1  | 2026-11-15 |
-| 2.7  | Hero 可左右滑動切換（touch swipe，不動既有輪播 script 的行為）                                                                                                   | ⬜   |                   |            |
+| 2.7  | Hero 可左右滑動切換（touch swipe，不動既有輪播 script 的行為）                                                                                                   | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
 | 2.8  | 產品列表：排序底部彈出層（原生 dialog；sort 參數白名單；4 語 i18n）。分類篩選維持 2.5 的 chips                                                                   | ✅   | Claude Fable 5.1  | 2026-11-15 |
 | 2.9  | （選用）圖片載入前 shimmer 占位。列表為 SSR 整頁載入，不做整頁骨架畫面                                                                                           | ⬜   |                   |            |
 
@@ -120,3 +120,4 @@
 | 2026-11-15 | Claude Fable 5.1  | 4.2b 問答結果頁補 image_urls 子查詢（同 products/index.astro）並加 firstImage()，ProductCard 改傳 firstImage(p.image_urls)；移除「結果卡沒有商品圖」已知問題。資料範圍與排序未動                                                                                        |
 | 2026-11-15 | Claude Fable 5.1  | 4.3 + 4.4 + 4.5 預訂（結帳）3 步精靈：CheckoutWizard.astro（漸進增強；聯絡資料 → 配送地址 → 確認：資料回顧 + 明細 + 底部固定合計與送出）；每步以 checkValidity 驗證必填；欄位補 autocomplete / inputmode；新增 checkout.step_* 4 語。欄位名稱與 /api/orders/create 未動 |
 | 2026-11-15 | Claude Fable 5.1  | 4.6 預訂成功頁手機版：置中完成畫面 + 勾勾彈出動畫（尊重 reduced-motion）、訂單編號膠囊、底部固定「首页／再看看 →」；MobileNav 的 ROOTS 加入 /checkout/success（頂部列顯示 Logo，避免返回鍵退回已清空的結帳頁）。階段 4 完成                                             |
+| 2026-11-15 | Claude Sonnet 5.5 | 2.7 Hero 左右滑動：HomeContent 輪播 script 只加 window.__heroGo hook，另以獨立 inline script 偵測 touch swipe（橫向 ≥50px 且 > 1.5 倍直向）；手機版 Hero 加 touch-action: pan-y。既有自動輪播與圓點邏輯未改                                                             |
