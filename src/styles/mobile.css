@@ -1862,3 +1862,11 @@
     }
   }
 }
+
+/* ===== app-shell 2.7：首頁 Hero 左右滑動切換 ===== */
+@media (max-width: 767.98px) {
+  /* 讓橫向手勢交給 JS，直向捲動仍由瀏覽器處理 */
+  main [data-home-hero] {
+    touch-action: pan-y;
+  }
+}
