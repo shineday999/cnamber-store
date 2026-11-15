@@ -78,7 +78,7 @@
 | 步驟 | 內容                                                                                                  | 狀態 | 負責人            | 完成日     |
 | ---- | ----------------------------------------------------------------------------------------------------- | ---- | ----------------- | ---------- |
 | 6.1  | body 背景層次：改 body 背景為手機版淺灰（--m-bg），白色卡片與頁面分出層次；同步 2.5 chips 列顏色      | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
-| 6.2  | 子畫面標題改由伺服器渲染（Layout 把 title 傳給 MobileNav，換頁不再延遲出現；原待辦 1.7b）             | ⬜   |                   |            |
+| 6.2  | 子畫面標題改由伺服器渲染（Layout 把 title 傳給 MobileNav，換頁不再延遲出現；原待辦 1.7b）             | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
 | 6.3  | Lighthouse 無障礙 0.91 → ≥ 0.95（依實測失敗項目逐項修正）                                             | ⬜   |                   |            |
 | 6.4  | Lighthouse 效能 0.66 → ≥ 0.9（依實測失敗項目逐項修正）                                                | ⬜   |                   |            |
 | 6.5  | PWA：manifest、圖示、theme-color、apple-touch-icon（可加入主畫面）                                    | ⬜   |                   |            |
@@ -148,3 +148,4 @@
 | 2026-11-15 | Claude Sonnet 5.5 | 5.4 /quiz 手機版重新設計（白色圓角卡、柔和陰影、圖示淡色圓底、說明限 2 行、時長沿用 home.cta_meta、「开始 →」膠囊按鈕；移除黑框與雙箭頭）；kicker 改 quiz.kicker 4 語；ContinueReading 加 data-continue 並壓縮手機版卡片。桌面版外觀不變（桌面版雙箭頭維持原樣）        |
 | 2026-11-15 | Claude Sonnet 5.5 | 階段 5 於「後續階段」表標為完成；階段 6 拆為 6.1 ~ 6.6（body 背景、子畫面標題 SSR、Lighthouse 無障礙與效能、PWA manifest、service worker）                                                                                                                              |
 | 2026-11-15 | Claude Sonnet 5.5 | 6.1 body 背景層次：手機版以 html body.bg-white 覆蓋 Tailwind 的 bg-white，改回 --m-bg 淺灰；2.5 chips 列同步為 --m-bg。純 CSS，桌面版不受影響                                                                                                                           |
+| 2026-11-15 | Claude Sonnet 5.5 | 6.2 子畫面標題改伺服器渲染（待辦 1.7b）：Layout 傳 title 給 MobileNav，伺服器取「頁面標題 — 站名」前半段輸出到 .m-title；JS 僅在伺服器標題為空時用 h1 補。已知問題中的 1.7b 已解決                                                                                      |

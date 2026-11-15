@@ -13,6 +13,10 @@ import { createT } from "../i18n/t";
 import { readCart } from "../lib/cart";
 
 const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
+interface Props {
+  title?: string;
+}
+const { title = "" } = Astro.props;
 const t = createT(Astro.locals.messages ?? {});
 
 const pathname = Astro.url.pathname;
@@ -24,6 +28,10 @@ const cleanPath = pathLocale
 const siteName =
   Astro.locals.siteSettings?.siteName?.[locale] ?? t("common.site_name");
 const p = (path: string) => localizedPath(locale, path);
+
+// 子畫面標題：伺服器端直接算出，換頁時不必等 JS
+const titleHead = title.split(/\s[—–|-]\s/)[0]?.trim() ?? "";
+const serverTitle = titleHead && titleHead !== siteName ? titleHead : "";
 
 // 購物車角標：cookie 為 server-readable（見 src/lib/cart.ts）
 let cartCount = 0;
@@ -151,7 +159,7 @@ const icons: Record<string, string> = {
     />
     <span class="m-brand-text">{siteName}</span>
   </a>
-  <p class="m-title" aria-live="polite"></p>
+  <p class="m-title" aria-live="polite">{serverTitle}</p>
   <details class="m-lang">
     <summary aria-label={t("common.language")}>
       <svg
@@ -250,7 +258,8 @@ const icons: Record<string, string> = {
       document.querySelector("main h1, h1")?.textContent?.trim() ?? "";
     const text =
       fromTitle && fromTitle !== brand ? fromTitle : fromH1 || fromTitle;
-    if (titleEl && text) titleEl.textContent = text;
+    if (titleEl && !titleEl.textContent?.trim() && text)
+      titleEl.textContent = text;
 
     header
       .querySelector<HTMLAnchorElement>(".m-back")
