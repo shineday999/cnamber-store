@@ -79,14 +79,15 @@
 
 ## 階段 6：品質與 PWA
 
-| 步驟 | 內容                                                                                                   | 狀態 | 負責人            | 完成日     |
-| ---- | ------------------------------------------------------------------------------------------------------ | ---- | ----------------- | ---------- |
-| 6.1  | body 背景層次：改 body 背景為手機版淺灰（--m-bg），白色卡片與頁面分出層次；同步 2.5 chips 列顏色       | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
-| 6.2  | 子畫面標題改由伺服器渲染（Layout 把 title 傳給 MobileNav，換頁不再延遲出現；原待辦 1.7b）              | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
-| 6.3  | Lighthouse 無障礙 0.91 → ≥ 0.95：Hero 圓點 role=tablist 改 group（部署後重測再改 ✅）                  | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
-| 6.4  | Lighthouse 效能 0.66 → ≥ 0.9：橫幅圖壓縮 + 768 手機版、字型 CSS 非阻塞、gtag 延後（部署後重測再改 ✅） | 🟡   | Claude Sonnet 5.5 | 2026-11-15 |
-| 6.5  | PWA：manifest、圖示、theme-color、apple-touch-icon（可加入主畫面）                                     | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
-| 6.6  | PWA：service worker（靜態資源快取 + 離線提示頁）；整頁骨架畫面不做（SSR 整頁載入，與 2.9 的決定一致）  | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
+| 步驟 | 內容                                                                                                                                                                                                                                                                | 狀態 | 負責人            | 完成日     |
+| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---- | ----------------- | ---------- |
+| 6.1  | body 背景層次：改 body 背景為手機版淺灰（--m-bg），白色卡片與頁面分出層次；同步 2.5 chips 列顏色                                                                                                                                                                    | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
+| 6.2  | 子畫面標題改由伺服器渲染（Layout 把 title 傳給 MobileNav，換頁不再延遲出現；原待辦 1.7b）                                                                                                                                                                           | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
+| 6.3  | Lighthouse 無障礙 0.91 → ≥ 0.95：Hero 圓點 role=tablist 改 group（部署後重測再改 ✅）                                                                                                                                                                               | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
+| 6.4  | Lighthouse 效能 0.66 → ≥ 0.9：橫幅圖壓縮 + 768 手機版、字型 CSS 非阻塞、gtag 延後（部署後重測再改 ✅）                                                                                                                                                              | 🟡   | Claude Sonnet 5.5 | 2026-11-15 |
+| 6.5  | PWA：manifest、圖示、theme-color、apple-touch-icon（可加入主畫面）                                                                                                                                                                                                  | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
+| 6.6  | PWA：service worker（靜態資源快取 + 離線提示頁）；整頁骨架畫面不做（SSR 整頁載入，與 2.9 的決定一致）                                                                                                                                                               | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
+| 6.7  | CSP 放行 Google Analytics：middleware.ts 的 script-src 加 https://_.googletagmanager.com，connect-src 加 *.google-analytics.com、*.analytics.google.com、_.googletagmanager.com（img-src 原本已允許 https:）；其餘指令不動。部署後在 GA 即時報表確認收到資料再改 ✅ | 🟡   | Claude Sonnet 5.5 | 2026-11-15 |
 
 ## 後續階段（尚未拆步驟）
 
@@ -167,3 +168,4 @@
 | 2026-11-15 | Claude Sonnet 5.5 | 2.10 首頁 Hero 手機版再縮小：50dvh（min 360 / max 460）、隱藏「慢慢看」只留「为你慢慢问」；純 CSS，覆蓋 2.1 的高度與 CTA 規則。部署後肉眼確認第一屏已露出「两条手作路线」標題                                                                                                                                                                                                                                    |
 | 2026-11-15 | Claude Sonnet 5.5 | 2.11 Hero 唯一 CTA 改實心陶土色（沿用 tailwind terra-500 / 700 的色值）；純 CSS，附加在 mobile.css 末尾，桌面版不受影響                                                                                                                                                                                                                                                                                          |
 | 2026-11-15 | Claude Sonnet 5.5 | 5.5 驗收通過：線上 /quiz 在 iPhone SE（375×667）實測 scrollHeight 667 ≤ innerHeight 667，整頁一個螢幕內，標為完成                                                                                                                                                                                                                                                                                                |
+| 2026-11-15 | Claude Sonnet 5.5 | 6.7 修正 GA 被 CSP 擋掉（Console 顯示 script-src 違規，gtag.js 未載入）：只加 GA4 官方文件所列網域，不放寬為 *。CSP 由 middleware 對所有 HTML 回應統一設定，/admin 頁面同樣套用                                                                                                                                                                                                                                  |
