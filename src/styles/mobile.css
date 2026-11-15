@@ -2143,3 +2143,61 @@
     background: var(--m-bg);
   }
 }
+
+/* ===== app-shell 5.5：「選一件」頁（/quiz）壓縮到一個螢幕內 ===== */
+/* 卡片改橫向：圖示浮動在左、文字在右（用 float，不依賴 Card 內部結構）。必須放在 5.4 之後 */
+@media (max-width: 767.98px) {
+  main [data-qz-page] {
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+  main [data-qz-header] {
+    margin-bottom: 14px;
+  }
+  main [data-qz-header] > p:first-child {
+    margin-bottom: 4px;
+  }
+  main [data-qz-header] h1 {
+    margin-bottom: 6px;
+    font-size: 28px;
+  }
+  main [data-qz-header] > p:last-child {
+    font-size: 15px;
+    line-height: 1.4;
+  }
+  main [data-qz-page] .grid {
+    gap: 12px;
+  }
+  main .qz-card {
+    display: block !important;
+    padding: 14px 16px !important;
+  }
+  main [data-qz-icon] {
+    float: left;
+    width: 44px;
+    height: 44px;
+    margin: 0 12px 0 0;
+  }
+  main [data-qz-icon] svg {
+    width: 22px;
+    height: 22px;
+  }
+  main [data-qz-body] {
+    display: flow-root;
+  }
+  main .qz-card h2 {
+    margin: 0 0 4px;
+    font-size: 20px;
+  }
+  main [data-qz-body] > p {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  main [data-qz-foot] {
+    margin-top: 10px;
+  }
+  main [data-qz-foot] > p:last-child {
+    padding: 7px 14px;
+    font-size: 13px;
+  }
+}

@@ -73,6 +73,7 @@
 | 5.2  | About、Contact 的常見問題改可展開（沿用 3.4 做法；新增共用 AccordionInit 元件）                                                          | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
 | 5.3  | Materials 六張材質卡改可展開（桌面版外觀不變）                                                                                           | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
 | 5.4  | 「選一件」頁（/quiz）手機版重新設計 + 頁尾「繼續閱讀」卡片壓縮                                                                           | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
+| 5.5  | 「選一件」頁（/quiz）手機版壓縮到一個螢幕內（卡片橫向、標題區縮小；部署後實測 scrollHeight ≤ innerHeight 再改 ✅）                       | 🟡   | Claude Sonnet 5.5 | 2026-11-15 |
 
 ## 階段 6：品質與 PWA
 
@@ -160,3 +161,4 @@
 | 2026-11-15 | Claude Sonnet 5.5 | 6.4d 減少首屏資源競爭 LCP 圖：輪播第 2、3 張改 data-src / data-srcset，頁面載完並閒置後才啟用（show() 也會先啟用）；cat-jewelry / cat-incense 重壓縮並新增 480px 版（srcset）；ProductCard 的 Unsplash 圖 w/h 800 → 640。實測 6.4c 後：傳輸量 1,393 KiB、LCP 4.9s、效能 0.67、CLS 0.151（來源待查）。6.4 仍待達標                                                                                                |
 | 2026-11-15 | Claude Sonnet 5.5 | 6.4e 修正 CLS 0.151（元兇 nav.m-tabbar）：Lighthouse trace 顯示首次繪製 0.86s 後、0.92s 時導覽元素從文件流 (y=40, 高 124) 消失，代表手機版導覽規則晚於首繪才套用。Layout head 內嵌最小關鍵 CSS（data-critical-shell）：手機版 m-header / m-tabbar 一開始就 position: fixed 並隱藏桌面導覽，桌面版隱藏手機導覽。mobile.css 未改。部署後用 trace 腳本重測 LayoutShift，CLS 仍 > 0.1 再追其他元素；6.4 仍待實測達標 |
 | 2026-11-15 | Claude Sonnet 5.5 | 3.6 購物車縮圖：cart.astro 的 SQL 補 image_urls（規格圖優先，退回該商品第一個規格的圖）、加 firstImage()；每列左側加縮圖（手機 64px、桌面 80px，點圖進商品頁，無圖灰底占位；加 data-cart-thumb）。步進器、左滑移除、底部合計與 mobile.css 未動                                                                                                                                                                   |
+| 2026-11-15 | Claude Sonnet 5.5 | 5.5 /quiz 手機版壓縮到一個螢幕：卡片改橫向（圖示 float 在左、文字在右，不依賴 Card 內部結構），標題區與卡片內距縮小，預估內容約 450px（含頂部列與 Tab 約 590px，< 667px 螢幕）。純 CSS（mobile.css 末尾 5.5 區塊），頁面與翻譯未動。驗收：部署後 DevTools Console 執行 document.documentElement.scrollHeight <= innerHeight                                                                                      |
