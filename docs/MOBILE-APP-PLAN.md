@@ -79,7 +79,7 @@
 | ---- | ------------------------------------------------------------------------------------------------------ | ---- | ----------------- | ---------- |
 | 6.1  | body 背景層次：改 body 背景為手機版淺灰（--m-bg），白色卡片與頁面分出層次；同步 2.5 chips 列顏色       | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
 | 6.2  | 子畫面標題改由伺服器渲染（Layout 把 title 傳給 MobileNav，換頁不再延遲出現；原待辦 1.7b）              | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
-| 6.3  | Lighthouse 無障礙 0.91 → ≥ 0.95：Hero 圓點 role=tablist 改 group（部署後重測再改 ✅）                  | 🟡   | Claude Sonnet 5.5 | 2026-11-15 |
+| 6.3  | Lighthouse 無障礙 0.91 → ≥ 0.95：Hero 圓點 role=tablist 改 group（部署後重測再改 ✅）                  | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
 | 6.4  | Lighthouse 效能 0.66 → ≥ 0.9：橫幅圖壓縮 + 768 手機版、字型 CSS 非阻塞、gtag 延後（部署後重測再改 ✅） | 🟡   | Claude Sonnet 5.5 | 2026-11-15 |
 | 6.5  | PWA：manifest、圖示、theme-color、apple-touch-icon（可加入主畫面）                                     | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
 | 6.6  | PWA：service worker（靜態資源快取 + 離線提示頁）；整頁骨架畫面不做（SSR 整頁載入，與 2.9 的決定一致）  | ⬜   |                   |            |
@@ -152,3 +152,4 @@
 | 2026-11-15 | Claude Sonnet 5.5 | 6.3 修正 aria-required-children：Hero 圓點容器 role=tablist 改 role=group（圓點是按鈕、非 tab）。線上實測 a11y 0.94，此為唯一未過項目                                                                                                                                                                                                      |
 | 2026-11-15 | Claude Sonnet 5.5 | 6.4 效能（實測 0.59、LCP 12.5s、CLS 0.151、圖片可省 4.4MB）：slide-1/slide-3/bamboo 由 2752px 約 1.5MB 壓成 1920px q72，並新增 -768.jpg 手機版（HomeContent 在沒有 mobile_image_url 時自動使用）；Google Fonts CSS 改 media=print 非阻塞；gtag.js 延後到 load + idle。CLS 來源未確認，部署後重測，若仍 > 0.1 再用 Performance 面板找出元素 |
 | 2026-11-15 | Claude Sonnet 5.5 | 6.5 PWA：新增 manifest.webmanifest（standalone、scope /、背景 #f3f1ea）、icon-192 / icon-512 / apple-touch-icon（依 Layout logo 繪製，logo 佔 52% 以落在 maskable 安全區）；Layout head 加 manifest、apple-touch-icon、iOS 全螢幕 meta、手機版 theme-color 白色（桌面維持 #2d4a3e，以 media 區分）。body 內原有的 theme-color meta 未動    |
+| 2026-11-15 | Claude Sonnet 5.5 | 6.3b 線上實測 a11y 0.96 達標（Hero 角色修正生效），6.3 標為完成；另修 color-contrast：底部 Tab 文字 #6b7a70 對 #fefefe 僅 4.48，--m-muted 改 #5f6f64（對白 5.28、對 --m-bg 4.71）。純 CSS 變數，桌面版不受影響                                                                                                                             |
