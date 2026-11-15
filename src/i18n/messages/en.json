@@ -197,7 +197,8 @@
         "resin": "Amber / resin",
         "any": "No preference"
       }
-    }
+    },
+    "next": "Next"
   },
   "checkout": {
     "success_title": "Thank you for your reservation",

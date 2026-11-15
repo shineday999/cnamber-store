@@ -197,7 +197,8 @@
         "resin": "Amber / resin",
         "any": "Tiada keutamaan"
       }
-    }
+    },
+    "next": "Seterusnya"
   },
   "checkout": {
     "success_title": "Terima kasih atas tempahan anda",

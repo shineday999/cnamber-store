@@ -1361,3 +1361,155 @@
     font-weight: 600;
   }
 }
+
+/* ===== app-shell 4.1：問答 一題一畫面 ===== */
+.qw-progress,
+.qw-count,
+.qw-bar {
+  display: none;
+}
+
+@media (max-width: 767.98px) {
+  [data-quiz-page] {
+    padding-top: 16px;
+    padding-bottom: 112px;
+  }
+  /* 頂部列已有返回鍵與標題 → 隱藏頁內的返回連結與大標題 */
+  [data-quiz-page] > a,
+  [data-quiz-page] > header {
+    display: none;
+  }
+
+  /* 啟動前先只顯示第一題，避免整份表單閃一下 */
+  form[data-qw-pending] fieldset:not(:first-of-type) {
+    display: none;
+  }
+  form[data-qw-on] fieldset:not(.qw-current) {
+    display: none;
+  }
+  form[data-qw-on] > button[type="submit"] {
+    display: none;
+  }
+
+  /* 題目：取消卡片外框，標題放大 */
+  main form[data-quiz] fieldset {
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+  main form[data-quiz] fieldset.qw-current {
+    animation: qw-in 0.2s ease-out;
+  }
+  @keyframes qw-in {
+    from {
+      opacity: 0;
+      transform: translateX(16px);
+    }
+  }
+  main form[data-quiz] legend {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    margin-bottom: 18px;
+    padding: 0;
+  }
+  main form[data-quiz] legend > span:last-child {
+    font-size: 22px;
+    line-height: 1.3;
+  }
+
+  /* 選項：單欄、大磚塊 */
+  main form[data-quiz] fieldset .grid {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+  main form[data-quiz] fieldset .grid > label {
+    min-height: 56px;
+    padding: 0 16px;
+    border-width: 1.5px;
+    border-radius: 14px;
+    box-shadow: none;
+  }
+  main form[data-quiz] fieldset .grid > label span {
+    font-size: 16px !important;
+  }
+  main form[data-quiz] input[type="radio"] {
+    flex: none;
+    width: 22px;
+    height: 22px;
+    min-height: 0;
+    margin: 0;
+    border-radius: 50%;
+  }
+
+  /* 進度條（固定在頂部列正下方）與「2 / 5」 */
+  form[data-qw-on] .qw-progress {
+    position: fixed;
+    top: calc(var(--m-header-h) + env(safe-area-inset-top, 0px));
+    right: 0;
+    left: 0;
+    z-index: 55;
+    display: block;
+    height: 4px;
+    background: rgba(0, 0, 0, 0.08);
+  }
+  .qw-fill {
+    width: 0;
+    height: 100%;
+    border-radius: 0 4px 4px 0;
+    background: var(--m-accent);
+    transition: width 0.25s ease;
+  }
+  form[data-qw-on] .qw-count {
+    display: block;
+    margin: 0 0 12px;
+    color: var(--m-muted);
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  /* 底部固定操作列（疊在 Tab 列正上方） */
+  form[data-qw-on] .qw-bar {
+    position: fixed;
+    right: 0;
+    bottom: calc(var(--m-tab-h) + env(safe-area-inset-bottom, 0px));
+    left: 0;
+    z-index: 55;
+    display: flex;
+    gap: 10px;
+    padding: 10px 16px;
+    border-top: 1px solid rgba(0, 0, 0, 0.07);
+    background: rgba(255, 255, 255, 0.96);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+  main form .qw-prev {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    min-height: 48px;
+    padding: 0;
+    border: 1.5px solid rgba(0, 0, 0, 0.15);
+    border-radius: 50%;
+    background: #fff;
+    color: var(--m-ink);
+  }
+  main form .qw-prev[hidden] {
+    display: none;
+  }
+  main form .qw-next {
+    flex: 1;
+    min-height: 48px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--m-accent);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  main form .qw-next:disabled {
+    opacity: 0.4;
+  }
+}
