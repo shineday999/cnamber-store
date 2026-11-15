@@ -98,6 +98,7 @@
   },
   "quiz": {
     "intro": "Beberapa soalan kecil — biar saya cari satu untuk anda, perlahan.",
+    "kicker": "Cari padanan anda",
     "start": "Mula",
     "recommend": "Pilih satu untuk anda",
     "retake": "Tanya lagi",
