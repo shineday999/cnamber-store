@@ -12,15 +12,18 @@ const pageDescription = t("home.hero_p3") ?? "";
 // Wave 62: SSR inject 動態 LCP preload (zh-Hans default)
 // try/catch 包 D1 query 防 SSR fail → 15 bytes partial HTML
 let lcpImageUrl: string | null = null;
+let lcpMobileImageUrl: string | null = null;
 try {
   if (env?.DB) {
     const row = await env.DB.prepare(
-      "SELECT image_url FROM hero_banners WHERE active = 1 ORDER BY sort_order ASC, created_at ASC LIMIT 1",
-    ).first<{ image_url: string }>();
+      "SELECT image_url, mobile_image_url FROM hero_banners WHERE active = 1 ORDER BY sort_order ASC, created_at ASC LIMIT 1",
+    ).first<{ image_url: string; mobile_image_url: string | null }>();
     lcpImageUrl = row?.image_url ?? null;
+    lcpMobileImageUrl = row?.mobile_image_url || row?.image_url || null;
   }
 } catch {
   lcpImageUrl = null;
+  lcpMobileImageUrl = null;
 }
 ---
 
@@ -31,7 +34,15 @@ try {
         <link
           rel="preload"
           as="image"
+          href={lcpMobileImageUrl ?? lcpImageUrl}
+          media="(max-width: 768px)"
+          fetchpriority="high"
+        />
+        <link
+          rel="preload"
+          as="image"
           href={lcpImageUrl}
+          media="(min-width: 769px)"
           fetchpriority="high"
         />
       </Fragment>
