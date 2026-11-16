@@ -144,7 +144,10 @@ const productJsonLd = {
   "@type": "Product",
   name: tr.name,
   description: (tr.short_description ?? tr.description ?? "").slice(0, 500),
-  image: images.length > 0 ? images : undefined,
+  image:
+    images.length > 0
+      ? images.map((u) => (u.startsWith("http") ? u : `${siteUrl}${u}`))
+      : undefined,
   brand: { "@type": "Brand", name: siteName ?? t("common.site_name") },
   sku: variants.results[0]?.sku ?? product.id,
   offers: {
@@ -170,6 +173,8 @@ void locale;
 <Layout
   title={pageTitle}
   description={tr.short_description ?? tr.description.slice(0, 160)}
+  ogImage={heroImage || undefined}
+  ogType="product"
 >
   <Fragment slot="head">
     <script
