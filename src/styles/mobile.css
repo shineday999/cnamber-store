@@ -2276,3 +2276,27 @@
     background: rgba(63, 107, 79, 0.14);
   }
 }
+
+/* ===== app-shell 2.12：首頁 Hero 圖片原色顯示（不變暗、不模糊） ===== */
+/* 試做：只動手機版；桌面版不變。必須放在 2.1 / 2.7 之後 */
+@media (max-width: 767.98px) {
+  /* 圖片不透明度固定 1：蓋過 JS 行內的 0.85 與 reduced-motion 的 0.6 */
+  main [data-home-hero] img.hero-slide-active {
+    opacity: 1 !important;
+  }
+  /* 停用緩慢放大：放大會讓點陣圖重新取樣而變軟 */
+  main [data-home-hero] img.hero-slide {
+    animation: none !important;
+  }
+  /* 取消整片深色漸層，只留底部一條薄漸層給圓點與文字 */
+  main [data-home-hero] > .absolute.inset-0 > .bg-gradient-to-br {
+    display: none;
+  }
+  main [data-home-hero] > .absolute.inset-0 > .bg-gradient-to-t {
+    background-image: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.3),
+      transparent 40%
+    );
+  }
+}
