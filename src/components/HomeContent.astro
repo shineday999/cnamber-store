@@ -13,6 +13,38 @@ const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
 const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
 const t = createT(messages);
 
+// 後台「分類圖片」：沒上傳（或資料表還不存在）時沿用靜態預設圖
+const catImages = {
+  jewelry: {
+    src: "/images/banners/cat-jewelry.jpg",
+    small: "/images/banners/cat-jewelry-480.jpg",
+  },
+  incense: {
+    src: "/images/banners/cat-incense.jpg",
+    small: "/images/banners/cat-incense-480.jpg",
+  },
+};
+if (env?.DB) {
+  try {
+    const catRows = await env.DB.prepare(
+      "SELECT key, url, url_small FROM site_images WHERE key IN ('cat_jewelry', 'cat_incense')",
+    ).all<{ key: string; url: string; url_small: string | null }>();
+    for (const r of catRows.results ?? []) {
+      const slot =
+        r.key === "cat_jewelry"
+          ? "jewelry"
+          : r.key === "cat_incense"
+            ? "incense"
+            : null;
+      if (slot && r.url) {
+        catImages[slot] = { src: r.url, small: r.url_small || r.url };
+      }
+    }
+  } catch {
+    // site_images 還沒建立：維持預設圖
+  }
+}
+
 // Wave 28.7f: 首頁 hero 大標 + 副標題 從 D1 site_settings 讀
 // (admin 編輯即時生效,4 語各自獨立,缺值 fallback i18n home.hero_title/subtitle)
 const siteSettings = Astro.locals.siteSettings;
@@ -384,8 +416,8 @@ const slides = bannerRows.results.map((b) => ({
         >
           <img
             decoding="async"
-            src="/images/banners/cat-jewelry.jpg"
-            srcset="/images/banners/cat-jewelry-480.jpg 480w, /images/banners/cat-jewelry.jpg 800w"
+            src={catImages.jewelry.src}
+            srcset={`${catImages.jewelry.small} 480w, ${catImages.jewelry.src} 800w`}
             sizes="(max-width: 767px) 50vw, 700px"
             alt={t("home.cat_amber_alt")}
             class="w-full h-full object-cover cinematic group-hover:scale-[1.06] transition-transform duration-[1400ms] ease-out"
@@ -427,8 +459,8 @@ const slides = bannerRows.results.map((b) => ({
         >
           <img
             decoding="async"
-            src="/images/banners/cat-incense.jpg"
-            srcset="/images/banners/cat-incense-480.jpg 480w, /images/banners/cat-incense.jpg 800w"
+            src={catImages.incense.src}
+            srcset={`${catImages.incense.small} 480w, ${catImages.incense.src} 800w`}
             sizes="(max-width: 767px) 50vw, 700px"
             alt={t("home.cat_incense_alt")}
             class="w-full h-full object-cover cinematic group-hover:scale-[1.06] transition-transform duration-[1400ms] ease-out"
