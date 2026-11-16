@@ -552,7 +552,19 @@
       "no_image": "暂无封面图",
       "label_image": "更换封面图",
       "hint_image": "上传新图会替换当前封面",
-      "upload_image": "上传新图"
+      "upload_image": "上传新图",
+      "tr_title": "多语言内容",
+      "tr_hint": "以英文为基准。马来文、印尼文留空的栏位会先带入英文，请翻译后再保存。",
+      "tr_save_all": "保存全部语言",
+      "tr_saving": "保存中…",
+      "tr_saved": "已保存",
+      "tr_unsaved": "有未保存的更改",
+      "tr_copy_en": "从英文复制",
+      "tr_copy_confirm": "这会覆盖该语言目前的内容，确定吗？",
+      "tr_auto_note": "已带入英文，待翻译",
+      "tr_err_incomplete": "名称和描述需同时填写：",
+      "tr_err_empty": "至少要填写一种语言的名称和描述",
+      "tr_err_too_long": "内容过长，请缩短："
     },
     "products_new": {
       "title": "新增产品",
