@@ -2,6 +2,7 @@
 // - 所有函式第一個參數都是 D1Database，方便測試時換成假的；頁面與 API 用 getDB() 傳入
 // - 不在這裡 import ../db 的執行期內容（它依賴 cloudflare:workers，測試環境載不到），只 import type
 import type { Product, ProductTranslation } from "../db";
+import { isValidTaxonomy } from "../product-taxonomy";
 import {
   tagsFromDb,
   tagsToDb,
@@ -13,7 +14,11 @@ import {
 // ───────────────────────── 共用 ─────────────────────────
 
 export type RepoErrorCode =
-  "not_found" | "slug_taken" | "sku_taken" | "last_variant";
+  | "not_found"
+  | "slug_taken"
+  | "sku_taken"
+  | "last_variant"
+  | "invalid_category";
 
 export class RepoError extends Error {
   code: RepoErrorCode;
@@ -380,6 +385,8 @@ export async function createProduct(
   db: D1Database,
   input: ProductCreateInput,
 ): Promise<string> {
+  if (!isValidTaxonomy(input.category, input.subcategory))
+    throw new RepoError("invalid_category");
   if (await isSlugTaken(db, input.slug)) throw new RepoError("slug_taken");
 
   const id = newId("prod");
@@ -425,11 +432,18 @@ export async function updateProduct(
   id: string,
   patch: ProductPatch,
 ): Promise<void> {
-  const exists = await db
-    .prepare("SELECT 1 AS x FROM products WHERE id = ?")
+  const current = await db
+    .prepare("SELECT category, subcategory FROM products WHERE id = ?")
     .bind(id)
-    .first();
-  if (!exists) throw new RepoError("not_found");
+    .first<{ category: string; subcategory: string | null }>();
+  if (!current) throw new RepoError("not_found");
+  if (patch.category !== undefined || patch.subcategory !== undefined) {
+    const category = patch.category ?? current.category;
+    const subcategory =
+      patch.subcategory !== undefined ? patch.subcategory : current.subcategory;
+    if (!isValidTaxonomy(category, subcategory))
+      throw new RepoError("invalid_category");
+  }
   if (patch.slug !== undefined && (await isSlugTaken(db, patch.slug, id))) {
     throw new RepoError("slug_taken");
   }

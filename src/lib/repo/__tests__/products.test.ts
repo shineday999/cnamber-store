@@ -21,7 +21,7 @@ const db = (await createTestDb()) as unknown as D1Database | null;
 function sample(over: Record<string, unknown> = {}) {
   return ProductCreateSchema.parse({
     category: "jewelry",
-    subcategory: "pendant",
+    subcategory: "necklace",
     slug: "test-pendant",
     tags: ["calm", "gift"],
     translations: [
@@ -149,6 +149,7 @@ describe.skipIf(!db)("products repository", () => {
         sample({
           slug: `item-${i}`,
           category: i <= 3 ? "jewelry" : "incense",
+          subcategory: i <= 3 ? "necklace" : "stick",
           status: i === 1 ? "active" : "draft",
           variants: [{ sku: `SKU-${i}` }],
           translations: [
@@ -236,6 +237,23 @@ describe.skipIf(!db)("products repository", () => {
     await expect(
       updateProduct(db!, "nope", { status: "active" }),
     ).rejects.toMatchObject({ code: "not_found" });
+  });
+
+  it("分類與子分類必須在 taxonomy 內", async () => {
+    await expect(
+      createProduct(db!, sample({ category: "shoes" })),
+    ).rejects.toMatchObject({ code: "invalid_category" });
+    await expect(
+      createProduct(db!, sample({ subcategory: "stick" })),
+    ).rejects.toMatchObject({ code: "invalid_category" });
+    const id = await createProduct(db!, sample());
+    await expect(
+      updateProduct(db!, id, { subcategory: "stick" }),
+    ).rejects.toMatchObject({ code: "invalid_category" });
+    await updateProduct(db!, id, { category: "incense", subcategory: "oil" });
+    expect((await getProduct(db!, id))?.category).toBe("incense");
+    await updateProduct(db!, id, { subcategory: null });
+    expect((await getProduct(db!, id))?.subcategory).toBeNull();
   });
 
   it("setProductStatus", async () => {

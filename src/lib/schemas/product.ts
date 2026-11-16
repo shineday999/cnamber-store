@@ -98,8 +98,15 @@ export const ProductCreateSchema = z.object({
 // 更新：所有欄位皆選填，且不套用 default（沒帶的欄位維持原值）
 export const ProductUpdateSchema = z.object(fields).partial();
 
+// PATCH 用：不含 variants（變體走獨立 API）
+export const ProductPatchSchema = z
+  .object(fields)
+  .omit({ variants: true })
+  .partial();
+
 export type ProductCreateInput = z.infer<typeof ProductCreateSchema>;
 export type ProductUpdateInput = z.infer<typeof ProductUpdateSchema>;
+export type ProductPatchInput = z.infer<typeof ProductPatchSchema>;
 export type VariantInput = z.infer<typeof VariantInputSchema>;
 export type TranslationInput = z.infer<typeof TranslationSchema>;
 
@@ -107,3 +114,6 @@ export type TranslationInput = z.infer<typeof TranslationSchema>;
 export const tagsToDb = (tags: string[]): string => tags.join(",");
 export const tagsFromDb = (s: string | null | undefined): string[] =>
   (s ?? "").split(/[,;\s]+/).filter(Boolean);
+
+// PUT /variants/:id/prices 的請求內容
+export const SetPricesBodySchema = z.object({ prices: PricesSchema });

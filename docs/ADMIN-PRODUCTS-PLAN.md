@@ -11,13 +11,14 @@
    原因：資料表變更會連動前台查詢，若中途就部署 main，前台可能壞掉。
 3. **做完同一個 commit 內更新本文件**：狀態改 ✅、填日期，並在文末「更新紀錄」加一行。
 4. commit 格式：`feat(admin-products): 1.3 add repo list/get`。
-5. 合併前跑：`pnpm check && pnpm build`。部署由 GitHub Actions 的 deploy workflow 手動觸發；整合分支在階段 6 之前不部署到正式環境。
+5. 合併前跑：`pnpm check && pnpm build`。部署由 GitHub Actions 的 deploy workflow 手動觸發；部署依規則 12 自動進行。
 6. **Migration 編號先認領**：目前最後一個是 `0013`。需要新增 migration 的步驟，已在「內容」欄預留編號（0014 起），不要自己另取號碼。因為資料是假的，可以重建資料表或清資料，但**不要修改已套用過的舊 migration 檔**（D1 不會重跑），一律用新的 migration 處理。會讓前台壞掉的刪除類動作（例如 `DROP COLUMN`）統一放到階段 6。
 7. **Migration 先在本機驗證**（`wrangler d1 migrations apply --local`），正式環境由 Lead 在階段 6 統一套用。
 8. **契約先於實作**：`src/lib/schemas/product.ts`（階段 0）合併前，其他階段只能做原型；之後要改 schema 必須開 PR 並在更新紀錄註明，讓所有人知道。
 9. **i18n 鍵統一用 `admin.products_v2.*` 前綴**，只新增、不改舊的 `admin.products_*`（階段 6 再統一刪除舊鍵，避免多人同時改同一個 JSON 而衝突）；後台文案維持簡體（zh-Hans），與現有後台一致。
 10. **前台只在指定步驟才能動**：除了 1.8（前台查詢調整），不改前台頁面、`src/styles/mobile.css`、`quiz.ts` 既有行為；需要動時先在「已知問題」記錄並找 Lead 確認。
 11. **編輯頁避免多人改同一個檔**：`[id].astro` 只在 4.4 由一個人完成骨架，之後各頁籤各自是獨立元件檔（`src/components/admin/products/tabs/`），每人只改自己認領的那一個。
+12. **每個步驟完成後自動 push 並觸發部署**（`bash scripts/ship.sh`，依使用者 2026-11-15 的指示）。資料庫 migration 不會因此自動套用到正式環境，需要時由 Lead 手動執行。
 
 狀態符號：⬜ 未開始　🟡 進行中　✅ 完成
 
@@ -34,17 +35,17 @@
 
 「資料可直接刪改」已由使用者確認（2026-11-15），相關項目已定案；其餘仍是建議預設，0.2 確認前先不要照這個實作。
 
-| 項目       | 決定／建議預設                                                                                                                                                         | 狀態                           |
-| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ |
-| 舊資料處理 | 測試資料，直接清空重建；不寫資料轉換、不做舊資料回歸                                                                                                                   | 已定案（2026-11-15）           |
-| 切換方式   | 直接改寫原路徑 `/admin/products`，不保留舊頁、不做 `-next` 並存                                                                                                        | 已定案（2026-11-15）           |
-| 價格來源   | 以 `product_prices` 為準；`price_base` 前台只有 `products/[slug].astro` 的 SELECT 與型別用到，1.8 移除後即可在 6.5 刪欄位                                              | 待確認                         |
-| 分類       | 新增 `product_categories` 表，預設 jewelry、incense 兩筆                                                                                                               | 待確認                         |
-| tags       | 從 `quiz.ts` 的選項值產生可選清單，不再手打；不需支援舊的任意文字                                                                                                      | 待確認                         |
-| 圖片儲存   | R2，經 `/api/images/<key>` 提供（banners 已使用；商品封面現有 `api/admin/products/[id]/image.ts`）；2.4 由此抽出共用上傳                                               | 已定案（依程式碼，2026-11-15） |
-| 刪除策略   | 目前直接刪除（連帶變體、翻譯、價格、評論），保留二次確認；有真實訂單前再補軟刪除（見後續階段）                                                                         | 待確認                         |
-| 封面圖     | 前台所有商品圖都讀變體 `image_urls[0]`，`products.image_url` 只有後台使用。建議：以變體圖片為主，儲存時同步第一張到 `products.image_url`（僅供後台列表縮圖），前台不動 | 待確認                         |
-| FAQ        | 已有 `/admin/faqs` 與 `api/admin/faqs.ts`（格式 `{locale:[{q,a}]}`，同時服務 products 與 posts）；商品編輯頁只放連結，不重做                                           | 已定案（依程式碼，2026-11-15） |
+| 項目       | 決定／建議預設                                                                                                                                                                                                                | 狀態                           |
+| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ |
+| 舊資料處理 | 測試資料，直接清空重建；不寫資料轉換、不做舊資料回歸                                                                                                                                                                          | 已定案（2026-11-15）           |
+| 切換方式   | 直接改寫原路徑 `/admin/products`，不保留舊頁、不做 `-next` 並存                                                                                                                                                               | 已定案（2026-11-15）           |
+| 價格來源   | 以 `product_prices` 為準；`price_base` 前台只有 `products/[slug].astro` 的 SELECT 與型別用到，1.8 移除後即可在 6.5 刪欄位                                                                                                     | 待確認                         |
+| 分類       | 程式內常數 `src/lib/product-taxonomy.ts`（jewelry：necklace、bracelet、earring、ring；incense：stick、balm、oil）；`categories` 與 `product_categories` 皆未被程式使用，6.5 的 migration 一併 `DROP TABLE product_categories` | 已定案（2026-11-15）           |
+| tags       | 從 `quiz.ts` 的選項值產生可選清單，不再手打；不需支援舊的任意文字                                                                                                                                                             | 待確認                         |
+| 圖片儲存   | R2，經 `/api/images/<key>` 提供（banners 已使用；商品封面現有 `api/admin/products/[id]/image.ts`）；2.4 由此抽出共用上傳                                                                                                      | 已定案（依程式碼，2026-11-15） |
+| 刪除策略   | 直接刪除（連帶變體、翻譯、價格、評論），API 需帶 `?confirm=<slug>`；有真實訂單前再補軟刪除（後續階段 11）                                                                                                                     | 已定案（2026-11-15）           |
+| 封面圖     | 前台所有商品圖都讀變體 `image_urls[0]`，`products.image_url` 只有後台使用。建議：以變體圖片為主，儲存時同步第一張到 `products.image_url`（僅供後台列表縮圖），前台不動                                                        | 待確認                         |
+| FAQ        | 已有 `/admin/faqs` 與 `api/admin/faqs.ts`（格式 `{locale:[{q,a}]}`，同時服務 products 與 posts）；商品編輯頁只放連結，不重做                                                                                                  | 已定案（依程式碼，2026-11-15） |
 
 ## 階段 0：契約與決策
 
@@ -55,7 +56,7 @@
 | 0.3  | 補齊 `lib/db.ts` 型別：`Product` 加 `image_url`、`tags`、`faq`；新增 `ProductPrice` 型別（與實際資料表一致）                             | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
 | 0.4  | 新增 `src/lib/schemas/product.ts`（zod）：商品、翻譯、變體、價格、建立請求、更新請求；需先完成 0.2、0.3                                  | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
 | 0.5  | 確認 migration 0002 是否遺失（清單從 0001 跳到 0003）；若是刻意跳號，在「決策紀錄」註明；若遺失，確認新環境重建 DB 時是否會出問題        | ⬜   |                   |            |
-| 0.6  | 撰寫 API 規格（路徑、方法、請求與回應 schema、錯誤格式）放在 `docs/ADMIN-PRODUCTS-API.md`；需先完成 0.4                                  | ⬜   |                   |            |
+| 0.6  | 撰寫 API 規格（路徑、方法、請求與回應 schema、錯誤格式）放在 `docs/ADMIN-PRODUCTS-API.md`；需先完成 0.4                                  | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
 | 0.7  | Lead 建立整合分支 `feat/admin-products` 並通知全員                                                                                       | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
 
 ## 階段 1：資料層
@@ -73,14 +74,14 @@
 
 ## 階段 2：API
 
-| 步驟 | 內容                                                                                                                                                  | 狀態 | 負責人 | 完成日 |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ---- | ------ | ------ |
-| 2.1  | 商品 API 重寫：`api/admin/products/index.ts`、`[id]/index.ts` 改用 zod 驗證與統一錯誤格式；需先完成 0.6                                               | ⬜   |        |        |
-| 2.2  | 變體 API：`api/admin/products/[id]/variants.ts`（新增、更新、刪除）；需先完成 2.1                                                                     | ⬜   |        |        |
-| 2.3  | 價格 API：`api/admin/products/[id]/prices.ts`（批次寫入多幣別）；需先完成 2.1                                                                         | ⬜   |        |        |
-| 2.4  | 圖片上傳 API：由現有 `api/admin/products/[id]/image.ts` 抽出共用 endpoint（R2、`/api/images/`），限制 JPG/PNG/WebP/GIF 與 5MB，回傳 URL；需先完成 0.2 | ⬜   |        |        |
-| 2.5  | 刪除 API：直接刪除商品與關聯資料，需帶確認參數，避免誤觸；需先完成 2.1                                                                                | ⬜   |        |        |
-| 2.6  | API 驗收：用 curl 或測試腳本逐一打過 2.1 ~ 2.5，錯誤情境（未登入、欄位缺漏、重複 slug）都有明確回應                                                   | ⬜   |        |        |
+| 步驟 | 內容                                                                                                                                                 | 狀態 | 負責人            | 完成日     |
+| ---- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ---- | ----------------- | ---------- |
+| 2.1  | 商品 API 重寫為 JSON：`POST /api/admin/products`、`PATCH`／`DELETE /api/admin/products/:id`（zod 驗證、統一錯誤格式、viewer 回 403）                 | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
+| 2.2  | 變體 API：`api/admin/products/[id]/variants.ts`（新增、更新、刪除）；需先完成 2.1                                                                    | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
+| 2.3  | 價格 API：`api/admin/products/[id]/prices.ts`（批次寫入多幣別）；需先完成 2.1                                                                        | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
+| 2.4  | 圖片上傳 API：`POST /api/admin/uploads/image`（R2、`/api/images/`），以檔頭位元組判斷格式，限制 JPG/PNG/WebP/GIF 與 5MB；舊的 `[id]/image.ts` 已移除 | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
+| 2.5  | 刪除 API：`DELETE /api/admin/products/:id?confirm=<slug>`，沒帶或帶錯回 400，連帶刪除相關資料                                                        | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
+| 2.6  | API 驗收：以處理函式測試取代 curl（權限、驗證錯誤、重複 slug／SKU、最後一個變體、上傳格式與大小等）                                                  | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
 
 ## 階段 3：共用元件（`src/components/admin/products/`）
 
@@ -120,14 +121,14 @@
 
 ## 階段 6：驗收與上線（Lead 負責）
 
-| 步驟 | 內容                                                                                                                                                         | 狀態 | 負責人 | 完成日 |
-| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---- | ------ | ------ |
-| 6.1  | 驗收清單實測：在本機清空資料（1.7 的重置腳本），用新後台建立完整商品（4 語、2 變體、3 幣別）、編輯、上架、下架、刪除                                         | ⬜   |        |        |
-| 6.2  | 前台回歸：商品列表、商品詳情、購物車、推薦測驗結果、預訂流程都正常                                                                                           | ⬜   |        |        |
-| 6.3  | 整合分支合併進 main；部署前先確認 `pnpm check && pnpm build` 通過                                                                                            | ⬜   |        |        |
-| 6.4  | 正式環境：套用 migration `0014`、`0015`，執行重置腳本並載入新示範資料；**重置前先確認訂單與評論是否也是測試資料**，若不是，腳本只清商品相關表並改為先備份 D1 | ⬜   |        |        |
-| 6.5  | migration `0017`：移除 `product_variants.price_base`（僅在決策為「移除」且 1.8 已部署、前台確認不再使用後才做）                                              | ⬜   |        |        |
-| 6.6  | 清理：移除 `_demo` 展示頁、舊的 `admin.products_*` 文案、不再使用的舊 seed 檔；文件標示完成                                                                  | ⬜   |        |        |
+| 步驟 | 內容                                                                                                                                                                   | 狀態 | 負責人 | 完成日 |
+| ---- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---- | ------ | ------ |
+| 6.1  | 驗收清單實測：在本機清空資料（1.7 的重置腳本），用新後台建立完整商品（4 語、2 變體、3 幣別）、編輯、上架、下架、刪除                                                   | ⬜   |        |        |
+| 6.2  | 前台回歸：商品列表、商品詳情、購物車、推薦測驗結果、預訂流程都正常                                                                                                     | ⬜   |        |        |
+| 6.3  | 整合分支合併進 main；部署前先確認 `pnpm check && pnpm build` 通過                                                                                                      | ⬜   |        |        |
+| 6.4  | 正式環境：套用 migration `0014`、`0015`，執行重置腳本並載入新示範資料；**重置前先確認訂單與評論是否也是測試資料**，若不是，腳本只清商品相關表並改為先備份 D1           | ⬜   |        |        |
+| 6.5  | migration `0017`：移除 `product_variants.price_base`（僅在決策為「移除」且 1.8 已部署、前台確認不再使用後才做）；同一支 migration 一併 `DROP TABLE product_categories` | ⬜   |        |        |
+| 6.6  | 清理：移除 `_demo` 展示頁、舊的 `admin.products_*` 文案、不再使用的舊 seed 檔；文件標示完成                                                                            | ⬜   |        |        |
 
 ## 後續階段（尚未拆步驟）
 
@@ -155,18 +156,21 @@
 - FAQ 已有 `/admin/faqs`，格式 `{locale:[{q,a}]}` 與 zod `FaqSchema` 一致；原計畫的 FaqEditor（3.6、4.9）改為略過／連結
 - 現有商品 API 為 form POST 且新增時固定 `status=draft`（`api/admin/products/index.ts`），新 API 要維持 form 或改 JSON，需在 0.6 規格定案
 - `products.slug` 原本沒有唯一限制（schema dump 確認），已由 migration 0016 補上唯一索引；`product_prices` 本來就以 (variant_id, currency) 為主鍵，0015 的唯一索引是重複的（無害）
-- 資料庫原本就有 `categories`（含 parent_id）與 `category_translations`，與 1.1 新增的 `product_categories` 概念重疊；需確認 `categories` 是否被使用，再決定合併或刪除其一（見決策紀錄「分類」）
+- 資料庫的 `categories`、`category_translations`、`product_categories` 都沒有被程式使用（掃描確認），分類改用程式內常數；`product_categories` 於 6.5 一併刪除，`categories` 屬既有遺留表，暫不處理
+- 舊 API 沒有檢查角色；新 API 寫入需 editor 以上，viewer 回 403
+- API 已改為 JSON（舊的 form POST + redirect 已移除）：階段 4 重寫頁面之前，後台商品的新增、編輯、刪除頁面無法使用；整合分支不部署，可接受
 - `product_variants.price_base` 仍是 NOT NULL，repository 會依價格寫入（`derivePriceBase`），6.5 移除欄位時一併拿掉
 - 專案實際安裝的是 zod 4；測試用 `process.getBuiltinModule` 載入 node:sqlite（vitest 2.x 的 vite-node 不認得該模組）；tsconfig 開了 noUncheckedIndexedAccess，新測試要用 `!` 或 `?.` 取陣列元素
 
 ## 更新紀錄
 
-| 日期       | 人                | 內容                                                                                                                                                                                                                                                                                                                    |
-| ---------- | ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 2026-11-15 | Claude Sonnet 5.5 | 建立進度文件：依現有後台產品頁、`lib/db.ts`、migration 清單與 `quiz.ts` 拆出階段 0 ~ 6，所有步驟尚未認領                                                                                                                                                                                                                |
-| 2026-11-15 | Claude Sonnet 5.5 | 依「商品皆為測試資料、可直接刪改」修訂：移除 `/admin/products-next` 並存與舊資料回歸；改為直接取代原路徑 + 整合分支；新增 0.7、1.7 資料重置與示範資料、1.8 前台查詢調整；刪除類 migration 移到 6.5；刪除策略簡化                                                                                                        |
-| 2026-11-15 | Claude Sonnet 5.5 | 認領並以 admin-products-bootstrap.sh 實作 0.1（使用處盤點輸出）、0.3（db.ts 型別）、0.4（zod 契約）、0.7（整合分支）、1.1（migration 0014）、1.2（migration 0015，不含 DROP）、1.7 的重置與示範資料腳本；狀態暫為 🟡，本機執行並通過 `pnpm check && pnpm build` 後改 ✅。1.7 尚餘「移除舊 scripts/seed.sql 的商品部分」 |
-| 2026-11-15 | Claude Sonnet 5.5 | 0.1 0.3 0.4 0.7 1.1 1.2 本機驗證通過（migration、`pnpm check && pnpm build`），標為 ✅；1.7 待移除舊 seed.sql 的商品部分                                                                                                                                                                                                |
-| 2026-11-15 | Claude Sonnet 5.5 | 0.1 盤點完成：前台只有 products/[slug].astro 用 `price_base`；商品圖前台只讀變體 `image_urls`；FAQ 已有 /admin/faqs；圖片為 R2。更新決策紀錄與 1.8、2.4、3.6（略過）、4.8、4.9                                                                                                                                          |
-| 2026-11-15 | Claude Sonnet 5.5 | 1.8 前台 products/[slug].astro 移除 price_base（SELECT 與 interface）；全專案另一處 `SELECT * FROM product_variants` 在 admin/products/[id].astro，由 4.4 重寫處理，6.5 須在 4.4 合併後才做                                                                                                                             |
-| 2026-11-15 | Claude Sonnet 5.5 | 1.3 ~ 1.6 完成：`lib/repo/products.ts`（list/get/create/update/delete、變體與價格、RepoError）、18 個測試（以 node:sqlite 套用 migrations 後執行，zod 3 與 4 皆驗證）、`ProductUpdateSchema` 改為不帶 default（避免 PATCH 誤重設欄位）、新增 migration 0016（slug 唯一）；原 6.5 的 DROP COLUMN 改用 0017               |
+| 日期       | 人                | 內容                                                                                                                                                                                                                                                                                                                                                    |
+| ---------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-11-15 | Claude Sonnet 5.5 | 建立進度文件：依現有後台產品頁、`lib/db.ts`、migration 清單與 `quiz.ts` 拆出階段 0 ~ 6，所有步驟尚未認領                                                                                                                                                                                                                                                |
+| 2026-11-15 | Claude Sonnet 5.5 | 依「商品皆為測試資料、可直接刪改」修訂：移除 `/admin/products-next` 並存與舊資料回歸；改為直接取代原路徑 + 整合分支；新增 0.7、1.7 資料重置與示範資料、1.8 前台查詢調整；刪除類 migration 移到 6.5；刪除策略簡化                                                                                                                                        |
+| 2026-11-15 | Claude Sonnet 5.5 | 認領並以 admin-products-bootstrap.sh 實作 0.1（使用處盤點輸出）、0.3（db.ts 型別）、0.4（zod 契約）、0.7（整合分支）、1.1（migration 0014）、1.2（migration 0015，不含 DROP）、1.7 的重置與示範資料腳本；狀態暫為 🟡，本機執行並通過 `pnpm check && pnpm build` 後改 ✅。1.7 尚餘「移除舊 scripts/seed.sql 的商品部分」                                 |
+| 2026-11-15 | Claude Sonnet 5.5 | 0.1 0.3 0.4 0.7 1.1 1.2 本機驗證通過（migration、`pnpm check && pnpm build`），標為 ✅；1.7 待移除舊 seed.sql 的商品部分                                                                                                                                                                                                                                |
+| 2026-11-15 | Claude Sonnet 5.5 | 0.1 盤點完成：前台只有 products/[slug].astro 用 `price_base`；商品圖前台只讀變體 `image_urls`；FAQ 已有 /admin/faqs；圖片為 R2。更新決策紀錄與 1.8、2.4、3.6（略過）、4.8、4.9                                                                                                                                                                          |
+| 2026-11-15 | Claude Sonnet 5.5 | 1.8 前台 products/[slug].astro 移除 price_base（SELECT 與 interface）；全專案另一處 `SELECT * FROM product_variants` 在 admin/products/[id].astro，由 4.4 重寫處理，6.5 須在 4.4 合併後才做                                                                                                                                                             |
+| 2026-11-15 | Claude Sonnet 5.5 | 1.3 ~ 1.6 完成：`lib/repo/products.ts`（list/get/create/update/delete、變體與價格、RepoError）、18 個測試（以 node:sqlite 套用 migrations 後執行，zod 3 與 4 皆驗證）、`ProductUpdateSchema` 改為不帶 default（避免 PATCH 誤重設欄位）、新增 migration 0016（slug 唯一）；原 6.5 的 DROP COLUMN 改用 0017                                               |
+| 2026-11-15 | Claude Sonnet 5.5 | 0.6 + 2.1 ~ 2.6 完成：`docs/ADMIN-PRODUCTS-API.md`、JSON API（商品、變體、價格、圖片上傳）、`lib/admin/*` 處理函式與 15 個測試、`product-taxonomy.ts`、repository 分類驗證（新增 `invalid_category`）；移除舊的 `[id]/image.ts` 與 form POST 端點；示範資料子分類 pendant 改為 necklace；新增 `scripts/ship.sh`，之後每個步驟完成後自動 push 並觸發部署 |

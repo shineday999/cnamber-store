@@ -1,7 +1,7 @@
 -- 示範商品（新結構）：2 個商品、各 2 個變體、4 種語言、3 種幣別（金額為最小單位）
 -- 假設 created_at / updated_at 為 Unix 秒
 INSERT INTO products (id, category, subcategory, slug, status, created_at, updated_at, image_url, tags, faq) VALUES
-  ('prod_demo_pendant', 'jewelry', 'pendant', 'fushun-amber-pendant', 'active',
+  ('prod_demo_pendant', 'jewelry', 'necklace', 'fushun-amber-pendant', 'active',
    CAST(strftime('%s','now') AS INTEGER), CAST(strftime('%s','now') AS INTEGER), NULL, 'calm,classic,gift', '{}'),
   ('prod_demo_incense', 'incense', 'stick', 'calm-sleep-incense-stick', 'active',
    CAST(strftime('%s','now') AS INTEGER), CAST(strftime('%s','now') AS INTEGER), NULL, 'anxiety,calm,relax,sleep,stick,woody,evening,bedtime', '{}');

@@ -1,50 +1,14 @@
 import type { APIRoute } from "astro";
 import { getDB } from "../../../../../lib/db";
+import {
+  deleteProductHandler,
+  updateProductHandler,
+} from "../../../../../lib/admin/products-api";
 
-export const POST: APIRoute = async (ctx) => {
-  if (!ctx.locals.admin) return new Response("Unauthorized", { status: 401 });
-  const id = ctx.params.id;
-  if (!id) return new Response("Missing id", { status: 400 });
+// PATCH /api/admin/products/:id — 部分更新（translations 有帶就整組取代）
+export const PATCH: APIRoute = async ({ locals, params, request }) =>
+  updateProductHandler(getDB(), locals.admin, params.id, request);
 
-  const form = await ctx.request.formData();
-  const category = String(form.get("category") ?? "");
-  const subcategory = String(form.get("subcategory") ?? "") || null;
-  const slug = String(form.get("slug") ?? "");
-  const tags = String(form.get("tags") ?? "").trim();
-  const status = String(form.get("status") ?? "");
-
-  if (!["jewelry", "incense"].includes(category)) {
-    return new Response("Invalid category", { status: 400 });
-  }
-  if (!["draft", "active", "archived"].includes(status)) {
-    return new Response("Invalid status", { status: 400 });
-  }
-  if (!slug || !/^[a-z0-9-]+$/.test(slug)) {
-    return new Response("Invalid slug", { status: 400 });
-  }
-
-  const db = getDB();
-
-  // _action=delete: cascade delete (variants/translations/prices/reviews all FK CASCADE)
-  if (String(form.get("_action") ?? "") === "delete") {
-    await db.prepare("DELETE FROM products WHERE id = ?").bind(id).run();
-    return ctx.redirect("/admin/products", 303);
-  }
-
-  await db
-    .prepare(
-      "UPDATE products SET category = ?, subcategory = ?, slug = ?, status = ?, tags = ?, updated_at = ? WHERE id = ?",
-    )
-    .bind(
-      category,
-      subcategory,
-      slug,
-      status,
-      tags,
-      Math.floor(Date.now() / 1000),
-      id,
-    )
-    .run();
-
-  return ctx.redirect(`/admin/products/${id}?tab=core`, 303);
-};
+// DELETE /api/admin/products/:id?confirm=<slug>
+export const DELETE: APIRoute = async ({ locals, params, url }) =>
+  deleteProductHandler(getDB(), locals.admin, params.id, url);
