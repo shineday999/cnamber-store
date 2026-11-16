@@ -547,7 +547,19 @@
       "toggle_to_active": "Activate",
       "toggle_to_archived": "Archive",
       "toggle_to_draft": "Revert to draft",
-      "upload_image": "Upload new image"
+      "upload_image": "Upload new image",
+      "tr_title": "Translations",
+      "tr_hint": "English is the source. Empty Malay and Indonesian fields are pre-filled with English; translate them before saving.",
+      "tr_save_all": "Save all languages",
+      "tr_saving": "Saving…",
+      "tr_saved": "Saved",
+      "tr_unsaved": "Unsaved changes",
+      "tr_copy_en": "Copy from English",
+      "tr_copy_confirm": "This will overwrite the current content of this language. Continue?",
+      "tr_auto_note": "Pre-filled from English, needs translation",
+      "tr_err_incomplete": "Name and description are both required for:",
+      "tr_err_empty": "Fill in name and description for at least one language",
+      "tr_err_too_long": "Content too long, please shorten:"
     },
     "products_new": {
       "title": "New Product",

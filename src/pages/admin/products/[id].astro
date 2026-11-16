@@ -71,6 +71,59 @@ if (!product) {
 const trByLocale = (locale: string) =>
   translations.results.find((t) => t.locale === locale);
 
+// ---- 翻譯分頁（多語言單表單） ----
+const TR_NAMES: Record<string, string> = {
+  "zh-Hans": "简体中文",
+  en: "English",
+  "ms-MY": "Bahasa Melayu",
+  "id-ID": "Bahasa Indonesia",
+};
+const TR_AUTO: string[] = ["ms-MY", "id-ID"];
+const TR_FIELDS = [
+  {
+    key: "name",
+    label: "admin.products_detail.label_name",
+    rows: 0,
+    max: 200,
+    required: true,
+  },
+  {
+    key: "short_description",
+    label: "admin.products_detail.label_short_desc",
+    rows: 0,
+    max: 500,
+    required: false,
+  },
+  {
+    key: "description",
+    label: "admin.products_detail.label_description",
+    rows: 5,
+    max: 10000,
+    required: true,
+  },
+  {
+    key: "story",
+    label: "admin.products_detail.label_story",
+    rows: 4,
+    max: 20000,
+    required: false,
+  },
+] as const;
+const trQuery = Astro.url.searchParams;
+const trErrorRaw = trQuery.get("error");
+const trLocRaw = trQuery.get("loc") ?? "";
+const trFlash = {
+  saved: trQuery.get("saved") === "1",
+  error:
+    trErrorRaw === "incomplete" ||
+    trErrorRaw === "too_long" ||
+    trErrorRaw === "empty"
+      ? trErrorRaw
+      : null,
+  loc: (LOCALES as readonly string[]).includes(trLocRaw) ? trLocRaw : null,
+};
+const trInit = trFlash.loc ?? "zh-Hans";
+
 // ---- 規格、圖片、上架檢查、標籤 ----
 const variantRow = env?.DB
   ? await env.DB.prepare(
@@ -380,91 +433,401 @@ const inputField =
     </div>
 
     <div slot="translations">
-      <div class="space-y-6 max-w-3xl">
+      <form
+        id="tr-form"
+        method="POST"
+        action={`/api/admin/products/${id}/translations`}
+        novalidate
+        class="max-w-3xl space-y-5"
+        data-init={trInit}
+        data-m-unsaved={t("admin.products_detail.tr_unsaved")}
+        data-m-saving={t("admin.products_detail.tr_saving")}
+        data-m-copy-confirm={t("admin.products_detail.tr_copy_confirm")}
+        data-m-err-incomplete={t("admin.products_detail.tr_err_incomplete")}
+        data-m-err-empty={t("admin.products_detail.tr_err_empty")}
+      >
+        {
+          trFlash.saved && (
+            <div
+              role="status"
+              class="tr-banner-ok px-4 py-3 rounded-md text-sm"
+            >
+              {t("admin.products_detail.tr_saved")}
+            </div>
+          )
+        }
+        {
+          trFlash.error && (
+            <div
+              role="alert"
+              class="tr-banner-err px-4 py-3 rounded-md text-sm"
+            >
+              {trFlash.error === "incomplete"
+                ? t("admin.products_detail.tr_err_incomplete")
+                : trFlash.error === "too_long"
+                  ? t("admin.products_detail.tr_err_too_long")
+                  : t("admin.products_detail.tr_err_empty")}
+              {trFlash.loc && trFlash.error !== "empty"
+                ? ` ${TR_NAMES[trFlash.loc]}`
+                : ""}
+            </div>
+          )
+        }
+
+        <div>
+          <h2 class="font-serif text-xl">
+            {t("admin.products_detail.tr_title")}
+          </h2>
+          <p class="text-sm text-text-muted mt-1">
+            {t("admin.products_detail.tr_hint")}
+          </p>
+        </div>
+
+        <div
+          role="tablist"
+          data-tr-tabs
+          class="flex flex-wrap gap-1 border-b border-text-muted/20"
+        >
+          {
+            LOCALES.map((loc) => (
+              <button
+                type="button"
+                role="tab"
+                id={`tr-tab-${loc}`}
+                aria-controls={`tr-panel-${loc}`}
+                aria-selected={loc === trInit ? "true" : "false"}
+                data-tr-tab={loc}
+                class="px-4 py-2 text-sm text-text-muted flex items-center gap-2 -mb-px border-b-2 border-transparent hover:text-forest-700"
+              >
+                <span class="tr-tabname">{TR_NAMES[loc]}</span>
+                <span data-tr-dot={loc} data-state="empty" />
+              </button>
+            ))
+          }
+        </div>
+
         {
           LOCALES.map((loc) => {
             const tr = trByLocale(loc);
+            const isAuto = TR_AUTO.includes(loc);
             return (
-              <form
-                method="POST"
-                action={`/api/admin/products/${id}/translations`}
-                class="bg-bg-card border border-text-muted/20 rounded-card p-6 space-y-3"
+              <section
+                role="tabpanel"
+                id={`tr-panel-${loc}`}
+                aria-labelledby={`tr-tab-${loc}`}
+                data-tr-panel={loc}
+                hidden={loc !== trInit}
+                class="bg-bg-card border border-text-muted/20 rounded-card p-6 space-y-4"
               >
-                <input type="hidden" name="locale" value={loc} />
-                <h3 class="font-serif text-lg">{loc}</h3>
-                <div>
-                  <label
-                    class="block text-sm font-medium mb-1"
-                    for={`name-${loc}`}
-                  >
-                    {t("admin.products_detail.label_name")}
-                  </label>
-                  <input
-                    id={`name-${loc}`}
-                    name="name"
-                    value={tr?.name ?? ""}
-                    required
-                    class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
-                  />
+                <div class="flex items-center justify-between gap-3">
+                  <h3 class="font-serif text-lg">
+                    {TR_NAMES[loc]}
+                    <span class="text-xs text-text-muted font-sans ml-1">
+                      {loc}
+                    </span>
+                  </h3>
+                  {isAuto && (
+                    <button
+                      type="button"
+                      data-tr-copy={loc}
+                      class="text-xs text-forest-700 underline underline-offset-2 hover:text-forest-900"
+                    >
+                      {t("admin.products_detail.tr_copy_en")}
+                    </button>
+                  )}
                 </div>
-                <div>
-                  <label
-                    class="block text-sm font-medium mb-1"
-                    for={`short-${loc}`}
-                  >
-                    {t("admin.products_detail.label_short_desc")}
-                  </label>
-                  <input
-                    id={`short-${loc}`}
-                    name="short_description"
-                    value={tr?.short_description ?? ""}
-                    class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
-                  />
-                </div>
-                <div>
-                  <label
-                    class="block text-sm font-medium mb-1"
-                    for={`desc-${loc}`}
-                  >
-                    {t("admin.products_detail.label_description")}
-                  </label>
-                  <textarea
-                    id={`desc-${loc}`}
-                    name="description"
-                    rows="4"
-                    required
-                    class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
-                  >
-                    {tr?.description ?? ""}
-                  </textarea>
-                </div>
-                <div>
-                  <label
-                    class="block text-sm font-medium mb-1"
-                    for={`story-${loc}`}
-                  >
-                    {t("admin.products_detail.label_story")}
-                  </label>
-                  <textarea
-                    id={`story-${loc}`}
-                    name="story"
-                    rows="3"
-                    class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
-                  >
-                    {tr?.story ?? ""}
-                  </textarea>
-                </div>
-                <button
-                  type="submit"
-                  class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900 transition-colors text-sm"
-                >
-                  {t("admin.products_detail.save_translation", { loc })}
-                </button>
-              </form>
+                {isAuto && (
+                  <p data-tr-note={loc} hidden class="tr-note text-xs">
+                    {t("admin.products_detail.tr_auto_note")}
+                  </p>
+                )}
+                {TR_FIELDS.map((f) => {
+                  const value = tr?.[f.key] ?? "";
+                  return (
+                    <div>
+                      <label
+                        class="block text-sm font-medium mb-1"
+                        for={`${f.key}-${loc}`}
+                      >
+                        {t(f.label)}
+                        {f.required && <span class="tr-err"> *</span>}
+                      </label>
+                      {f.rows === 0 ? (
+                        <input
+                          id={`${f.key}-${loc}`}
+                          name={`${f.key}__${loc}`}
+                          value={value}
+                          maxlength={f.max}
+                          data-tr-field={f.key}
+                          data-tr-loc={loc}
+                          class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
+                        />
+                      ) : (
+                        <textarea
+                          id={`${f.key}-${loc}`}
+                          name={`${f.key}__${loc}`}
+                          rows={f.rows}
+                          maxlength={f.max}
+                          data-tr-field={f.key}
+                          data-tr-loc={loc}
+                          class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
+                        >
+                          {value}
+                        </textarea>
+                      )}
+                    </div>
+                  );
+                })}
+              </section>
             );
           })
         }
-      </div>
+
+        <div
+          class="sticky bottom-0 z-10 py-3 bg-bg-base border-t border-text-muted/20 flex items-center justify-between gap-3"
+        >
+          <span
+            id="tr-status"
+            aria-live="polite"
+            class="text-sm text-text-muted"></span>
+          <button
+            type="submit"
+            id="tr-save"
+            class="px-6 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900 transition-colors text-sm disabled:opacity-50"
+          >
+            {t("admin.products_detail.tr_save_all")}
+          </button>
+        </div>
+      </form>
+
+      <style is:global>
+        .tr-auto {
+          background-color: #fff8e6 !important;
+          border-color: #e0b84a !important;
+        }
+        .tr-err {
+          color: #b42318;
+        }
+        .tr-note {
+          color: #8a6100;
+        }
+        .tr-banner-ok {
+          background: #e7f1ea;
+          color: #2f5a40;
+        }
+        .tr-banner-err {
+          background: #fdeceb;
+          color: #b42318;
+        }
+        [data-tr-tab][aria-selected="true"] {
+          border-bottom-color: #3f6b4f;
+          color: #1f2a24;
+          font-weight: 600;
+        }
+        [data-tr-dot] {
+          display: inline-block;
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: #c9c9c9;
+        }
+        [data-tr-dot][data-state="ok"] {
+          background: #3f6b4f;
+        }
+        [data-tr-dot][data-state="auto"] {
+          background: #e0a82e;
+        }
+        [data-tr-dot][data-state="warn"] {
+          background: #b42318;
+        }
+      </style>
+
+      <script is:inline>
+        (function () {
+          var form = document.getElementById("tr-form");
+          if (!form) return;
+          var LOCALES = ["zh-Hans", "en", "ms-MY", "id-ID"];
+          var AUTO = ["ms-MY", "id-ID"];
+          var FIELDS = ["name", "short_description", "description", "story"];
+          var statusEl = document.getElementById("tr-status");
+          var saveBtn = document.getElementById("tr-save");
+          var saveLabel = saveBtn.textContent;
+          var userEdited = false;
+          var submitting = false;
+
+          function field(f, l) {
+            return form.querySelector(
+              '[data-tr-field="' + f + '"][data-tr-loc="' + l + '"]',
+            );
+          }
+          function msg(k) {
+            return form.getAttribute("data-m-" + k) || "";
+          }
+          function setStatus(text, isError) {
+            statusEl.textContent = text;
+            statusEl.className =
+              "text-sm " + (isError ? "tr-err" : "text-text-muted");
+          }
+          function markDirty() {
+            setStatus(msg("unsaved"), false);
+          }
+          function applyAuto(el, on) {
+            el.setAttribute("data-tr-auto", on ? "1" : "0");
+            el.classList.toggle("tr-auto", on && el.value.trim() !== "");
+          }
+          function refreshLocale(loc) {
+            var name = field("name", loc).value.trim();
+            var desc = field("description", loc).value.trim();
+            var anyFilled = FIELDS.some(function (f) {
+              return field(f, loc).value.trim() !== "";
+            });
+            var anyAuto = FIELDS.some(function (f) {
+              return field(f, loc).classList.contains("tr-auto");
+            });
+            var state = "ok";
+            if (!anyFilled) state = "empty";
+            else if (!name || !desc) state = "warn";
+            else if (anyAuto) state = "auto";
+            var dot = form.querySelector('[data-tr-dot="' + loc + '"]');
+            if (dot) dot.setAttribute("data-state", state);
+            var note = form.querySelector('[data-tr-note="' + loc + '"]');
+            if (note) note.hidden = !anyAuto;
+          }
+          function showTab(loc) {
+            LOCALES.forEach(function (l) {
+              var p = form.querySelector('[data-tr-panel="' + l + '"]');
+              var b = form.querySelector('[data-tr-tab="' + l + '"]');
+              if (p) p.hidden = l !== loc;
+              if (b)
+                b.setAttribute("aria-selected", l === loc ? "true" : "false");
+            });
+          }
+
+          // 開頁時：ms-MY / id-ID 的空欄位帶入英文（已有內容的不動）
+          var prefilled = false;
+          AUTO.forEach(function (loc) {
+            FIELDS.forEach(function (f) {
+              var target = field(f, loc);
+              var src = field(f, "en");
+              if (!target || !src) return;
+              if (target.value.trim() === "") {
+                if (src.value.trim() !== "") {
+                  target.value = src.value;
+                  prefilled = true;
+                }
+                applyAuto(target, true);
+              } else {
+                applyAuto(target, false);
+              }
+            });
+          });
+          LOCALES.forEach(refreshLocale);
+          showTab(form.getAttribute("data-init") || "zh-Hans");
+          if (prefilled) markDirty();
+
+          form.addEventListener("input", function (e) {
+            var el = e.target;
+            if (!el || !el.getAttribute) return;
+            var f = el.getAttribute("data-tr-field");
+            var loc = el.getAttribute("data-tr-loc");
+            if (!f || !loc) return;
+            userEdited = true;
+            markDirty();
+            if (loc === "en") {
+              // 英文改動時，ms-MY / id-ID 尚未被你自己改過的欄位跟著連動
+              AUTO.forEach(function (l) {
+                var t = field(f, l);
+                if (t && t.getAttribute("data-tr-auto") === "1") {
+                  t.value = el.value;
+                  applyAuto(t, true);
+                  refreshLocale(l);
+                }
+              });
+            } else if (AUTO.indexOf(loc) !== -1) {
+              applyAuto(el, false);
+            }
+            refreshLocale(loc);
+          });
+
+          form.addEventListener("click", function (e) {
+            var tabBtn = e.target.closest("[data-tr-tab]");
+            if (tabBtn) {
+              showTab(tabBtn.getAttribute("data-tr-tab"));
+              return;
+            }
+            var copyBtn = e.target.closest("[data-tr-copy]");
+            if (copyBtn) {
+              var loc = copyBtn.getAttribute("data-tr-copy");
+              var hasOwn = FIELDS.some(function (f) {
+                var el = field(f, loc);
+                return (
+                  el.value.trim() !== "" &&
+                  el.getAttribute("data-tr-auto") !== "1"
+                );
+              });
+              if (hasOwn && !window.confirm(msg("copy-confirm"))) return;
+              FIELDS.forEach(function (f) {
+                var t = field(f, loc);
+                var s = field(f, "en");
+                t.value = s.value;
+                applyAuto(t, true);
+              });
+              userEdited = true;
+              markDirty();
+              refreshLocale(loc);
+            }
+          });
+
+          form.addEventListener("submit", function (e) {
+            var complete = 0;
+            for (var i = 0; i < LOCALES.length; i++) {
+              var loc = LOCALES[i];
+              var vals = FIELDS.map(function (f) {
+                return field(f, loc).value.trim();
+              });
+              var any = vals.some(Boolean);
+              var nm = vals[0];
+              var ds = vals[2];
+              if (any && (!nm || !ds)) {
+                e.preventDefault();
+                showTab(loc);
+                field(!nm ? "name" : "description", loc).focus();
+                var label = form.querySelector(
+                  '[data-tr-tab="' + loc + '"] .tr-tabname',
+                );
+                setStatus(
+                  msg("err-incomplete") +
+                    " " +
+                    (label ? label.textContent : loc),
+                  true,
+                );
+                return;
+              }
+              if (nm && ds) complete++;
+            }
+            if (!complete) {
+              e.preventDefault();
+              setStatus(msg("err-empty"), true);
+              return;
+            }
+            submitting = true;
+            saveBtn.disabled = true;
+            saveBtn.textContent = msg("saving");
+          });
+
+          window.addEventListener("beforeunload", function (e) {
+            if (userEdited && !submitting) {
+              e.preventDefault();
+              e.returnValue = "";
+            }
+          });
+          window.addEventListener("pageshow", function () {
+            submitting = false;
+            saveBtn.disabled = false;
+            saveBtn.textContent = saveLabel;
+          });
+        })();
+      </script>
     </div>
 
     <div slot="variants">

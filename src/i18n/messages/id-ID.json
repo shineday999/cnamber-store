@@ -547,7 +547,19 @@
       "toggle_to_active": "Aktifkan",
       "toggle_to_archived": "Arsipkan",
       "toggle_to_draft": "Kembalikan ke draf",
-      "upload_image": "Unggah gambar baru"
+      "upload_image": "Unggah gambar baru",
+      "tr_title": "Terjemahan",
+      "tr_hint": "Bahasa Inggris adalah sumbernya. Kolom Melayu dan Indonesia yang kosong diisi teks Inggris terlebih dahulu; terjemahkan sebelum menyimpan.",
+      "tr_save_all": "Simpan semua bahasa",
+      "tr_saving": "Menyimpan…",
+      "tr_saved": "Tersimpan",
+      "tr_unsaved": "Perubahan belum disimpan",
+      "tr_copy_en": "Salin dari Inggris",
+      "tr_copy_confirm": "Ini akan menimpa isi bahasa ini. Lanjutkan?",
+      "tr_auto_note": "Diisi dari Inggris, perlu diterjemahkan",
+      "tr_err_incomplete": "Nama dan deskripsi harus diisi bersama untuk:",
+      "tr_err_empty": "Isi nama dan deskripsi untuk setidaknya satu bahasa",
+      "tr_err_too_long": "Isi terlalu panjang, harap dipersingkat:"
     },
     "products_new": {
       "title": "New Product",
