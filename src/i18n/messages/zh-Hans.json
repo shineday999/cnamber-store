@@ -382,7 +382,8 @@
       "reviews": "评论",
       "banners": "横幅",
       "settings": "网站设定",
-      "faqs": "FAQ 维护"
+      "faqs": "FAQ 维护",
+      "category_images": "分类图片"
     },
     "common": {
       "admin_badge": "后台",
@@ -712,6 +713,25 @@
       "error_wrong_current": "目前密碼不正確。",
       "error_same_as_current": "新密碼不可與目前密碼相同。",
       "error_rate_limited": "嘗試次數過多,請稍候再試。"
+    },
+    "category_images": {
+      "title": "分类图片",
+      "subtitle": "首页「两条手作路线」的两张图。没上传时使用默认图。",
+      "slot_jewelry": "琥珀饰品",
+      "slot_incense": "东方香品",
+      "current_custom": "已自定义",
+      "current_default": "使用默认图",
+      "pending": "待保存",
+      "hint": "建议竖图，至少 480×600。会自动裁成 4:5 并缩小，不用自己处理。",
+      "save": "保存",
+      "saving": "保存中…",
+      "saved": "已保存",
+      "reset": "还原为默认图",
+      "reset_confirm": "确定还原为默认图吗？",
+      "err_small": "图片太小，裁成 4:5 后宽度至少需要 480px",
+      "err_decode": "无法读取这个图片，请换 JPG、PNG 或 WebP",
+      "err_upload": "上传失败，请重试",
+      "nothing": "请先选择图片"
     }
   },
   "continue": {

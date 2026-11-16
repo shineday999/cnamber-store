@@ -367,7 +367,8 @@
       "blog": "Blog",
       "reviews": "Reviews",
       "banners": "Banner",
-      "settings": "Tetapan"
+      "settings": "Tetapan",
+      "category_images": "Category images"
     },
     "common": {
       "admin_badge": "Admin",
@@ -671,6 +672,25 @@
         "ring": "Cincin",
         "stick": "Batang"
       }
+    },
+    "category_images": {
+      "title": "Category images",
+      "subtitle": "The two images in the home page category section. Defaults are used until you upload.",
+      "slot_jewelry": "Amber jewelry",
+      "slot_incense": "Oriental incense",
+      "current_custom": "Custom image",
+      "current_default": "Using default",
+      "pending": "Not saved yet",
+      "hint": "Portrait images work best, at least 480x600. Cropped to 4:5 and resized automatically.",
+      "save": "Save",
+      "saving": "Saving…",
+      "saved": "Saved",
+      "reset": "Restore default image",
+      "reset_confirm": "Restore the default image?",
+      "err_small": "Image too small: at least 480px wide after a 4:5 crop",
+      "err_decode": "Cannot read this image. Use JPG, PNG or WebP",
+      "err_upload": "Upload failed, please retry",
+      "nothing": "Choose an image first"
     }
   },
   "cart": {

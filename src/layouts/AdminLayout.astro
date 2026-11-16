@@ -19,7 +19,8 @@ interface Props {
     | "blog"
     | "banners"
     | "settings"
-    | "faqs";
+    | "faqs"
+    | "category_images";
 }
 
 const { title, active = "dashboard" } = Astro.props;
@@ -44,6 +45,11 @@ const navItems = [
   { key: "blog", label: t("admin.nav.blog"), href: "/admin/posts" },
   { key: "reviews", label: t("admin.nav.reviews"), href: "/admin/reviews" },
   { key: "settings", label: t("admin.nav.settings"), href: "/admin/settings" },
+  {
+    key: "category_images",
+    label: t("admin.nav.category_images"),
+    href: "/admin/category-images",
+  },
   { key: "faqs", label: t("admin.nav.faqs"), href: "/admin/faqs" },
 ] as const;
 ---

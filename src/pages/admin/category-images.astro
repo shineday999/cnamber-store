@@ -1,0 +1,275 @@
+---
+import { env } from "cloudflare:workers";
+import AdminLayout from "../../layouts/AdminLayout.astro";
+import { createT } from "../../i18n/t";
+import zhHansMessages from "../../i18n/messages/zh-Hans.json";
+
+// /admin/category-images — 首頁「两条手作路线」兩張圖。沒上傳時使用靜態預設圖。
+const t = createT(zhHansMessages as Record<string, unknown>);
+
+const SLOTS = [
+  {
+    key: "jewelry",
+    dbKey: "cat_jewelry",
+    label: t("admin.category_images.slot_jewelry"),
+    fallback: "/images/banners/cat-jewelry.jpg",
+  },
+  {
+    key: "incense",
+    dbKey: "cat_incense",
+    label: t("admin.category_images.slot_incense"),
+    fallback: "/images/banners/cat-incense.jpg",
+  },
+];
+
+interface ImageRow {
+  key: string;
+  url: string;
+}
+
+let rows: ImageRow[] = [];
+if (env?.DB) {
+  try {
+    const res = await env.DB.prepare(
+      "SELECT key, url FROM site_images WHERE key IN ('cat_jewelry', 'cat_incense')",
+    ).all<ImageRow>();
+    rows = res.results ?? [];
+  } catch {
+    rows = [];
+  }
+}
+const saved = Astro.url.searchParams.get("saved") === "1";
+---
+
+<AdminLayout title={t("admin.category_images.title")} active="category_images">
+  <p class="text-text-secondary mb-6">
+    {t("admin.category_images.subtitle")}
+  </p>
+
+  {
+    saved && (
+      <div class="mb-6 bg-success/10 border border-success/30 text-success px-4 py-3 rounded text-sm">
+        {t("admin.category_images.saved")}
+      </div>
+    )
+  }
+
+  <div
+    id="ci-root"
+    class="max-w-3xl space-y-6"
+    data-m-pending={t("admin.category_images.pending")}
+    data-m-saving={t("admin.category_images.saving")}
+    data-m-reset-confirm={t("admin.category_images.reset_confirm")}
+    data-m-err-small={t("admin.category_images.err_small")}
+    data-m-err-decode={t("admin.category_images.err_decode")}
+    data-m-err-upload={t("admin.category_images.err_upload")}
+    data-m-nothing={t("admin.category_images.nothing")}
+  >
+    {
+      SLOTS.map((slot) => {
+        const custom = rows.find((r) => r.key === slot.dbKey)?.url ?? null;
+        return (
+          <section
+            data-ci-slot={slot.key}
+            class="bg-bg-card border border-text-muted/20 rounded-card p-6 flex flex-col sm:flex-row gap-6"
+          >
+            <div class="w-40 shrink-0">
+              <div class="relative aspect-[4/5] overflow-hidden rounded-md bg-forest-100">
+                <img
+                  data-ci-preview={slot.key}
+                  src={custom ?? slot.fallback}
+                  alt={slot.label}
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <p data-ci-badge={slot.key} class="mt-2 text-xs text-text-muted">
+                {custom
+                  ? t("admin.category_images.current_custom")
+                  : t("admin.category_images.current_default")}
+              </p>
+            </div>
+            <div class="flex-1 space-y-3">
+              <h3 class="font-serif text-lg">{slot.label}</h3>
+              <input
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                data-ci-file={slot.key}
+                class="block w-full text-sm"
+              />
+              <p class="text-xs text-text-muted">
+                {t("admin.category_images.hint")}
+              </p>
+              {custom && (
+                <button
+                  type="button"
+                  data-ci-reset={slot.key}
+                  class="text-xs text-forest-700 underline underline-offset-2 hover:text-forest-900"
+                >
+                  {t("admin.category_images.reset")}
+                </button>
+              )}
+            </div>
+          </section>
+        );
+      })
+    }
+
+    <div
+      class="sticky bottom-0 z-10 py-3 bg-bg-base border-t border-text-muted/20 flex items-center justify-between gap-3"
+    >
+      <span id="ci-status" aria-live="polite" class="text-sm text-text-muted"
+      ></span>
+      <button
+        type="button"
+        id="ci-save"
+        disabled
+        class="px-6 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900 transition-colors text-sm disabled:opacity-50"
+      >
+        {t("admin.category_images.save")}
+      </button>
+    </div>
+  </div>
+
+  <script is:inline>
+    (function () {
+      var root = document.getElementById("ci-root");
+      if (!root) return;
+      var statusEl = document.getElementById("ci-status");
+      var saveBtn = document.getElementById("ci-save");
+      var pending = {};
+
+      function msg(k) {
+        return root.getAttribute("data-m-" + k) || "";
+      }
+      function setStatus(text, isError) {
+        statusEl.textContent = text;
+        statusEl.style.color = isError ? "#b42318" : "";
+      }
+
+      // 置中裁切成指定尺寸（cover），輸出 JPEG
+      function cover(bmp, w, h, quality) {
+        return new Promise(function (resolve, reject) {
+          var c = document.createElement("canvas");
+          c.width = w;
+          c.height = h;
+          var ctx = c.getContext("2d");
+          ctx.fillStyle = "#ffffff";
+          ctx.fillRect(0, 0, w, h);
+          var scale = Math.max(w / bmp.width, h / bmp.height);
+          var sw = w / scale;
+          var sh = h / scale;
+          ctx.drawImage(
+            bmp,
+            (bmp.width - sw) / 2,
+            (bmp.height - sh) / 2,
+            sw,
+            sh,
+            0,
+            0,
+            w,
+            h,
+          );
+          c.toBlob(
+            function (b) {
+              if (b) resolve({ blob: b, canvas: c });
+              else reject(new Error("toBlob"));
+            },
+            "image/jpeg",
+            quality,
+          );
+        });
+      }
+
+      root.addEventListener("change", function (e) {
+        var el = e.target;
+        var slot = el && el.getAttribute && el.getAttribute("data-ci-file");
+        if (!slot) return;
+        var file = el.files && el.files[0];
+        if (!file) return;
+        setStatus("", false);
+        createImageBitmap(file)
+          .then(function (bmp) {
+            // 4:5 裁切後的寬度至少要有 480，否則放大會糊
+            var cropW = Math.min(bmp.width, bmp.height * 0.8);
+            if (cropW < 480) throw new Error("small");
+            return Promise.all([
+              cover(bmp, 800, 1000, 0.82),
+              cover(bmp, 480, 600, 0.8),
+            ]);
+          })
+          .then(function (r) {
+            pending[slot] = { big: r[0].blob, small: r[1].blob };
+            var img = root.querySelector('[data-ci-preview="' + slot + '"]');
+            img.src = r[0].canvas.toDataURL("image/jpeg", 0.8);
+            root.querySelector('[data-ci-badge="' + slot + '"]').textContent =
+              msg("pending");
+            saveBtn.disabled = false;
+          })
+          .catch(function (err) {
+            delete pending[slot];
+            el.value = "";
+            setStatus(
+              err && err.message === "small"
+                ? msg("err-small")
+                : msg("err-decode"),
+              true,
+            );
+          });
+      });
+
+      function post(fd) {
+        return fetch("/api/admin/category-images", {
+          method: "POST",
+          body: fd,
+          credentials: "same-origin",
+        }).then(function (res) {
+          if (!res.ok) throw new Error("upload");
+        });
+      }
+
+      saveBtn.addEventListener("click", function () {
+        var slots = Object.keys(pending);
+        if (!slots.length) {
+          setStatus(msg("nothing"), true);
+          return;
+        }
+        saveBtn.disabled = true;
+        setStatus(msg("saving"), false);
+        var chain = Promise.resolve();
+        slots.forEach(function (slot) {
+          chain = chain.then(function () {
+            var fd = new FormData();
+            fd.append("slot", slot);
+            fd.append("image", pending[slot].big, "cat-800.jpg");
+            fd.append("image_small", pending[slot].small, "cat-480.jpg");
+            return post(fd);
+          });
+        });
+        chain
+          .then(function () {
+            window.location.href = "/admin/category-images?saved=1";
+          })
+          .catch(function () {
+            saveBtn.disabled = false;
+            setStatus(msg("err-upload"), true);
+          });
+      });
+
+      root.addEventListener("click", function (e) {
+        var btn = e.target.closest && e.target.closest("[data-ci-reset]");
+        if (!btn) return;
+        if (!window.confirm(msg("reset-confirm"))) return;
+        var fd = new FormData();
+        fd.append("slot", btn.getAttribute("data-ci-reset"));
+        fd.append("_action", "reset");
+        post(fd)
+          .then(function () {
+            window.location.href = "/admin/category-images?saved=1";
+          })
+          .catch(function () {
+            setStatus(msg("err-upload"), true);
+          });
+      });
+    })();
+  </script>
+</AdminLayout>
