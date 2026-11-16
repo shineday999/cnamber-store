@@ -17,10 +17,16 @@ import {
 interface Props {
   title: string;
   description?: string;
-  ogImage?: string;
+  ogImage?: string | undefined;
+  ogType?: string | undefined;
 }
 
-const { title, description = "", ogImage = "/og-image.svg" } = Astro.props;
+const {
+  title,
+  description = "",
+  ogImage = "/images/banners/slide-1.jpg",
+  ogType = "website",
+} = Astro.props;
 const currentLocale = (Astro.locals.locale ?? defaultLocale) as Locale;
 const siteUrl = Astro.url.origin || "https://cnamber.ccwu.cc";
 const cleanPath =
@@ -108,10 +114,13 @@ const nav = [
       })}
     />
 
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={`${siteUrl}${ogImage}`} />
+    <meta
+      property="og:image"
+      content={ogImage.startsWith("http") ? ogImage : `${siteUrl}${ogImage}`}
+    />
     <meta property="og:url" content={`${siteUrl}${Astro.url.pathname}`} />
     <meta
       property="og:locale"
@@ -131,7 +140,10 @@ const nav = [
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={`${siteUrl}${ogImage}`} />
+    <meta
+      name="twitter:image"
+      content={ogImage.startsWith("http") ? ogImage : `${siteUrl}${ogImage}`}
+    />
 
     <link
       rel="preconnect"
