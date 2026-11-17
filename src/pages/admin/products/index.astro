@@ -55,12 +55,16 @@ const products = env?.DB
     <p class="text-text-secondary">
       {t("admin.products_list.subtitle", { n: products.results.length })}
     </p>
-    <a
-      href="/admin/products/new"
-      class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900 transition-colors"
-    >
-      {t("admin.products_list.new_product")}
-    </a>
+    <div class="flex items-center gap-4">
+      <a href="/admin/rates" class="text-sm text-accent-700 underline"
+        >汇率设置</a
+      ><a
+        href="/admin/products/new"
+        class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900 transition-colors"
+      >
+        {t("admin.products_list.new_product")}
+      </a>
+    </div>
   </div>
 
   <div
