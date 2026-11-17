@@ -1,4 +1,5 @@
 ---
+import { XIAOHONGSHU_URL } from "../lib/social";
 import Layout from "../layouts/Layout.astro";
 import { defaultLocale, localizedPath, type Locale } from "../i18n/config";
 import { createT } from "../i18n/t";
@@ -48,7 +49,7 @@ const groups: { title: string; items: Item[] }[] = [
       },
       {
         label: t("footer.social_xiaohongshu"),
-        href: "https://xiaohongshu.com/",
+        href: XIAOHONGSHU_URL,
         ext: true,
       },
     ],

@@ -1,4 +1,5 @@
 ---
+import { XIAOHONGSHU_HANDLE, XIAOHONGSHU_URL } from "../lib/social";
 import Layout from "@layouts/Layout.astro";
 import RevealOnScroll from "@components/RevealOnScroll.astro";
 import AccordionInit from "@components/AccordionInit.astro";
@@ -167,11 +168,11 @@ const faqs = [
               >{t("contact.channel_xiaohongshu")}</span
             >
             <a
-              href="https://xiaohongshu.com/"
+              href={XIAOHONGSHU_URL}
               target="_blank"
               rel="noopener noreferrer"
               class="text-forest-700 hover:text-forest-800 underline-offset-2 hover:underline"
-              >xiaohongshu.com</a
+              >@{XIAOHONGSHU_HANDLE}</a
             >
           </div>
           <div
