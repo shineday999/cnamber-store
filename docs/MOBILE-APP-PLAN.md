@@ -90,6 +90,7 @@
 | 6.6  | PWA：service worker（靜態資源快取 + 離線提示頁）；整頁骨架畫面不做（SSR 整頁載入，與 2.9 的決定一致）                                                                                                                                                                                          | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
 | 6.7  | CSP 放行 Google Analytics：middleware.ts 的 script-src 加 https://_.googletagmanager.com，connect-src 加 *.google-analytics.com、*.analytics.google.com、_.googletagmanager.com（img-src 原本已允許 https:）；其餘指令不動。部署後在 GA 即時報表確認收到資料再改 ✅                            | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
 | 6.8  | 手機版底部分頁列改為懸浮膠囊：左右 16px、離底 12px、高 60px、圓角 30px、毛玻璃與柔和陰影；選中項圖示後方加淡綠色膠囊。--m-tab-h 由 64px 改 76px，讓商品詳情／購物車／問答／預訂的底部固定列一起抬高；Layout.astro 首屏關鍵 CSS 同步改位置（避免 CLS）。部署後確認各頁固定列未被膠囊遮住再改 ✅ | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
+| 6.9  | 亮圖上的文字可讀性（手機版純 CSS）：首頁主圖加偏左加深的壓暗遮罩、標題／副標／小標加粗加陰影、副標去斜體；路線卡片加強底部漸層、標題固定白色加粗、隱藏與標題重複的小標、「走进去」提亮。圖片可由後台更換，所以改文字區保護而非挑圖。部署後用亮、暗兩種圖各看一次再改 ✅                        | 🟡   | Claude Sonnet 5.5 | 2026-11-17 |
 
 ## 後續階段（尚未拆步驟）
 
@@ -176,3 +177,4 @@
 | 2026-11-15 | Claude Sonnet 5.5 | 6.8 驗收通過：實測首頁、商品詳情、購物車、問答結果、預訂結帳，底部固定列皆在懸浮膠囊上方，無遮擋，標為完成                                                                                                                                                                                                                                                                                                       |
 | 2026-11-15 | Claude Sonnet 5.5 | 2.12 首頁 Hero（手機版）：圖片不透明度固定 1（原本 JS 行內 0.85）、停用緩慢放大動畫（重新取樣會變軟）、移除整片深色斜向漸層、底部漸層改為 30% 黑到透明。純 CSS（mobile.css 末尾 2.12 區塊），桌面版不變。注意：文字可讀性只靠既有 text-shadow，若不夠，調高 .bg-gradient-to-t 的 0.3；手機版圖為 768w，高 DPR 手機仍會偏軟，要更清晰需另做 1280w 變體（未做）                                                    |
 | 2026-11-15 | Claude Sonnet 5.5 | CI：解決 Node.js 20 action 棄用警告與 ubuntu-latest 將換 Ubuntu 26 的警告。checkout v4→v6、setup-node v4→v6、pnpm/action-setup v4→v6、upload-artifact v4→v7、download-artifact v4→v8，runs-on 由 ubuntu-latest 固定為 ubuntu-24.04（5 個 workflow）。未動：lighthouse-ci-action@v11、gitleaks-action@v2。若升級後 pnpm 或快取行為異常，先回退 pnpm/action-setup 與 setup-node                                    |
+| 2026-11-17 | Claude Sonnet 5.5 | 6.9 文字可讀性：新增 mobile.css 末尾 6.9 區塊（Hero ::before 遮罩、卡片 ::before 底部漸層，z 序在圖片之上、文字之下）；顏色規則用 !important 蓋過通用標題色。桌面版不受影響                                                                                                                                                                                                                                      |

@@ -2300,3 +2300,85 @@
     );
   }
 }
+
+/* ===== app-shell 6.9：亮圖上的文字可讀性 =====
+   圖片現在可由後台更換，亮度不可控，所以讓「文字區自己有保護」，而不是靠挑圖。
+   顏色用 !important：要蓋過通用標題顏色（--m-ink）與 Tailwind 的 text-* 類別。 */
+@media (max-width: 767.98px) {
+  /* --- 首頁主圖：壓暗遮罩（偏左加深，文字都在左側；右側保留較多森林亮度） --- */
+  main [data-home-hero]::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    pointer-events: none;
+    background:
+      linear-gradient(
+        90deg,
+        rgba(8, 20, 14, 0.6) 0%,
+        rgba(8, 20, 14, 0.4) 65%,
+        rgba(8, 20, 14, 0.18) 100%
+      ),
+      linear-gradient(0deg, rgba(8, 20, 14, 0.5) 0%, rgba(8, 20, 14, 0) 45%);
+  }
+
+  main [data-home-hero] .hero-text > p:first-child {
+    color: #f6e7d3 !important;
+    font-weight: 600;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+  }
+  main [data-home-hero] h1 {
+    color: #ffffff !important;
+    font-weight: 500 !important;
+    text-shadow:
+      0 2px 4px rgba(0, 0, 0, 0.3),
+      0 4px 24px rgba(0, 0, 0, 0.45);
+  }
+  /* 中文斜體是瀏覽器硬斜的，細字壓在圖上很難讀 → 正體 */
+  main [data-home-hero] .hero-text > p:nth-of-type(2) {
+    color: rgba(255, 255, 255, 0.96) !important;
+    font-style: normal;
+    font-weight: 400;
+    text-shadow:
+      0 1px 4px rgba(0, 0, 0, 0.4),
+      0 2px 16px rgba(0, 0, 0, 0.45);
+  }
+
+  /* --- 「两条手作路线」卡片：底部壓暗漸層（疊在圖片上、文字下） --- */
+  main [data-home-paths] .grid[class*="grid-cols-12"] a::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      0deg,
+      rgba(8, 20, 14, 0.9) 0%,
+      rgba(8, 20, 14, 0.72) 30%,
+      rgba(8, 20, 14, 0.28) 58%,
+      rgba(8, 20, 14, 0) 78%
+    );
+  }
+
+  /* 小標與標題在中文是同一個詞，手機小卡片只留標題 */
+  main
+    [data-home-paths]
+    .grid[class*="grid-cols-12"]
+    a
+    > .p-7
+    > p:first-of-type {
+    display: none !important;
+  }
+  main [data-home-paths] .grid[class*="grid-cols-12"] a > .p-7 > h3 {
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    text-shadow:
+      0 1px 3px rgba(0, 0, 0, 0.45),
+      0 2px 14px rgba(0, 0, 0, 0.5);
+  }
+  main [data-home-paths] .grid[class*="grid-cols-12"] a > .p-7 > span {
+    color: #f6e7d3 !important;
+    font-weight: 600;
+    border-color: rgba(246, 231, 211, 0.75) !important;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+  }
+}
