@@ -1,7 +1,6 @@
 // 後台商品共用邏輯：自動編號、價格換算、標籤預設、圖片處理、新增與上架檢查
 // 注意：這裡不 import "./db"（它會載入 cloudflare:workers），方便在 Node 內單元測試。
 import { JEWELRY_STEPS, INCENSE_STEPS, type QuizStep } from "./quiz";
-import { RATES_FROM_USD } from "./format";
 
 // ---------- 分類 / 子分類 ----------
 export const CATEGORIES = ["jewelry", "incense"] as const;
@@ -119,17 +118,18 @@ export function newId(prefix: string): string {
 }
 
 // ---------- 價格 ----------
-// 資料庫只存 USD（product_prices.amount 為美分），前台再依語系換算顯示。
-export const PRICE_CURRENCIES = ["CNY", "USD"] as const;
+// 售價以人民幣（CNY）記錄：product_prices 的 CNY 列，amount 單位為分。
+// 各語言前台再依匯率表（exchange_rates）換算成當地貨幣顯示。
+export const PRICE_CURRENCY = "CNY";
 
 export function parsePrice(raw: string): number | null {
   const n = Number(raw.replace(/,/g, "").trim());
   return Number.isFinite(n) && n > 0 && n < 10_000_000 ? n : null;
 }
 
-export function toUsdCents(amount: number, currency: string): number {
-  const rate = RATES_FROM_USD[currency] ?? 1;
-  return Math.round((amount / rate) * 100);
+/** 元 → 分（四捨五入到分） */
+export function toFen(yuan: number): number {
+  return Math.round(yuan * 100);
 }
 
 // ---------- 圖片 ----------
@@ -203,7 +203,6 @@ export interface NewProductValues {
   desc_zh: string;
   desc_en: string;
   price: string;
-  currency: string;
   stock: string;
   weight: string;
   tags: string[];
@@ -219,7 +218,6 @@ export function emptyNewProduct(): NewProductValues {
     desc_zh: "",
     desc_en: "",
     price: "",
-    currency: "CNY",
     stock: "1",
     weight: "",
     tags: [],
@@ -237,7 +235,6 @@ export function readNewProductForm(form: FormData): NewProductValues {
     desc_zh: s("desc_zh"),
     desc_en: s("desc_en"),
     price: s("price"),
-    currency: s("currency") || "CNY",
     stock: s("stock") || "1",
     weight: s("weight"),
     tags: form.getAll("tag").map(String),
@@ -264,10 +261,8 @@ export function validateNewProduct(
     errors.push("英文名称需要包含英文字母或数字（用来自动生成编号）");
   }
   if (!v.desc_zh) errors.push("请填写中文描述");
-  if (parsePrice(v.price) === null) errors.push("请填写大于 0 的售价");
-  if (!(PRICE_CURRENCIES as readonly string[]).includes(v.currency)) {
-    errors.push("币别不正确");
-  }
+  if (parsePrice(v.price) === null)
+    errors.push("请填写大于 0 的售价（人民币）");
   const stock = Number(v.stock);
   if (!Number.isInteger(stock) || stock < 0 || stock > 99999) {
     errors.push("库存需为 0 以上的整数");
@@ -314,8 +309,8 @@ export async function createProduct(
   const urls = r2 && files.length > 0 ? await uploadImages(r2, id, files) : [];
 
   const price = parsePrice(v.price) ?? 0;
-  const usdCents = toUsdCents(price, v.currency);
-  const priceBase = (usdCents / 100).toFixed(2);
+  const fen = toFen(price);
+  const priceBase = (fen / 100).toFixed(2);
   const stock = parseInt(v.stock, 10);
   const weight = v.weight ? Math.round(Number(v.weight)) : null;
   const tags = buildTags(v.category, v.tags);
@@ -368,9 +363,9 @@ export async function createProduct(
         ),
       db
         .prepare(
-          "INSERT INTO product_prices (variant_id, currency, amount, tax_included) VALUES (?, 'USD', ?, 1)",
+          "INSERT INTO product_prices (variant_id, currency, amount, tax_included) VALUES (?, 'CNY', ?, 1)",
         )
-        .bind(variantId, usdCents),
+        .bind(variantId, fen),
     ]);
   } catch (e) {
     if (r2) await deleteImages(r2, urls);
@@ -411,7 +406,7 @@ export async function checkReadiness(
 
   const price = await db
     .prepare(
-      "SELECT amount FROM product_prices WHERE variant_id = ? AND currency = 'USD'",
+      "SELECT amount FROM product_prices WHERE variant_id = ? AND currency = 'CNY'",
     )
     .bind(variant.id)
     .first<{ amount: number }>();

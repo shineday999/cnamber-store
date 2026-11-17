@@ -17,9 +17,9 @@ const products = env?.DB
               pt.name AS name_zh,
               (SELECT pp.amount FROM product_variants pv
                  JOIN product_prices pp
-                   ON pp.variant_id = pv.id AND pp.currency = 'USD'
+                   ON pp.variant_id = pv.id AND pp.currency = 'CNY'
                 WHERE pv.product_id = p.id
-                ORDER BY pv.sku LIMIT 1) AS usd_cents
+                ORDER BY pv.sku LIMIT 1) AS cny_cents
        FROM products p
        LEFT JOIN product_translations pt
          ON pt.product_id = p.id AND pt.locale = 'zh-Hans'
@@ -33,7 +33,7 @@ const products = env?.DB
       image_url: string | null;
       created_at: number;
       name_zh: string | null;
-      usd_cents: number | null;
+      cny_cents: number | null;
     }>()
   : {
       results: [] as Array<{
@@ -45,7 +45,7 @@ const products = env?.DB
         image_url: string | null;
         created_at: number;
         name_zh: string | null;
-        usd_cents: number | null;
+        cny_cents: number | null;
       }>,
     };
 ---
@@ -55,12 +55,16 @@ const products = env?.DB
     <p class="text-text-secondary">
       {t("admin.products_list.subtitle", { n: products.results.length })}
     </p>
-    <a
-      href="/admin/products/new"
-      class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900 transition-colors"
-    >
-      {t("admin.products_list.new_product")}
-    </a>
+    <div class="flex items-center gap-4">
+      <a href="/admin/rates" class="text-sm text-accent-700 underline"
+        >汇率设置</a
+      ><a
+        href="/admin/products/new"
+        class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900 transition-colors"
+      >
+        {t("admin.products_list.new_product")}
+      </a>
+    </div>
   </div>
 
   <div
@@ -144,8 +148,8 @@ const products = env?.DB
                 {(p.name_zh as string | null) ?? "—"}
               </td>
               <td class="px-4 py-3 whitespace-nowrap">
-                {p.usd_cents != null ? (
-                  formatPrice(p.usd_cents, "USD", "zh-Hans")
+                {p.cny_cents != null ? (
+                  formatPrice(p.cny_cents, "CNY", "zh-Hans")
                 ) : (
                   <span class="text-text-muted">—</span>
                 )}

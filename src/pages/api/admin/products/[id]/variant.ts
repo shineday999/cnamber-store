@@ -3,18 +3,17 @@ import { env } from "cloudflare:workers";
 import { getDB } from "../../../../../lib/db";
 import {
   MAX_IMAGES,
-  PRICE_CURRENCIES,
   checkImages,
   deleteImages,
   newId,
   parsePrice,
   pickImages,
-  toUsdCents,
+  toFen,
   uniqueSku,
   uploadImages,
 } from "../../../../../lib/admin-products";
 
-// 儲存商品的規格：售價（以美元儲存）、庫存、重量、圖片。
+// 儲存商品的規格：售價（人民幣，單位分）、庫存、重量、圖片。
 // 還沒有規格的舊商品（只有封面圖）也從這裡補齊。
 export const POST: APIRoute = async (ctx) => {
   if (!ctx.locals.admin) return new Response("Unauthorized", { status: 401 });
@@ -41,13 +40,9 @@ export const POST: APIRoute = async (ctx) => {
 
   // ---- 欄位驗證 ----
   const price = parsePrice(String(form.get("price") ?? ""));
-  const currency = String(form.get("currency") ?? "USD");
   const stock = Number(String(form.get("stock") ?? ""));
   const weightRaw = String(form.get("weight") ?? "").trim();
-  if (price === null) return fail("请填写大于 0 的售价");
-  if (!(PRICE_CURRENCIES as readonly string[]).includes(currency)) {
-    return fail("币别不正确");
-  }
+  if (price === null) return fail("请填写大于 0 的售价（人民币）");
   if (!Number.isInteger(stock) || stock < 0 || stock > 99999) {
     return fail("库存需为 0 以上的整数");
   }
@@ -107,8 +102,8 @@ export const POST: APIRoute = async (ctx) => {
 
   // ---- 寫入（同一個交易） ----
   const now = Math.floor(Date.now() / 1000);
-  const usdCents = toUsdCents(price, currency);
-  const priceBase = (usdCents / 100).toFixed(2);
+  const fen = toFen(price);
+  const priceBase = (fen / 100).toFixed(2);
   const variantId = variant?.id ?? newId("var");
 
   const stmts: D1PreparedStatement[] = [];
@@ -142,9 +137,9 @@ export const POST: APIRoute = async (ctx) => {
   stmts.push(
     db
       .prepare(
-        "INSERT INTO product_prices (variant_id, currency, amount, tax_included) VALUES (?, 'USD', ?, 1) ON CONFLICT (variant_id, currency) DO UPDATE SET amount = excluded.amount",
+        "INSERT INTO product_prices (variant_id, currency, amount, tax_included) VALUES (?, 'CNY', ?, 1) ON CONFLICT (variant_id, currency) DO UPDATE SET amount = excluded.amount",
       )
-      .bind(variantId, usdCents),
+      .bind(variantId, fen),
   );
   stmts.push(
     db

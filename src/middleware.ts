@@ -9,6 +9,7 @@ import {
 } from "./i18n/config";
 import { loadMessages } from "./i18n/loader";
 import { getAdminFromContext } from "./lib/auth";
+import { ensureRates } from "./lib/rates";
 
 const LOCALE_COOKIE = "cnamber_locale";
 
@@ -115,6 +116,9 @@ export const onRequest = defineMiddleware(async (context, next) => {
   // Wave 28.7: 載入 D1 site_settings (12 rows,index-covered,~5-15ms)
   const siteSettings = await loadSiteSettings(env?.DB);
   if (siteSettings) context.locals.siteSettings = siteSettings;
+
+  // 匯率表（D1 exchange_rates，60 秒快取）：formatPrice 依它換算各語言顯示價格
+  await ensureRates(env?.DB);
 
   // 2. Admin write audit log (Wave 79.3)
   if (
