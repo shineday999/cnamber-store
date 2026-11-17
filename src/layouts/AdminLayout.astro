@@ -52,6 +52,7 @@ const navItems = [
   },
   { key: "faqs", label: t("admin.nav.faqs"), href: "/admin/faqs" },
 ] as const;
+import AdminTranslate from "../components/AdminTranslate.astro";
 ---
 
 <!doctype html>
@@ -133,6 +134,8 @@ const navItems = [
       <h1 class="text-3xl font-serif mb-6">{title}</h1>
       <slot />
     </main>
+
+    <AdminTranslate />
 
     <ChangePasswordModal
       currentPath={Astro.url.pathname}

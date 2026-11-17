@@ -27,6 +27,9 @@
       "id": "17d4d35864084de1a9ee85c46505ec7e",
     },
   ],
+  "ai": {
+    "binding": "AI",
+  },
   "vars": {
     "EMAIL_FROM": "OxHorseCraft <oxsupport@0061qwen.cc.cd>",
     "EMAIL_REPLY_TO": "oxsupport@0061qwen.cc.cd",
