@@ -47,3 +47,4 @@ coverage/
 .tmp/
 # Local screenshots (Claude generated, not in repo)
 screenshots/
+tmp/

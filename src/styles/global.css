@@ -450,3 +450,11 @@ header[data-scrolled="true"].glass {
   border-bottom-color: rgba(34, 60, 35, 0.08);
   box-shadow: 0 2px 16px rgba(22, 26, 15, 0.06);
 }
+
+/* fix-mobile-bottom-overlap */
+html {
+  scroll-padding-bottom: 180px;
+}
+body {
+  padding-bottom: calc(170px + env(safe-area-inset-bottom, 0px)) !important;
+}
