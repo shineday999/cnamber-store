@@ -63,10 +63,10 @@ async function resetAll() {
 }
 
 describe("derivePriceBase", () => {
-  it("優先用 USD，換成元", () => {
-    expect(derivePriceBase({ CNY: 92000, USD: 12800 })).toBe("128.00");
+  it("優先用 CNY，換成元", () => {
+    expect(derivePriceBase({ CNY: 92000, USD: 12800 })).toBe("920.00");
   });
-  it("沒有 USD 就用第一個幣別", () => {
+  it("沒有 CNY 就用第一個幣別", () => {
     expect(derivePriceBase({ MYR: 59000 })).toBe("590.00");
   });
   it("沒有價格回 0.00", () => {
@@ -105,7 +105,7 @@ describe.skipIf(!db)("products repository", () => {
       )
       .bind(id)
       .first<{ price_base: string }>();
-    expect(row?.price_base).toBe("128.00");
+    expect(row?.price_base).toBe("920.00");
   });
 
   it("slug 重複 → slug_taken", async () => {
@@ -337,11 +337,11 @@ describe.skipIf(!db)("products repository", () => {
   it("setVariantPrices 整組取代並同步 price_base", async () => {
     const id = await createProduct(db!, sample());
     const v = (await getProduct(db!, id))!.variants[0]!;
-    await setVariantPrices(db!, id, v.id, { MYR: 5000, USD: 1000 });
+    await setVariantPrices(db!, id, v.id, { MYR: 5000, CNY: 1000 });
     const after = (await getProduct(db!, id))!.variants.find(
       (x) => x.id === v.id,
     )!;
-    expect(after.prices).toEqual({ MYR: 5000, USD: 1000 });
+    expect(after.prices).toEqual({ MYR: 5000, CNY: 1000 });
     const row = await db!
       .prepare("SELECT price_base FROM product_variants WHERE id = ?")
       .bind(v.id)

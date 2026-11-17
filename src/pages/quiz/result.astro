@@ -1,4 +1,5 @@
 ---
+import { formatPrice } from "@lib/format";
 import Layout from "@layouts/Layout.astro";
 import { env } from "cloudflare:workers";
 import ProductCard from "@components/ProductCard.astro";
@@ -41,7 +42,7 @@ const products =
          FROM products p
          LEFT JOIN product_translations pt ON pt.product_id = p.id AND pt.locale = ?
          LEFT JOIN product_variants pv ON pv.product_id = p.id
-         LEFT JOIN product_prices pp ON pp.variant_id = pv.id
+         LEFT JOIN product_prices pp ON pp.variant_id = pv.id AND pp.currency = 'CNY'
          WHERE p.id IN (${idsParam
            .split(",")
            .map(() => "?")
@@ -135,7 +136,11 @@ void locale;
                   imageUrl={firstImage(p.image_urls)}
                   priceFrom={
                     p.min_price
-                      ? `${p.min_price / 100} ${p.min_currency}`
+                      ? formatPrice(
+                          p.min_price,
+                          p.min_currency ?? "CNY",
+                          locale,
+                        )
                       : undefined
                   }
                 />

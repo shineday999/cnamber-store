@@ -4,7 +4,7 @@ import { env } from "cloudflare:workers";
 import { createT, tEnum } from "../../../i18n/t";
 import zhHansMessages from "../../../i18n/messages/zh-Hans.json";
 import { getDB } from "../../../lib/db";
-import { RATES_FROM_USD } from "../../../lib/format";
+import { getRates } from "../../../lib/format";
 import {
   CATEGORIES,
   SUBCATEGORIES,
@@ -60,8 +60,9 @@ if (Astro.request.method === "POST") {
 }
 
 const stamp = todayStamp();
+// 價格預覽用：1 人民幣 = 多少該幣別（來自後台「汇率」表）
 const rates = Object.fromEntries(
-  ["CNY", "USD", "MYR", "IDR"].map((c) => [c, RATES_FROM_USD[c] ?? 1]),
+  ["CNY", "USD", "MYR", "IDR"].map((c) => [c, getRates()[c] ?? 1]),
 );
 const field =
   "w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base";
@@ -221,35 +222,20 @@ const card =
     <!-- 2. 售价与库存 -->
     <section class={card}>
       <h2 class="font-medium">② 售价与库存</h2>
-      <div class="grid grid-cols-3 gap-3">
-        <div class="col-span-2">
-          <label class="block text-sm font-medium mb-1" for="np-price"
-            >售价 <span class="text-error">*</span></label
-          >
-          <input
-            id="np-price"
-            name="price"
-            type="text"
-            inputmode="decimal"
-            required
-            value={values.price}
-            placeholder="如：680"
-            class={field}
-          />
-        </div>
-        <div>
-          <label class="block text-sm font-medium mb-1" for="np-currency"
-            >币别</label
-          >
-          <select id="np-currency" name="currency" class={field}>
-            <option value="CNY" selected={values.currency === "CNY"}
-              >人民币 ¥</option
-            >
-            <option value="USD" selected={values.currency === "USD"}
-              >美元 $</option
-            >
-          </select>
-        </div>
+      <div>
+        <label class="block text-sm font-medium mb-1" for="np-price"
+          >售价（人民币 ¥） <span class="text-error">*</span></label
+        >
+        <input
+          id="np-price"
+          name="price"
+          type="text"
+          inputmode="decimal"
+          required
+          value={values.price}
+          placeholder="如：680"
+          class={field}
+        />
       </div>
       <p id="np-price-preview" class="text-xs text-text-muted"></p>
 
@@ -462,7 +448,6 @@ const card =
 
       // --- 售价预览：各语言前台实际会显示的价格 ---
       var priceEl = document.getElementById("np-price");
-      var curEl = document.getElementById("np-currency");
       var priceOut = document.getElementById("np-price-preview");
       var targets = [
         ["zh-Hans", "CNY"],
@@ -470,8 +455,8 @@ const card =
         ["ms-MY", "MYR"],
         ["id-ID", "IDR"],
       ];
-      function fmt(loc, cur, usd) {
-        var v = usd * (rates[cur] || 1);
+      function fmt(loc, cur, cny) {
+        var v = cny * (rates[cur] || 1);
         try {
           return new Intl.NumberFormat(loc, {
             style: "currency",
@@ -485,20 +470,19 @@ const card =
       function updPrice() {
         var v = parseFloat((priceEl.value || "").replace(/,/g, ""));
         if (!(v > 0)) {
-          priceOut.textContent = "填入售价后，这里会显示各语言前台的显示价格。";
+          priceOut.textContent =
+            "填入售价后，这里会显示各语言前台的显示价格（依「汇率」页的数值换算）。";
           return;
         }
-        var usd = Math.round((v / (rates[curEl.value] || 1)) * 100) / 100;
         priceOut.textContent =
           "前台显示：" +
           targets
             .map(function (t) {
-              return fmt(t[0], t[1], usd);
+              return fmt(t[0], t[1], v);
             })
             .join(" ・ ");
       }
       priceEl.addEventListener("input", updPrice);
-      curEl.addEventListener("change", updPrice);
       updPrice();
 
       // --- 图片预览与基本检查 ---

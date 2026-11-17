@@ -4,7 +4,7 @@ import { env } from "cloudflare:workers";
 import { createT } from "../../i18n/t";
 import { defaultLocale, type Locale } from "../../i18n/config";
 import zhHansMessages from "../../i18n/messages/zh-Hans.json";
-import { formatPrice } from "../../lib/format";
+import { formatPrice, getRates } from "../../lib/format";
 
 const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
 const messages = zhHansMessages as Record<string, unknown>;
@@ -23,14 +23,20 @@ if (env?.DB) {
     const reviews = await env.DB.prepare(
       "SELECT COUNT(*) AS c FROM reviews WHERE status = 'pending'",
     ).first<{ c: number }>();
-    const revenue = await env.DB.prepare(
-      "SELECT COALESCE(SUM(total), 0) AS s FROM orders WHERE payment_status = 'paid'",
-    ).first<{ s: number }>();
+    const revenueRows = await env.DB.prepare(
+      "SELECT currency, COALESCE(SUM(total), 0) AS s FROM orders WHERE payment_status = 'paid' GROUP BY currency",
+    ).all<{ currency: string; s: number }>();
+    // 舊訂單可能是美元，新訂單是人民幣：先各自換成人民幣再加總
+    const rates = getRates();
+    const revenueCny = (revenueRows.results ?? []).reduce(
+      (sum, r) => sum + r.s / (rates[r.currency] ?? 1),
+      0,
+    );
     stats = {
       products: products?.c ?? 0,
       orders: orders?.c ?? 0,
       pendingReviews: reviews?.c ?? 0,
-      totalRevenue: revenue?.s ?? 0,
+      totalRevenue: Math.round(revenueCny),
     };
   } catch (e) {
     console.error("[admin dashboard] DB query failed", e);
@@ -81,7 +87,7 @@ if (env?.DB) {
         {t("admin.dashboard.stat_revenue")}
       </div>
       <div class="text-3xl font-serif mt-3 text-success tabular-nums">
-        {formatPrice(stats.totalRevenue, "USD", locale)}
+        {formatPrice(stats.totalRevenue, "CNY", locale)}
       </div>
     </div>
   </div>
