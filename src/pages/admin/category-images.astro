@@ -3,47 +3,59 @@ import { env } from "cloudflare:workers";
 import AdminLayout from "../../layouts/AdminLayout.astro";
 import { createT } from "../../i18n/t";
 import zhHansMessages from "../../i18n/messages/zh-Hans.json";
+import { locales, localeNames } from "../../i18n/config";
+import { getDB } from "../../lib/db";
+import {
+  ensureCategoryTable,
+  listCategories,
+  type SiteCategory,
+} from "../../lib/categories";
 
-// /admin/category-images — 首頁「两条手作路线」兩張圖。沒上傳時使用靜態預設圖。
+// /admin/category-images — 首頁「手作路线」分類卡片：標題、簡介、圖片、排序；可新增 / 刪除分類。
+// 沒上傳圖片的 jewelry / incense 使用靜態預設圖。
 const t = createT(zhHansMessages as Record<string, unknown>);
 
-const SLOTS = [
-  {
-    key: "jewelry",
-    dbKey: "cat_jewelry",
-    label: t("admin.category_images.slot_jewelry"),
-    fallback: "/images/banners/cat-jewelry.jpg",
-  },
-  {
-    key: "incense",
-    dbKey: "cat_incense",
-    label: t("admin.category_images.slot_incense"),
-    fallback: "/images/banners/cat-incense.jpg",
-  },
-];
+const FALLBACK: Record<string, string> = {
+  jewelry: "/images/banners/cat-jewelry.jpg",
+  incense: "/images/banners/cat-incense.jpg",
+};
+const LEGACY_LABEL: Record<string, string> = {
+  jewelry: String(t("admin.category_images.slot_jewelry")),
+  incense: String(t("admin.category_images.slot_incense")),
+};
 
 interface ImageRow {
   key: string;
   url: string;
 }
 
-let rows: ImageRow[] = [];
+let categories: SiteCategory[] = [];
+const images: Record<string, string> = {};
 if (env?.DB) {
   try {
-    const res = await env.DB.prepare(
-      "SELECT key, url FROM site_images WHERE key IN ('cat_jewelry', 'cat_incense')",
-    ).all<ImageRow>();
-    rows = res.results ?? [];
+    const db = getDB();
+    await ensureCategoryTable(db);
+    categories = await listCategories(db);
   } catch {
-    rows = [];
+    categories = [];
+  }
+  try {
+    const res = await env.DB.prepare(
+      "SELECT key, url FROM site_images WHERE key LIKE 'cat_%'",
+    ).all<ImageRow>();
+    for (const r of res.results ?? []) images[r.key.slice(4)] = r.url;
+  } catch {
+    // site_images 還沒建立：全部用預設圖
   }
 }
 const saved = Astro.url.searchParams.get("saved") === "1";
+const label = (c: SiteCategory) =>
+  c.titles["zh-Hans"] || LEGACY_LABEL[c.code] || c.code;
 ---
 
 <AdminLayout title={t("admin.category_images.title")} active="category_images">
   <p class="text-text-secondary mb-6">
-    {t("admin.category_images.subtitle")}
+    首页「手作路线」的分类卡片：可改各语言标题与简介、换图片、调整顺序，也可以新增或删除分类。语言栏留空时，首页会使用默认文字。
   </p>
 
   {
@@ -66,34 +78,100 @@ const saved = Astro.url.searchParams.get("saved") === "1";
     data-m-nothing={t("admin.category_images.nothing")}
   >
     {
-      SLOTS.map((slot) => {
-        const custom = rows.find((r) => r.key === slot.dbKey)?.url ?? null;
+      categories.map((c) => {
+        const custom = images[c.code] ?? null;
+        const src = custom ?? FALLBACK[c.code] ?? null;
         return (
           <section
-            data-ci-slot={slot.key}
+            data-ci-slot={c.code}
             class="bg-bg-card border border-text-muted/20 rounded-card p-6 flex flex-col sm:flex-row gap-6"
           >
             <div class="w-40 shrink-0">
               <div class="relative aspect-[4/5] overflow-hidden rounded-md bg-forest-100">
                 <img
-                  data-ci-preview={slot.key}
-                  src={custom ?? slot.fallback}
-                  alt={slot.label}
+                  data-ci-preview={c.code}
+                  src={src ?? undefined}
+                  hidden={!src}
+                  alt={label(c)}
                   class="w-full h-full object-cover"
                 />
               </div>
-              <p data-ci-badge={slot.key} class="mt-2 text-xs text-text-muted">
+              <p data-ci-badge={c.code} class="mt-2 text-xs text-text-muted">
                 {custom
                   ? t("admin.category_images.current_custom")
-                  : t("admin.category_images.current_default")}
+                  : src
+                    ? t("admin.category_images.current_default")
+                    : "未设置图片"}
               </p>
             </div>
-            <div class="flex-1 space-y-3">
-              <h3 class="font-serif text-lg">{slot.label}</h3>
+            <div class="flex-1 space-y-3 min-w-0">
+              <div class="flex items-start justify-between gap-3">
+                <h3 class="font-serif text-lg">
+                  {label(c)}{" "}
+                  <span class="font-mono text-xs text-text-muted">
+                    {c.code}
+                  </span>
+                </h3>
+                <button
+                  type="button"
+                  data-ci-delete={c.code}
+                  class="shrink-0 text-xs text-error underline underline-offset-2 hover:opacity-80"
+                >
+                  删除分类
+                </button>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {locales.map((l) => (
+                  <label class="block text-xs text-text-muted">
+                    标题 · {localeNames[l]}
+                    <input
+                      type="text"
+                      maxlength="60"
+                      data-ci-title={c.code}
+                      data-loc={l}
+                      value={c.titles[l] ?? ""}
+                      class="mt-1 block w-full rounded border border-text-muted/30 bg-white px-2 py-1 text-sm text-text-primary"
+                    />
+                  </label>
+                ))}
+              </div>
+
+              <details>
+                <summary class="cursor-pointer text-xs text-forest-700">
+                  简介（可选）
+                </summary>
+                <div class="grid grid-cols-1 gap-2 mt-2">
+                  {locales.map((l) => (
+                    <label class="block text-xs text-text-muted">
+                      简介 · {localeNames[l]}
+                      <input
+                        type="text"
+                        maxlength="200"
+                        data-ci-desc={c.code}
+                        data-loc={l}
+                        value={c.descs[l] ?? ""}
+                        class="mt-1 block w-full rounded border border-text-muted/30 bg-white px-2 py-1 text-sm text-text-primary"
+                      />
+                    </label>
+                  ))}
+                </div>
+              </details>
+
+              <label class="inline-block text-xs text-text-muted">
+                排序（数字小的在前）
+                <input
+                  type="number"
+                  data-ci-sort={c.code}
+                  value={c.sort_order}
+                  class="ml-2 w-20 rounded border border-text-muted/30 bg-white px-2 py-1 text-sm text-text-primary"
+                />
+              </label>
+
               <input
                 type="file"
                 accept="image/jpeg,image/png,image/webp"
-                data-ci-file={slot.key}
+                data-ci-file={c.code}
                 class="block w-full text-sm"
               />
               <p class="text-xs text-text-muted">
@@ -102,7 +180,7 @@ const saved = Astro.url.searchParams.get("saved") === "1";
               {custom && (
                 <button
                   type="button"
-                  data-ci-reset={slot.key}
+                  data-ci-reset={c.code}
                   class="text-xs text-forest-700 underline underline-offset-2 hover:text-forest-900"
                 >
                   {t("admin.category_images.reset")}
@@ -113,6 +191,43 @@ const saved = Astro.url.searchParams.get("saved") === "1";
         );
       })
     }
+
+    <section
+      class="bg-bg-card border border-dashed border-text-muted/40 rounded-card p-6 space-y-3"
+    >
+      <h3 class="font-serif text-lg">新增分类</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        <label class="block text-xs text-text-muted">
+          代码（小写英文、数字、连字符，如 bracelet）
+          <input
+            id="ci-new-code"
+            type="text"
+            maxlength="30"
+            class="mt-1 block w-full rounded border border-text-muted/30 bg-white px-2 py-1 text-sm text-text-primary"
+          />
+        </label>
+        <label class="block text-xs text-text-muted">
+          标题 · 简体中文
+          <input
+            id="ci-new-title"
+            type="text"
+            maxlength="60"
+            class="mt-1 block w-full rounded border border-text-muted/30 bg-white px-2 py-1 text-sm text-text-primary"
+          />
+        </label>
+      </div>
+      <p class="text-xs text-text-muted">
+        代码就是产品的分类代码（首页卡片会链接到
+        /products?cat=代码）。建立后再补其他语言标题与图片。
+      </p>
+      <button
+        type="button"
+        id="ci-new-add"
+        class="px-4 py-2 border border-forest-700 text-forest-700 rounded-md hover:bg-forest-700 hover:text-bg-base transition-colors text-sm"
+      >
+        新增
+      </button>
+    </section>
 
     <div
       class="sticky bottom-0 z-10 py-3 bg-bg-base border-t border-text-muted/20 flex items-center justify-between gap-3"
@@ -144,6 +259,24 @@ const saved = Astro.url.searchParams.get("saved") === "1";
       function setStatus(text, isError) {
         statusEl.textContent = text;
         statusEl.style.color = isError ? "#b42318" : "";
+      }
+      function api(body) {
+        return fetch("/api/admin/categories", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+          credentials: "same-origin",
+        }).then(function (res) {
+          return res
+            .json()
+            .catch(function () {
+              return {};
+            })
+            .then(function (j) {
+              if (!res.ok) throw new Error(j.error || msg("err-upload"));
+              return j;
+            });
+        });
       }
 
       // 置中裁切成指定尺寸（cover），輸出 JPEG
@@ -180,6 +313,20 @@ const saved = Astro.url.searchParams.get("saved") === "1";
         });
       }
 
+      // 任何文字 / 排序變動就允許儲存
+      root.addEventListener("input", function (e) {
+        var el = e.target;
+        if (
+          el &&
+          el.getAttribute &&
+          (el.hasAttribute("data-ci-title") ||
+            el.hasAttribute("data-ci-desc") ||
+            el.hasAttribute("data-ci-sort"))
+        ) {
+          saveBtn.disabled = false;
+        }
+      });
+
       root.addEventListener("change", function (e) {
         var el = e.target;
         var slot = el && el.getAttribute && el.getAttribute("data-ci-file");
@@ -201,6 +348,7 @@ const saved = Astro.url.searchParams.get("saved") === "1";
             pending[slot] = { big: r[0].blob, small: r[1].blob };
             var img = root.querySelector('[data-ci-preview="' + slot + '"]');
             img.src = r[0].canvas.toDataURL("image/jpeg", 0.8);
+            img.hidden = false;
             root.querySelector('[data-ci-badge="' + slot + '"]').textContent =
               msg("pending");
             saveBtn.disabled = false;
@@ -217,7 +365,7 @@ const saved = Astro.url.searchParams.get("saved") === "1";
           });
       });
 
-      function post(fd) {
+      function postImage(fd) {
         return fetch("/api/admin/category-images", {
           method: "POST",
           body: fd,
@@ -227,48 +375,107 @@ const saved = Astro.url.searchParams.get("saved") === "1";
         });
       }
 
+      // 收集所有分類目前的標題 / 簡介 / 排序
+      function collect() {
+        var items = [];
+        root.querySelectorAll("[data-ci-slot]").forEach(function (sec) {
+          var code = sec.getAttribute("data-ci-slot");
+          var titles = {};
+          var descs = {};
+          sec.querySelectorAll("[data-ci-title]").forEach(function (i) {
+            titles[i.getAttribute("data-loc")] = i.value;
+          });
+          sec.querySelectorAll("[data-ci-desc]").forEach(function (i) {
+            descs[i.getAttribute("data-loc")] = i.value;
+          });
+          var sortEl = sec.querySelector("[data-ci-sort]");
+          items.push({
+            code: code,
+            sort_order: sortEl ? Number(sortEl.value) || 0 : 0,
+            titles: titles,
+            descs: descs,
+          });
+        });
+        return items;
+      }
+
       saveBtn.addEventListener("click", function () {
         var slots = Object.keys(pending);
-        if (!slots.length) {
-          setStatus(msg("nothing"), true);
-          return;
-        }
         saveBtn.disabled = true;
         setStatus(msg("saving"), false);
-        var chain = Promise.resolve();
+        var chain = api({ action: "save", items: collect() });
         slots.forEach(function (slot) {
           chain = chain.then(function () {
             var fd = new FormData();
             fd.append("slot", slot);
             fd.append("image", pending[slot].big, "cat-800.jpg");
             fd.append("image_small", pending[slot].small, "cat-480.jpg");
-            return post(fd);
+            return postImage(fd);
           });
         });
         chain
           .then(function () {
             window.location.href = "/admin/category-images?saved=1";
           })
-          .catch(function () {
+          .catch(function (err) {
             saveBtn.disabled = false;
-            setStatus(msg("err-upload"), true);
+            setStatus((err && err.message) || msg("err-upload"), true);
           });
       });
 
       root.addEventListener("click", function (e) {
-        var btn = e.target.closest && e.target.closest("[data-ci-reset]");
-        if (!btn) return;
-        if (!window.confirm(msg("reset-confirm"))) return;
-        var fd = new FormData();
-        fd.append("slot", btn.getAttribute("data-ci-reset"));
-        fd.append("_action", "reset");
-        post(fd)
-          .then(function () {
-            window.location.href = "/admin/category-images?saved=1";
+        var target = e.target;
+        if (!target || !target.closest) return;
+
+        var resetBtn = target.closest("[data-ci-reset]");
+        if (resetBtn) {
+          if (!window.confirm(msg("reset-confirm"))) return;
+          var fd = new FormData();
+          fd.append("slot", resetBtn.getAttribute("data-ci-reset"));
+          fd.append("_action", "reset");
+          postImage(fd)
+            .then(function () {
+              window.location.href = "/admin/category-images?saved=1";
+            })
+            .catch(function () {
+              setStatus(msg("err-upload"), true);
+            });
+          return;
+        }
+
+        var delBtn = target.closest("[data-ci-delete]");
+        if (delBtn) {
+          var code = delBtn.getAttribute("data-ci-delete");
+          if (
+            !window.confirm("确定删除分类「" + code + "」？图片也会一起删除。")
+          )
+            return;
+          api({ action: "delete", code: code })
+            .then(function () {
+              window.location.href = "/admin/category-images?saved=1";
+            })
+            .catch(function (err) {
+              setStatus((err && err.message) || msg("err-upload"), true);
+            });
+          return;
+        }
+
+        if (target.closest("#ci-new-add")) {
+          var codeEl = document.getElementById("ci-new-code");
+          var titleEl = document.getElementById("ci-new-title");
+          setStatus("", false);
+          api({
+            action: "create",
+            code: codeEl.value,
+            titles: { "zh-Hans": titleEl.value },
           })
-          .catch(function () {
-            setStatus(msg("err-upload"), true);
-          });
+            .then(function () {
+              window.location.href = "/admin/category-images?saved=1";
+            })
+            .catch(function (err) {
+              setStatus((err && err.message) || msg("err-upload"), true);
+            });
+        }
       });
     })();
   </script>

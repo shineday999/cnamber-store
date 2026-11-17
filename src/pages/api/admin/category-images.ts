@@ -1,11 +1,10 @@
 import type { APIRoute } from "astro";
 import { env } from "cloudflare:workers";
 import { getDB } from "../../../lib/db";
+import { CODE_RE } from "../../../lib/categories";
 
 // 後台「分類圖片」：每個 slot 一組 800 / 480 寬的 JPEG（瀏覽器端已裁成 4:5）。
 // 網址記在 site_images；表由這裡自動建立，不需手動 migration。
-const SLOTS = { jewelry: "cat_jewelry", incense: "cat_incense" } as const;
-type Slot = keyof typeof SLOTS;
 const MAX = 2 * 1024 * 1024;
 const PREFIX = "/api/images/";
 
@@ -34,10 +33,10 @@ export const POST: APIRoute = async (ctx) => {
 
   const form = await ctx.request.formData();
   const slotRaw = String(form.get("slot") ?? "");
-  if (slotRaw !== "jewelry" && slotRaw !== "incense") {
+  if (!CODE_RE.test(slotRaw)) {
     return json({ error: "Invalid slot" }, 400);
   }
-  const dbKey = SLOTS[slotRaw as Slot];
+  const dbKey = `cat_${slotRaw}`;
 
   const db = getDB();
   await db

@@ -7,6 +7,7 @@ import ProductCard from "@components/ProductCard.astro";
 import RevealOnScroll from "@components/RevealOnScroll.astro";
 import { createT } from "../i18n/t";
 import { formatPrice } from "../lib/format";
+import { parseTextMap } from "../lib/categories";
 import { localizedPath, defaultLocale, type Locale } from "../i18n/config";
 
 const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
@@ -44,6 +45,99 @@ if (env?.DB) {
     // site_images 還沒建立：維持預設圖
   }
 }
+
+// 分類卡片：由後台「分類圖片」管理（site_categories）；沒有資料時用預設的 jewelry / incense
+interface HomeCategory {
+  code: string;
+  kicker: string;
+  title: string;
+  desc: string;
+  alt: string;
+  src: string | null;
+  small: string | null;
+}
+const LEGACY_CAT_KEYS: Record<
+  string,
+  { kicker: string; title: string; desc: string; alt: string }
+> = {
+  jewelry: {
+    kicker: "nav.amber",
+    title: "home.cat_amber_title",
+    desc: "home.cat_amber_desc",
+    alt: "home.cat_amber_alt",
+  },
+  incense: {
+    kicker: "nav.incense",
+    title: "home.cat_incense_title",
+    desc: "home.cat_incense_desc",
+    alt: "home.cat_incense_alt",
+  },
+};
+const legacyT = (key: string | undefined): string => {
+  if (!key) return "";
+  const v: unknown = t(key);
+  return typeof v === "string" && v !== key ? v : "";
+};
+let homeCatRows: Array<{
+  code: string;
+  titles: Record<string, string>;
+  descs: Record<string, string>;
+}> = [
+  { code: "jewelry", titles: {}, descs: {} },
+  { code: "incense", titles: {}, descs: {} },
+];
+const homeCatImages: Record<string, { src: string; small: string }> = {};
+if (env?.DB) {
+  try {
+    const res = await env.DB.prepare(
+      "SELECT code, titles, descs FROM site_categories ORDER BY sort_order ASC, code ASC",
+    ).all<{ code: string; titles: string; descs: string }>();
+    const list = res.results ?? [];
+    if (list.length > 0) {
+      homeCatRows = list.map((r) => ({
+        code: r.code,
+        titles: parseTextMap(r.titles),
+        descs: parseTextMap(r.descs),
+      }));
+    }
+  } catch {
+    // site_categories 還沒建立：用預設兩個
+  }
+  try {
+    const res = await env.DB.prepare(
+      "SELECT key, url, url_small FROM site_images WHERE key LIKE 'cat_%'",
+    ).all<{ key: string; url: string; url_small: string | null }>();
+    for (const r of res.results ?? []) {
+      if (r.url) {
+        homeCatImages[r.key.slice(4)] = {
+          src: r.url,
+          small: r.url_small || r.url,
+        };
+      }
+    }
+  } catch {
+    // site_images 還沒建立：維持預設圖
+  }
+}
+const homeCatDefaults = catImages as unknown as Record<
+  string,
+  { src: string; small: string } | undefined
+>;
+const homeCategories: HomeCategory[] = homeCatRows.map((c) => {
+  const lk = LEGACY_CAT_KEYS[c.code];
+  const title =
+    c.titles[locale] || legacyT(lk?.title) || c.titles["zh-Hans"] || c.code;
+  const img = homeCatImages[c.code] ?? homeCatDefaults[c.code] ?? null;
+  return {
+    code: c.code,
+    kicker: legacyT(lk?.kicker),
+    title,
+    desc: c.descs[locale] || legacyT(lk?.desc) || c.descs["zh-Hans"] || "",
+    alt: legacyT(lk?.alt) || title,
+    src: img?.src ?? null,
+    small: img?.small ?? null,
+  };
+});
 
 // Wave 28.7f: 首頁 hero 大標 + 副標題 從 D1 site_settings 讀
 // (admin 編輯即時生效,4 語各自獨立,缺值 fallback i18n home.hero_title/subtitle)
@@ -409,91 +503,55 @@ const slides = bannerRows.results.map((b) => ({
     </RevealOnScroll>
 
     <div class="grid grid-cols-12 gap-5 md:gap-6 items-start">
-      <RevealOnScroll class="col-span-12 md:col-span-5">
-        <a
-          href={localizedPath(locale, "/products?cat=jewelry")}
-          class="group relative block aspect-[4/5] overflow-hidden bg-forest-100 rounded-sm hover-lift"
-        >
-          <img
-            decoding="async"
-            src={catImages.jewelry.src}
-            srcset={`${catImages.jewelry.small} 480w, ${catImages.jewelry.src} 800w`}
-            sizes="(max-width: 767px) 50vw, 700px"
-            alt={t("home.cat_amber_alt")}
-            class="w-full h-full object-cover cinematic group-hover:scale-[1.06] transition-transform duration-[1400ms] ease-out"
-            loading="lazy"
-          />
-          <div
-            class="absolute inset-0 bg-gradient-to-t from-forest-900/90 via-forest-900/40 to-transparent"
-          >
-          </div>
-          <div class="absolute bottom-0 left-0 right-0 p-7 text-cream-50">
-            <p
-              class="text-[10px] uppercase tracking-[0.4em] text-terra-300 mb-2 font-sans"
+      {
+        homeCategories.map((c, i) => {
+          // 兩張一排：偶數列「窄、寬」，奇數列「寬、窄」；每排第二張往下錯開
+          const second = i % 2 === 1;
+          const wide = (Math.floor(i / 2) % 2 === 0) === second;
+          return (
+            <RevealOnScroll
+              delay={second ? 150 : 0}
+              class={`col-span-12 ${wide ? "md:col-span-7" : "md:col-span-5"}${second ? " md:mt-16" : ""}`}
             >
-              {t("nav.amber")}
-            </p>
-            <h3
-              class="text-2xl md:text-3xl font-serif font-light mb-2 leading-tight"
-            >
-              {t("home.cat_amber_title")}
-            </h3>
-            <p
-              class="text-sm text-cream-100/80 mb-3 font-sans leading-relaxed max-w-sm"
-            >
-              {t("home.cat_amber_desc")}
-            </p>
-            <span
-              class="text-xs text-terra-300 border-b border-terra-300/40 pb-0.5 group-hover:border-terra-300 transition-colors tracking-wide font-sans"
-            >
-              {t("home.cat_explore")} →
-            </span>
-          </div>
-        </a>
-      </RevealOnScroll>
-
-      <RevealOnScroll delay={150} class="col-span-12 md:col-span-7 md:mt-16">
-        <a
-          href={localizedPath(locale, "/products?cat=incense")}
-          class="group relative block aspect-[4/5] overflow-hidden bg-forest-100 rounded-sm hover-lift"
-        >
-          <img
-            decoding="async"
-            src={catImages.incense.src}
-            srcset={`${catImages.incense.small} 480w, ${catImages.incense.src} 800w`}
-            sizes="(max-width: 767px) 50vw, 700px"
-            alt={t("home.cat_incense_alt")}
-            class="w-full h-full object-cover cinematic group-hover:scale-[1.06] transition-transform duration-[1400ms] ease-out"
-            loading="lazy"
-          />
-          <div
-            class="absolute inset-0 bg-gradient-to-t from-forest-900/90 via-forest-900/40 to-transparent"
-          >
-          </div>
-          <div class="absolute bottom-0 left-0 right-0 p-7 text-cream-50">
-            <p
-              class="text-[10px] uppercase tracking-[0.4em] text-terra-300 mb-2 font-sans"
-            >
-              {t("nav.incense")}
-            </p>
-            <h3
-              class="text-2xl md:text-3xl font-serif font-light mb-2 leading-tight"
-            >
-              {t("home.cat_incense_title")}
-            </h3>
-            <p
-              class="text-sm text-cream-100/80 mb-3 font-sans leading-relaxed max-w-sm"
-            >
-              {t("home.cat_incense_desc")}
-            </p>
-            <span
-              class="text-xs text-terra-300 border-b border-terra-300/40 pb-0.5 group-hover:border-terra-300 transition-colors tracking-wide font-sans"
-            >
-              {t("home.cat_explore")} →
-            </span>
-          </div>
-        </a>
-      </RevealOnScroll>
+              <a
+                href={localizedPath(locale, `/products?cat=${c.code}`)}
+                class="group relative block aspect-[4/5] overflow-hidden bg-forest-100 rounded-sm hover-lift"
+              >
+                {c.src && (
+                  <img
+                    decoding="async"
+                    src={c.src}
+                    srcset={`${c.small ?? c.src} 480w, ${c.src} 800w`}
+                    sizes="(max-width: 767px) 50vw, 700px"
+                    alt={c.alt}
+                    class="w-full h-full object-cover cinematic group-hover:scale-[1.06] transition-transform duration-[1400ms] ease-out"
+                    loading="lazy"
+                  />
+                )}
+                <div class="absolute inset-0 bg-gradient-to-t from-forest-900/90 via-forest-900/40 to-transparent" />
+                <div class="absolute bottom-0 left-0 right-0 p-7 text-cream-50">
+                  {c.kicker && (
+                    <p class="text-[10px] uppercase tracking-[0.4em] text-terra-300 mb-2 font-sans">
+                      {c.kicker}
+                    </p>
+                  )}
+                  <h3 class="text-2xl md:text-3xl font-serif font-light mb-2 leading-tight">
+                    {c.title}
+                  </h3>
+                  {c.desc && (
+                    <p class="text-sm text-cream-100/80 mb-3 font-sans leading-relaxed max-w-sm">
+                      {c.desc}
+                    </p>
+                  )}
+                  <span class="text-xs text-terra-300 border-b border-terra-300/40 pb-0.5 group-hover:border-terra-300 transition-colors tracking-wide font-sans">
+                    {t("home.cat_explore")} →
+                  </span>
+                </div>
+              </a>
+            </RevealOnScroll>
+          );
+        })
+      }
     </div>
 
     <!-- Find yours — 2 quiz cards -->
