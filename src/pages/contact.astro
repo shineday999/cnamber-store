@@ -143,6 +143,7 @@ const faqs = [
           {t("contact.channels_kicker")}
         </p>
         <div
+          data-contact-channels
           class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-1 text-sm font-sans"
         >
           <div
@@ -163,9 +164,15 @@ const faqs = [
           >
             <span
               class="text-[10px] uppercase tracking-[0.3em] text-terra-500 font-sans w-20 shrink-0"
-              >{t("contact.channel_whatsapp")}</span
+              >{t("contact.channel_xiaohongshu")}</span
             >
-            <span class="text-forest-700">{t("contact.by_appointment")}</span>
+            <a
+              href="https://xiaohongshu.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-forest-700 hover:text-forest-800 underline-offset-2 hover:underline"
+              >xiaohongshu.com</a
+            >
           </div>
           <div
             class="flex items-baseline gap-3 py-3 border-b border-forest-100/60"
