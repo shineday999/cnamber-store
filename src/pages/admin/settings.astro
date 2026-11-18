@@ -1,15 +1,15 @@
 ---
 import { env } from "cloudflare:workers";
 
-// /admin/settings — Wave 28.7d 編輯網站名稱 / 主題 / 次主題 (3 keys × 4 locales)
-// 純文字標籤,管理員自由填寫。前台 layout 用 current locale,缺值 fallback zh-Hans。
+// /admin/settings — 網站名稱 / 首頁副標題 / 主題 / 次主題（4 個欄位 × 4 種語言）
+// 純文字標籤，管理員自由填寫。前台 layout 用 current locale，缺值 fallback zh-Hans。
+// 首頁橫幅管理已獨立成「首页横幅」頁籤（/admin/banners）。
 import AdminLayout from "../../layouts/AdminLayout.astro";
 import { createT } from "../../i18n/t";
 import zhHansMessages from "../../i18n/messages/zh-Hans.json";
 
 const messages = zhHansMessages as Record<string, unknown>;
 const t = createT(messages);
-const admin = Astro.locals.admin;
 
 interface SettingRow {
   key: string;
@@ -23,7 +23,7 @@ const rows = env?.DB
     ).all<SettingRow>()
   : { results: [] as SettingRow[] };
 
-// 3 keys × 4 locales grid:valueMap[key][locale] = current text
+// valueMap[key][locale] = 目前的文字
 const valueMap: Record<string, Record<string, string>> = {
   site_name: {},
   hero_subtitle: {},
@@ -68,347 +68,85 @@ const KEY_SECTIONS = [
 ];
 
 const saved = Astro.url.searchParams.get("saved") === "1";
-
-// Wave 29: 橫幅併入設定,直接從 D1 抓 hero_banners list
-const banners = env?.DB
-  ? await env.DB.prepare(
-      "SELECT id, image_url, mobile_image_url, alt_text, sort_order, active FROM hero_banners ORDER BY sort_order ASC, created_at DESC",
-    ).all<{
-      id: string;
-      image_url: string;
-      mobile_image_url: string | null;
-      alt_text: string | null;
-      sort_order: number;
-      active: number;
-    }>()
-  : {
-      results: [] as Array<{
-        id: string;
-        image_url: string;
-        mobile_image_url: string | null;
-        alt_text: string | null;
-        sort_order: number;
-        active: number;
-      }>,
-    };
-
-void admin;
+const inputClass =
+  "w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base text-sm";
+const gridCols = "lg:grid-cols-[9rem_repeat(4,minmax(0,1fr))]";
 ---
 
 <AdminLayout title={t("admin.settings.title")} active="settings">
-  <p class="text-text-secondary mb-6">{t("admin.settings.subtitle")}</p>
+  <p class="text-sm text-text-secondary mb-4 max-w-3xl">
+    {t("admin.settings.subtitle")}
+  </p>
 
   {
     saved && (
-      <div class="mb-6 bg-success/10 border border-success/30 text-success px-4 py-3 rounded text-sm">
+      <div
+        role="status"
+        class="mb-4 bg-success/10 border border-success/30 text-success px-4 py-2.5 rounded text-sm"
+      >
         {t("admin.settings.saved")}
       </div>
     )
   }
 
-  <form method="POST" action="/api/admin/settings" class="space-y-8">
-    {
-      KEY_SECTIONS.map(({ key, label, hint }) => (
-        <section class="bg-bg-card border border-text-muted/20 rounded-card p-6">
-          <h2 class="text-lg font-serif mb-1">{label}</h2>
-          <p class="text-xs text-text-muted mb-4">{hint}</p>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {LOCALES.map(({ code, label: localeLabel }) => (
+  <form method="POST" action="/api/admin/settings" class="space-y-4">
+    <section
+      class="bg-bg-card border border-text-muted/20 rounded-card p-4 sm:p-5"
+    >
+      <!-- 欄位說明：桌面版當作表頭，一次看到四個欄位各自的用途 -->
+      <div class={`hidden lg:grid ${gridCols} gap-3 pb-3`}>
+        <div></div>
+        {
+          KEY_SECTIONS.map(({ label, hint }) => (
+            <div>
+              <p class="text-sm font-medium">{label}</p>
+              <p class="mt-0.5 text-xs leading-snug text-text-muted">{hint}</p>
+            </div>
+          ))
+        }
+      </div>
+
+      {
+        LOCALES.map(({ code, label: localeLabel }) => (
+          <div
+            class={`grid grid-cols-1 sm:grid-cols-2 ${gridCols} items-start gap-3 border-t border-text-muted/15 py-3`}
+          >
+            <div class="sm:col-span-2 lg:col-span-1 lg:pt-2">
+              <p class="text-sm font-medium">{localeLabel}</p>
+              <p class="font-mono text-xs text-text-muted">{code}</p>
+            </div>
+            {KEY_SECTIONS.map(({ key, label }) => (
               <div>
                 <label
-                  class="block text-sm font-medium mb-1"
+                  class="mb-1 block text-xs text-text-muted lg:sr-only"
                   for={`${key}__${code}`}
                 >
-                  {localeLabel}
-                  <span class="text-text-muted text-xs ml-1">({code})</span>
+                  {label}
                 </label>
                 <input
                   id={`${key}__${code}`}
                   name={`${key}__${code}`}
                   type="text"
                   value={valueMap[key]?.[code] ?? ""}
-                  class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base font-mono text-sm"
+                  class={inputClass}
                 />
               </div>
             ))}
           </div>
-        </section>
-      ))
-    }
+        ))
+      }
+    </section>
 
-    <div class="flex items-center gap-3">
+    <div
+      class="sticky bottom-0 z-10 -mx-4 flex items-center gap-3 border-t border-text-muted/15 bg-cream-50/95 px-4 py-3 backdrop-blur sm:mx-0 sm:px-0"
+    >
       <button
         type="submit"
-        class="px-6 py-3 bg-forest-700 text-bg-base rounded-md font-medium hover:bg-forest-900 transition-colors"
+        class="px-6 py-2.5 bg-forest-700 text-bg-base rounded-md font-medium hover:bg-forest-900 transition-colors"
       >
         {t("admin.common.save")}
       </button>
-      <a
-        href="/admin"
-        class="text-text-muted hover:text-text-primary text-sm underline transition-colors"
-      >
-        {t("admin.common.back")}
-      </a>
+      <span class="text-xs text-text-muted">空白栏位不会覆盖已有的文字</span>
     </div>
   </form>
-
-  <!-- Wave 29: 橫幅管理併入設定頁 -->
-  <section
-    id="banners"
-    class="mt-10 bg-bg-card border border-text-muted/20 rounded-card p-6"
-  >
-    <h2 class="text-lg font-serif mb-1">{t("admin.banners.title")}</h2>
-    <p class="text-xs text-text-muted mb-4">
-      {t("admin.banners.dimension_label")} 1920×1080
-    </p>
-
-    <form
-      method="POST"
-      action="/api/admin/banners"
-      enctype="multipart/form-data"
-      class="space-y-3 max-w-2xl mb-6"
-    >
-      <div>
-        <label class="block text-sm font-medium mb-1" for="image"
-          >{t("admin.banners.upload_image")}</label
-        >
-        <input
-          id="image"
-          name="image"
-          type="file"
-          accept="image/jpeg,image/png,image/webp,image/gif"
-          required
-          class="w-full text-sm file:mr-3 file:py-2 file:px-4 file:border-0 file:bg-forest-700 file:text-bg-base file:rounded file:cursor-pointer"
-        />
-      </div>
-      <div>
-        <label class="block text-sm font-medium mb-1" for="mobile_image"
-          >{t("admin.banners.upload_mobile_image")}</label
-        >
-        <p class="text-xs text-text-muted mb-1">
-          {t("admin.banners.mobile_hint")}
-        </p>
-        <input
-          id="mobile_image"
-          name="mobile_image"
-          type="file"
-          accept="image/jpeg,image/png,image/webp,image/gif"
-          class="w-full text-sm file:mr-3 file:py-2 file:px-4 file:border-0 file:bg-forest-700 file:text-bg-base file:rounded file:cursor-pointer"
-        />
-      </div>
-      <div class="grid grid-cols-3 gap-3">
-        <div class="col-span-2">
-          <label class="block text-sm font-medium mb-1" for="alt_text"
-            >{t("admin.banners.alt_text")}</label
-          >
-          <input
-            id="alt_text"
-            name="alt_text"
-            type="text"
-            class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
-          />
-        </div>
-        <div>
-          <label class="block text-sm font-medium mb-1" for="sort_order"
-            >{t("admin.banners.sort_order")}</label
-          >
-          <input
-            id="sort_order"
-            name="sort_order"
-            type="number"
-            value="0"
-            class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
-          />
-        </div>
-      </div>
-      <label class="inline-flex items-center gap-2 text-sm">
-        <input type="checkbox" name="active" value="1" checked />
-        <span>{t("admin.banners.active")}</span>
-      </label>
-      <div>
-        <button
-          type="submit"
-          class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900 transition-colors"
-        >
-          {t("admin.banners.upload")}
-        </button>
-      </div>
-    </form>
-
-    {
-      banners.results.length === 0 ? (
-        <p class="text-text-muted text-sm">{t("admin.banners.empty")}</p>
-      ) : (
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm leading-normal">
-            <thead class="bg-forest-100">
-              <tr>
-                <th class="text-left px-3 py-2 text-xs font-medium tracking-wide text-text-secondary">
-                  {t("admin.banners.preview")}
-                </th>
-                <th class="text-left px-3 py-2 text-xs font-medium tracking-wide text-text-secondary">
-                  {t("admin.banners.mobile_label")}
-                </th>
-                <th class="text-left px-3 py-2 text-xs font-medium tracking-wide text-text-secondary">
-                  {t("admin.banners.alt_text")}
-                </th>
-                <th class="text-left px-3 py-2 text-xs font-medium tracking-wide text-text-secondary">
-                  {t("admin.banners.sort_order")}
-                </th>
-                <th class="text-left px-3 py-2 text-xs font-medium tracking-wide text-text-secondary">
-                  {t("admin.banners.active")}
-                </th>
-                <th class="text-right px-3 py-2 text-xs font-medium tracking-wide text-text-secondary">
-                  {t("admin.banners.delete")}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {banners.results.map((b) => (
-                <tr class="border-t border-text-muted/10 hover:bg-forest-50 transition-colors">
-                  <td class="px-3 py-2">
-                    <img
-                      loading="lazy"
-                      decoding="async"
-                      src={b.image_url}
-                      alt={b.alt_text ?? ""}
-                      class="w-32 h-18 object-cover rounded border border-text-muted/20"
-                    />
-                  </td>
-                  <td class="px-3 py-2">
-                    {b.mobile_image_url ? (
-                      <div class="space-y-1">
-                        <img
-                          loading="lazy"
-                          decoding="async"
-                          src={b.mobile_image_url}
-                          alt={b.alt_text ?? ""}
-                          class="w-16 h-16 object-cover rounded border border-text-muted/20"
-                        />
-                        <form
-                          method="POST"
-                          action={`/api/admin/banners/${b.id}`}
-                          enctype="multipart/form-data"
-                          class="space-y-1"
-                        >
-                          <input type="hidden" name="_method" value="PATCH" />
-                          <input
-                            type="file"
-                            name="mobile_image"
-                            accept="image/jpeg,image/png,image/webp,image/gif"
-                            class="text-xs"
-                          />
-                          <label class="inline-flex items-center gap-1 text-xs">
-                            <input
-                              type="checkbox"
-                              name="clear_mobile"
-                              value="1"
-                            />
-                            <span>{t("admin.banners.clear_mobile")}</span>
-                          </label>
-                          <button
-                            type="submit"
-                            class="block text-xs text-accent-700 hover:underline"
-                          >
-                            {t("admin.banners.replace_mobile")}
-                          </button>
-                        </form>
-                      </div>
-                    ) : (
-                      <form
-                        method="POST"
-                        action={`/api/admin/banners/${b.id}`}
-                        enctype="multipart/form-data"
-                        class="space-y-1"
-                      >
-                        <input type="hidden" name="_method" value="PATCH" />
-                        <input
-                          type="file"
-                          name="mobile_image"
-                          accept="image/jpeg,image/png,image/webp,image/gif"
-                          required
-                          class="text-xs"
-                        />
-                        <button
-                          type="submit"
-                          class="block text-xs text-accent-700 hover:underline"
-                        >
-                          + Mobile
-                        </button>
-                      </form>
-                    )}
-                  </td>
-                  <td class="px-3 py-2">{b.alt_text ?? "—"}</td>
-                  <td class="px-3 py-2 font-mono text-xs">{b.sort_order}</td>
-                  <td class="px-3 py-2">
-                    <form
-                      method="POST"
-                      action={`/api/admin/banners/${b.id}`}
-                      class="inline"
-                    >
-                      <input type="hidden" name="_method" value="PATCH" />
-                      <input
-                        type="hidden"
-                        name="alt_text"
-                        value={b.alt_text ?? ""}
-                      />
-                      <input
-                        type="hidden"
-                        name="sort_order"
-                        value={b.sort_order}
-                      />
-                      <input
-                        type="hidden"
-                        name="active"
-                        value={b.active === 1 ? "0" : "1"}
-                      />
-                      <button
-                        type="submit"
-                        class="text-accent-700 hover:underline"
-                      >
-                        {b.active === 1
-                          ? t("admin.banners.deactivate")
-                          : t("admin.banners.activate")}
-                      </button>
-                    </form>
-                  </td>
-                  <td class="px-3 py-2 text-right">
-                    <button
-                      type="button"
-                      class="text-error hover:underline"
-                      data-banner-id={b.id}
-                    >
-                      {t("admin.banners.delete")}
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )
-    }
-  </section>
-
-  <script is:inline>
-    (function () {
-      var confirmText = "确定删除该横幅？图片会从 R2 一并移除";
-      document.querySelectorAll("[data-banner-id]").forEach(function (btn) {
-        btn.addEventListener("click", function () {
-          var id = btn.getAttribute("data-banner-id");
-          if (!id) return;
-          if (!window.confirm(confirmText)) return;
-          var f = document.createElement("form");
-          f.method = "POST";
-          f.action = "/api/admin/banners/" + id;
-          var m = document.createElement("input");
-          m.name = "_method";
-          m.value = "DELETE";
-          f.appendChild(m);
-          document.body.appendChild(f);
-          f.submit();
-        });
-      });
-    })();
-  </script>
 </AdminLayout>
