@@ -96,3 +96,7 @@ Policy: shineday999@gmail.com (Email OTP)
 ## License
 
 MIT
+
+## 協作進度
+
+進度表:[docs/MOBILE-APP-PLAN.md](docs/MOBILE-APP-PLAN.md)(目前進行階段 7)。開工前先認領 ⬜ 步驟,已 ✅ 的不要重做。
