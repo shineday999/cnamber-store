@@ -54,13 +54,13 @@ const label = (c: SiteCategory) =>
 ---
 
 <AdminLayout title={t("admin.category_images.title")} active="category_images">
-  <p class="text-text-secondary mb-6">
+  <p class="mb-3 text-sm text-text-secondary">
     首页「手作路线」的分类卡片：可改各语言标题与简介、换图片、调整顺序，也可以新增或删除分类。语言栏留空时，首页会使用默认文字。
   </p>
 
   {
     saved && (
-      <div class="mb-6 bg-success/10 border border-success/30 text-success px-4 py-3 rounded text-sm">
+      <div class="mb-4 bg-success/10 border border-success/30 text-success px-4 py-3 rounded text-sm">
         {t("admin.category_images.saved")}
       </div>
     )
@@ -68,7 +68,7 @@ const label = (c: SiteCategory) =>
 
   <div
     id="ci-root"
-    class="max-w-3xl space-y-6"
+    class="max-w-3xl space-y-3"
     data-m-pending={t("admin.category_images.pending")}
     data-m-saving={t("admin.category_images.saving")}
     data-m-reset-confirm={t("admin.category_images.reset_confirm")}
@@ -84,9 +84,9 @@ const label = (c: SiteCategory) =>
         return (
           <section
             data-ci-slot={c.code}
-            class="bg-bg-card border border-text-muted/20 rounded-card p-6 flex flex-col sm:flex-row gap-6"
+            class="bg-bg-card border border-text-muted/20 rounded-card p-4 flex flex-col sm:flex-row gap-4"
           >
-            <div class="w-40 shrink-0">
+            <div class="w-28 shrink-0">
               <div class="relative aspect-[4/5] overflow-hidden rounded-md bg-forest-100">
                 <img
                   data-ci-preview={c.code}
@@ -193,7 +193,7 @@ const label = (c: SiteCategory) =>
     }
 
     <section
-      class="bg-bg-card border border-dashed border-text-muted/40 rounded-card p-6 space-y-3"
+      class="bg-bg-card border border-dashed border-text-muted/40 rounded-card p-4 space-y-3"
     >
       <h3 class="font-serif text-lg">新增分类</h3>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
