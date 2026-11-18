@@ -50,5 +50,8 @@ export const POST: APIRoute = async (ctx) => {
     httpOnly: true,
   });
 
-  return ctx.redirect("/cart", 303);
+  // next:只接受站內相對路徑,避免 open redirect;預設導向購物車
+  const nextRaw = String(form.get("next") ?? "");
+  const safeNext = /^\/(?!\/)[^\s\\]*$/.test(nextRaw) ? nextRaw : "/cart";
+  return ctx.redirect(safeNext, 303);
 };

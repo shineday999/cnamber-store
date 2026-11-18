@@ -16,6 +16,7 @@ const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
 const t = createT(messages);
 
 const slug = Astro.params.slug ?? "";
+const added = Astro.url.searchParams.get("added") === "1";
 
 interface Product {
   id: string;
@@ -282,8 +283,10 @@ void locale;
 
           {
             cnyPrice !== undefined && (
-              <p class="font-serif text-2xl text-forest-800 mb-8">
-                <span class="text-forest-600 text-sm font-sans mr-2">from</span>
+              <p
+                data-pd-price
+                class="font-serif text-3xl font-semibold text-terra-500 mb-8"
+              >
                 {formatPrice(Math.round(cnyPrice * 100), "CNY", locale)}
               </p>
             )
@@ -360,14 +363,15 @@ void locale;
                 aria-label={t("common.quantity") + " +"}>+</button
               >
             </div>
-            <div data-pd-bar>
-              {
-                cnyPrice !== undefined && (
-                  <p class="pd-bar-price">
-                    {formatPrice(Math.round(cnyPrice * 100), "CNY", locale)}
-                  </p>
-                )
-              }
+            <div data-pd-bar class="flex flex-col gap-3">
+              <button
+                type="submit"
+                name="next"
+                value={`${Astro.url.pathname}?added=1`}
+                class="pd-bar-add w-full px-7 py-3.5 border border-forest-700 text-forest-700 text-sm tracking-wide rounded-sm hover:bg-forest-50 transition-all duration-500"
+              >
+                {t("common.add_to_cart")}
+              </button>
               <button
                 type="submit"
                 class="w-full px-7 py-3.5 bg-forest-700 text-cream-50 text-sm tracking-wide rounded-sm hover:bg-forest-800 transition-all duration-500"
@@ -533,5 +537,16 @@ void locale;
         { passive: true },
       );
     })();
+  </script>
+  {
+    added && (
+      <div data-pd-toast role="status" class="pd-toast">
+        {t("common.added_to_cart")}
+      </div>
+    )
+  }
+  <script is:inline>
+    if (location.search.indexOf("added=1") > -1)
+      history.replaceState(null, "", location.pathname);
   </script>
 </Layout>
