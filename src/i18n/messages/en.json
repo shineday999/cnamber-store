@@ -37,7 +37,8 @@
     "stock": "Stock",
     "select_option": "Select an option",
     "reserve": "Reserve",
-    "from": "from",
+    "add_to_cart": "Add to cart",
+    "added_to_cart": "Added to cart",
     "reserve_help": "Pre-launch. Reserve a piece, and we'll reach out personally with shipping and payment options.",
     "translation_missing": "This language's translation is not yet complete; English fallback is shown."
   },

@@ -2407,3 +2407,53 @@
     overflow-wrap: anywhere;
   }
 }
+
+/* ===== pd-bar 2:商品詳情底部列 — 加入購物車 + 預訂 ===== */
+@media (max-width: 767.98px) {
+  main [data-pd-bar] {
+    flex-direction: row;
+    gap: 10px;
+  }
+  main [data-pd-bar] button[type="submit"] {
+    flex: 1 1 0;
+    padding: 0 10px;
+    white-space: nowrap;
+  }
+  main [data-pd-bar] .pd-bar-add {
+    background: #fff;
+    color: var(--m-accent);
+    border: 1.5px solid var(--m-accent);
+  }
+}
+
+/* 加入購物車後的提示 */
+.pd-toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(var(--m-tab-h, 64px) + env(safe-area-inset-bottom, 0px) + 92px);
+  z-index: 70;
+  transform: translateX(-50%);
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: rgba(31, 42, 36, 0.92);
+  color: #fff;
+  font-size: 14px;
+  white-space: nowrap;
+  pointer-events: none;
+  animation: pd-toast 2.6s ease forwards;
+}
+@keyframes pd-toast {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 8px);
+  }
+  12%,
+  80% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, 0);
+  }
+}

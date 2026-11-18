@@ -38,7 +38,8 @@
     "quantity": "数量",
     "stock": "库存",
     "select_option": "请选择规格",
-    "from": "起",
+    "add_to_cart": "加入购物车",
+    "added_to_cart": "已加入购物车",
     "translation_missing": "本语言翻译尚未完成，显示英文备用文案。"
   },
   "nav": {
