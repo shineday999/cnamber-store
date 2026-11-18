@@ -207,7 +207,7 @@ const inputField =
       <div class="mb-4 max-w-3xl rounded-card border border-forest-700/30 bg-forest-50 p-4 text-sm">
         {notice.created === "active" ? "已创建并上架。" : "已创建为草稿。"}
         {notice.blocked
-          ? `想上架但还缺：${notice.blocked}，请到「变体」页签补齐。`
+          ? `想上架但还缺：${notice.blocked}，请到「规格」页签补齐。`
           : ""}
       </div>
     )
@@ -276,7 +276,7 @@ const inputField =
   >
     <div slot="core">
       <p class="mb-3 max-w-2xl text-sm text-text-muted">
-        图片、售价、库存都在「变体」页签里管理。
+        图片、售价、库存都在「规格」页签里管理。
       </p>
       <form
         method="POST"
@@ -435,7 +435,7 @@ const inputField =
           <button
             type="button"
             class="px-4 py-2 ml-auto border border-error/40 text-error rounded-md hover:bg-error/10 transition-colors"
-            onclick={`if (!confirm('确定删除该产品？所有变体、翻译、评论都会一并删除。')) return false; const f = document.createElement('form'); f.method='POST'; f.action='/api/admin/products/${id}'; const i=document.createElement('input'); i.type='hidden'; i.name='_action'; i.value='delete'; f.appendChild(i); document.body.appendChild(f); f.submit();`}
+            onclick={`if (!confirm('确定删除该商品？所有规格、翻译、评论都会一并删除。')) return false; const f = document.createElement('form'); f.method='POST'; f.action='/api/admin/products/${id}'; const i=document.createElement('input'); i.type='hidden'; i.name='_action'; i.value='delete'; f.appendChild(i); document.body.appendChild(f); f.submit();`}
           >
             {t("admin.products_detail.delete")}
           </button>
