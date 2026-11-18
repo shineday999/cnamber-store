@@ -67,11 +67,11 @@ const rates = Object.fromEntries(
 const field =
   "w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base";
 const card =
-  "bg-bg-card border border-text-muted/20 rounded-card p-5 sm:p-6 space-y-4";
+  "bg-bg-card border border-text-muted/20 rounded-card p-4 space-y-3";
 ---
 
 <AdminLayout title={t("admin.products_new.title")} active="products">
-  <p class="text-text-secondary mb-6 max-w-3xl">
+  <p class="mb-3 max-w-3xl text-sm text-text-secondary">
     填完下面 4 个部分就可以上架。编号和规格编号由系统自动生成，不需要手动填写。
   </p>
 
@@ -79,7 +79,7 @@ const card =
     errors.length > 0 && (
       <div
         role="alert"
-        class="mb-6 max-w-3xl rounded-card border border-error/40 bg-error/10 p-4 text-sm"
+        class="mb-4 max-w-3xl rounded-card border border-error/40 bg-error/10 p-4 text-sm"
       >
         <p class="font-medium text-error mb-1">还有几项需要处理：</p>
         <ul class="list-disc pl-5 space-y-0.5">
@@ -97,13 +97,13 @@ const card =
     method="POST"
     enctype="multipart/form-data"
     data-stamp={stamp}
-    class="max-w-3xl space-y-6"
+    class="max-w-3xl space-y-4"
   >
     <input type="hidden" name="intent" value="draft" />
 
     <!-- 1. 基本资料 -->
     <section class={card}>
-      <h2 class="font-medium">① 这是什么商品</h2>
+      <h2 class="font-serif text-lg">① 这是什么商品</h2>
 
       <fieldset>
         <legend class="block text-sm font-medium mb-2">
@@ -204,7 +204,7 @@ const card =
         <label class="block text-sm font-medium mb-1" for="np-desc-zh"
           >中文描述 <span class="text-error">*</span></label
         >
-        <textarea id="np-desc-zh" name="desc_zh" rows="4" required class={field}
+        <textarea id="np-desc-zh" name="desc_zh" rows="3" required class={field}
           >{values.desc_zh}</textarea
         >
       </div>
@@ -221,25 +221,23 @@ const card =
 
     <!-- 2. 售价与库存 -->
     <section class={card}>
-      <h2 class="font-medium">② 售价与库存</h2>
-      <div>
-        <label class="block text-sm font-medium mb-1" for="np-price"
-          >售价（人民币 ¥） <span class="text-error">*</span></label
-        >
-        <input
-          id="np-price"
-          name="price"
-          type="text"
-          inputmode="decimal"
-          required
-          value={values.price}
-          placeholder="如：680"
-          class={field}
-        />
-      </div>
-      <p id="np-price-preview" class="text-xs text-text-muted"></p>
-
-      <div class="grid grid-cols-2 gap-3">
+      <h2 class="font-serif text-lg">② 售价与库存</h2>
+      <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
+        <div>
+          <label class="block text-sm font-medium mb-1" for="np-price"
+            >售价（人民币 ¥） <span class="text-error">*</span></label
+          >
+          <input
+            id="np-price"
+            name="price"
+            type="text"
+            inputmode="decimal"
+            required
+            value={values.price}
+            placeholder="如：680"
+            class={field}
+          />
+        </div>
         <div>
           <label class="block text-sm font-medium mb-1" for="np-stock"
             >库存 <span class="text-error">*</span></label
@@ -270,11 +268,12 @@ const card =
           />
         </div>
       </div>
+      <p id="np-price-preview" class="text-xs text-text-muted"></p>
     </section>
 
     <!-- 3. 图片 -->
     <section class={card}>
-      <h2 class="font-medium">③ 图片</h2>
+      <h2 class="font-serif text-lg">③ 图片</h2>
       <div>
         <input
           id="np-images"
@@ -295,7 +294,7 @@ const card =
 
     <!-- 4. 标签 -->
     <section class={card}>
-      <h2 class="font-medium">④ 标签</h2>
+      <h2 class="font-serif text-lg">④ 标签</h2>
       <p class="text-xs text-text-muted -mt-2">
         「为我推荐」测验会拿客人的答案来比对这些标签，勾得越准，推荐越准。
       </p>

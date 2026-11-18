@@ -11,9 +11,23 @@ const messages = zhHansMessages as Record<string, unknown>;
 const t = createT(messages);
 void locale;
 
-const products = env?.DB
-  ? await env.DB.prepare(
-      `SELECT p.id, p.slug, p.category, p.subcategory, p.status, p.image_url, p.created_at,
+interface ProductRow {
+  id: string;
+  slug: string;
+  category: string;
+  subcategory: string | null;
+  status: string;
+  image_url: string | null;
+  created_at: number;
+  name_zh: string | null;
+  cny_cents: number | null;
+}
+
+const STATUSES = ["active", "draft", "archived"];
+const requested = Astro.url.searchParams.get("status") ?? "";
+const filter = STATUSES.includes(requested) ? requested : "";
+
+const sql = `SELECT p.id, p.slug, p.category, p.subcategory, p.status, p.image_url, p.created_at,
               pt.name AS name_zh,
               (SELECT pp.amount FROM product_variants pv
                  JOIN product_prices pp
@@ -23,99 +37,81 @@ const products = env?.DB
        FROM products p
        LEFT JOIN product_translations pt
          ON pt.product_id = p.id AND pt.locale = 'zh-Hans'
-       ORDER BY p.created_at DESC LIMIT 100`,
-    ).all<{
-      id: string;
-      slug: string;
-      category: string;
-      subcategory: string | null;
-      status: string;
-      image_url: string | null;
-      created_at: number;
-      name_zh: string | null;
-      cny_cents: number | null;
-    }>()
-  : {
-      results: [] as Array<{
-        id: string;
-        slug: string;
-        category: string;
-        subcategory: string | null;
-        status: string;
-        image_url: string | null;
-        created_at: number;
-        name_zh: string | null;
-        cny_cents: number | null;
-      }>,
-    };
+       ${filter ? "WHERE p.status = ?" : ""}
+       ORDER BY p.created_at DESC LIMIT 100`;
+
+let products: { results: ProductRow[] } = { results: [] };
+const counts: Record<string, number> = {};
+let totalCount = 0;
+
+if (env?.DB) {
+  const stmt = env.DB.prepare(sql);
+  products = await (filter ? stmt.bind(filter) : stmt).all<ProductRow>();
+
+  const countRows = await env.DB.prepare(
+    "SELECT status, COUNT(*) AS c FROM products GROUP BY status",
+  ).all<{ status: string; c: number }>();
+  for (const r of countRows.results ?? []) {
+    counts[r.status] = r.c;
+    totalCount += r.c;
+  }
+}
+
+const chips = [
+  { value: "", label: "全部", n: totalCount },
+  ...STATUSES.map((s) => ({
+    value: s,
+    label: tEnum(t, "status", s),
+    n: counts[s] ?? 0,
+  })),
+];
+const th =
+  "px-3 py-2 text-left text-xs font-medium tracking-wide text-text-secondary";
 ---
 
 <AdminLayout title={t("admin.products_list.title")} active="products">
-  <div class="flex items-center justify-between mb-6">
-    <p class="text-text-secondary">
-      {t("admin.products_list.subtitle", { n: products.results.length })}
-    </p>
-    <div class="flex items-center gap-4">
-      <a href="/admin/rates" class="text-sm text-accent-700 underline"
-        >汇率设置</a
-      ><a
-        href="/admin/products/new"
-        class="px-4 py-2 bg-forest-700 text-bg-base rounded-md hover:bg-forest-900 transition-colors"
-      >
-        {t("admin.products_list.new_product")}
-      </a>
-    </div>
-  </div>
+  <nav class="mb-3 flex gap-2 overflow-x-auto pb-1" aria-label="商品状态筛选">
+    {
+      chips.map((c) => (
+        <a
+          href={
+            c.value ? `/admin/products?status=${c.value}` : "/admin/products"
+          }
+          aria-current={filter === c.value ? "page" : undefined}
+          class={`shrink-0 rounded-full border px-3 py-1 text-sm transition-colors ${
+            filter === c.value
+              ? "border-forest-700 bg-forest-700 text-bg-base"
+              : "border-text-muted/30 text-text-secondary hover:border-forest-700"
+          }`}
+        >
+          {c.label}
+          <span class="ml-1 tabular-nums opacity-70">{c.n}</span>
+        </a>
+      ))
+    }
+  </nav>
 
   <div
-    class="bg-bg-card border border-text-muted/20 rounded-card overflow-x-auto"
+    class="overflow-x-auto rounded-card border border-text-muted/20 bg-bg-card"
   >
     <table class="w-full text-sm leading-normal">
       <thead class="bg-forest-100">
         <tr>
-          <th
-            class="text-left px-4 py-3 text-xs font-medium tracking-wide text-text-secondary"
-            >{t("admin.products_list.col_id")}</th
-          >
-          <th
-            class="text-left px-4 py-3 text-xs font-medium tracking-wide text-text-secondary"
-            >{t("admin.products_list.col_image")}</th
-          >
-          <th
-            class="text-left px-4 py-3 text-xs font-medium tracking-wide text-text-secondary"
-            >{t("admin.products_list.col_name")}</th
-          >
-          <th
-            class="text-left px-4 py-3 text-xs font-medium tracking-wide text-text-secondary"
-            >售价</th
-          >
-          <th
-            class="text-left px-4 py-3 text-xs font-medium tracking-wide text-text-secondary"
-            >{t("admin.products_list.col_slug")}</th
-          >
-          <th
-            class="text-left px-4 py-3 text-xs font-medium tracking-wide text-text-secondary"
-            >{t("admin.products_list.col_category")}</th
-          >
-          <th
-            class="text-left px-4 py-3 text-xs font-medium tracking-wide text-text-secondary"
-            >{t("admin.products_list.col_subcategory")}</th
-          >
-          <th
-            class="text-left px-4 py-3 text-xs font-medium tracking-wide text-text-secondary"
-            >{t("admin.products_list.col_status")}</th
-          >
-          <th
-            class="text-right px-4 py-3 text-xs font-medium tracking-wide text-text-secondary"
-            >{t("admin.products_list.col_actions")}</th
-          >
+          <th class={th}>{t("admin.products_list.col_image")}</th>
+          <th class={th}>{t("admin.products_list.col_name")}</th>
+          <th class={th}>{t("admin.products_list.col_category")}</th>
+          <th class={th}>售价</th>
+          <th class={th}>{t("admin.products_list.col_status")}</th>
+          <th class={`${th} text-right`}>
+            {t("admin.products_list.col_actions")}
+          </th>
         </tr>
       </thead>
       <tbody>
         {
           products.results.length === 0 && (
             <tr>
-              <td colspan="9" class="px-4 py-8 text-center text-text-muted">
+              <td colspan="6" class="px-3 py-8 text-center text-text-muted">
                 {t("admin.products_list.empty")}{" "}
                 <a href="/admin/products/new" class="text-accent-700 underline">
                   {t("admin.products_list.empty_link")}
@@ -127,47 +123,45 @@ const products = env?.DB
         }
         {
           products.results.map((p) => (
-            <tr class="border-t border-text-muted/10 hover:bg-forest-50 transition-colors">
-              <td class="px-4 py-3 font-mono text-xs">{p.id as string}</td>
-              <td class="px-4 py-3">
+            <tr class="border-t border-text-muted/10 transition-colors hover:bg-forest-50">
+              <td class="px-3 py-2">
                 {p.image_url ? (
                   <img
                     loading="lazy"
                     decoding="async"
-                    src={p.image_url as string}
-                    alt={p.slug as string}
-                    class="w-12 h-12 object-cover rounded border border-text-muted/20"
+                    src={p.image_url}
+                    alt={p.slug}
+                    class="h-10 w-10 rounded border border-text-muted/20 object-cover"
                   />
                 ) : (
-                  <div class="w-12 h-12 rounded bg-text-muted/10 flex items-center justify-center text-text-muted text-xs">
+                  <div class="flex h-10 w-10 items-center justify-center rounded bg-text-muted/10 text-xs text-text-muted">
                     —
                   </div>
                 )}
               </td>
-              <td class="px-4 py-3 font-medium">
-                {(p.name_zh as string | null) ?? "—"}
+              <td class="px-3 py-2" title={p.id}>
+                <div class="font-medium">{p.name_zh ?? "—"}</div>
+                <div class="font-mono text-xs text-text-muted">{p.slug}</div>
               </td>
-              <td class="px-4 py-3 whitespace-nowrap">
+              <td class="px-3 py-2">
+                {tEnum(t, "category", p.category)}
+                {p.subcategory && (
+                  <span class="text-text-muted">
+                    {" "}
+                    / {tEnum(t, "subcategory", p.subcategory)}
+                  </span>
+                )}
+              </td>
+              <td class="whitespace-nowrap px-3 py-2">
                 {p.cny_cents != null ? (
                   formatPrice(p.cny_cents, "CNY", "zh-Hans")
                 ) : (
                   <span class="text-text-muted">—</span>
                 )}
               </td>
-              <td class="px-4 py-3 font-mono text-xs text-text-secondary">
-                {p.slug as string}
-              </td>
-              <td class="px-4 py-3">
-                {tEnum(t, "category", p.category as string)}
-              </td>
-              <td class="px-4 py-3">
-                {(p.subcategory as string)
-                  ? tEnum(t, "subcategory", p.subcategory as string)
-                  : "—"}
-              </td>
-              <td class="px-4 py-3">
+              <td class="px-3 py-2">
                 <span
-                  class={`px-2 py-0.5 rounded text-xs ${
+                  class={`rounded px-2 py-0.5 text-xs ${
                     p.status === "active"
                       ? "bg-success/20 text-success"
                       : p.status === "archived"
@@ -175,10 +169,10 @@ const products = env?.DB
                         : "bg-warning/20 text-warning"
                   }`}
                 >
-                  {tEnum(t, "status", p.status as string)}
+                  {tEnum(t, "status", p.status)}
                 </span>
               </td>
-              <td class="px-4 py-3 text-right whitespace-nowrap">
+              <td class="whitespace-nowrap px-3 py-2 text-right">
                 <a
                   href={`/admin/products/${p.id}`}
                   class="text-accent-700 hover:underline"
@@ -188,13 +182,13 @@ const products = env?.DB
                 <form
                   method="POST"
                   action={`/api/admin/products/${p.id}`}
-                  class="inline ml-3"
+                  class="ml-3 inline"
                   onsubmit="return confirm('确定删除该产品？此操作无法撤销。')"
                 >
                   <input type="hidden" name="_action" value="delete" />
                   <button
                     type="submit"
-                    class="text-error hover:underline text-sm"
+                    class="text-sm text-error hover:underline"
                   >
                     {t("admin.products_list.delete")}
                   </button>
