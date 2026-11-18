@@ -111,7 +111,7 @@ export const POST: APIRoute = async (ctx) => {
         .first<{ n: number }>();
       if ((used?.n ?? 0) > 0) {
         return json(
-          { error: `还有 ${used?.n} 个产品属于这个分类，请先改掉它们的分类` },
+          { error: `还有 ${used?.n} 个商品属于这个分类，请先改掉它们的分类` },
           409,
         );
       }
