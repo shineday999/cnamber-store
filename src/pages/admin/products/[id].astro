@@ -190,7 +190,7 @@ const inputField =
 ---
 
 <AdminLayout
-  title={`${t("admin.products_detail.title_prefix")}${product.slug}`}
+  title={`${t("admin.products_detail.title_prefix")}${trByLocale("zh-Hans")?.name || product.slug}`}
   active="products"
 >
   <span slot="actions" class="flex items-center gap-4 text-sm">
