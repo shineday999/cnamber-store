@@ -1,7 +1,7 @@
 ---
 // AdminLayout — 後台共用外殼
 // 導覽依網址路徑自動判斷所在群組，頁面不必再傳 active：
-//   概览 · 商品 · 订单 · 内容（文章／评论）· 设置（站点与横幅／分类图片／汇率／常见问题）
+//   概览 · 商品 · 订单 · 内容（文章／评论）· 设置（站点／首页横幅／分类图片／汇率／常见问题）
 // 所有「參數」類頁面集中在「设置」群組，以頁籤切換。
 // 認證由 middleware 處理（session JWT cookie）。
 import "../styles/global.css";
@@ -90,11 +90,8 @@ const NAV: NavGroup[] = [
       "/admin/faqs",
     ],
     children: [
-      {
-        label: "站点与横幅",
-        href: "/admin/settings",
-        match: ["/admin/settings", "/admin/banners"],
-      },
+      { label: "站点", href: "/admin/settings", match: ["/admin/settings"] },
+      { label: "首页横幅", href: "/admin/banners", match: ["/admin/banners"] },
       {
         label: "分类图片",
         href: "/admin/category-images",
