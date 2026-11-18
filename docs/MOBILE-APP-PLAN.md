@@ -92,6 +92,15 @@
 | 6.8  | 手機版底部分頁列改為懸浮膠囊：左右 16px、離底 12px、高 60px、圓角 30px、毛玻璃與柔和陰影；選中項圖示後方加淡綠色膠囊。--m-tab-h 由 64px 改 76px，讓商品詳情／購物車／問答／預訂的底部固定列一起抬高；Layout.astro 首屏關鍵 CSS 同步改位置（避免 CLS）。部署後確認各頁固定列未被膠囊遮住再改 ✅ | ✅   | Claude Sonnet 5.5 | 2026-11-15 |
 | 6.9  | 亮圖上的文字可讀性（手機版純 CSS）：首頁主圖加偏左加深的壓暗遮罩、標題／副標／小標加粗加陰影、副標去斜體；路線卡片加強底部漸層、標題固定白色加粗、隱藏與標題重複的小標、「走进去」提亮。圖片可由後台更換，所以改文字區保護而非挑圖。部署後用亮、暗兩種圖各看一次再改 ✅                        | 🟡   | Claude Sonnet 5.5 | 2026-11-17 |
 
+## 階段 7：商品詳情圖片與品項
+
+| 步驟 | 內容                                                                                    | 狀態 | 負責人            | 完成日     |
+| ---- | --------------------------------------------------------------------------------------- | ---- | ----------------- | ---------- |
+| 7.1  | 商品詳情：每頁只有一種品項，移除規格選項（radio、「请选择规格」），改顯示「库存 N」     | ✅   | Claude Sonnet 5.5 | 2026-11-18 |
+| 7.2  | 商品詳情：點主圖開全螢幕檢視（object-contain 完整顯示、不裁切上下；關閉鈕、點背景關閉） | ⬜   |                   |            |
+| 7.3  | 全螢幕檢視：左右滑動切換、縮圖同步、鍵盤 ← → Esc、雙擊放大                              | ⬜   |                   |            |
+| 7.4  | 部署後實測驗收（長圖、橫圖、單張圖、無圖四種情況；Lighthouse CI 失敗不阻擋，忽略）      | ⬜   |                   |            |
+
 ## 後續階段（尚未拆步驟）
 
 | 階段 | 內容                                                   | 狀態 |
@@ -181,3 +190,4 @@
 | 2026-11-15 | Claude Sonnet 5.5 | 後台「分類」可改標題、可新增 / 刪除：新增 lib/categories.ts 與 site_categories 表（程式自動建立，不需 migration；code、sort_order、titles 與 descs 為四語 JSON），新增 API /api/admin/categories（create / save / delete，刪除時有產品使用或只剩一個分類會拒絕），category-images API 的 slot 改成任意分類代碼，後台 category-images 頁重寫（標題 / 簡介四語、排序、圖片、新增 / 刪除），首頁 HomeContent 的兩張寫死卡片改成依 site_categories 產生（jewelry / incense 未填標題時沿用原本翻譯；圖片 key 仍為 cat_<code>）。注意：新分類要指派給產品，需另外把產品後台的分類選單改成讀 site_categories（尚未做） |
 | 2026-11-15 | Claude Sonnet 5.5 | 後台「自动翻译」：新增 /api/admin/translate（Cloudflare Workers AI m2m100-1.2b，简体中文 → en / ms-MY / id-ID；Markdown 前綴、圖片、程式碼區塊原樣保留；一次最多 45 段）、components/AdminTranslate.astro（頁面有「简体中文＋其他语言」成組欄位時，右下角浮出按鈕；依 id / name 命名規則自動偵測：settings、faqs、posts、products、分类页；預設只填空白欄位或「只是複製英文」的马来文 / 印尼文欄位，勾選覆盖才重翻）、AdminLayout 掛上元件、wrangler.jsonc 加 ai 綁定。用量：Workers Free 每天 10,000 Neurons 免費，超過只會失敗不收費；若帳號升級 Workers Paid 才會對超額計費                                  |
 | 2026-11-15 | Claude Sonnet 5.5 | 修正 /en/more、/ms-MY/more、/id-ID/more 回 404（簡體站 /more 正常）：app-shell 1.2 新增 /more 頁時，[lang]/[...path].astro 的 KNOWN_TOP 白名單漏加 "/more"，非簡體語言的「更多」分頁因此落到 404。已補上。已核對 src/pages 其餘頂層頁面都在白名單內。未處理：404 頁在手機版內容往右溢出（待另案）                                                                                                                                                                                                                                                                                                               |
+| 2026-11-18 | Claude Sonnet 5.5 | 7.1 商品詳情移除規格選項：每頁只有一種品項，改隱藏 sku 欄位（取第一個規格）+「库存 N」文字；刪除綁 radio 的舊 qty.max script（max 仍由第一個規格庫存決定）。/api/cart/add 未動；mobile.css 的規格樣式變成無用但保留。階段 7 拆為 7.1 ~ 7.4，協作者請認領 ⬜ 的步驟，已 ✅ 的不要重做                                                                                                                                                                                                                                                                                                                            |

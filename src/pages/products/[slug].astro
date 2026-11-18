@@ -299,39 +299,22 @@ void locale;
             class="space-y-4"
           >
             <input type="hidden" name="slug" value={product.slug} />
+            <input
+              type="hidden"
+              name="sku"
+              value={variants.results[0]?.sku ?? ""}
+            />
             {
-              variants.results.length > 0 ? (
-                <fieldset class="mb-6 space-y-2">
-                  <legend class="text-xs uppercase tracking-[0.4em] text-forest-600 mb-3 font-sans block w-full">
-                    {t("common.options")}
-                  </legend>
-                  {variants.results.slice(0, 3).map((v) => (
-                    <label class="flex items-center justify-between border border-forest-100 px-3 py-2 cursor-pointer hover:border-forest-700 has-[:checked]:border-forest-700 has-[:checked]:bg-forest-50 transition-colors">
-                      <span class="flex items-center gap-3">
-                        <input
-                          type="radio"
-                          name="sku"
-                          value={v.sku}
-                          data-stock={v.stock}
-                          required={variants.results.length > 1}
-                          checked={variants.results[0]?.sku === v.sku}
-                          class="accent-forest-700"
-                        />
-                        <span class="font-mono text-xs text-forest-700">
-                          {v.sku}
-                        </span>
-                      </span>
-                      <span class="text-forest-600 text-xs">
-                        {t("common.stock")} {v.stock}
-                      </span>
-                    </label>
-                  ))}
-                  <p class="text-xs text-forest-500 pt-1 italic">
-                    {t("common.select_option")}
-                  </p>
-                </fieldset>
-              ) : (
-                <input type="hidden" name="sku" value="" />
+              variants.results[0] && (
+                <p
+                  data-pd-stock
+                  class="text-xs uppercase tracking-[0.4em] text-forest-600 font-sans"
+                >
+                  {t("common.stock")}
+                  <span class="ml-2 font-mono text-sm tracking-normal text-forest-800">
+                    {variants.results[0].stock}
+                  </span>
+                </p>
               )
             }
             <div data-pd-qty class="flex items-center gap-3">
@@ -403,24 +386,6 @@ void locale;
       </div>
     </div>
   </section>
-  <script>
-    // qty input max 綁當前選中 SKU 的 stock,切 radio 時 clamp qty
-    document
-      .querySelectorAll<HTMLInputElement>('input[type="radio"][name="sku"]')
-      .forEach((radio) => {
-        radio.addEventListener("change", () => {
-          const stock = parseInt(radio.dataset.stock || "999", 10);
-          const qty = document.getElementById(
-            "qty-input",
-          ) as HTMLInputElement | null;
-          if (qty) {
-            qty.max = String(stock);
-            if (parseInt(qty.value || "1", 10) > stock)
-              qty.value = String(stock);
-          }
-        });
-      });
-  </script>
   <section
     data-pd-faq
     class="max-w-3xl mx-auto px-6 py-section border-t border-forest-100"
