@@ -9,13 +9,35 @@ import { formatPrice } from "../../../lib/format";
 const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
 const messages = zhHansMessages as Record<string, unknown>;
 const t = createT(messages);
-void locale;
+
+const STATUSES = ["pending", "confirmed", "shipped", "delivered", "cancelled"];
+const requested = Astro.url.searchParams.get("status") ?? "";
+const filter = STATUSES.includes(requested) ? requested : "";
 
 const orders = env?.DB
-  ? await env.DB.prepare(
-      "SELECT id, customer_email, customer_name, total, currency, status, payment_status, created_at FROM orders ORDER BY created_at DESC LIMIT 100",
-    ).all()
+  ? filter
+    ? await env.DB.prepare(
+        "SELECT id, customer_email, customer_name, total, currency, status, payment_status, created_at FROM orders WHERE status = ? ORDER BY created_at DESC LIMIT 100",
+      )
+        .bind(filter)
+        .all()
+    : await env.DB.prepare(
+        "SELECT id, customer_email, customer_name, total, currency, status, payment_status, created_at FROM orders ORDER BY created_at DESC LIMIT 100",
+      ).all()
   : { results: [] as Array<Record<string, unknown>> };
+
+// 各狀態的訂單數（顯示在篩選鈕上）
+const countRows = env?.DB
+  ? await env.DB.prepare(
+      "SELECT status, COUNT(*) AS c FROM orders GROUP BY status",
+    ).all<{ status: string; c: number }>()
+  : { results: [] as Array<{ status: string; c: number }> };
+const counts: Record<string, number> = {};
+let totalCount = 0;
+for (const r of countRows.results ?? []) {
+  counts[r.status] = r.c;
+  totalCount += r.c;
+}
 
 function statusColor(s: string) {
   return s === "pending"
@@ -26,50 +48,58 @@ function statusColor(s: string) {
         ? "bg-success/20 text-success"
         : "bg-error/20 text-error";
 }
+
+const chips = [
+  { value: "", label: "全部", n: totalCount },
+  ...STATUSES.map((s) => ({
+    value: s,
+    label: tEnum(t, "status", s),
+    n: counts[s] ?? 0,
+  })),
+];
+const th =
+  "px-3 py-2 text-left text-xs font-medium tracking-wide text-text-secondary";
 ---
 
 <AdminLayout title={t("admin.orders_list.title")} active="orders">
-  <p class="text-text-secondary mb-6">
-    {t("admin.orders_list.subtitle", { n: orders.results.length })}
-  </p>
+  <nav class="mb-3 flex gap-2 overflow-x-auto pb-1" aria-label="订单状态筛选">
+    {
+      chips.map((c) => (
+        <a
+          href={c.value ? `/admin/orders?status=${c.value}` : "/admin/orders"}
+          aria-current={filter === c.value ? "page" : undefined}
+          class={`shrink-0 rounded-full border px-3 py-1 text-sm transition-colors ${
+            filter === c.value
+              ? "border-forest-700 bg-forest-700 text-bg-base"
+              : "border-text-muted/30 text-text-secondary hover:border-forest-700"
+          }`}
+        >
+          {c.label}
+          <span class="ml-1 tabular-nums opacity-70">{c.n}</span>
+        </a>
+      ))
+    }
+  </nav>
 
   <div
-    class="bg-bg-card border border-text-muted/20 rounded-card overflow-x-auto"
+    class="overflow-x-auto rounded-card border border-text-muted/20 bg-bg-card"
   >
     <table class="w-full text-sm leading-normal">
       <thead class="bg-forest-100">
         <tr>
-          <th
-            class="text-left px-4 py-3 text-xs font-medium tracking-wide text-text-secondary"
-            >{t("admin.orders_list.col_order_id")}</th
-          >
-          <th
-            class="text-left px-4 py-3 text-xs font-medium tracking-wide text-text-secondary"
-            >{t("admin.orders_list.col_customer")}</th
-          >
-          <th
-            class="text-right px-4 py-3 text-xs font-medium tracking-wide text-text-secondary"
-            >{t("admin.orders_list.col_total")}</th
-          >
-          <th
-            class="text-left px-4 py-3 text-xs font-medium tracking-wide text-text-secondary"
-            >{t("admin.orders_list.col_status")}</th
-          >
-          <th
-            class="text-left px-4 py-3 text-xs font-medium tracking-wide text-text-secondary"
-            >{t("admin.orders_list.col_payment")}</th
-          >
-          <th
-            class="text-left px-4 py-3 text-xs font-medium tracking-wide text-text-secondary"
-            >{t("admin.orders_list.col_created")}</th
-          >
+          <th class={th}>{t("admin.orders_list.col_order_id")}</th>
+          <th class={th}>{t("admin.orders_list.col_customer")}</th>
+          <th class={`${th} text-right`}>{t("admin.orders_list.col_total")}</th>
+          <th class={th}>{t("admin.orders_list.col_status")}</th>
+          <th class={th}>{t("admin.orders_list.col_payment")}</th>
+          <th class={th}>{t("admin.orders_list.col_created")}</th>
         </tr>
       </thead>
       <tbody>
         {
           orders.results.length === 0 && (
             <tr>
-              <td colspan="6" class="px-4 py-8 text-center text-text-muted">
+              <td colspan="6" class="px-3 py-8 text-center text-text-muted">
                 {t("admin.orders_list.empty")}
               </td>
             </tr>
@@ -77,39 +107,41 @@ function statusColor(s: string) {
         }
         {
           orders.results.map((o) => (
-            <tr class="border-t border-text-muted/10 hover:bg-forest-50 transition-colors">
-              <td class="px-4 py-3 font-mono text-xs">
+            <tr class="border-t border-text-muted/10 transition-colors hover:bg-forest-50">
+              <td class="px-3 py-2 font-mono text-xs">
                 <a
                   href={`/admin/orders/${o.id as string}`}
-                  class="text-accent-700 hover:text-accent-900 underline transition-colors"
+                  class="text-accent-700 underline transition-colors hover:text-accent-900"
                 >
                   {o.id as string}
                 </a>
               </td>
-              <td class="px-4 py-3">
-                <div class="font-medium">{o.customer_name as string}</div>
+              <td class="px-3 py-2">
+                <div class="font-medium leading-tight">
+                  {o.customer_name as string}
+                </div>
                 <div class="text-xs text-text-muted">
                   {o.customer_email as string}
                 </div>
               </td>
-              <td class="px-4 py-3 text-right font-mono">
+              <td class="px-3 py-2 text-right font-mono">
                 {formatPrice(o.total as number, o.currency as string, locale)}
               </td>
-              <td class="px-4 py-3">
+              <td class="px-3 py-2">
                 <span
-                  class={`px-2 py-0.5 rounded text-xs ${statusColor(o.status as string)}`}
+                  class={`rounded px-2 py-0.5 text-xs ${statusColor(o.status as string)}`}
                 >
                   {tEnum(t, "status", o.status as string)}
                 </span>
               </td>
-              <td class="px-4 py-3">
+              <td class="px-3 py-2">
                 <span
-                  class={`px-2 py-0.5 rounded text-xs ${statusColor(o.payment_status as string)}`}
+                  class={`rounded px-2 py-0.5 text-xs ${statusColor(o.payment_status as string)}`}
                 >
                   {tEnum(t, "payment", o.payment_status as string)}
                 </span>
               </td>
-              <td class="px-4 py-3 text-xs font-mono text-text-muted">
+              <td class="px-3 py-2 font-mono text-xs text-text-muted">
                 {new Date((o.created_at as number) * 1000)
                   .toISOString()
                   .slice(0, 16)}
@@ -120,4 +152,7 @@ function statusColor(s: string) {
       </tbody>
     </table>
   </div>
+  <p class="mt-2 text-xs text-text-muted">
+    {t("admin.orders_list.subtitle", { n: orders.results.length })}
+  </p>
 </AdminLayout>
