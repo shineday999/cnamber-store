@@ -6,6 +6,7 @@ import { createT, tEnum } from "../../../i18n/t";
 import { defaultLocale, type Locale } from "../../../i18n/config";
 import zhHansMessages from "../../../i18n/messages/zh-Hans.json";
 import { formatPrice } from "../../../lib/format";
+import { PRODUCT_SHEET_EDIT_URL } from "../../../lib/sheet-sync";
 import {
   CATEGORIES,
   SUBCATEGORIES,
@@ -501,6 +502,12 @@ const inputField =
             >
               从 Google 表格读取描述
             </button>
+            <a
+              href={PRODUCT_SHEET_EDIT_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-sm text-accent-700 hover:underline">打开表格 ↗</a
+            >
             <span
               data-sheet-status
               aria-live="polite"
