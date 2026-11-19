@@ -230,6 +230,11 @@ const nav = [
           left: 16px;
           right: 16px;
           bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+          /* 最終尺寸一次給齊（與 mobile.css 6.8 一致），樣式分批到達時膠囊不會變高/變位 */
+          display: grid;
+          grid-template-columns: repeat(5, 1fr);
+          height: 60px;
+          z-index: 60;
         }
         body > nav:not(.m-tabbar),
         #mobile-menu,

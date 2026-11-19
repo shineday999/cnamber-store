@@ -3,6 +3,7 @@
 // 批次 UPSERT 到 site_settings。空白 value 不寫入,避免覆蓋既有非空翻譯。
 import type { APIRoute } from "astro";
 import { getDB } from "../../../lib/db";
+import { invalidateSiteSettings } from "../../../lib/site-settings-cache";
 
 const ALLOWED_KEYS = [
   "site_name",
@@ -42,6 +43,7 @@ export const POST: APIRoute = async (ctx) => {
 
   if (stmts.length > 0) {
     await db.batch(stmts);
+    invalidateSiteSettings();
   }
 
   return ctx.redirect("/admin/settings?saved=1", 303);

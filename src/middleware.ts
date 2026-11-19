@@ -10,6 +10,7 @@ import {
 import { loadMessages } from "./i18n/loader";
 import { getAdminFromContext } from "./lib/auth";
 import { ensureRates } from "./lib/rates";
+import { cachedSiteSettings } from "./lib/site-settings-cache";
 
 const LOCALE_COOKIE = "cnamber_locale";
 
@@ -113,12 +114,14 @@ export const onRequest = defineMiddleware(async (context, next) => {
   context.locals.locale = locale;
   context.locals.messages = messages;
 
-  // Wave 28.7: 載入 D1 site_settings (12 rows,index-covered,~5-15ms)
-  const siteSettings = await loadSiteSettings(env?.DB);
+  // Wave 28.7: 載入 D1 site_settings（30 秒快取，後台存檔時會立刻失效）。
+  // 匯率表（D1 exchange_rates，60 秒快取）：formatPrice 依它換算各語言顯示價格。
+  // 兩者互不相依，快取過期時一起查，只付一趟 D1 往返的時間。
+  const [siteSettings] = await Promise.all([
+    cachedSiteSettings(() => loadSiteSettings(env?.DB)),
+    ensureRates(env?.DB),
+  ]);
   if (siteSettings) context.locals.siteSettings = siteSettings;
-
-  // 匯率表（D1 exchange_rates，60 秒快取）：formatPrice 依它換算各語言顯示價格
-  await ensureRates(env?.DB);
 
   // 2. Admin write audit log (Wave 79.3)
   if (
