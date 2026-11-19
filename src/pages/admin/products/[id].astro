@@ -890,7 +890,10 @@ const inputField =
                     return {};
                   })
                   .then(function (j) {
-                    if (!res.ok) throw new Error(j.error || "读取失败");
+                    if (!res.ok)
+                      throw new Error(
+                        j.error || "读取失败（HTTP " + res.status + "）",
+                      );
                     return j;
                   });
               })
