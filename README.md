@@ -95,7 +95,10 @@ Policy: shineday999@gmail.com (Email OTP)
 
 ## License
 
-MIT
+Copyright (c) 2026 牛馬得飾. All Rights Reserved.
+
+未經著作權人明確書面許可，嚴禁任何人以任何形式複製、修改、散布、公開傳輸或將本專案之程式碼用於任何商業或非商業用途。
+
 
 ## 協作進度
 
