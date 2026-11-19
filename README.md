@@ -99,7 +99,6 @@ Copyright (c) 2026 牛馬得飾. All Rights Reserved.
 
 未經著作權人明確書面許可，嚴禁任何人以任何形式複製、修改、散布、公開傳輸或將本專案之程式碼用於任何商業或非商業用途。
 
-
 ## 協作進度
 
 進度表:[docs/MOBILE-APP-PLAN.md](docs/MOBILE-APP-PLAN.md)(目前進行階段 7)。開工前先認領 ⬜ 步驟,已 ✅ 的不要重做。
