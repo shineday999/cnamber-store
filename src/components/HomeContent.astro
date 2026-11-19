@@ -14,6 +14,65 @@ const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
 const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
 const t = createT(messages);
 
+// 首頁用到的 D1 查詢彼此獨立：同時送出，只付「一趟往返」的時間。
+// 原本 5 個查詢依序 await，每個都多一趟往返；Lighthouse 時間軸顯示 head 送出後
+// 約 0.6 秒 HTML 才串流完，這是首頁 TTFB / FCP 偏慢的主因。
+// 分類圖片、分類文字兩個查詢各自容錯（資料表還沒建立時維持預設）；商品與橫幅沿用原本的錯誤行為。
+function tolerant<T>(p: Promise<D1Result<T>>): Promise<D1Result<T> | null> {
+  return p.catch(() => null);
+}
+const dbq = env?.DB;
+const [siteImgRes, siteCatRes, featuredRes, bannerRes] = await Promise.all([
+  dbq
+    ? tolerant(
+        dbq
+          .prepare(
+            "SELECT key, url, url_small FROM site_images WHERE key LIKE 'cat_%'",
+          )
+          .all<{ key: string; url: string; url_small: string | null }>(),
+      )
+    : null,
+  dbq
+    ? tolerant(
+        dbq
+          .prepare(
+            "SELECT code, titles, descs FROM site_categories ORDER BY sort_order ASC, code ASC",
+          )
+          .all<{ code: string; titles: string; descs: string }>(),
+      )
+    : null,
+  dbq
+    ? dbq
+        .prepare(
+          `SELECT p.id, p.slug, p.category,
+                pt.name, pt.short_description,
+                MIN(pp.amount) AS min_price, pp.currency AS min_currency,
+                (SELECT pv.image_urls FROM product_variants pv WHERE pv.product_id = p.id LIMIT 1) AS image_urls
+         FROM products p
+         LEFT JOIN product_translations pt ON pt.product_id = p.id AND pt.locale = ?
+         LEFT JOIN product_variants pv ON pv.product_id = p.id
+         LEFT JOIN product_prices pp ON pp.variant_id = pv.id AND pp.currency = 'CNY'
+         WHERE p.status = 'active'
+         GROUP BY p.id
+         ORDER BY p.created_at DESC LIMIT 3`,
+        )
+        .bind(locale)
+        .all<FeaturedProduct>()
+    : null,
+  dbq
+    ? dbq
+        .prepare(
+          "SELECT id, image_url, mobile_image_url, alt_text FROM hero_banners WHERE active = 1 ORDER BY sort_order ASC, created_at ASC",
+        )
+        .all<{
+          id: string;
+          image_url: string;
+          mobile_image_url: string | null;
+          alt_text: string | null;
+        }>()
+    : null,
+]);
+
 // 後台「分類圖片」：沒上傳（或資料表還不存在）時沿用靜態預設圖
 const catImages = {
   jewelry: {
@@ -25,24 +84,15 @@ const catImages = {
     small: "/images/banners/cat-incense-480.jpg",
   },
 };
-if (env?.DB) {
-  try {
-    const catRows = await env.DB.prepare(
-      "SELECT key, url, url_small FROM site_images WHERE key IN ('cat_jewelry', 'cat_incense')",
-    ).all<{ key: string; url: string; url_small: string | null }>();
-    for (const r of catRows.results ?? []) {
-      const slot =
-        r.key === "cat_jewelry"
-          ? "jewelry"
-          : r.key === "cat_incense"
-            ? "incense"
-            : null;
-      if (slot && r.url) {
-        catImages[slot] = { src: r.url, small: r.url_small || r.url };
-      }
-    }
-  } catch {
-    // site_images 還沒建立：維持預設圖
+for (const r of siteImgRes?.results ?? []) {
+  const slot =
+    r.key === "cat_jewelry"
+      ? "jewelry"
+      : r.key === "cat_incense"
+        ? "incense"
+        : null;
+  if (slot && r.url) {
+    catImages[slot] = { src: r.url, small: r.url_small || r.url };
   }
 }
 
@@ -87,36 +137,22 @@ let homeCatRows: Array<{
   { code: "incense", titles: {}, descs: {} },
 ];
 const homeCatImages: Record<string, { src: string; small: string }> = {};
-if (env?.DB) {
-  try {
-    const res = await env.DB.prepare(
-      "SELECT code, titles, descs FROM site_categories ORDER BY sort_order ASC, code ASC",
-    ).all<{ code: string; titles: string; descs: string }>();
-    const list = res.results ?? [];
-    if (list.length > 0) {
-      homeCatRows = list.map((r) => ({
-        code: r.code,
-        titles: parseTextMap(r.titles),
-        descs: parseTextMap(r.descs),
-      }));
-    }
-  } catch {
-    // site_categories 還沒建立：用預設兩個
+if (siteCatRes) {
+  const list = siteCatRes.results ?? [];
+  if (list.length > 0) {
+    homeCatRows = list.map((r) => ({
+      code: r.code,
+      titles: parseTextMap(r.titles),
+      descs: parseTextMap(r.descs),
+    }));
   }
-  try {
-    const res = await env.DB.prepare(
-      "SELECT key, url, url_small FROM site_images WHERE key LIKE 'cat_%'",
-    ).all<{ key: string; url: string; url_small: string | null }>();
-    for (const r of res.results ?? []) {
-      if (r.url) {
-        homeCatImages[r.key.slice(4)] = {
-          src: r.url,
-          small: r.url_small || r.url,
-        };
-      }
-    }
-  } catch {
-    // site_images 還沒建立：維持預設圖
+}
+for (const r of siteImgRes?.results ?? []) {
+  if (r.url) {
+    homeCatImages[r.key.slice(4)] = {
+      src: r.url,
+      small: r.url_small || r.url,
+    };
   }
 }
 const homeCatDefaults = catImages as unknown as Record<
@@ -162,23 +198,7 @@ interface FeaturedProduct {
   image_urls: string | null;
 }
 
-const featured = env?.DB
-  ? await env.DB.prepare(
-      `SELECT p.id, p.slug, p.category,
-                pt.name, pt.short_description,
-                MIN(pp.amount) AS min_price, pp.currency AS min_currency,
-                (SELECT pv.image_urls FROM product_variants pv WHERE pv.product_id = p.id LIMIT 1) AS image_urls
-         FROM products p
-         LEFT JOIN product_translations pt ON pt.product_id = p.id AND pt.locale = ?
-         LEFT JOIN product_variants pv ON pv.product_id = p.id
-         LEFT JOIN product_prices pp ON pp.variant_id = pv.id AND pp.currency = 'CNY'
-         WHERE p.status = 'active'
-         GROUP BY p.id
-         ORDER BY p.created_at DESC LIMIT 3`,
-    )
-      .bind(locale)
-      .all<FeaturedProduct>()
-  : { results: [] as FeaturedProduct[] };
+const featured = featuredRes ?? { results: [] as FeaturedProduct[] };
 
 function firstImage(json: string | null | undefined): string | undefined {
   if (!json) return undefined;
@@ -190,23 +210,14 @@ function firstImage(json: string | null | undefined): string | undefined {
   }
 }
 
-const bannerRows = env?.DB
-  ? await env.DB.prepare(
-      "SELECT id, image_url, mobile_image_url, alt_text FROM hero_banners WHERE active = 1 ORDER BY sort_order ASC, created_at ASC",
-    ).all<{
-      id: string;
-      image_url: string;
-      mobile_image_url: string | null;
-      alt_text: string | null;
-    }>()
-  : {
-      results: [] as Array<{
-        id: string;
-        image_url: string;
-        mobile_image_url: string | null;
-        alt_text: string | null;
-      }>,
-    };
+const bannerRows = bannerRes ?? {
+  results: [] as Array<{
+    id: string;
+    image_url: string;
+    mobile_image_url: string | null;
+    alt_text: string | null;
+  }>,
+};
 
 // 6.4: 本機橫幅(/images/banners/xxx.jpg)有對應的 xxx-768.jpg 手機版
 function localMobileVariant(src: string): string {
