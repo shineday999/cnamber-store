@@ -82,6 +82,13 @@ const tr = translation ??
     story: null,
   };
 
+// 商品描述：逐行拆成段落；內容只是商品名稱的（舊資料或自動帶入）不顯示
+const descParas = (tr.description ?? "")
+  .split(/\r?\n+/)
+  .map((line) => line.trim())
+  .filter(Boolean);
+const showDesc = descParas.length > 0 && descParas.join("") !== tr.name.trim();
+
 const variants = env?.DB
   ? await env.DB.prepare(
       "SELECT id, sku, attributes, stock FROM product_variants WHERE product_id = ? ORDER BY sku",
@@ -325,6 +332,19 @@ void locale;
               >
                 {formatPrice(Math.round(cnyPrice * 100), "CNY", locale)}
               </p>
+            )
+          }
+
+          {
+            showDesc && (
+              <div
+                data-pd-desc
+                class="mb-8 space-y-3 text-sm font-light leading-relaxed text-forest-700"
+              >
+                {descParas.map((line) => (
+                  <p>{line}</p>
+                ))}
+              </div>
             )
           }
 
