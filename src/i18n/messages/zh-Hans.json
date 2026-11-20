@@ -718,8 +718,8 @@
     "category_images": {
       "title": "分类图片",
       "subtitle": "首页「两条手作路线」的两张图。没上传时使用默认图。",
-      "slot_jewelry": "琥珀饰品",
-      "slot_incense": "东方香品",
+      "slot_jewelry": "饰品",
+      "slot_incense": "香品",
       "current_custom": "已自定义",
       "current_default": "使用默认图",
       "pending": "待保存",
