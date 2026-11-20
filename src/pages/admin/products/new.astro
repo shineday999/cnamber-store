@@ -4,6 +4,11 @@ import { env } from "cloudflare:workers";
 import { createT, tEnum } from "../../../i18n/t";
 import zhHansMessages from "../../../i18n/messages/zh-Hans.json";
 import { getDB } from "../../../lib/db";
+import {
+  ensureCategoryTable,
+  listCategories,
+  type SiteCategory,
+} from "../../../lib/categories";
 import { getRates } from "../../../lib/format";
 import {
   CATEGORIES,
@@ -25,14 +30,42 @@ if (!Astro.locals.admin) {
 
 const t = createT(zhHansMessages as Record<string, unknown>);
 
-let values = emptyNewProduct();
+// 分類選項 = 「分类图片」页的分类（代码 + 简体中文标题），不再写死两个
+const LEGACY_LABEL: Record<string, string> = {
+  jewelry: String(t("admin.category_images.slot_jewelry")),
+  incense: String(t("admin.category_images.slot_incense")),
+};
+let siteCategories: SiteCategory[] = [];
+try {
+  const db = getDB();
+  await ensureCategoryTable(db);
+  siteCategories = await listCategories(db);
+} catch {
+  siteCategories = [];
+}
+if (siteCategories.length === 0) {
+  // 读不到分类表时退回内建两个，页面仍可使用
+  siteCategories = CATEGORIES.map((code, i) => ({
+    code,
+    sort_order: i + 1,
+    titles: {},
+    descs: {},
+  }));
+}
+const categoryOptions = siteCategories.map((c) => ({
+  code: c.code,
+  label: c.titles["zh-Hans"] || LEGACY_LABEL[c.code] || c.code,
+}));
+const categoryCodes = categoryOptions.map((c) => c.code);
+
+let values = emptyNewProduct(categoryCodes[0]);
 let errors: string[] = [];
 
 if (Astro.request.method === "POST") {
   const form = await Astro.request.formData();
   values = readNewProductForm(form);
   const files = pickImages(form);
-  errors = validateNewProduct(values, files);
+  errors = validateNewProduct(values, files, categoryCodes);
 
   if (errors.length === 0) {
     const intent =
@@ -44,6 +77,7 @@ if (Astro.request.method === "POST") {
         values,
         files,
         intent,
+        categoryCodes,
       );
       const q = new URLSearchParams({ created: result.status });
       if (intent === "publish" && result.status !== "active") {
@@ -111,16 +145,16 @@ const card =
         </legend>
         <div class="grid grid-cols-2 gap-3">
           {
-            CATEGORIES.map((c) => (
+            categoryOptions.map((c) => (
               <label class="flex items-center justify-center gap-2 rounded-md border border-text-muted/30 px-3 py-3 cursor-pointer transition-colors has-[:checked]:border-forest-700 has-[:checked]:bg-forest-50">
                 <input
                   type="radio"
                   name="category"
-                  value={c}
-                  checked={values.category === c}
+                  value={c.code}
+                  checked={values.category === c.code}
                   class="accent-forest-700"
                 />
-                <span>{tEnum(t, "category", c)}</span>
+                <span>{c.label}</span>
               </label>
             ))
           }

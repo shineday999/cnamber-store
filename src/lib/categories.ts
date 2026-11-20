@@ -60,6 +60,17 @@ export async function ensureCategoryTable(db: DB): Promise<void> {
   const row = await db
     .prepare("SELECT COUNT(*) AS n FROM site_categories")
     .first<{ n: number }>();
+  // 旧默认名称「琥珀饰品 / 东方香品」若曾被存进标题，统一改成「饰品 / 香品」（只动完全等于旧名称的）
+  await db
+    .prepare(
+      `UPDATE site_categories
+         SET titles = json_set(titles, '$."zh-Hans"', CASE json_extract(titles, '$."zh-Hans"')
+               WHEN '琥珀饰品' THEN '饰品' WHEN '琥珀飾品' THEN '飾品'
+               WHEN '东方香品' THEN '香品' WHEN '東方香品' THEN '香品' END)
+       WHERE json_valid(titles)
+         AND json_extract(titles, '$."zh-Hans"') IN ('琥珀饰品','琥珀飾品','东方香品','東方香品')`,
+    )
+    .run();
   if (!row || row.n === 0) {
     const now = Math.floor(Date.now() / 1000);
     await db

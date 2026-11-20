@@ -10,6 +10,11 @@ export function isCategory(v: string): v is Category {
   return (CATEGORIES as readonly string[]).includes(v);
 }
 
+/** 後台「分类图片」可以新增分類；新增商品時可選的分類 = 那裡的分類代碼（沒傳就只認內建兩個）。 */
+function isAllowedCategory(v: string, validCodes?: readonly string[]): boolean {
+  return (validCodes ?? CATEGORIES).includes(v);
+}
+
 export const SUBCATEGORIES: Record<Category, readonly string[]> = {
   jewelry: ["necklace", "bracelet", "earring", "ring"],
   incense: ["stick", "balm", "oil"],
@@ -208,9 +213,9 @@ export interface NewProductValues {
   tags: string[];
 }
 
-export function emptyNewProduct(): NewProductValues {
+export function emptyNewProduct(defaultCategory = "jewelry"): NewProductValues {
   return {
-    category: "jewelry",
+    category: defaultCategory,
     subcategory: "",
     name_zh: "",
     name_en: "",
@@ -244,13 +249,16 @@ export function readNewProductForm(form: FormData): NewProductValues {
 export function validateNewProduct(
   v: NewProductValues,
   files: File[],
+  validCodes?: readonly string[],
 ): string[] {
   const errors: string[] = [];
-  if (!isCategory(v.category)) {
+  if (!isAllowedCategory(v.category, validCodes)) {
     errors.push("请选择分类");
   } else if (
     v.subcategory &&
-    !SUBCATEGORIES[v.category].includes(v.subcategory)
+    !(isCategory(v.category) ? SUBCATEGORIES[v.category] : []).includes(
+      v.subcategory,
+    )
   ) {
     errors.push("子分类与分类不符");
   }
@@ -293,8 +301,9 @@ export async function createProduct(
   v: NewProductValues,
   files: File[],
   intent: "draft" | "publish",
+  validCodes?: readonly string[],
 ): Promise<CreateResult> {
-  if (!isCategory(v.category)) throw new Error("分类不正确");
+  if (!isAllowedCategory(v.category, validCodes)) throw new Error("分类不正确");
   if (files.length > 0 && !r2) throw new Error("R2 未绑定，无法上传图片");
 
   const now = Math.floor(Date.now() / 1000);
@@ -313,7 +322,8 @@ export async function createProduct(
   const priceBase = (fen / 100).toFixed(2);
   const stock = parseInt(v.stock, 10);
   const weight = v.weight ? Math.round(Number(v.weight)) : null;
-  const tags = buildTags(v.category, v.tags);
+  // 標籤預設只有內建兩個分類才有；自訂分類沒有標籤
+  const tags = isCategory(v.category) ? buildTags(v.category, v.tags) : "";
 
   const blocked: string[] = [];
   if (urls.length === 0) blocked.push("至少 1 张图片");
