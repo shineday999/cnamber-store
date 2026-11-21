@@ -95,7 +95,8 @@
     "cta_incense_desc": "Pick by mood and space — relax, focus, or quiet the mind.",
     "cta_jewelry_btn": "Ask me five",
     "cta_incense_btn": "Ask me five",
-    "cta_meta": "Five questions · slowly"
+    "cta_meta": "Five questions · slowly",
+    "cta_pick_prefix": "Find your "
   },
   "quiz": {
     "intro": "A few small questions — let me find one for you, slowly.",
