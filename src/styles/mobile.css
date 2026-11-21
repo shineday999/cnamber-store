@@ -750,29 +750,36 @@
     display: none;
   }
 
-  /* chips 列：橫向可滑、黏在頂部列下方、滿版 */
+  /* chips 列：黏在頂部列下方、滿版。外層不捲動，左邊分類 chips（可橫滑）＋右邊固定的排序按鈕並排，互不重疊 */
   main [data-products-chips] {
     position: sticky;
     top: calc(var(--m-header-h) + env(safe-area-inset-top, 0px));
     z-index: 40;
     display: flex;
+    align-items: center;
     justify-content: flex-start;
     gap: 8px;
     margin: 0 -24px 14px;
     padding: 10px 24px;
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
     background: rgba(255, 255, 255, 0.92);
     -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
   }
-  main [data-products-chips]::-webkit-scrollbar {
+  main [data-products-chips] > [data-products-chips-scroll] {
+    flex: 1 1 auto;
+    min-width: 0;
+    justify-content: flex-start;
+    gap: 8px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  main [data-products-chips] > [data-products-chips-scroll]::-webkit-scrollbar {
     display: none;
   }
-  main [data-products-chips] > a {
+  main [data-products-chips-scroll] > a {
     display: inline-flex;
     flex: none;
     align-items: center;
@@ -831,16 +838,13 @@
 }
 
 @media (max-width: 767.98px) {
-  /* chips 列右側的排序按鈕（黏在列的右緣） */
+  /* chips 列右側的排序按鈕（固定在列的右緣，不蓋住分類 chips） */
   main [data-products-chips] > .m-sort-btn {
-    position: sticky;
-    right: 0;
     display: inline-flex;
     flex: none;
     align-items: center;
     gap: 6px;
     min-height: 44px;
-    margin-left: auto;
     padding: 0 14px;
     border: 1px solid rgba(0, 0, 0, 0.15);
     border-radius: 999px;
