@@ -113,6 +113,15 @@
       "occasion": "Main occasion?",
       "material": "Material preference?"
     },
+    "tea": {
+      "title": "Find a tea",
+      "desc": "Type, taste, mood and hour — let us pick the tea that suits you best.",
+      "tea_type": "Which kind of tea do you love?",
+      "taste": "Taste preference?",
+      "feeling": "How should this cup make you feel?",
+      "tea_time": "When do you usually drink it?",
+      "brew": "How do you like to brew?"
+    },
     "incense": {
       "title": "Pick one incense",
       "desc": "Your current concerns and intentions — let us blend the right incense for you.",
@@ -132,6 +141,39 @@
       "badge_fallback": "You might like"
     },
     "option": {
+      "tea_type": {
+        "green": "Green tea",
+        "black": "Black tea",
+        "oolong": "Oolong",
+        "white": "White tea",
+        "dark": "Dark tea / Pu-erh",
+        "herbal": "Herbal tea"
+      },
+      "tea_taste": {
+        "fresh": "Fresh and bright",
+        "mellow": "Mellow and full",
+        "floral": "Floral or fruity",
+        "roasted": "Roasted or smoky",
+        "sweet": "Sweet aftertaste"
+      },
+      "tea_feeling": {
+        "refresh": "Refreshing",
+        "relax": "Relaxing",
+        "digest": "Aids digestion",
+        "warm": "Warming"
+      },
+      "tea_time": {
+        "morning": "Morning",
+        "afternoon": "Afternoon",
+        "evening": "Evening",
+        "after_meal": "After a meal"
+      },
+      "tea_brew": {
+        "gongfu": "Slowly, gongfu style",
+        "mug": "Quick, in a mug",
+        "cold": "Cold brew",
+        "any": "Any way"
+      },
       "face": {
         "oval": "Oval",
         "round": "Round",

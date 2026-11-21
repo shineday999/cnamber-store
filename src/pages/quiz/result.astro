@@ -73,7 +73,13 @@ void locale;
       <p
         class="text-sm uppercase tracking-[0.3em] text-accent-700 font-sans mb-3"
       >
-        {type === "jewelry" ? t("quiz.jewelry.title") : t("quiz.incense.title")}
+        {
+          type === "jewelry"
+            ? t("quiz.jewelry.title")
+            : type === "tea"
+              ? t("quiz.tea.title")
+              : t("quiz.incense.title")
+        }
       </p>
       <h1
         class="text-display-sm md:text-display-md font-serif text-text-primary mb-3"

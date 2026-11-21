@@ -7,6 +7,7 @@ import ProductCard from "@components/ProductCard.astro";
 import { createT } from "../../i18n/t";
 import { defaultLocale, type Locale } from "../../i18n/config";
 import { formatPrice } from "@lib/format";
+import { parseTextMap } from "../../lib/categories";
 
 const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
 const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
@@ -39,7 +40,38 @@ const sortOptions = (
   else u.searchParams.set("sort", key);
   return { key, label, href: u.pathname + u.search, current: sort === key };
 });
-const pageTitle = `${t("nav.amber")} · ${t("nav.incense")} — ${t("common.site_name")}`;
+
+// 分類標籤與標題：讀後台「分类图片」的分類（含新增的），不再寫死兩個
+const LEGACY_CHIP: Record<string, string> = {
+  jewelry: String(t("products.filter_jewelry")),
+  incense: String(t("products.filter_incense")),
+};
+let siteCats: Array<{ code: string; label: string }> = [];
+try {
+  const res = env?.DB
+    ? await env.DB.prepare(
+        "SELECT code, titles FROM site_categories ORDER BY sort_order ASC, code ASC",
+      ).all<{ code: string; titles: string }>()
+    : null;
+  siteCats = (res?.results ?? []).map((r) => {
+    const titles = parseTextMap(r.titles);
+    return {
+      code: r.code,
+      label:
+        titles[locale] || titles["zh-Hans"] || LEGACY_CHIP[r.code] || r.code,
+    };
+  });
+} catch {
+  siteCats = [];
+}
+if (siteCats.length === 0) {
+  siteCats = [
+    { code: "jewelry", label: LEGACY_CHIP.jewelry ?? "jewelry" },
+    { code: "incense", label: LEGACY_CHIP.incense ?? "incense" },
+  ];
+}
+const headingText = siteCats.map((c) => c.label).join(" · ");
+const pageTitle = `${headingText} — ${t("common.site_name")}`;
 
 const products = env?.DB
   ? await env.DB.prepare(
@@ -84,14 +116,17 @@ function firstImage(json: string | null | undefined): string | undefined {
       <h1
         class="text-display-sm md:text-display-md font-serif text-text-primary mb-3"
       >
-        {t("nav.amber")} · {t("nav.incense")}
+        {headingText}
       </h1>
       <p class="text-text-secondary max-w-2xl mx-auto">{t("home.story_p1")}</p>
     </header>
 
     <nav data-products-chips class="flex justify-center gap-2 mb-10">
       {
-        (["all", "jewelry", "incense"] as const).map((cat) => {
+        [
+          { code: "all", label: String(t("products.filter_all")) },
+          ...siteCats,
+        ].map(({ code: cat, label }) => {
           const isActive = filter === cat;
           const next = new URL(Astro.url);
           if (cat === "all") next.searchParams.delete("cat");
@@ -106,11 +141,7 @@ function firstImage(json: string | null | undefined): string | undefined {
                   : "bg-bg-card border border-text-muted/20 text-text-primary hover:border-accent-500"
               }`}
             >
-              {cat === "all"
-                ? t("products.filter_all")
-                : cat === "jewelry"
-                  ? t("products.filter_jewelry")
-                  : t("products.filter_incense")}
+              {label}
             </a>
           );
         })

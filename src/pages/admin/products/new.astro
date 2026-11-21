@@ -10,6 +10,7 @@ import {
   type SiteCategory,
 } from "../../../lib/categories";
 import { getRates } from "../../../lib/format";
+import { kindOf } from "../../../lib/category-kind";
 import {
   CATEGORIES,
   SUBCATEGORIES,
@@ -55,7 +56,9 @@ if (siteCategories.length === 0) {
 const categoryOptions = siteCategories.map((c) => ({
   code: c.code,
   label: c.titles["zh-Hans"] || LEGACY_LABEL[c.code] || c.code,
+  kind: kindOf(c.code, c.titles["zh-Hans"]),
 }));
+const kinds = Object.fromEntries(categoryOptions.map((o) => [o.code, o.kind]));
 const categoryCodes = categoryOptions.map((c) => c.code);
 
 let values = emptyNewProduct(categoryCodes[0]);
@@ -78,6 +81,7 @@ if (Astro.request.method === "POST") {
         files,
         intent,
         categoryCodes,
+        kinds,
       );
       const q = new URLSearchParams({ created: result.status });
       if (intent === "publish" && result.status !== "active") {
@@ -333,36 +337,38 @@ const card =
         「为我推荐」测验会拿客人的答案来比对这些标签，勾得越准，推荐越准。
       </p>
       {
-        CATEGORIES.map((c) => (
-          <div
-            data-tag-cat={c}
-            hidden={values.category !== c}
-            class="space-y-4"
-          >
-            {TAG_GROUPS[c].map((g) => (
-              <fieldset>
-                <legend class="text-sm font-medium mb-2">
-                  {t(g.titleKey)}
-                </legend>
-                <div class="flex flex-wrap gap-2">
-                  {g.options.map((o) => (
-                    <label class="cursor-pointer rounded-full border border-text-muted/30 px-3 py-1.5 text-sm transition-colors has-[:checked]:border-forest-700 has-[:checked]:bg-forest-700 has-[:checked]:text-bg-base has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent-500/40">
-                      <input
-                        type="checkbox"
-                        name="tag"
-                        value={o.value}
-                        checked={values.tags.includes(o.value)}
-                        disabled={values.category !== c}
-                        class="sr-only"
-                      />
-                      {t(o.labelKey)}
-                    </label>
-                  ))}
-                </div>
-              </fieldset>
-            ))}
-          </div>
-        ))
+        categoryOptions
+          .filter((o) => o.kind !== null)
+          .map((co) => (
+            <div
+              data-tag-cat={co.code}
+              hidden={values.category !== co.code}
+              class="space-y-4"
+            >
+              {TAG_GROUPS[co.kind!].map((g) => (
+                <fieldset>
+                  <legend class="text-sm font-medium mb-2">
+                    {t(g.titleKey)}
+                  </legend>
+                  <div class="flex flex-wrap gap-2">
+                    {g.options.map((o) => (
+                      <label class="cursor-pointer rounded-full border border-text-muted/30 px-3 py-1.5 text-sm transition-colors has-[:checked]:border-forest-700 has-[:checked]:bg-forest-700 has-[:checked]:text-bg-base has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent-500/40">
+                        <input
+                          type="checkbox"
+                          name="tag"
+                          value={o.value}
+                          checked={values.tags.includes(o.value)}
+                          disabled={values.category !== co.code}
+                          class="sr-only"
+                        />
+                        {t(o.labelKey)}
+                      </label>
+                    ))}
+                  </div>
+                </fieldset>
+              ))}
+            </div>
+          ))
       }
     </section>
 
