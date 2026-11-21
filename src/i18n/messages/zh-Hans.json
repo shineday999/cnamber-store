@@ -95,7 +95,8 @@
     "cta_incense_desc": "依心境与空间选香,放松、聚焦或沉静。",
     "cta_jewelry_btn": "问我五题",
     "cta_incense_btn": "问我五题",
-    "cta_meta": "五题 · 慢慢"
+    "cta_meta": "五题 · 慢慢",
+    "cta_pick_prefix": "选一件"
   },
   "quiz": {
     "intro": "问你几个小问题,让我为你慢慢挑。",

@@ -95,7 +95,8 @@
     "cta_incense_desc": "Pilih sesuai mood dan ruang — rileks, fokus, atau ketenangan.",
     "cta_jewelry_btn": "Tanya saya lima",
     "cta_incense_btn": "Tanya saya lima",
-    "cta_meta": "Lima pertanyaan · perlahan"
+    "cta_meta": "Lima pertanyaan · perlahan",
+    "cta_pick_prefix": "Pilih "
   },
   "quiz": {
     "intro": "Beberapa pertanyaan kecil — biar saya cari satu untuk Anda, perlahan.",

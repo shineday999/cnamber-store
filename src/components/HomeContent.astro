@@ -214,7 +214,7 @@ const quizCards: QuizCard[] = homeCategories.map((c) => {
     href: localizedPath(locale, `/products?cat=${c.code}`),
     icon: "generic",
     kicker: c.title,
-    heading: c.title,
+    heading: `${String(t("home.cta_pick_prefix"))}${c.title}`,
     desc: c.desc,
     meta: "",
     btn: String(t("home.cat_explore")),

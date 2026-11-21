@@ -62,9 +62,15 @@ export const POST: APIRoute = async (ctx) => {
       .first<{ m: number }>();
     await db
       .prepare(
-        "INSERT INTO site_categories (code, sort_order, titles, descs, updated_at) VALUES (?, ?, ?, '{}', ?)",
+        "INSERT INTO site_categories (code, sort_order, titles, descs, updated_at) VALUES (?, ?, ?, ?, ?)",
       )
-      .bind(code, (max?.m ?? 0) + 1, JSON.stringify(titles), now)
+      .bind(
+        code,
+        (max?.m ?? 0) + 1,
+        JSON.stringify(titles),
+        JSON.stringify(cleanTextMap(body.descs, 200)),
+        now,
+      )
       .run();
     return json({ ok: true });
   }
