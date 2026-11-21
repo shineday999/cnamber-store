@@ -1,6 +1,7 @@
 // 後台商品共用邏輯：自動編號、價格換算、標籤預設、圖片處理、新增與上架檢查
 // 注意：這裡不 import "./db"（它會載入 cloudflare:workers），方便在 Node 內單元測試。
-import { JEWELRY_STEPS, INCENSE_STEPS, type QuizStep } from "./quiz";
+import { JEWELRY_STEPS, INCENSE_STEPS, TEA_STEPS, type QuizStep } from "./quiz";
+import type { QuizKind } from "./category-kind";
 
 // ---------- 分類 / 子分類 ----------
 export const CATEGORIES = ["jewelry", "incense"] as const;
@@ -36,12 +37,13 @@ function toGroups(steps: QuizStep[]): TagGroup[] {
   }));
 }
 
-export const TAG_GROUPS: Record<Category, TagGroup[]> = {
+export const TAG_GROUPS: Record<QuizKind, TagGroup[]> = {
   jewelry: toGroups(JEWELRY_STEPS),
   incense: toGroups(INCENSE_STEPS),
+  tea: toGroups(TEA_STEPS),
 };
 
-export function allowedTags(category: Category): Set<string> {
+export function allowedTags(category: QuizKind): Set<string> {
   const set = new Set<string>();
   for (const g of TAG_GROUPS[category])
     for (const o of g.options) set.add(o.value);
@@ -57,7 +59,7 @@ export function splitTags(raw: string): string[] {
 
 /** 勾選的標籤只收該分類的預設值；extra 是舊資料裡預設清單以外的標籤，原樣保留。 */
 export function buildTags(
-  category: Category,
+  category: QuizKind,
   checked: string[],
   extra: string[] = [],
 ): string {
@@ -302,6 +304,7 @@ export async function createProduct(
   files: File[],
   intent: "draft" | "publish",
   validCodes?: readonly string[],
+  kinds?: Record<string, QuizKind | null>,
 ): Promise<CreateResult> {
   if (!isAllowedCategory(v.category, validCodes)) throw new Error("分类不正确");
   if (files.length > 0 && !r2) throw new Error("R2 未绑定，无法上传图片");
@@ -322,8 +325,10 @@ export async function createProduct(
   const priceBase = (fen / 100).toFixed(2);
   const stock = parseInt(v.stock, 10);
   const weight = v.weight ? Math.round(Number(v.weight)) : null;
-  // 標籤預設只有內建兩個分類才有；自訂分類沒有標籤
-  const tags = isCategory(v.category) ? buildTags(v.category, v.tags) : "";
+  // 標籤預設跟著測驗種類走（jewelry / incense / tea）；沒有測驗的自訂分類沒有標籤
+  const kind =
+    kinds?.[v.category] ?? (isCategory(v.category) ? v.category : null);
+  const tags = kind ? buildTags(kind, v.tags) : "";
 
   const blocked: string[] = [];
   if (urls.length === 0) blocked.push("至少 1 张图片");

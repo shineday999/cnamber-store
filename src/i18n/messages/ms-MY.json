@@ -113,6 +113,15 @@
       "occasion": "Majlis utama?",
       "material": "Pilihan bahan?"
     },
+    "tea": {
+      "title": "Pilih secawan teh",
+      "desc": "Jenis, rasa, mood dan waktu — biar kami pilihkan teh yang paling sesuai untuk anda.",
+      "tea_type": "Jenis teh yang anda suka?",
+      "taste": "Pilihan rasa?",
+      "feeling": "Apakah rasa yang anda mahu daripada cawan ini?",
+      "tea_time": "Bila anda biasanya minum?",
+      "brew": "Bagaimana anda suka menyeduh?"
+    },
     "incense": {
       "title": "Pilih satu kemenyan",
       "desc": "Kebimbangan dan niat anda sekarang — biar kami campur kemenyan yang sesuai.",
@@ -132,6 +141,39 @@
       "badge_fallback": "Anda mungkin suka"
     },
     "option": {
+      "tea_type": {
+        "green": "Teh hijau",
+        "black": "Teh hitam",
+        "oolong": "Oolong",
+        "white": "Teh putih",
+        "dark": "Teh gelap / Pu-erh",
+        "herbal": "Teh herba"
+      },
+      "tea_taste": {
+        "fresh": "Segar dan ringan",
+        "mellow": "Lembut dan pekat",
+        "floral": "Wangi bunga atau buah",
+        "roasted": "Panggang atau berasap",
+        "sweet": "Manis di hujung lidah"
+      },
+      "tea_feeling": {
+        "refresh": "Menyegarkan",
+        "relax": "Menenangkan",
+        "digest": "Membantu pencernaan",
+        "warm": "Menghangatkan badan"
+      },
+      "tea_time": {
+        "morning": "Pagi",
+        "afternoon": "Petang",
+        "evening": "Senja",
+        "after_meal": "Selepas makan"
+      },
+      "tea_brew": {
+        "gongfu": "Perlahan, cara gongfu",
+        "mug": "Cepat, dalam mug",
+        "cold": "Seduh sejuk",
+        "any": "Mana-mana"
+      },
       "face": {
         "oval": "Bujur",
         "round": "Bulat",

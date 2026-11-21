@@ -4,12 +4,40 @@
 import type { APIRoute } from "astro";
 import { env } from "cloudflare:workers";
 import { scoreProducts } from "../../../lib/quiz";
+import { kindOf } from "../../../lib/category-kind";
 
 export const POST: APIRoute = async (ctx) => {
   const form = await ctx.request.formData();
   const type = String(form.get("type") ?? "");
-  if (type !== "jewelry" && type !== "incense") {
+  if (type !== "jewelry" && type !== "incense" && type !== "tea") {
     return new Response("Invalid quiz type", { status: 400 });
+  }
+
+  // 商品分類代碼：jewelry / incense 固定；tea 用後台「分类图片」裡那個茶葉分類的實際代碼
+  let category: string = type;
+  if (type === "tea") {
+    category = "";
+    const wanted = String(form.get("cat") ?? "tea");
+    if (env?.DB) {
+      const rows = await env.DB.prepare(
+        "SELECT code, titles FROM site_categories",
+      )
+        .all<{ code: string; titles: string }>()
+        .catch(() => ({
+          results: [] as Array<{ code: string; titles: string }>,
+        }));
+      for (const r of rows.results ?? []) {
+        let zh: string | undefined;
+        try {
+          zh = (JSON.parse(r.titles) as Record<string, string>)["zh-Hans"];
+        } catch {
+          zh = undefined;
+        }
+        if (r.code === wanted && kindOf(r.code, zh) === "tea")
+          category = r.code;
+      }
+    }
+    if (!category) return new Response("Invalid category", { status: 400 });
   }
 
   // Collect answers
@@ -34,7 +62,7 @@ export const POST: APIRoute = async (ctx) => {
            WHERE p.category = ? AND p.status = 'active'
            LIMIT 50`,
       )
-        .bind(ctx.locals.locale, type === "jewelry" ? "jewelry" : "incense")
+        .bind(ctx.locals.locale, category)
         .all<{
           id: string;
           slug: string;

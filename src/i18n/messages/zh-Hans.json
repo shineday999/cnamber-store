@@ -113,6 +113,15 @@
       "occasion": "主要场合?",
       "material": "材质偏好?"
     },
+    "tea": {
+      "title": "选一杯茶",
+      "desc": "茶类、口感、心情、时辰——让我们为你挑出最合心意的那一款茶。",
+      "tea_type": "偏爱哪一类茶?",
+      "taste": "口味偏好?",
+      "feeling": "想让这杯茶带来什么感觉?",
+      "tea_time": "通常什么时候喝?",
+      "brew": "习惯怎么冲泡?"
+    },
     "incense": {
       "title": "选一件香",
       "desc": "目前的困扰与期望——让我们为你调出适合的香。",
@@ -132,6 +141,39 @@
       "badge_fallback": "也许你会喜欢"
     },
     "option": {
+      "tea_type": {
+        "green": "绿茶",
+        "black": "红茶",
+        "oolong": "乌龙茶",
+        "white": "白茶",
+        "dark": "黑茶 / 普洱",
+        "herbal": "花草茶"
+      },
+      "tea_taste": {
+        "fresh": "清新鲜爽",
+        "mellow": "醇厚饱满",
+        "floral": "花果香气",
+        "roasted": "焙火烟熏",
+        "sweet": "回甘甜润"
+      },
+      "tea_feeling": {
+        "refresh": "提神醒脑",
+        "relax": "放松舒缓",
+        "digest": "解腻消食",
+        "warm": "暖身驱寒"
+      },
+      "tea_time": {
+        "morning": "早晨",
+        "afternoon": "午后",
+        "evening": "傍晚",
+        "after_meal": "饭后"
+      },
+      "tea_brew": {
+        "gongfu": "功夫茶具慢慢泡",
+        "mug": "随手一杯泡",
+        "cold": "冷泡",
+        "any": "都可以"
+      },
       "face": {
         "oval": "椭圆形",
         "round": "圆形",

@@ -8,6 +8,7 @@ import RevealOnScroll from "@components/RevealOnScroll.astro";
 import { createT } from "../i18n/t";
 import { formatPrice } from "../lib/format";
 import { parseTextMap } from "../lib/categories";
+import { kindOf } from "../lib/category-kind";
 import { localizedPath, defaultLocale, type Locale } from "../i18n/config";
 
 const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
@@ -99,6 +100,7 @@ for (const r of siteImgRes?.results ?? []) {
 // 分類卡片：由後台「分類圖片」管理（site_categories）；沒有資料時用預設的 jewelry / incense
 interface HomeCategory {
   code: string;
+  zhTitle: string;
   kicker: string;
   title: string;
   desc: string;
@@ -166,6 +168,7 @@ const homeCategories: HomeCategory[] = homeCatRows.map((c) => {
   const img = homeCatImages[c.code] ?? homeCatDefaults[c.code] ?? null;
   return {
     code: c.code,
+    zhTitle: c.titles["zh-Hans"] ?? "",
     // 後台有設定名稱時，名稱只顯示後台的；沒設定才退回舊的導覽名稱
     kicker: c.titles[locale] || c.titles["zh-Hans"] ? "" : legacyT(lk?.kicker),
     title,
@@ -208,6 +211,17 @@ const quizCards: QuizCard[] = homeCategories.map((c) => {
       desc: String(t("home.cta_incense_desc")),
       meta: String(t("home.cta_meta")),
       btn: String(t("home.cta_incense_btn")),
+    };
+  }
+  if (kindOf(c.code, c.zhTitle) === "tea") {
+    return {
+      href: localizedPath(locale, `/quiz/tea?cat=${c.code}`),
+      icon: "generic",
+      kicker: c.title,
+      heading: `${String(t("home.cta_pick_prefix"))}${c.title}`,
+      desc: c.desc,
+      meta: String(t("home.cta_meta")),
+      btn: String(t("home.cta_jewelry_btn")),
     };
   }
   return {
