@@ -122,30 +122,32 @@ function firstImage(json: string | null | undefined): string | undefined {
     </header>
 
     <nav data-products-chips class="flex justify-center gap-2 mb-10">
-      {
-        [
-          { code: "all", label: String(t("products.filter_all")) },
-          ...siteCats,
-        ].map(({ code: cat, label }) => {
-          const isActive = filter === cat;
-          const next = new URL(Astro.url);
-          if (cat === "all") next.searchParams.delete("cat");
-          else next.searchParams.set("cat", cat);
-          return (
-            <a
-              href={next.pathname + next.search}
-              aria-current={isActive ? "page" : undefined}
-              class={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                isActive
-                  ? "bg-forest-700 text-bg-base"
-                  : "bg-bg-card border border-text-muted/20 text-text-primary hover:border-accent-500"
-              }`}
-            >
-              {label}
-            </a>
-          );
-        })
-      }
+      <div data-products-chips-scroll class="flex justify-center gap-2">
+        {
+          [
+            { code: "all", label: String(t("products.filter_all")) },
+            ...siteCats,
+          ].map(({ code: cat, label }) => {
+            const isActive = filter === cat;
+            const next = new URL(Astro.url);
+            if (cat === "all") next.searchParams.delete("cat");
+            else next.searchParams.set("cat", cat);
+            return (
+              <a
+                href={next.pathname + next.search}
+                aria-current={isActive ? "page" : undefined}
+                class={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                  isActive
+                    ? "bg-forest-700 text-bg-base"
+                    : "bg-bg-card border border-text-muted/20 text-text-primary hover:border-accent-500"
+                }`}
+              >
+                {label}
+              </a>
+            );
+          })
+        }
+      </div>
       <button
         type="button"
         class="m-sort-btn"
