@@ -1,4 +1,8 @@
 import type { getDB } from "./db";
+import zhHans from "../i18n/messages/zh-Hans.json";
+import en from "../i18n/messages/en.json";
+import msMY from "../i18n/messages/ms-MY.json";
+import idID from "../i18n/messages/id-ID.json";
 
 // 首頁「手作路線」分類卡片（site_categories）：標題 / 簡介 各語言一份，圖片仍放 site_images（key = cat_<code>）。
 // 表由程式自動建立，不需手動 migration。
@@ -45,6 +49,34 @@ export function cleanTextMap(
   return out;
 }
 
+// 飾品 / 香品卡片原本寫在語言檔裡的說明文字；後台簡介還是空的時候，一次性填進去讓後台可以維護。
+const LEGACY_DESCS: Record<string, Record<string, string>> = {
+  jewelry: {
+    "zh-Hans": zhHans.home.cat_amber_desc,
+    en: en.home.cat_amber_desc,
+    "ms-MY": msMY.home.cat_amber_desc,
+    "id-ID": idID.home.cat_amber_desc,
+  },
+  incense: {
+    "zh-Hans": zhHans.home.cat_incense_desc,
+    en: en.home.cat_incense_desc,
+    "ms-MY": msMY.home.cat_incense_desc,
+    "id-ID": idID.home.cat_incense_desc,
+  },
+};
+
+async function backfillLegacyDescs(db: DB): Promise<void> {
+  const now = Math.floor(Date.now() / 1000);
+  for (const [code, descs] of Object.entries(LEGACY_DESCS)) {
+    await db
+      .prepare(
+        "UPDATE site_categories SET descs = ?, updated_at = ? WHERE code = ? AND (descs IS NULL OR descs = '' OR descs = '{}')",
+      )
+      .bind(JSON.stringify(descs), now, code)
+      .run();
+  }
+}
+
 export async function ensureCategoryTable(db: DB): Promise<void> {
   await db
     .prepare(
@@ -81,6 +113,7 @@ export async function ensureCategoryTable(db: DB): Promise<void> {
       .bind(now, now)
       .run();
   }
+  await backfillLegacyDescs(db);
 }
 
 export async function listCategories(db: DB): Promise<SiteCategory[]> {
