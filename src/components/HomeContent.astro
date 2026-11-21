@@ -166,12 +166,58 @@ const homeCategories: HomeCategory[] = homeCatRows.map((c) => {
   const img = homeCatImages[c.code] ?? homeCatDefaults[c.code] ?? null;
   return {
     code: c.code,
-    kicker: legacyT(lk?.kicker),
+    // 後台有設定名稱時，名稱只顯示後台的；沒設定才退回舊的導覽名稱
+    kicker: c.titles[locale] || c.titles["zh-Hans"] ? "" : legacyT(lk?.kicker),
     title,
     desc: c.descs[locale] || legacyT(lk?.desc) || c.descs["zh-Hans"] || "",
     alt: legacyT(lk?.alt) || title,
     src: img?.src ?? null,
     small: img?.small ?? null,
+  };
+});
+
+// 「找一件」卡片：跟著分類走，名稱讀後台「分类图片」的標題。
+// 只有 jewelry / incense 有測驗；自訂分類的卡片連到該分類的商品列表。
+interface QuizCard {
+  href: string;
+  icon: "jewelry" | "incense" | "generic";
+  kicker: string;
+  heading: string;
+  desc: string;
+  meta: string;
+  btn: string;
+}
+const quizCards: QuizCard[] = homeCategories.map((c) => {
+  if (c.code === "jewelry") {
+    return {
+      href: localizedPath(locale, "/quiz/jewelry"),
+      icon: "jewelry",
+      kicker: c.title,
+      heading: String(t("home.cta_quiz_jewelry")),
+      desc: String(t("home.cta_jewelry_desc")),
+      meta: String(t("home.cta_meta")),
+      btn: String(t("home.cta_jewelry_btn")),
+    };
+  }
+  if (c.code === "incense") {
+    return {
+      href: localizedPath(locale, "/quiz/incense"),
+      icon: "incense",
+      kicker: c.title,
+      heading: String(t("home.cta_quiz_incense")),
+      desc: String(t("home.cta_incense_desc")),
+      meta: String(t("home.cta_meta")),
+      btn: String(t("home.cta_incense_btn")),
+    };
+  }
+  return {
+    href: localizedPath(locale, `/products?cat=${c.code}`),
+    icon: "generic",
+    kicker: c.title,
+    heading: c.title,
+    desc: c.desc,
+    meta: "",
+    btn: String(t("home.cat_explore")),
   };
 });
 
@@ -588,96 +634,63 @@ const slides = bannerRows.results.map((b) => ({
       <div
         class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6 max-w-4xl mx-auto"
       >
-        <RevealOnScroll>
-          <a
-            href={localizedPath(locale, "/quiz/jewelry")}
-            class="group block h-full p-7 md:p-9 bg-bg-base border border-forest-100 hover:border-forest-300 rounded-card transition-all duration-500 hover:shadow-soft-lg hover-lift"
-          >
-            <div class="flex items-center gap-2.5 mb-4">
-              <svg
-                viewBox="0 0 24 24"
-                class="w-5 h-5 text-terra-500"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.4"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                aria-hidden="true"
+        {
+          quizCards.map((q, i) => (
+            <RevealOnScroll delay={i % 2 === 1 ? 120 : 0}>
+              <a
+                href={q.href}
+                class="group block h-full p-7 md:p-9 bg-bg-base border border-forest-100 hover:border-forest-300 rounded-card transition-all duration-500 hover:shadow-soft-lg hover-lift"
               >
-                <path
-                  d="M12 3 C 7 11, 4 17, 8 21 L 16 21 C 20 17, 17 11, 12 3 Z"
-                ></path>
-              </svg>
-              <span
-                class="text-[10px] uppercase tracking-[0.4em] text-terra-500 font-sans"
-              >
-                {t("nav.amber")}
-              </span>
-            </div>
-            <h3
-              class="text-2xl md:text-3xl font-serif font-light text-forest-800 mb-3 leading-tight"
-            >
-              {t("home.cta_quiz_jewelry")}
-            </h3>
-            <p class="text-text-secondary mb-4 leading-relaxed font-sans">
-              {t("home.cta_jewelry_desc")}
-            </p>
-            <p class="text-xs text-text-muted font-sans mb-6 tracking-wide">
-              {t("home.cta_meta")}
-            </p>
-            <span
-              class="inline-flex items-center gap-1.5 text-sm text-forest-700 font-sans tracking-wide group-hover:gap-2.5 transition-all"
-            >
-              {t("home.cta_jewelry_btn")}
-              <span aria-hidden="true">→</span>
-            </span>
-          </a>
-        </RevealOnScroll>
-
-        <RevealOnScroll delay={120}>
-          <a
-            href={localizedPath(locale, "/quiz/incense")}
-            class="group block h-full p-7 md:p-9 bg-bg-base border border-forest-100 hover:border-forest-300 rounded-card transition-all duration-500 hover:shadow-soft-lg hover-lift"
-          >
-            <div class="flex items-center gap-2.5 mb-4">
-              <svg
-                viewBox="0 0 24 24"
-                class="w-5 h-5 text-terra-500"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.4"
-                stroke-linecap="round"
-                aria-hidden="true"
-              >
-                <path d="M12 3 Q 10 7 12 11 Q 14 15 12 19"></path>
-                <path d="M8 5 Q 6.5 8 8 11"></path>
-                <path d="M16 5 Q 17.5 8 16 11"></path>
-              </svg>
-              <span
-                class="text-[10px] uppercase tracking-[0.4em] text-terra-500 font-sans"
-              >
-                {t("nav.incense")}
-              </span>
-            </div>
-            <h3
-              class="text-2xl md:text-3xl font-serif font-light text-forest-800 mb-3 leading-tight"
-            >
-              {t("home.cta_quiz_incense")}
-            </h3>
-            <p class="text-text-secondary mb-4 leading-relaxed font-sans">
-              {t("home.cta_incense_desc")}
-            </p>
-            <p class="text-xs text-text-muted font-sans mb-6 tracking-wide">
-              {t("home.cta_meta")}
-            </p>
-            <span
-              class="inline-flex items-center gap-1.5 text-sm text-forest-700 font-sans tracking-wide group-hover:gap-2.5 transition-all"
-            >
-              {t("home.cta_incense_btn")}
-              <span aria-hidden="true">→</span>
-            </span>
-          </a>
-        </RevealOnScroll>
+                <div class="flex items-center gap-2.5 mb-4">
+                  <svg
+                    viewBox="0 0 24 24"
+                    class="w-5 h-5 text-terra-500"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.4"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    {q.icon === "jewelry" && (
+                      <path d="M12 3 C 7 11, 4 17, 8 21 L 16 21 C 20 17, 17 11, 12 3 Z" />
+                    )}
+                    {q.icon === "incense" && (
+                      <>
+                        <path d="M12 3 Q 10 7 12 11 Q 14 15 12 19" />
+                        <path d="M8 5 Q 6.5 8 8 11" />
+                        <path d="M16 5 Q 17.5 8 16 11" />
+                      </>
+                    )}
+                    {q.icon === "generic" && (
+                      <path d="M12 4 C 8 9, 8 15, 12 20 C 16 15, 16 9, 12 4 Z" />
+                    )}
+                  </svg>
+                  <span class="text-[10px] uppercase tracking-[0.4em] text-terra-500 font-sans">
+                    {q.kicker}
+                  </span>
+                </div>
+                <h3 class="text-2xl md:text-3xl font-serif font-light text-forest-800 mb-3 leading-tight">
+                  {q.heading}
+                </h3>
+                {q.desc && (
+                  <p class="text-text-secondary mb-4 leading-relaxed font-sans">
+                    {q.desc}
+                  </p>
+                )}
+                {q.meta && (
+                  <p class="text-xs text-text-muted font-sans mb-6 tracking-wide">
+                    {q.meta}
+                  </p>
+                )}
+                <span class="inline-flex items-center gap-1.5 text-sm text-forest-700 font-sans tracking-wide group-hover:gap-2.5 transition-all">
+                  {q.btn}
+                  <span aria-hidden="true">→</span>
+                </span>
+              </a>
+            </RevealOnScroll>
+          ))
+        }
       </div>
     </div>
   </div>
