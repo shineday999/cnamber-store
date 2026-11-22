@@ -121,6 +121,15 @@ export async function ensureCategoryTable(db: DB): Promise<void> {
          AND json_extract(titles, '$."zh-Hans"') IN ('琥珀饰品','琥珀飾品','东方香品','東方香品')`,
     )
     .run();
+  // 内建「首饰」分类（code = jewelry）的标题若只是「琥珀」，也改成「饰品」
+  await db
+    .prepare(
+      `UPDATE site_categories
+         SET titles = json_set(titles, '$."zh-Hans"', '饰品')
+       WHERE code = 'jewelry' AND json_valid(titles)
+         AND json_extract(titles, '$."zh-Hans"') IN ('琥珀','首饰')`,
+    )
+    .run();
   if (!row || row.n === 0) {
     const now = Math.floor(Date.now() / 1000);
     await db

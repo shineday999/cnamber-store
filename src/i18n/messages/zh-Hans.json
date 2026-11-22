@@ -204,6 +204,8 @@
         "pure_amber": "纯琥珀",
         "amber_wood": "琥珀 + 木",
         "amber_metal": "琥珀 + 金属",
+        "jade": "翡翠",
+        "jasper": "碧玉",
         "any": "不拘"
       },
       "concern": {
@@ -578,7 +580,7 @@
       "label_status": "状态",
       "label_subcategory": "子分类",
       "label_slug": "标识",
-      "option_jewelry": "首饰",
+      "option_jewelry": "饰品",
       "option_incense": "香品",
       "save": "保存",
       "toggle_status": "切换状态",
@@ -615,7 +617,7 @@
       "title": "新增商品",
       "subtitle": "建立商品基础信息，可在编辑页补充翻译、规格与多币种定价。",
       "label_category": "分类",
-      "option_jewelry": "首饰",
+      "option_jewelry": "饰品",
       "option_incense": "香品",
       "label_subcategory": "子分类",
       "label_slug": "标识",
@@ -635,7 +637,7 @@
     },
     "value": {
       "category": {
-        "jewelry": "首饰",
+        "jewelry": "饰品",
         "incense": "香品"
       },
       "subcategory": {
@@ -855,7 +857,7 @@
   "products": {
     "kicker": "慢慢看",
     "filter_all": "全部",
-    "filter_jewelry": "琥珀",
+    "filter_jewelry": "饰品",
     "filter_incense": "香品",
     "empty_title": "还没有作品",
     "empty_desc": "第一批作品正在慢慢成形,先来一封信预约。",

@@ -204,6 +204,8 @@
         "pure_amber": "Amber tulen",
         "amber_wood": "Amber + kayu",
         "amber_metal": "Amber + logam",
+        "jade": "Jadeit",
+        "jasper": "Jasper",
         "any": "Tiada keutamaan"
       },
       "concern": {
@@ -825,7 +827,7 @@
   "products": {
     "kicker": "Kedai",
     "filter_all": "Semua",
-    "filter_jewelry": "Amber",
+    "filter_jewelry": "Jewelry",
     "filter_incense": "Kemenyan",
     "empty_title": "Belum ada karya",
     "empty_desc": "Kumpulan pertama sedang dibentuk perlahan — sila hubungi kami untuk tempahan.",
