@@ -16,9 +16,10 @@ function isAllowedCategory(v: string, validCodes?: readonly string[]): boolean {
   return (validCodes ?? CATEGORIES).includes(v);
 }
 
-export const SUBCATEGORIES: Record<Category, readonly string[]> = {
+export const SUBCATEGORIES: Record<QuizKind, readonly string[]> = {
   jewelry: ["necklace", "bracelet", "earring", "ring"],
   incense: ["stick", "balm", "oil"],
+  tea: ["green", "black", "oolong", "white", "dark", "scented"],
 };
 
 // ---------- 標籤預設（來源：測驗各題的答案值，「为我推荐」靠它們比對） ----------
@@ -252,17 +253,18 @@ export function validateNewProduct(
   v: NewProductValues,
   files: File[],
   validCodes?: readonly string[],
+  kinds?: Record<string, QuizKind | null>,
 ): string[] {
   const errors: string[] = [];
   if (!isAllowedCategory(v.category, validCodes)) {
     errors.push("请选择分类");
-  } else if (
-    v.subcategory &&
-    !(isCategory(v.category) ? SUBCATEGORIES[v.category] : []).includes(
-      v.subcategory,
-    )
-  ) {
-    errors.push("子分类与分类不符");
+  } else if (v.subcategory) {
+    const kind =
+      kinds?.[v.category] ?? (isCategory(v.category) ? v.category : null);
+    const subs: readonly string[] = kind ? SUBCATEGORIES[kind] : [];
+    if (!subs.includes(v.subcategory)) {
+      errors.push("子分类与分类不符");
+    }
   }
   if (!v.name_zh) errors.push("请填写中文名称");
   if (!v.name_en) {

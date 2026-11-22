@@ -69,7 +69,7 @@ if (Astro.request.method === "POST") {
   const form = await Astro.request.formData();
   values = readNewProductForm(form);
   const files = pickImages(form);
-  errors = validateNewProduct(values, files, categoryCodes);
+  errors = validateNewProduct(values, files, categoryCodes, kinds);
 
   if (errors.length === 0) {
     const intent =
@@ -173,17 +173,19 @@ const card =
         <select id="np-sub" name="subcategory" class={field}>
           <option value="">—</option>
           {
-            CATEGORIES.map((c) =>
-              SUBCATEGORIES[c].map((s) => (
-                <option
-                  value={s}
-                  data-cat={c}
-                  selected={values.subcategory === s}
-                >
-                  {tEnum(t, "subcategory", s)}
-                </option>
-              )),
-            )
+            categoryOptions
+              .filter((o) => o.kind !== null)
+              .map((co) =>
+                SUBCATEGORIES[co.kind!].map((s) => (
+                  <option
+                    value={s}
+                    data-cat={co.code}
+                    selected={values.subcategory === s}
+                  >
+                    {tEnum(t, "subcategory", s)}
+                  </option>
+                )),
+              )
           }
         </select>
       </div>
