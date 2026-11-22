@@ -3,6 +3,8 @@
 // subtle hover scale, generous whitespace between elements
 import { createT } from "../i18n/t";
 import { defaultLocale, localizedPath, type Locale } from "../i18n/config";
+import { getDB } from "../lib/db";
+import { getCategoryLabels } from "../lib/category-labels";
 
 interface Props {
   slug: string;
@@ -40,7 +42,15 @@ const displayUrl =
     : imageUrl;
 
 const fallback = category.charAt(0).toUpperCase() + category.slice(1);
+// 后台新增的分类（如茶叶）用「分类图片」页设定的标题，不再显示英文代码
+let siteLabels: Record<string, string> = {};
+try {
+  siteLabels = await getCategoryLabels(getDB(), locale);
+} catch {
+  siteLabels = {};
+}
 const catLabel: Record<string, string> = {
+  ...siteLabels,
   jewelry: t("nav.amber") || fallback,
   incense: t("nav.incense") || fallback,
 };
