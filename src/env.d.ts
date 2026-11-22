@@ -40,5 +40,8 @@ declare namespace Cloudflare {
     EMAIL_FROM: string;
     EMAIL_REPLY_TO: string;
     SESSION_SECRET?: string;
+    /** 試算表 ⇄ 網站雙向同步：共用密鑰、Apps Script 網頁應用程式網址 */
+    SHEET_SYNC_TOKEN?: string;
+    SHEET_SCRIPT_URL?: string;
   }
 }

@@ -1,5 +1,7 @@
 import type { APIRoute } from "astro";
+import { env } from "cloudflare:workers";
 import { getDB } from "../../../../../lib/db";
+import { pushProductToSheet } from "../../../../../lib/sheet-bridge";
 
 const LOCALES = ["zh-Hans", "en", "ms-MY", "id-ID"] as const;
 
@@ -76,5 +78,10 @@ export const POST: APIRoute = async (ctx) => {
     ),
   );
 
+  await pushProductToSheet(
+    db,
+    { url: env.SHEET_SCRIPT_URL, token: env.SHEET_SYNC_TOKEN },
+    id,
+  );
   return back("saved=1");
 };
