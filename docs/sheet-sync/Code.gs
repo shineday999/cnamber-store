@@ -19,11 +19,17 @@ var H_REF = "名称（仅供参考）";
 var H_PRICE = "售价";
 var H_STATUS = "同步状态";
 
+/** 欄位標題：簡體中文名稱就是「名称（仅供参考）」那一欄，不另外建重複的欄 */
+function head_(loc, f) {
+  return loc === "zh-Hans" && f.key === "name" ? H_REF : loc + " " + f.label;
+}
+
 function headers_() {
   var h = [H_SLUG, H_REF];
   LOCALES.forEach(function (loc) {
     FIELDS.forEach(function (f) {
-      h.push(loc + " " + f.label);
+      var t = head_(loc, f);
+      if (h.indexOf(t) < 0) h.push(t);
     });
   });
   h.push(H_PRICE, H_STATUS);
@@ -123,13 +129,13 @@ function rowToPayload_(sh, map, r) {
   LOCALES.forEach(function (loc) {
     var o = {};
     FIELDS.forEach(function (f) {
-      o[f.key] = get(loc + " " + f.label);
+      o[f.key] = get(head_(loc, f));
     });
     locales[loc] = o;
   });
   return {
     slug: get(H_SLUG),
-    name_zh: locales["zh-Hans"].name || get(H_REF),
+    name_zh: locales["zh-Hans"].name,
     price: get(H_PRICE),
     locales: locales,
   };
@@ -259,11 +265,10 @@ function doPost(e) {
     };
     set(H_SLUG, body.slug);
     var locales = body.locales || {};
-    set(H_REF, (locales["zh-Hans"] || {}).name);
     LOCALES.forEach(function (loc) {
       var f = locales[loc] || {};
       FIELDS.forEach(function (fd) {
-        set(loc + " " + fd.label, f[fd.key]);
+        set(head_(loc, fd), f[fd.key]);
       });
     });
     set(H_PRICE, body.price);
