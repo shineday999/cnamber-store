@@ -1,5 +1,7 @@
 ---
-import { XIAOHONGSHU_URL } from "../lib/social";
+import { SOCIAL_LINKS } from "../lib/social";
+import { getDB } from "../lib/db";
+import { getCategoryLabels } from "../lib/category-labels";
 // Footer — 全站共用底欄 (2026-10-01 新增,Awwwards tier)
 // 三欄 + newsletter + legal strip
 import { createT } from "../i18n/t";
@@ -8,6 +10,17 @@ import { defaultLocale, type Locale, localizedPath } from "../i18n/config";
 const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
 const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
 const t = createT(messages);
+
+// 后台新增的分类（如茶叶）也列在「看看」里，链到该分类的商品列表
+let extraCats: { code: string; label: string }[] = [];
+try {
+  const labels = await getCategoryLabels(getDB(), locale);
+  extraCats = Object.entries(labels)
+    .filter(([code]) => code !== "jewelry" && code !== "incense")
+    .map(([code, label]) => ({ code, label }));
+} catch {
+  extraCats = [];
+}
 
 const sections = [
   {
@@ -19,6 +32,13 @@ const sections = [
         label: t("footer.link_incense"),
         href: localizedPath(locale, "/incense"),
       },
+      ...extraCats.map((c) => ({
+        label: c.label,
+        href: localizedPath(
+          locale,
+          `/products?cat=${encodeURIComponent(c.code)}`,
+        ),
+      })),
       { label: t("footer.link_quiz"), href: localizedPath(locale, "/quiz") },
     ],
   },
@@ -40,14 +60,7 @@ const sections = [
   },
   {
     title: t("footer.section_follow"),
-    links: [
-      { label: t("footer.social_instagram"), href: "https://instagram.com/" },
-      { label: t("footer.social_pinterest"), href: "https://pinterest.com/" },
-      {
-        label: t("footer.social_xiaohongshu"),
-        href: XIAOHONGSHU_URL,
-      },
-    ],
+    links: SOCIAL_LINKS.map((l) => ({ label: t(l.labelKey), href: l.href })),
   },
 ];
 
