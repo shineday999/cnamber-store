@@ -776,7 +776,11 @@
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     /* 右緣淡出：chips 太多放不下時提示可橫滑，不會看起來像被按鈕切掉 */
-    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 12px), transparent);
+    -webkit-mask-image: linear-gradient(
+      to right,
+      #000 calc(100% - 12px),
+      transparent
+    );
     mask-image: linear-gradient(to right, #000 calc(100% - 12px), transparent);
   }
   main [data-products-chips] > [data-products-chips-scroll]::-webkit-scrollbar {
