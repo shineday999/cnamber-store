@@ -26,7 +26,7 @@ export interface BridgeResult {
   slug: string;
   status: "ok" | "unchanged" | "not_found" | "ambiguous" | "error";
   updated: string[];
-  note?: string;
+  note?: string | undefined;
 }
 
 const LIMITS = { name: 200, short_description: 500, description: 10000 };
@@ -270,20 +270,25 @@ export async function loadSnapshot(
  */
 export async function pushProductToSheet(
   db: D1Database,
-  cfg: { url?: string; token?: string },
+  cfg: {
+    SHEET_SCRIPT_URL?: string | undefined;
+    SHEET_SYNC_TOKEN?: string | undefined;
+  },
   productId: string,
   prevSlug?: string,
 ): Promise<void> {
-  if (!cfg.url || !cfg.token) return;
+  const target = cfg.SHEET_SCRIPT_URL;
+  const shared = cfg.SHEET_SYNC_TOKEN;
+  if (!target || !shared) return;
   try {
     const snap = await loadSnapshot(db, productId);
     if (!snap) return;
-    const res = await fetch(cfg.url, {
+    const res = await fetch(target, {
       method: "POST",
       redirect: "follow",
       headers: { "Content-Type": "text/plain;charset=utf-8" },
       body: JSON.stringify({
-        token: cfg.token,
+        token: shared,
         action: "upsert",
         prev_slug: prevSlug && prevSlug !== snap.slug ? prevSlug : undefined,
         ...snap,

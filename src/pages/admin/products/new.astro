@@ -84,11 +84,7 @@ if (Astro.request.method === "POST") {
         categoryCodes,
         kinds,
       );
-      await pushProductToSheet(
-        getDB(),
-        { url: env.SHEET_SCRIPT_URL, token: env.SHEET_SYNC_TOKEN },
-        result.id,
-      );
+      await pushProductToSheet(getDB(), env, result.id);
       const q = new URLSearchParams({ created: result.status });
       if (intent === "publish" && result.status !== "active") {
         q.set("blocked", result.blocked.join("、"));

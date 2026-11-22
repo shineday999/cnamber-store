@@ -78,10 +78,6 @@ export const POST: APIRoute = async (ctx) => {
     ),
   );
 
-  await pushProductToSheet(
-    db,
-    { url: env.SHEET_SCRIPT_URL, token: env.SHEET_SYNC_TOKEN },
-    id,
-  );
+  await pushProductToSheet(db, env, id);
   return back("saved=1");
 };
