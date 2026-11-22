@@ -6,6 +6,8 @@ import { defaultLocale, type Locale } from "../../../i18n/config";
 import zhHansMessages from "../../../i18n/messages/zh-Hans.json";
 import { formatPrice } from "../../../lib/format";
 import { PRODUCT_SHEET_EDIT_URL } from "../../../lib/sheet-sync";
+import { getDB } from "../../../lib/db";
+import { ensureCategoryTable, listCategories } from "../../../lib/categories";
 
 const locale = (Astro.locals.locale ?? defaultLocale) as Locale;
 const messages = zhHansMessages as Record<string, unknown>;
@@ -40,6 +42,27 @@ const sql = `SELECT p.id, p.slug, p.category, p.subcategory, p.status, p.image_u
          ON pt.product_id = p.id AND pt.locale = 'zh-Hans'
        ${filter ? "WHERE p.status = ?" : ""}
        ORDER BY p.created_at DESC LIMIT 100`;
+
+// 分类显示名：内建的饰品 / 香品用固定名称，后台新增的（如茶叶）用「分类图片」页的简体标题
+const categoryTitles: Record<string, string> = {};
+if (env?.DB) {
+  try {
+    const cdb = getDB();
+    await ensureCategoryTable(cdb);
+    for (const c of await listCategories(cdb)) {
+      const title = c.titles["zh-Hans"];
+      if (title) categoryTitles[c.code] = title;
+    }
+  } catch {
+    // 读不到就退回代码本身
+  }
+}
+function categoryLabel(code: string): string {
+  if (code === "jewelry" || code === "incense") {
+    return tEnum(t, "category", code);
+  }
+  return categoryTitles[code] ?? tEnum(t, "category", code);
+}
 
 let products: { results: ProductRow[] } = { results: [] };
 const counts: Record<string, number> = {};
@@ -152,7 +175,7 @@ const th =
                 <div class="font-mono text-xs text-text-muted">{p.slug}</div>
               </td>
               <td class="px-3 py-2">
-                {tEnum(t, "category", p.category)}
+                {categoryLabel(p.category)}
                 {p.subcategory && (
                   <span class="text-text-muted">
                     {" "}
