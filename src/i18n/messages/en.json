@@ -204,6 +204,8 @@
         "pure_amber": "Pure amber",
         "amber_wood": "Amber + wood",
         "amber_metal": "Amber + metal",
+        "jade": "Jadeite",
+        "jasper": "Jasper",
         "any": "No preference"
       },
       "concern": {
@@ -825,7 +827,7 @@
   "products": {
     "kicker": "Shop",
     "filter_all": "All",
-    "filter_jewelry": "Amber",
+    "filter_jewelry": "Jewelry",
     "filter_incense": "Incense",
     "empty_title": "No pieces yet",
     "empty_desc": "Our first batch is being prepared — please check back soon.",

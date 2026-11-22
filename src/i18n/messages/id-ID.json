@@ -204,6 +204,8 @@
         "pure_amber": "Amber murni",
         "amber_wood": "Amber + kayu",
         "amber_metal": "Amber + logam",
+        "jade": "Giok jadeit",
+        "jasper": "Jasper",
         "any": "Tiada pilihan"
       },
       "concern": {
@@ -825,7 +827,7 @@
   "products": {
     "kicker": "Toko",
     "filter_all": "Semua",
-    "filter_jewelry": "Amber",
+    "filter_jewelry": "Jewelry",
     "filter_incense": "Dupa",
     "empty_title": "Belum ada karya",
     "empty_desc": "Kumpulan pertama sedang dibentuk perlahan — hubungi kami untuk tempahan.",

@@ -8,7 +8,8 @@ export interface JewelryAnswers {
   skin_tone: "cool" | "warm" | "neutral";
   personality: "calm" | "free" | "mysterious" | "fresh" | "classic";
   occasion: "daily" | "formal" | "outdoor" | "gift";
-  material: "pure_amber" | "amber_wood" | "amber_metal" | "any";
+  material:
+    "pure_amber" | "amber_wood" | "amber_metal" | "jade" | "jasper" | "any";
 }
 
 export interface IncenseAnswers {
@@ -79,6 +80,8 @@ export const JEWELRY_STEPS: QuizStep[] = [
       { value: "pure_amber", labelKey: "quiz.option.material.pure_amber" },
       { value: "amber_wood", labelKey: "quiz.option.material.amber_wood" },
       { value: "amber_metal", labelKey: "quiz.option.material.amber_metal" },
+      { value: "jade", labelKey: "quiz.option.material.jade" },
+      { value: "jasper", labelKey: "quiz.option.material.jasper" },
       { value: "any", labelKey: "quiz.option.material.any" },
     ],
   },
