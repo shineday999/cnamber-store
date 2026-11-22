@@ -37,6 +37,8 @@
     "options": "选项",
     "quantity": "数量",
     "stock": "库存",
+    "weight": "重量",
+    "weight_unit": "克",
     "select_option": "请选择规格",
     "add_to_cart": "加入购物车",
     "added_to_cart": "已加入购物车",

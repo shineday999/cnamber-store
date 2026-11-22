@@ -39,6 +39,7 @@ interface Variant {
   sku: string;
   attributes: string;
   stock: number;
+  weight_grams: number | null;
 }
 
 interface Price {
@@ -101,7 +102,7 @@ const showDesc = descParas.length > 0 && descParas.join("") !== tr.name.trim();
 
 const variants = env?.DB
   ? await env.DB.prepare(
-      "SELECT id, sku, attributes, stock FROM product_variants WHERE product_id = ? ORDER BY sku",
+      "SELECT id, sku, attributes, stock, weight_grams FROM product_variants WHERE product_id = ? ORDER BY sku",
     )
       .bind(product.id)
       .all<Variant>()
@@ -406,6 +407,20 @@ void locale;
                   </span>
                 </p>
               )
+            }
+            {
+              variants.results[0]?.weight_grams ? (
+                <p
+                  data-pd-weight
+                  class="text-xs uppercase tracking-[0.4em] text-forest-600 font-sans"
+                >
+                  {t("common.weight")}
+                  <span class="ml-2 font-mono text-sm tracking-normal text-forest-800">
+                    {variants.results[0].weight_grams}
+                    {t("common.weight_unit")}
+                  </span>
+                </p>
+              ) : null
             }
             <div data-pd-qty class="flex items-center gap-3">
               <label
