@@ -35,6 +35,8 @@
     "options": "Options",
     "quantity": "Quantity",
     "stock": "Stock",
+    "weight": "Weight",
+    "weight_unit": "g",
     "select_option": "Select an option",
     "reserve": "Reserve",
     "add_to_cart": "Add to cart",

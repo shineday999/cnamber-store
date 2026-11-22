@@ -35,6 +35,8 @@
     "options": "Pilihan",
     "quantity": "Kuantiti",
     "stock": "Stok",
+    "weight": "Berat",
+    "weight_unit": "g",
     "select_option": "Sila pilih pilihan",
     "reserve": "Tempah",
     "add_to_cart": "Tambah ke troli",
