@@ -775,6 +775,9 @@
     overscroll-behavior-x: contain;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+    /* 右緣淡出：chips 太多放不下時提示可橫滑，不會看起來像被按鈕切掉 */
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 12px), transparent);
+    mask-image: linear-gradient(to right, #000 calc(100% - 12px), transparent);
   }
   main [data-products-chips] > [data-products-chips-scroll]::-webkit-scrollbar {
     display: none;
@@ -784,7 +787,7 @@
     flex: none;
     align-items: center;
     min-height: 44px;
-    padding: 0 18px;
+    padding: 0 12px;
     white-space: nowrap;
   }
 }
@@ -845,7 +848,7 @@
     align-items: center;
     gap: 6px;
     min-height: 44px;
-    padding: 0 14px;
+    padding: 0 12px;
     border: 1px solid rgba(0, 0, 0, 0.15);
     border-radius: 999px;
     background: #fff;
