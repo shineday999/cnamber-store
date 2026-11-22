@@ -843,6 +843,7 @@
     "faq_a4_a": "通过联络与我们对话,我们会在一到两个工作天内回复。"
   },
   "product": {
+    "zoom_hint": "点图片可放大",
     "faq_kicker": "常见问题",
     "faq_heading": "问答",
     "story_title": "它的故事"
