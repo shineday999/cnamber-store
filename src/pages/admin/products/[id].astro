@@ -218,8 +218,8 @@ const presetTags = new Set(
   (["jewelry", "incense", "tea"] as const).flatMap((k) => [...allowedTags(k)]),
 );
 const extraTags = currentTags.filter((tk) => !presetTags.has(tk));
-const knownSub = CATEGORIES.some((c) =>
-  SUBCATEGORIES[c].includes(product.subcategory ?? ""),
+const knownSub = Object.values(SUBCATEGORIES).some((subs) =>
+  subs.includes(product.subcategory ?? ""),
 );
 const inputField =
   "w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base";
@@ -364,17 +364,19 @@ const inputField =
           <select id="subcategory" name="subcategory" class={inputField}>
             <option value="">—</option>
             {
-              CATEGORIES.map((c) =>
-                SUBCATEGORIES[c].map((s) => (
-                  <option
-                    value={s}
-                    data-cat={c}
-                    selected={product.subcategory === s}
-                  >
-                    {tEnum(t, "subcategory", s)}
-                  </option>
-                )),
-              )
+              categoryOptions
+                .filter((o) => o.kind !== null)
+                .map((co) =>
+                  SUBCATEGORIES[co.kind!].map((s) => (
+                    <option
+                      value={s}
+                      data-cat={co.code}
+                      selected={product.subcategory === s}
+                    >
+                      {tEnum(t, "subcategory", s)}
+                    </option>
+                  )),
+                )
             }
             {
               product.subcategory && !knownSub && (

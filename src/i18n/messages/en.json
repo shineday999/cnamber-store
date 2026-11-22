@@ -715,6 +715,12 @@
         "earring": "Earring",
         "necklace": "Necklace",
         "oil": "Oil",
+        "green": "Green tea",
+        "black": "Black tea",
+        "oolong": "Oolong tea",
+        "white": "White tea",
+        "dark": "Dark tea",
+        "scented": "Scented tea",
         "ring": "Ring",
         "stick": "Stick"
       }

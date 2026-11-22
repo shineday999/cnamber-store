@@ -647,7 +647,13 @@
         "ring": "戒指",
         "stick": "线香",
         "balm": "香膏",
-        "oil": "精油"
+        "oil": "精油",
+        "green": "绿茶",
+        "black": "红茶",
+        "oolong": "乌龙茶",
+        "white": "白茶",
+        "dark": "黑茶",
+        "scented": "花茶"
       },
       "status": {
         "draft": "草稿",
