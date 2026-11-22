@@ -81,11 +81,6 @@ export const POST: APIRoute = async (ctx) => {
     )
     .run();
 
-  await pushProductToSheet(
-    db,
-    { url: env.SHEET_SCRIPT_URL, token: env.SHEET_SYNC_TOKEN },
-    id,
-    existing.slug,
-  );
+  await pushProductToSheet(db, env, id, existing.slug);
   return ctx.redirect(`/admin/products/${id}?tab=core&saved=1`, 303);
 };
