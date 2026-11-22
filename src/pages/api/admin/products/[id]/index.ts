@@ -3,11 +3,16 @@ import { env } from "cloudflare:workers";
 import { getDB } from "../../../../../lib/db";
 import { pushProductToSheet } from "../../../../../lib/sheet-bridge";
 import {
+  CATEGORIES,
   buildTags,
   checkReadiness,
-  isCategory,
   splitTags,
 } from "../../../../../lib/admin-products";
+import {
+  ensureCategoryTable,
+  listCategories,
+} from "../../../../../lib/categories";
+import { kindOf } from "../../../../../lib/category-kind";
 
 export const POST: APIRoute = async (ctx) => {
   if (!ctx.locals.admin) return new Response("Unauthorized", { status: 401 });
@@ -32,7 +37,27 @@ export const POST: APIRoute = async (ctx) => {
   const slug = String(form.get("slug") ?? "");
   const status = String(form.get("status") ?? "");
 
-  if (!isCategory(category)) return fail("分类不正确");
+  // 分类 = 「分类图片」页的分类（含后台新增的，如茶叶）；读不到时只认内建两个
+  let cats: { code: string; zh: string | undefined }[] = [];
+  try {
+    await ensureCategoryTable(db);
+    cats = (await listCategories(db)).map((c) => ({
+      code: c.code,
+      zh: c.titles["zh-Hans"],
+    }));
+  } catch {
+    cats = [];
+  }
+  if (cats.length === 0)
+    cats = CATEGORIES.map((c) => ({ code: c, zh: undefined }));
+  const chosen = cats.find((c) => c.code === category);
+  const stored = await db
+    .prepare("SELECT category FROM products WHERE id = ?")
+    .bind(id)
+    .first<{ category: string }>();
+  // 商品原本的分类即使已不在清单里，也允许原样保存
+  if (!chosen && stored?.category !== category) return fail("分类不正确");
+  const kind = kindOf(category, chosen?.zh);
   if (!["draft", "active", "archived"].includes(status))
     return fail("状态不正确");
   if (!slug || !/^[a-z0-9-]+$/.test(slug)) return fail("编号格式不正确");
@@ -60,7 +85,7 @@ export const POST: APIRoute = async (ctx) => {
   // 標籤：新表單送 tag（勾選）+ tags_extra（舊資料保留）；舊表單才會送 tags
   const tags = form.has("tags_extra")
     ? buildTags(
-        category,
+        kind,
         form.getAll("tag").map(String),
         splitTags(String(form.get("tags_extra") ?? "")),
       )

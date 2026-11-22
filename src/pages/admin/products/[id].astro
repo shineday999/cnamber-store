@@ -7,6 +7,9 @@ import { defaultLocale, type Locale } from "../../../i18n/config";
 import zhHansMessages from "../../../i18n/messages/zh-Hans.json";
 import { formatPrice } from "../../../lib/format";
 import { PRODUCT_SHEET_EDIT_URL } from "../../../lib/sheet-sync";
+import { getDB } from "../../../lib/db";
+import { ensureCategoryTable, listCategories } from "../../../lib/categories";
+import { kindOf, type QuizKind } from "../../../lib/category-kind";
 import {
   CATEGORIES,
   SUBCATEGORIES,
@@ -14,7 +17,6 @@ import {
   MAX_IMAGES,
   allowedTags,
   checkReadiness,
-  isCategory,
   splitTags,
 } from "../../../lib/admin-products";
 
@@ -177,11 +179,44 @@ const notice = {
   saved: Astro.url.searchParams.get("saved"),
   error: Astro.url.searchParams.get("error"),
 };
-const productCategory = isCategory(product.category)
-  ? product.category
-  : "jewelry";
+const productCategory = product.category;
+// 分類選項 = 「分类图片」页的分类（含后台新增的，例如茶叶），读不到时退回内建两个
+const LEGACY_LABEL: Record<string, string> = {
+  jewelry: String(t("admin.products_detail.option_jewelry")),
+  incense: String(t("admin.products_detail.option_incense")),
+};
+let categoryOptions: { code: string; label: string; kind: QuizKind | null }[] =
+  [];
+try {
+  const cdb = getDB();
+  await ensureCategoryTable(cdb);
+  categoryOptions = (await listCategories(cdb)).map((c) => ({
+    code: c.code,
+    label: c.titles["zh-Hans"] || LEGACY_LABEL[c.code] || c.code,
+    kind: kindOf(c.code, c.titles["zh-Hans"]),
+  }));
+} catch {
+  categoryOptions = [];
+}
+if (categoryOptions.length === 0) {
+  categoryOptions = CATEGORIES.map((c) => ({
+    code: c,
+    label: LEGACY_LABEL[c] ?? c,
+    kind: c,
+  }));
+}
+// 商品目前的分类若不在清单里（分类被删了），仍保留为选项避免保存时被改掉
+if (!categoryOptions.some((o) => o.code === productCategory)) {
+  categoryOptions.push({
+    code: productCategory,
+    label: LEGACY_LABEL[productCategory] ?? productCategory,
+    kind: kindOf(productCategory),
+  });
+}
 const currentTags = splitTags(product.tags ?? "");
-const presetTags = new Set(CATEGORIES.flatMap((c) => [...allowedTags(c)]));
+const presetTags = new Set(
+  (["jewelry", "incense", "tea"] as const).flatMap((k) => [...allowedTags(k)]),
+);
 const extraTags = currentTags.filter((tk) => !presetTags.has(tk));
 const knownSub = CATEGORIES.some((c) =>
   SUBCATEGORIES[c].includes(product.subcategory ?? ""),
@@ -294,12 +329,13 @@ const inputField =
               name="category"
               class="w-full px-3 py-2 border border-text-muted/30 rounded-md bg-bg-base"
             >
-              <option value="jewelry" selected={product.category === "jewelry"}
-                >{t("admin.products_detail.option_jewelry")}</option
-              >
-              <option value="incense" selected={product.category === "incense"}
-                >{t("admin.products_detail.option_incense")}</option
-              >
+              {
+                categoryOptions.map((o) => (
+                  <option value={o.code} selected={product.category === o.code}>
+                    {o.label}
+                  </option>
+                ))
+              }
             </select>
           </div>
           <div>
@@ -373,36 +409,38 @@ const inputField =
           </p>
           <input type="hidden" name="tags_extra" value={extraTags.join(",")} />
           {
-            CATEGORIES.map((c) => (
-              <div
-                data-tag-cat={c}
-                hidden={productCategory !== c}
-                class="space-y-3"
-              >
-                {TAG_GROUPS[c].map((g) => (
-                  <fieldset>
-                    <legend class="text-sm font-medium mb-2">
-                      {t(g.titleKey)}
-                    </legend>
-                    <div class="flex flex-wrap gap-2">
-                      {g.options.map((o) => (
-                        <label class="cursor-pointer rounded-full border border-text-muted/30 px-3 py-1.5 text-sm transition-colors has-[:checked]:border-forest-700 has-[:checked]:bg-forest-700 has-[:checked]:text-bg-base has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent-500/40">
-                          <input
-                            type="checkbox"
-                            name="tag"
-                            value={o.value}
-                            checked={currentTags.includes(o.value)}
-                            disabled={productCategory !== c}
-                            class="sr-only"
-                          />
-                          {t(o.labelKey)}
-                        </label>
-                      ))}
-                    </div>
-                  </fieldset>
-                ))}
-              </div>
-            ))
+            categoryOptions
+              .filter((o) => o.kind !== null)
+              .map((co) => (
+                <div
+                  data-tag-cat={co.code}
+                  hidden={productCategory !== co.code}
+                  class="space-y-3"
+                >
+                  {TAG_GROUPS[co.kind!].map((g) => (
+                    <fieldset>
+                      <legend class="text-sm font-medium mb-2">
+                        {t(g.titleKey)}
+                      </legend>
+                      <div class="flex flex-wrap gap-2">
+                        {g.options.map((o) => (
+                          <label class="cursor-pointer rounded-full border border-text-muted/30 px-3 py-1.5 text-sm transition-colors has-[:checked]:border-forest-700 has-[:checked]:bg-forest-700 has-[:checked]:text-bg-base has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent-500/40">
+                            <input
+                              type="checkbox"
+                              name="tag"
+                              value={o.value}
+                              checked={currentTags.includes(o.value)}
+                              disabled={productCategory !== co.code}
+                              class="sr-only"
+                            />
+                            {t(o.labelKey)}
+                          </label>
+                        ))}
+                      </div>
+                    </fieldset>
+                  ))}
+                </div>
+              ))
           }
           {
             extraTags.length > 0 && (

@@ -59,11 +59,11 @@ export function splitTags(raw: string): string[] {
 
 /** 勾選的標籤只收該分類的預設值；extra 是舊資料裡預設清單以外的標籤，原樣保留。 */
 export function buildTags(
-  category: QuizKind,
+  category: QuizKind | null,
   checked: string[],
   extra: string[] = [],
 ): string {
-  const allowed = allowedTags(category);
+  const allowed = category ? allowedTags(category) : new Set<string>();
   const out: string[] = [];
   for (const v of checked) if (allowed.has(v) && !out.includes(v)) out.push(v);
   for (const v of extra) {
