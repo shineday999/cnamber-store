@@ -23,6 +23,7 @@ import {
   todayStamp,
   validateNewProduct,
 } from "../../../lib/admin-products";
+import { pushProductToSheet } from "../../../lib/sheet-bridge";
 
 // 新增商品：同一個頁面處理顯示與送出（出錯時保留已填內容）
 if (!Astro.locals.admin) {
@@ -82,6 +83,11 @@ if (Astro.request.method === "POST") {
         intent,
         categoryCodes,
         kinds,
+      );
+      await pushProductToSheet(
+        getDB(),
+        { url: env.SHEET_SCRIPT_URL, token: env.SHEET_SYNC_TOKEN },
+        result.id,
       );
       const q = new URLSearchParams({ created: result.status });
       if (intent === "publish" && result.status !== "active") {

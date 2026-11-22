@@ -1,5 +1,7 @@
 import type { APIRoute } from "astro";
+import { env } from "cloudflare:workers";
 import { getDB } from "../../../../../lib/db";
+import { pushProductToSheet } from "../../../../../lib/sheet-bridge";
 import {
   buildTags,
   checkReadiness,
@@ -36,9 +38,9 @@ export const POST: APIRoute = async (ctx) => {
   if (!slug || !/^[a-z0-9-]+$/.test(slug)) return fail("编号格式不正确");
 
   const existing = await db
-    .prepare("SELECT status FROM products WHERE id = ?")
+    .prepare("SELECT status, slug FROM products WHERE id = ?")
     .bind(id)
-    .first<{ status: string }>();
+    .first<{ status: string; slug: string }>();
   if (!existing) return new Response("Not found", { status: 404 });
 
   const dup = await db
@@ -79,5 +81,11 @@ export const POST: APIRoute = async (ctx) => {
     )
     .run();
 
+  await pushProductToSheet(
+    db,
+    { url: env.SHEET_SCRIPT_URL, token: env.SHEET_SYNC_TOKEN },
+    id,
+    existing.slug,
+  );
   return ctx.redirect(`/admin/products/${id}?tab=core&saved=1`, 303);
 };
