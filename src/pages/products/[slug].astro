@@ -7,6 +7,7 @@ import Layout from "@layouts/Layout.astro";
 import { createT } from "../../i18n/t";
 import { defaultLocale, localizedPath, type Locale } from "../../i18n/config";
 import { formatPrice } from "@lib/format";
+import { getCategoryLabels } from "@lib/category-labels";
 import BreadcrumbSchema from "@components/BreadcrumbSchema.astro";
 import FaqSchema from "@components/FaqSchema.astro";
 import RevealOnScroll from "@components/RevealOnScroll.astro";
@@ -57,6 +58,15 @@ if (!product) {
   Astro.response.status = 404;
   return Astro.rewrite("/404");
 }
+
+// 分类名称：内建的用语言档，后台新增的（如茶叶）用「分类图片」页设定的标题
+const siteLabels = env?.DB ? await getCategoryLabels(env.DB, locale) : {};
+const categoryName =
+  product.category === "jewelry"
+    ? t("nav.amber")
+    : product.category === "incense"
+      ? t("nav.incense")
+      : (siteLabels[product.category] ?? product.category);
 
 const translation = env?.DB
   ? await env.DB.prepare(
@@ -332,7 +342,7 @@ void locale;
           <p
             class="text-[10px] uppercase tracking-[0.4em] text-forest-600 mb-3 font-sans"
           >
-            {product.category === "jewelry" ? t("nav.amber") : t("nav.incense")}
+            {categoryName}
           </p>
           <h1
             class="text-3xl md:text-4xl font-serif font-light text-forest-800 mb-4 leading-tight"
