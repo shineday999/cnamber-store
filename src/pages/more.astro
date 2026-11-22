@@ -1,5 +1,7 @@
 ---
-import { XIAOHONGSHU_URL } from "../lib/social";
+import { SOCIAL_LINKS } from "../lib/social";
+import { getDB } from "../lib/db";
+import { getCategoryLabels } from "../lib/category-labels";
 import Layout from "../layouts/Layout.astro";
 import { defaultLocale, localizedPath, type Locale } from "../i18n/config";
 import { createT } from "../i18n/t";
@@ -12,6 +14,16 @@ const siteName =
 const subscribed = Astro.url.searchParams.get("subscribed") === "1";
 
 type Item = { label: string; href: string; ext?: boolean };
+// 后台新增的分类（如茶叶）也列在「看看」里，链到该分类的商品列表
+let extraCats: { code: string; label: string }[] = [];
+try {
+  const labels = await getCategoryLabels(getDB(), locale);
+  extraCats = Object.entries(labels)
+    .filter(([code]) => code !== "jewelry" && code !== "incense")
+    .map(([code, label]) => ({ code, label }));
+} catch {
+  extraCats = [];
+}
 const groups: { title: string; items: Item[] }[] = [
   {
     title: t("footer.section_shop"),
@@ -19,6 +31,10 @@ const groups: { title: string; items: Item[] }[] = [
       { label: t("footer.link_all"), href: p("/products") },
       { label: t("footer.link_amber"), href: p("/amber") },
       { label: t("footer.link_incense"), href: p("/incense") },
+      ...extraCats.map((c) => ({
+        label: c.label,
+        href: p(`/products?cat=${encodeURIComponent(c.code)}`),
+      })),
       { label: t("footer.link_quiz"), href: p("/quiz") },
     ],
   },
@@ -36,23 +52,11 @@ const groups: { title: string; items: Item[] }[] = [
   },
   {
     title: t("footer.section_follow"),
-    items: [
-      {
-        label: t("footer.social_instagram"),
-        href: "https://instagram.com/",
-        ext: true,
-      },
-      {
-        label: t("footer.social_pinterest"),
-        href: "https://pinterest.com/",
-        ext: true,
-      },
-      {
-        label: t("footer.social_xiaohongshu"),
-        href: XIAOHONGSHU_URL,
-        ext: true,
-      },
-    ],
+    items: SOCIAL_LINKS.map((l) => ({
+      label: t(l.labelKey),
+      href: l.href,
+      ext: true,
+    })),
   },
 ];
 ---
