@@ -43,15 +43,20 @@ export const POST: APIRoute = async (ctx) => {
     )
     .run();
 
-  // 寄通知給管理員(若有 RESEND_API_KEY)
+  // 即時寄通知給管理員(Resend);寄失敗只記 log,不影響訪客看到成功
   const template = contactNotificationEmail(name, email, message);
-  void sendEmail(emailEnvFromContext(), {
-    to: "oxsupport@0061qwen.cc.cd",
-    subject: template.subject,
-    html: template.html,
-    text: template.text,
-    replyTo: email,
-  }).catch((e) => console.error("[contact] admin notification failed", e));
+  try {
+    const r = await sendEmail(emailEnvFromContext(), {
+      to: "oxsupport@0061qwen.cc.cd",
+      subject: template.subject,
+      html: template.html,
+      text: template.text,
+      replyTo: email,
+    });
+    if (!r.ok) console.error("[contact] admin notification failed", r.error);
+  } catch (e) {
+    console.error("[contact] admin notification failed", e);
+  }
 
   return ctx.redirect("/contact?ok=1", 303);
 };
