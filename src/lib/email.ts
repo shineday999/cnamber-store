@@ -222,7 +222,6 @@ export function confirmNewsletterEmail(
         <a href="${safeUrl}" style="background: #C9925B; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block;">${safe(c.button)}</a>
       </p>
       <p style="color: #8A938A; font-size: 12px;">${safe(c.ignore)}</p>
-      <p style="color: #8A938A; font-size: 12px; word-break: break-all;">${safeUrl}</p>
     </div>
   `;
   const text = `${c.intro}\n\n${confirmUrl}\n\n${c.ignore}`;
