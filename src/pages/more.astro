@@ -1,4 +1,5 @@
 ---
+import { getNewsletterNotice } from "../lib/newsletter-notice";
 import { SOCIAL_LINKS } from "../lib/social";
 import { getDB } from "../lib/db";
 import { getCategoryLabels } from "../lib/category-labels";
@@ -11,7 +12,10 @@ const t = createT(Astro.locals.messages ?? {});
 const p = (path: string) => localizedPath(locale, path);
 const siteName =
   Astro.locals.siteSettings?.siteName?.[locale] ?? t("common.site_name");
-const subscribed = Astro.url.searchParams.get("subscribed") === "1";
+const newsletterNotice = getNewsletterNotice(
+  Astro.url.searchParams.get("subscribed"),
+  String(Astro.locals.locale ?? "zh-Hans"),
+);
 
 type Item = { label: string; href: string; ext?: boolean };
 // 后台新增的分类（如茶叶）也列在「看看」里，链到该分类的商品列表
@@ -64,9 +68,10 @@ const groups: { title: string; items: Item[] }[] = [
 <Layout title={t("nav.more")}>
   <div class="more">
     {
-      subscribed && (
+      newsletterNotice && (
         <p class="ok" role="status">
-          ✓ {t("footer.newsletter_success")}
+          {newsletterNotice.ok ? "✓ " : ""}
+          {newsletterNotice.text}
         </p>
       )
     }

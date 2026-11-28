@@ -1,33 +1,20 @@
 import type { APIRoute } from "astro";
-import { getDB, genId } from "../../../lib/db";
+import { getDB } from "../../../lib/db";
 import {
   sendEmail,
   emailEnvFromContext,
-  welcomeNewsletterEmail,
+  confirmNewsletterEmail,
 } from "../../../lib/email";
+import {
+  CONFIRM_COOLDOWN_SEC,
+  SITE_ORIGIN,
+  ensureNewsletterPending,
+  newToken,
+  siteNameFor,
+} from "../../../lib/newsletter";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const ALLOWED_LOCALES = new Set(["zh-Hans", "en", "ms-MY", "id-ID"]);
-
-// site_settings.site_name 依語系取值,4 層 fallback
-async function siteNameFor(
-  db: ReturnType<typeof getDB>,
-  locale: string,
-): Promise<string> {
-  try {
-    const { results } = await db
-      .prepare(
-        "SELECT locale, value FROM site_settings WHERE key = 'site_name'",
-      )
-      .all<{ locale: string; value: string }>();
-    const map = new Map((results ?? []).map((r) => [r.locale, r.value]));
-    return (
-      map.get(locale) ?? map.get("zh-Hans") ?? map.get("en") ?? "cnamber-store"
-    );
-  } catch {
-    return "cnamber-store";
-  }
-}
 
 export const POST: APIRoute = async (ctx) => {
   const form = await ctx.request.formData();
@@ -44,51 +31,67 @@ export const POST: APIRoute = async (ctx) => {
   }
 
   const db = getDB();
-  const id = genId("sub");
   const now = Math.floor(Date.now() / 1000);
+  let status: "pending" | "already" = "pending";
 
-  let inserted = false;
   try {
-    // INSERT OR IGNORE: dedupe 同 email 不重複 row
-    const ins = await db
-      .prepare(
-        "INSERT OR IGNORE INTO newsletter_subscribers (id, email, locale, status, source, created_at, updated_at) VALUES (?, ?, ?, 'active', 'footer_form', ?, ?)",
-      )
-      .bind(id, email, locale, now, now)
-      .run();
-    inserted = (ins.meta?.changes ?? 0) > 0;
+    await ensureNewsletterPending(db);
+
+    // 已經是正式訂閱者 → 不再寄確認信
+    const existing = await db
+      .prepare("SELECT status FROM newsletter_subscribers WHERE email = ?")
+      .bind(email)
+      .first<{ status: string }>();
+
+    if (existing?.status === "active") {
+      status = "already";
+    } else {
+      // 冷卻:10 分鐘內已經寄過確認信就不重寄
+      const last = await db
+        .prepare(
+          "SELECT created_at FROM newsletter_pending WHERE email = ? AND confirmed_at IS NULL ORDER BY created_at DESC LIMIT 1",
+        )
+        .bind(email)
+        .first<{ created_at: number }>();
+
+      if (!last || now - last.created_at >= CONFIRM_COOLDOWN_SEC) {
+        const token = newToken();
+        await db
+          .prepare(
+            "INSERT INTO newsletter_pending (token, email, locale, created_at) VALUES (?, ?, ?, ?)",
+          )
+          .bind(token, email, locale, now)
+          .run();
+
+        const siteName = await siteNameFor(db, locale);
+        const mail = confirmNewsletterEmail(
+          email,
+          locale,
+          siteName,
+          `${SITE_ORIGIN}/api/newsletter/confirm?token=${token}`,
+        );
+        const r = await sendEmail(emailEnvFromContext(), {
+          to: email,
+          subject: mail.subject,
+          html: mail.html,
+          text: mail.text,
+        });
+        if (!r.ok) {
+          // 寄失敗就把這筆拿掉,訪客才能馬上重試
+          console.error("[newsletter] confirmation send failed", r.error);
+          await db
+            .prepare("DELETE FROM newsletter_pending WHERE token = ?")
+            .bind(token)
+            .run();
+        }
+      }
+    }
   } catch (e) {
-    console.error("[newsletter] insert failed", e);
+    console.error("[newsletter] subscribe failed", e);
     return new Response("DB error", { status: 500 });
   }
 
-  // 只有真的新訂閱才寄歡迎信(重複訂閱不會重寄)
-  if (inserted) {
-    try {
-      const siteName = await siteNameFor(db, locale);
-      const t = welcomeNewsletterEmail(email, locale, siteName);
-      const r = await sendEmail(emailEnvFromContext(), {
-        to: email,
-        subject: t.subject,
-        html: t.html,
-        text: t.text,
-      });
-      if (r.ok) {
-        await db
-          .prepare(
-            "UPDATE newsletter_subscribers SET welcome_sent_at = ? WHERE id = ?",
-          )
-          .bind(Math.floor(Date.now() / 1000), id)
-          .run();
-      } else {
-        console.error("[newsletter] welcome send failed", r.error);
-      }
-    } catch (e) {
-      console.error("[newsletter] welcome send failed", e);
-    }
-  }
-
-  // 導回訂閱表單所在的頁面(同源 Referer 的 path;沒有就回首頁),帶 subscribed=1
+  // 導回訂閱表單所在的頁面(同源 Referer 的 path;沒有就回首頁),帶 subscribed=<狀態>
   let backPath = "/";
   try {
     const ref = ctx.request.headers.get("referer");
@@ -103,10 +106,10 @@ export const POST: APIRoute = async (ctx) => {
   }
   // 防 open redirect:只允許站內單斜線開頭的路徑
   if (!backPath.startsWith("/") || backPath.startsWith("//")) backPath = "/";
-  // /more 頁的成功訊息在頁面最上方,不需要錨點;其他頁訊息在 Footer,用錨點捲過去
+  // /more 頁的提示在頁面最上方,不需要錨點;其他頁提示在 Footer,用錨點捲過去
   const isMore = /(^|\/)more\/?$/.test(backPath);
   return ctx.redirect(
-    `${backPath}?subscribed=1${isMore ? "" : "#newsletter-success"}`,
+    `${backPath}?subscribed=${status}${isMore ? "" : "#newsletter-success"}`,
     303,
   );
 };

@@ -173,3 +173,58 @@ export function welcomeNewsletterEmail(
   `;
   return { subject, html, text: body.text };
 }
+
+export function confirmNewsletterEmail(
+  email: string,
+  locale: string,
+  siteName: string,
+  confirmUrl: string,
+): { subject: string; html: string; text: string } {
+  const safeName = safe(siteName);
+  const safeUrl = safe(confirmUrl);
+  const en = {
+    subject: `Please confirm your subscription to ${siteName}`,
+    intro: `Someone (hopefully you) asked to subscribe ${email} to the ${siteName} letters. Please click the button below to confirm.`,
+    button: "Confirm subscription",
+    ignore:
+      "If this wasn't you, just ignore this email — nothing will be subscribed. The link is valid for 7 days.",
+  };
+  const copy = {
+    "zh-Hans": {
+      subject: `请确认订阅 ${siteName} 的慢信`,
+      intro: `您好,有人用 ${email} 申请订阅 ${siteName} 的慢信。请点下方按钮确认订阅。`,
+      button: "确认订阅",
+      ignore:
+        "如果这不是您本人操作,忽略这封信即可,不会有任何订阅。连结 7 天内有效。",
+    },
+    en,
+    "ms-MY": {
+      subject: `Sila sahkan langganan anda kepada ${siteName}`,
+      intro: `Seseorang (harap-harap anda) memohon melanggan ${email} kepada surat ${siteName}. Sila klik butang di bawah untuk mengesahkan.`,
+      button: "Sahkan langganan",
+      ignore:
+        "Jika ini bukan anda, abaikan e-mel ini — tiada langganan akan dibuat. Pautan sah selama 7 hari.",
+    },
+    "id-ID": {
+      subject: `Harap konfirmasi langganan Anda ke ${siteName}`,
+      intro: `Seseorang (semoga Anda) meminta berlangganan ${email} ke surat ${siteName}. Klik tombol di bawah untuk mengonfirmasi.`,
+      button: "Konfirmasi langganan",
+      ignore:
+        "Jika ini bukan Anda, abaikan email ini — tidak ada langganan yang dibuat. Tautan berlaku 7 hari.",
+    },
+  };
+  const c = copy[locale as keyof typeof copy] ?? en;
+  const html = `
+    <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+      <h2 style="color: #1A2E1A; font-family: Georgia, serif;">${safeName}</h2>
+      <p>${safe(c.intro)}</p>
+      <p style="margin: 24px 0;">
+        <a href="${safeUrl}" style="background: #C9925B; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block;">${safe(c.button)}</a>
+      </p>
+      <p style="color: #8A938A; font-size: 12px;">${safe(c.ignore)}</p>
+      <p style="color: #8A938A; font-size: 12px; word-break: break-all;">${safeUrl}</p>
+    </div>
+  `;
+  const text = `${c.intro}\n\n${confirmUrl}\n\n${c.ignore}`;
+  return { subject: c.subject, html, text };
+}
