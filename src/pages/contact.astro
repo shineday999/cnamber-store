@@ -13,6 +13,28 @@ const messages = (Astro.locals.messages ?? {}) as Record<string, unknown>;
 const t = createT(messages);
 void locale;
 
+// 表單送出成功:/api/contact 會 303 導向 /contact?ok=1
+const sent = Astro.url.searchParams.get("ok") === "1";
+const sentMessages: Record<string, { title: string; body: string }> = {
+  "zh-Hans": {
+    title: "已收到您的留言",
+    body: "谢谢您!我们会在一到两个工作天内回复。",
+  },
+  en: {
+    title: "Message sent",
+    body: "Thank you! We'll reply within 1–2 business days.",
+  },
+  "ms-MY": {
+    title: "Mesej dihantar",
+    body: "Terima kasih! Kami akan membalas dalam 1–2 hari bekerja.",
+  },
+  "id-ID": {
+    title: "Pesan terkirim",
+    body: "Terima kasih! Kami akan membalas dalam 1–2 hari kerja.",
+  },
+};
+const sentMsg = sentMessages[locale] ?? sentMessages["zh-Hans"];
+
 const breadcrumbItems = [
   { name: t("nav.home"), url: "/" },
   { name: t("nav.contact"), url: "/contact" },
@@ -52,6 +74,22 @@ const faqs = [
         </p>
       </header>
     </RevealOnScroll>
+
+    {
+      sent && (
+        <div
+          id="contact-sent"
+          role="status"
+          aria-live="polite"
+          class="mb-6 rounded-card border border-forest-100 border-l-4 border-l-terra-500 bg-bg-card p-5 shadow-soft"
+        >
+          <p class="font-serif text-lg text-forest-700 mb-1">
+            ✓ {sentMsg.title}
+          </p>
+          <p class="text-text-secondary text-sm font-sans">{sentMsg.body}</p>
+        </div>
+      )
+    }
 
     <RevealOnScroll>
       <form
@@ -229,4 +267,14 @@ const faqs = [
     </RevealOnScroll>
   </div>
   <AccordionInit />
+  <script>
+    const u = new URL(window.location.href);
+    if (u.searchParams.get("ok") === "1") {
+      document
+        .getElementById("contact-sent")
+        ?.scrollIntoView({ behavior: "smooth", block: "center" });
+      u.searchParams.delete("ok");
+      history.replaceState({}, "", u.pathname + u.search + u.hash);
+    }
+  </script>
 </Layout>
