@@ -33,7 +33,7 @@ const sentMessages: Record<string, { title: string; body: string }> = {
     body: "Terima kasih! Kami akan membalas dalam 1–2 hari kerja.",
   },
 };
-const sentMsg = sentMessages[locale] ?? sentMessages["zh-Hans"];
+const sentMsg = sentMessages[locale] ?? sentMessages["zh-Hans"]!;
 
 const breadcrumbItems = [
   { name: t("nav.home"), url: "/" },
