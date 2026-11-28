@@ -154,7 +154,11 @@ const { siteName, themeLabel = "", subThemeLabel = "" } = Astro.props;
 
         {
           Astro.url.searchParams.get("subscribed") === "1" && (
-            <p class="text-xs text-terra-300 mt-3 font-sans italic tracking-wide">
+            <p
+              id="newsletter-success"
+              role="status"
+              class="text-xs text-terra-300 mt-3 font-sans italic tracking-wide"
+            >
               ✓ {t("footer.newsletter_success")}
             </p>
           )
@@ -195,3 +199,11 @@ const { siteName, themeLabel = "", subThemeLabel = "" } = Astro.props;
     </div>
   </div>
 </footer>
+
+<script>
+  const u = new URL(window.location.href);
+  if (u.searchParams.get("subscribed") === "1") {
+    u.searchParams.delete("subscribed");
+    history.replaceState({}, "", u.pathname + u.search + u.hash);
+  }
+</script>

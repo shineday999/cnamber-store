@@ -88,6 +88,25 @@ export const POST: APIRoute = async (ctx) => {
     }
   }
 
-  // 303 redirect 回首頁帶 subscribed=1 query → Footer 顯示成功訊息
-  return ctx.redirect("/?subscribed=1", 303);
+  // 導回訂閱表單所在的頁面(同源 Referer 的 path;沒有就回首頁),帶 subscribed=1
+  let backPath = "/";
+  try {
+    const ref = ctx.request.headers.get("referer");
+    if (ref) {
+      const r = new URL(ref);
+      if (r.origin === new URL(ctx.request.url).origin) {
+        backPath = r.pathname || "/";
+      }
+    }
+  } catch {
+    backPath = "/";
+  }
+  // 防 open redirect:只允許站內單斜線開頭的路徑
+  if (!backPath.startsWith("/") || backPath.startsWith("//")) backPath = "/";
+  // /more 頁的成功訊息在頁面最上方,不需要錨點;其他頁訊息在 Footer,用錨點捲過去
+  const isMore = /(^|\/)more\/?$/.test(backPath);
+  return ctx.redirect(
+    `${backPath}?subscribed=1${isMore ? "" : "#newsletter-success"}`,
+    303,
+  );
 };
